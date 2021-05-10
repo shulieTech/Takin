@@ -1,10 +1,11 @@
-#插件开发宝典
+# 插件开发宝典
 
 ### 1.在user-modules增加对应的maven子模块
 
-![](https://github.com/shulieTech/DaYuX/blob/main/agent/doc/imgs/plugin-new-module.jpg?raw=true)
+![](../imgs/plugin-new-module.jpg)
 
 ### 2.修改插件的pom.xml文件
+
 1.在`properties`中添加`module-name`:
 
 ```
@@ -69,7 +70,7 @@
 
 在 resources 目录下增加一个名为 module.config 的 properties 文件
 
-![](https://github.com/shulieTech/DaYuX/blob/main/agent/doc/imgs/plugin-add-config.jpg?raw=true)
+![](../imgs/plugin-add-config.jpg)
 
 内容如下：
 
