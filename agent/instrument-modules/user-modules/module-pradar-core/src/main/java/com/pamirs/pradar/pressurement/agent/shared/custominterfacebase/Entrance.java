@@ -1,0 +1,31 @@
+/**
+ * Copyright 2021 Shulie Technology, Co.Ltd
+ * Email: shulie@shulie.io
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.pamirs.pradar.pressurement.agent.shared.custominterfacebase;
+
+
+/**
+ * 每个 war的数据入口  入门 接口
+ * 该门用于保护 该war自己
+ */
+public interface Entrance {
+
+    /**
+     * <p>{@code CharSequenceUtils} instances should NOT be constructed in
+     * standard programming. </p>
+     *
+     * <p>This constructor is public to permit tools that require a JavaBean
+     * instance to operate.</p>
+     */
+}

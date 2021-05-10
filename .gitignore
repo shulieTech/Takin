@@ -1,0 +1,24 @@
+### Eclipse ###
+.externalToolBuilders
+.project
+.classpath
+.settings
+
+### IntelliJ IDEA ###
+.idea
+*.iml
+
+### Jrebel File ###
+*rebel.xml.bak
+*rebel.xml
+
+### Common ###
+target
+logs
+
+### Project ###
+hadoop
+
+.DS_Store
+
+local*.sh
