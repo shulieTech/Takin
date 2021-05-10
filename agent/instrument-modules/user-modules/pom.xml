@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>instrument-modules</artifactId>
+        <groupId>com.shulie.instrument.module</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>user-modules</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>module-pradar-config-fetcher</module>
+        <module>module-pradar-core</module>
+        <module>module-pradar-register</module>
+        <module>module-servlet-common</module>
+        <module>module-datasource-common</module>
+
+        <module>module-alibaba-druid</module>
+        <module>module-catalina</module>
+        <module>module-alibaba-rocketmq</module>
+        <module>module-hbase</module>
+        <module>module-apache-dubbo</module>
+        <module>module-apache-kafka</module>
+        <module>module-apache-rocketmq</module>
+        <module>module-apache-tomcat-jdbc</module>
+        <module>module-c3p0</module>
+        <module>module-dbcp</module>
+        <module>module-dbcp2</module>
+        <module>module-elasticsearch</module>
+        <module>module-google-httpclient</module>
+        <module>module-grpc</module>
+        <module>module-httpclient</module>
+        <module>module-jdk-http</module>
+        <module>module-ehcache</module>
+        <module>module-oscache</module>
+        <module>module-mock</module>
+        <module>module-okhttp</module>
+        <module>module-redis-jedis</module>
+        <module>module-redis-lettuce</module>
+        <module>module-redis-redisson</module>
+        <module>module-undertow</module>
+        <module>module-command-channel</module>
+        <module>module-thread</module>
+        <module>module-google-guava</module>
+        <module>module-httpserver</module>
+    </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.2-beta-5</version>
+                <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <outputDirectory>../../target/modules/${module-name}</outputDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>attached</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

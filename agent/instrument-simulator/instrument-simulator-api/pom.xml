@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.shulie.instrument.simulator</groupId>
+        <artifactId>simulator</artifactId>
+        <version>1.0.1</version>
+    </parent>
+    <artifactId>instrument-simulator-api</artifactId>
+    <name>instrument-simulator-api ${simulator.version}</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.shulie.instrument.simulator</groupId>
+            <artifactId>instrument-simulator-base-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.shulie.instrument.simulator</groupId>
+            <artifactId>instrument-simulator-messager</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+
+</project>

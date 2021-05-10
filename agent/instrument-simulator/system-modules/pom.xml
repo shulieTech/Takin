@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.shulie.instrument.simulator</groupId>
+        <artifactId>simulator</artifactId>
+        <version>1.0.1</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>system-modules</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>instrument-simulator-env-module</module>
+        <module>instrument-simulator-gc-module</module>
+        <module>instrument-simulator-heapdump-module</module>
+        <module>instrument-simulator-heartbeat-module</module>
+        <module>instrument-simulator-jad-module</module>
+        <module>instrument-simulator-logger-module</module>
+        <module>instrument-simulator-memory-module</module>
+        <module>instrument-simulator-monitor-module</module>
+        <module>instrument-simulator-runtime-module</module>
+        <module>instrument-simulator-ognl-module</module>
+        <module>instrument-simulator-stack-module</module>
+        <module>instrument-simulator-sysprop-module</module>
+        <module>instrument-simulator-thread-module</module>
+        <module>instrument-simulator-tomcat-module</module>
+        <module>instrument-simulator-trace-module</module>
+        <module>instrument-simulator-vmoption-module</module>
+        <module>instrument-simulator-watch-module</module>
+        <module>instrument-simulator-control-module</module>
+        <module>instrument-simulator-info-module</module>
+        <module>instrument-simulator-profiler-module</module>
+        <module>instrument-simulator-management-module</module>
+        <module>instrument-simulator-debug-model</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.shulie.instrument.simulator</groupId>
+                <artifactId>instrument-simulator-debug-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.shulie.instrument.simulator</groupId>
+            <artifactId>instrument-simulator-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.kohsuke.metainf-services</groupId>
+            <artifactId>metainf-services</artifactId>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+</project>

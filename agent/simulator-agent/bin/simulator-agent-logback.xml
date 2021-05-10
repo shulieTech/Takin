@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true" scanPeriod="10000">
+
+    <appender name="SIMULATOR-AGENT-FILE-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${SIMULATOR_LOG_PATH}/simulator-agent.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${SIMULATOR_LOG_PATH}/simulator-agent.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+            <maxFileSize>100MB</maxFileSize>  <!-- 日志文件过大会使的编辑器打开非常慢，因此设置日志最大100MB -->
+            <maxHistory>7</maxHistory>  <!-- 保存7天 -->
+            <totalSizeCap>300MB</totalSizeCap>  <!-- 总日志大小 -->
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="SIMULATOR-AGENT-FILE-APPENDER"/>
+    </root>
+
+</configuration>
