@@ -9,8 +9,10 @@ Performance test on test environment which is very different from online environ
 
 **Microservices Are Complex**
 Compare with monolithic application, Microservices architecture increases complexity for business system. It may maintain multiple tools and frameworks.
+
 **Business Systems Are Complex**
 Businesses involve different sections and many of them are long-process and complicated, such as E-Commerce businesses.
+
 **The Microservices Relation Is Complex**
 In a microservices architecture system with a lot of business services, the calling relation between services is very complicated. Every change may affect the availability of the entire system and make developers difficult to release new versions Frequently.
 
