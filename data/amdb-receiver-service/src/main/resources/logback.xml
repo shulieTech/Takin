@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+    <contextName>amdb</contextName>
+
+    <!-- 日志路径，sonar扫描时使用该路径 -->
+    <property name="log.home" value="./logs/"/>
+    <!-- 日志文件大小限制及保存个数，请根据实际需要调整 -->
+    <property name="log.max.file.size" value="200MB"/>
+    <property name="log.max.history" value="5"/>
+    <!-- 日志文件等级，默认打印Info -->
+    <property name="log.level" value="WARN"/>
+
+    <property name="log.ext" value=".log"/>
+    <property name="commonLayoutPattern"
+              value="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} %thread{15} %logger{36} %m %n"/>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder charset="UTF-8">
+            <pattern>${commonLayoutPattern}</pattern>
+            <outputPatternAsHeader>false</outputPatternAsHeader>
+        </encoder>
+    </appender>
+
+    <appender name="InfoAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder charset="UTF-8">
+            <pattern>${commonLayoutPattern}</pattern>
+            <outputPatternAsHeader>false</outputPatternAsHeader>
+        </encoder>
+        <File>${log.home}/info${log.ext}</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.home}/history/info/info%d{yyyy-MM-dd}-%i${log.ext}
+            </fileNamePattern>
+            <maxHistory>${log.max.history}</maxHistory>
+            <MaxFileSize>${log.max.file.size}</MaxFileSize>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <!-- 其它类型也打入info日志，可根据需要只接受Info-->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+
+    <appender name="WarnAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder charset="UTF-8">
+            <pattern>${commonLayoutPattern}</pattern>
+            <outputPatternAsHeader>false</outputPatternAsHeader>
+        </encoder>
+        <File>${log.home}/warn${log.ext}</File>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.home}/history/warn/warn%d{yyyy-MM-dd}-%i${log.ext}
+            </fileNamePattern>
+            <maxHistory>${log.max.history}</maxHistory>
+            <MaxFileSize>${log.max.file.size}</MaxFileSize>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+
+    <appender name="ErrorAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder charset="UTF-8">
+            <pattern>${commonLayoutPattern}</pattern>
+            <outputPatternAsHeader>false</outputPatternAsHeader>
+        </encoder>
+        <File>${log.home}/error${log.ext}</File>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.home}/history/error/error%d{yyyy-MM-dd}-%i${log.ext}
+            </fileNamePattern>
+            <maxHistory>${log.max.history}</maxHistory>
+            <MaxFileSize>${log.max.file.size}</MaxFileSize>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!--	debug 日志-->
+    <appender name="DebugAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder charset="UTF-8">
+            <pattern>${commonLayoutPattern}</pattern>
+            <outputPatternAsHeader>false</outputPatternAsHeader>
+        </encoder>
+        <File>${log.home}/debug${log.ext}</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.home}/history/debug/debug%d{yyyy-MM-dd}-%i${log.ext}
+            </fileNamePattern>
+            <maxHistory>${log.max.history}</maxHistory>
+            <MaxFileSize>${log.max.file.size}</MaxFileSize>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="InfoAsync" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <!-- 请根据实际需求，调整队列大小 -->
+        <queueSize>10000</queueSize>
+        <appender-ref ref="InfoAppender"/>
+    </appender>
+
+    <appender name="WarnAsync" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>512</queueSize>
+        <appender-ref ref="WarnAppender"/>
+    </appender>
+    <appender name="ErrorAsync" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>512</queueSize>
+        <appender-ref ref="ErrorAppender"/>
+    </appender>
+    <appender name="DebugAsync" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>512</queueSize>
+        <appender-ref ref="DebugAppender"/>
+    </appender>
+
+    <!--文件日志 -->
+    <root level="${log.level}">
+        <!--生产环境可选择关闭console输出，只输出到文件，按需配置 -->
+        <appender-ref ref="console"/>
+        <appender-ref ref="InfoAsync"/>
+        <appender-ref ref="WarnAsync"/>
+        <appender-ref ref="ErrorAsync"/>
+        <appender-ref ref="DebugAsync"/>
+    </root>
+    <!--
+        <logger name="io.shulie.amdb" level="DEBUG" additivity="true" />
+    -->
+</configuration>

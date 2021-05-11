@@ -1,0 +1,3 @@
+io.shulie.pradar.data.adaptors.instance.InstanceAdaptor
+io.shulie.pradar.data.adaptors.instance.InstanceParentAdaptor
+io.shulie.pradar.data.adaptors.instance.InstanceAppAdaptor
