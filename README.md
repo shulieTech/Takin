@@ -1,4 +1,7 @@
 # DaYuX
+[![LICENSE](https://img.shields.io/github/license/pingcap/tidb.svg)](https://github.com/pingcap/tidb/blob/master/LICENSE)
+
+## What is DaYuX?
 DaYuX is an Java-based open-source system designed to measure online performance and load test applications without affecting online data, Especially for microservices.
 
 大禹X是一款基于Java的开源系统，在不污染现网数据的情况下，实现生产环境的性能测试，尤其是面向微服务架构系统。
