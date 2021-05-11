@@ -49,7 +49,7 @@ see [Surge Data](https://github.com/shulieTech/DaYuX/blob/main/data/surge-data/R
 see
 
 # Community
-微信群<br/>
+Wechat group<br/>
 <img src="https://raw.githubusercontent.com/shulieTech/Images/main/2.png" width="30%" height="30%">
 
 # License
