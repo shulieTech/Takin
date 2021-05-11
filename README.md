@@ -36,7 +36,13 @@ In a microservices architecture system with a lot of business services, the call
 在微服务架构的系统中，服务之间的调用关系非常复杂，每次服务的发布和更新都可能影响整个系统的可用性，并使开发人员难以频繁发布新版本。
 
 # Quick Start Instruction
+**docker镜像获取地址:**<br/>
 
+**配置修改:**<br/>
+
+**接入探针:**<br/>
+
+**进行压测:**<br/>
 
 # Instruction（使用说明）
 ## DaYuX Architecture（大禹X系统架构）
