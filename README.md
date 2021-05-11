@@ -39,5 +39,5 @@ see [Agent](https://github.com/shulieTech/DaYuX/blob/main/agent/README.md?_blank
 ## Surge Data
 see [Surge Data](https://github.com/shulieTech/DaYuX/blob/main/data/surge-data/README.md?_blank)
 
-## License
+# License
 DaYuX is under the Apache 2.0 license. See the [LICENSE](https://github.com/shulieTech/DaYuX/blob/main/LICENSE?_blank) file for details.
