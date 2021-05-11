@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!-- 引入 application.properties -->
+    <properties resource="generator.properties"/>
+
+    <!-- MyBatis3Simple：不生成 Example相关类及方法 defaultModelType="flat" -->
+    <context id="MysqlContext" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <!-- 生成的Java文件的编码 -->
+        <property name="javaFileEncoding" value="${generator.encoding}"/>
+        <!-- 格式化java代码 -->
+        <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
+        <!-- 格式化XML代码 -->
+        <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
+        <!-- beginningDelimiter和endingDelimiter：指明数据库的用于标记数据库对象名的符号，比如ORACLE就是双引号，MYSQL默认是`反引号； -->
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <!-- 使用自带序列化插件 -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <!-- 指定生成 Mapper 的继承模板 -->
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+            <property name="beginningDelimiter" value="`"/>
+            <property name="endingDelimiter" value="`"/>
+            <property name="lombok" value="GetterSetterToStringEqualsAndHashCode"/>
+            <property name="swagger" value="true"/>
+        </plugin>
+
+        <!--注意context内的文件要按序放-->
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+            <!-- 是否生成注释代时间戳-->
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+
+        <!-- jdbc 连接配置 -->
+        <jdbcConnection driverClass="${jdbc.generator.driver.class}"
+                        connectionURL="${jdbc.generator.url}"
+                        userId="${jdbc.generator.username}"
+                        password="${jdbc.generator.password}">
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <!-- 是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.） -->
+            <property name="forceBigDecimals" value="true"/>
+        </javaTypeResolver>
+
+        <!-- 生成实体类的包名和位置 ，targetPackage指的是包名,targetProject值得是路径位置-->
+        <!-- 对于生成的pojo所在包,pojo其实就是domain Entity-->
+        <javaModelGenerator targetPackage="${java.model.target.package}"
+                            targetProject="${java.model.target.project}">
+            <property name="enableSubPackages" value="false"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- 对于生成的mapper.xml所在目录 -->
+        <!--<sqlMapGenerator targetPackage="${java.sqlmap.target.package}"
+                         targetProject="${java.sqlmap.target.project}"/>
+-->
+        <!-- 配置mapper对应的java映射  也可以叫dao层 -->
+        <javaClientGenerator targetPackage="${java.client.target.package}"
+                             targetProject="${java.client.target.project}"
+                             type="ANNOTATEDMAPPER"/>
+
+        <table schema="amdb" tableName="t_amdb_pradar_link_entrance" domainObjectName="PradarLinkEntranceDO"/>
+
+    </context>
+</generatorConfiguration>
