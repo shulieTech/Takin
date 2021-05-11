@@ -49,8 +49,8 @@ see [Surge Data](https://github.com/shulieTech/DaYuX/blob/main/data/surge-data/R
 see
 
 # Community
-微信群
-![Alt text](https://raw.githubusercontent.com/shulieTech/Images/main/1.png)
+微信群<br/>
+![Alt text](https://raw.githubusercontent.com/shulieTech/Images/main/2.png)
 
 # License
 DaYuX is under the Apache 2.0 license. See the [LICENSE](https://github.com/shulieTech/DaYuX/blob/main/LICENSE?_blank) file for details.
