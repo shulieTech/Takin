@@ -1,12 +1,10 @@
 package io.shulie.amdb.service.impl;
 
-import io.shulie.amdb.common.Response;
 import io.shulie.amdb.request.query.MetricsQueryRequest;
 import io.shulie.amdb.response.metrics.MetricsResponse;
 import io.shulie.amdb.service.MetricsService;
 import io.shulie.amdb.utils.InfluxDBManager;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.influxdb.dto.QueryResult;

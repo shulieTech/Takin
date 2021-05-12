@@ -1,10 +1,11 @@
 package io.shulie.amdb.zipkin;
 
-import com.pamirs.pradar.common.PropertyPlaceholderHelper;
 import com.pamirs.pradar.log.parser.trace.RpcBased;
 import io.shulie.surge.data.deploy.pradar.link.model.TTrackClickhouseModel;
 import org.apache.commons.beanutils.BeanMap;
+import org.springframework.util.PropertyPlaceholderHelper;
 
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 
 /**
@@ -19,7 +20,7 @@ public class LogFormatter {
      * @param tTrackClickhouseModel
      * @return
      */
-    public String format(TTrackClickhouseModel tTrackClickhouseModel){
+    public String format(TTrackClickhouseModel tTrackClickhouseModel) {
         PropertyPlaceholderHelper propertyPlaceholderHelper = new PropertyPlaceholderHelper("${", "}");
         BeanMap beanMap = new BeanMap(tTrackClickhouseModel);
 
@@ -49,7 +50,7 @@ public class LogFormatter {
      * @param rpcBased
      * @return
      */
-    public String format(RpcBased rpcBased){
+    public String format(RpcBased rpcBased) {
         PropertyPlaceholderHelper propertyPlaceholderHelper = new PropertyPlaceholderHelper("${", "}");
         BeanMap beanMap = new BeanMap(rpcBased);
 
