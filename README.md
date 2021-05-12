@@ -12,7 +12,7 @@ Microservices Architecture is used commonly nowadays and it always make system c
 - Keep entire system highly available 
 - Maintain Research & Development efficiency.
 
-In order to keep system high available, we usually make performance test on test environment or online single-service. However, test environment is very different from online environment, single-service performance test can't stand for the whole service-links. They can't guarantee system performance.
+In order to keep system high available, we usually make performance test on test environment or online single-service. However, test environment is very different from online environment, single-service can't stand for the whole service-links. They can't guarantee system performance.
 
 **Microservices Are Complex**<br/>
 Compare with monolithic application, Microservices architecture increases complexity for business system. It may maintain multiple tools and frameworks.
