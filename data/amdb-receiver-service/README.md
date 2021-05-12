@@ -1,13 +1,16 @@
-# 版本说明：
+# data
 
-####branch-1.0.2 :
-    当前发布的稳定版本
+DaYuX的数据处理
 
-####branch-1.0.2.1 :
-    增加"接口信息查询"需求
 
-####branch-1.0.3 :
-    质量治理迭代版本--开发中
+## 模块说明
 
-####branch-1.0.4 :
-    E2E需求迭代版本--开发中
+### amdb
+这个项目的职责主要是数据处理端与控制台进行交互，主要包括应用信息、实例信息、流量信息、调用链信息。
+
+see [amdb](https://github.com/shulieTech/DaYuX/blob/main/data/amdb-receiver-service/README.md)
+
+### surge-data
+数据处理端，负责接收探针的性能数据调用链数据
+
+see [surge-data](https://github.com/shulieTech/DaYuX/blob/main/data/surge-data/README.md)
