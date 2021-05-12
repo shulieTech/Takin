@@ -47,7 +47,7 @@ In a microservices architecture system with a lot of business services, the call
 
 # Instruction（使用说明）
 ## DaYuX Architecture（大禹X系统架构）
-<img src="https://raw.githubusercontent.com/shulieTech/Images/main/DaYuX_Architecture.png" width="80%" height="80%">
+<img src="https://raw.githubusercontent.com/shulieTech/Images/main/DaYuX_Architecture.png" width="70%" height="70%">
 
 ## Agent
 see [Agent](https://github.com/shulieTech/DaYuX/blob/main/agent/README.md?_blank)
