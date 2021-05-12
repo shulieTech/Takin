@@ -62,7 +62,7 @@ see [Surge Data](https://github.com/shulieTech/DaYuX/blob/main/data/surge-data/R
 see
 
 # Community
-Mailing List: Mail to shulie@shulie.io
+Mailing List: Mail to shulie@shulie.io<br/>
 Wechat group<br/>
 <img src="https://raw.githubusercontent.com/shulieTech/Images/main/2.png" width="30%" height="30%">
 <br/>
