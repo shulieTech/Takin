@@ -3,9 +3,9 @@
 [![Language](https://img.shields.io/badge/Language-Java-blue.svg)](https://www.java.com/)
 
 ## What is DaYuX?
-DaYuX is an Java-based open-source system designed to measure online performance and load test applications without affecting online data, Especially for microservices.
+DaYuX is an Java-based open-source system designed to measure online environmental performance test without affecting online data, Especially for microservices. Through DaYuX, middlewares and applications can identify real online traffic and test traffic, ensure that they enter the right databases.
 
-大禹X是一款基于Java的开源系统，在不污染现网数据的情况下，实现生产环境的性能测试，尤其是面向微服务架构系统。
+大禹X是一款基于Java的开源系统，在不影响现网数据的情况下，实现生产环境的性能测试，尤其适合面向微服务架构系统。
 
 # Why should we do online environmental performance test
 Microservices Architecture is used commonly nowadays and it always make system complex to understand for humans. Moreover, businesses are also very complex in huge system. Business complexity and system complexity make it difficult to Keep entire system highly available and Maintain Research & Development efficiency.<br/> 
