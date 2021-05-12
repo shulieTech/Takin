@@ -63,7 +63,7 @@ Wechat group<br/>
 <img src="https://raw.githubusercontent.com/shulieTech/Images/main/2.png" width="30%" height="30%">
 <br/>
 QQ group : **118098566**
-<img src="https://raw.githubusercontent.com/shulieTech/Images/main/qq_group.gpeg" width="30%" height="30%">
+<img src="https://raw.githubusercontent.com/shulieTech/Images/main/qq_group.jpeg" width="30%" height="30%">
 
 # License
 DaYuX is under the Apache 2.0 license. See the [LICENSE](https://github.com/shulieTech/DaYuX/blob/main/LICENSE?_blank) file for details.
