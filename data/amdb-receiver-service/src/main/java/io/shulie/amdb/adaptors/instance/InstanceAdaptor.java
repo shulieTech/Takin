@@ -3,7 +3,6 @@ package io.shulie.amdb.adaptors.instance;
 import com.alibaba.fastjson.JSON;
 import io.shulie.amdb.adaptors.AdaptorTemplate;
 import io.shulie.amdb.adaptors.base.DefaultAdaptor;
-import io.shulie.amdb.adaptors.config.AmdbServerConstants;
 import io.shulie.amdb.adaptors.connector.Connector;
 import io.shulie.amdb.adaptors.connector.DataContext;
 import io.shulie.amdb.adaptors.instance.model.InstanceModel;
@@ -43,20 +42,8 @@ public class InstanceAdaptor extends DefaultAdaptor {
 
     private AdaptorTemplate adaptorTemplate;
 
-    private String appInfoSave_URL;
-    private String appInfoUpdate_URL;
-    private String appInfoSelect_URL;
-    private String appInstanceInfoSelect_URL;
-    private String appInstanceInfoSave_URL;
-    private String appInstanceInfoUpdate_URL;
-
     public InstanceAdaptor() {
-        this.appInfoSave_URL = serverUrl + AmdbServerConstants.appInfoSave_url;
-        this.appInfoUpdate_URL = serverUrl + AmdbServerConstants.appInfoUpdate_url;
-        this.appInfoSelect_URL = serverUrl + AmdbServerConstants.appInfoSelect_url;
-        this.appInstanceInfoSelect_URL = serverUrl + AmdbServerConstants.appInstanceInfoSelect_url;
-        this.appInstanceInfoSave_URL = serverUrl + AmdbServerConstants.appInstanceInfoSave_url;
-        this.appInstanceInfoUpdate_URL = serverUrl + AmdbServerConstants.appInstanceInfoUpdate_url;
+
     }
 
 
@@ -113,10 +100,10 @@ public class InstanceAdaptor extends DefaultAdaptor {
         params.setAppName(appName);
         AppDO appDO = appService.selectOneByParam(params);
         if (appDO == null) {
-            AppDO amdbApp = getTAmdAppCreateModelByInstanceModel(appName, instanceModel, curr);
+            appDO = getTAmdAppCreateModelByInstanceModel(appName, instanceModel, curr);
             // insert,拿到返回ID
-            Response insertResponse = appService.insert(amdbApp);
-            amdbApp.setId(NumberUtils.toLong(insertResponse.getData() + ""));
+            Response insertResponse = appService.insert(appDO);
+            appDO.setId(NumberUtils.toLong(insertResponse.getData() + ""));
         } else {
             appDO = getTAmdAppUpdateModelByInstanceModel(instanceModel, appDO, curr);
             // update
@@ -264,14 +251,6 @@ public class InstanceAdaptor extends DefaultAdaptor {
         oldAmdbAppInstance.setAgentLanguage(instanceModel.getAgentLanguage());
         oldAmdbAppInstance.setHostname(instanceModel.getHost());
         Map<String, Object> ext = JSON.parseObject(oldAmdbAppInstance.getExt());
-//        if (instanceModel.getErrorCode() != null && instanceModel.getErrorCode().trim().length() > 0) {
-//            Map<String, Map<String, Object>> errorMsgInfos = new HashMap<String, Map<String, Object>>();
-//            Map<String, Object> errorMsgInfo = new HashMap<String, Object>();
-//            errorMsgInfo.put("msg", instanceModel.getErrorMsg());
-//            errorMsgInfo.put("time", new Date());
-//            errorMsgInfos.put(instanceModel.getErrorCode(), errorMsgInfo);
-//            ext.put("errorMsgInfos", errorMsgInfos);
-//        }
         ext.put("errorMsgInfos", "{}");
         ext.put("gcType", instanceModel.getGcType());
         ext.put("host", instanceModel.getHost());
@@ -325,7 +304,7 @@ public class InstanceAdaptor extends DefaultAdaptor {
          *
          *     private AppInstanceService appInstanceService;
          */
-        if (config.containsKey("appService") || config.containsKey("appInstanceService")) {
+        if (!config.containsKey("appService") || !config.containsKey("appInstanceService")) {
             throw new IllegalArgumentException("AppService and appInstanceService is not init.");
         }
         this.appService = (AppService) config.get("appService");
