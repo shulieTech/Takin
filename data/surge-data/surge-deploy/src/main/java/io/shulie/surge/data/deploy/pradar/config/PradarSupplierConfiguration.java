@@ -33,6 +33,12 @@ public class PradarSupplierConfiguration {
     public PradarSupplierConfiguration() {
     }
 
+    public PradarSupplierConfiguration(String hostMapStr) {
+        if (null != hostMapStr && StringUtils.isNotBlank(hostMapStr)) {
+            this.hostMap = JSON.parseObject(hostMapStr, Map.class);
+        }
+    }
+
     public PradarSupplierConfiguration(Integer workPort) {
         this.workPort = workPort;
     }
@@ -164,7 +170,11 @@ public class PradarSupplierConfiguration {
     }
 
     public static void main(String[] args) throws Exception {
-        PradarSupplierConfiguration pradarSupplierConfiguration = new PradarSupplierConfiguration();
+        String hostMap = "";
+        if (args != null && args.length > 0) {
+            hostMap = args[0];
+        }
+        PradarSupplierConfiguration pradarSupplierConfiguration = new PradarSupplierConfiguration(hostMap);
         pradarSupplierConfiguration.init();
     }
 }
