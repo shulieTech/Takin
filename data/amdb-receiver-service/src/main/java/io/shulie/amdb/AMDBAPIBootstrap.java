@@ -19,7 +19,7 @@ import java.io.IOException;
  * @author: CaoYanFei@ShuLie.io
  * @create: 2020-07-15 22:26
  **/
-@MapperScan("io.shulie.amdb.mapper")
+@MapperScan(basePackages = "io.shulie.amdb.mapper")
 @SpringBootApplication
 @EnableScheduling
 @EnableAsync

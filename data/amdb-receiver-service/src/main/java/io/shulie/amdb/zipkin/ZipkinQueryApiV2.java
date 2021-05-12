@@ -14,15 +14,14 @@
 package io.shulie.amdb.zipkin;
 
 import com.google.common.primitives.Longs;
-import com.pamirs.pradar.Pradar;
-import com.pamirs.pradar.common.StringUtils;
 import com.pamirs.pradar.log.parser.trace.RpcBased;
 import io.shulie.amdb.common.request.trace.EntryTraceQueryParam;
 import io.shulie.amdb.service.TraceService;
 import io.shulie.pradar.log.rule.RuleFactory;
 import io.shulie.surge.data.deploy.pradar.parser.MiddlewareType;
+import io.shulie.surge.data.deploy.pradar.parser.PradarLogType;
+import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.util.Lists;
-import org.codehaus.commons.compiler.CompileException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -125,24 +124,6 @@ public class ZipkinQueryApiV2 {
         rpcBaseds.forEach(rpcBased -> sb.append("\r\n").append(LOG_FORMATTER.format(rpcBased)));
         writeResponse(sb.toString().getBytes(), response);
     }
-
-    @RequestMapping("/api/v2/tracecheck/{traceId}")
-    public void traceCheck(@PathVariable String traceId, HttpServletResponse response)
-            throws Exception {
-
-        List<RpcBased> rpcBaseds = traceService.getTraceDetail(traceId);
-        StringBuilder sb = new StringBuilder();
-        List<String> errorMessages = new ArrayList<String>();
-        rpcBaseds.forEach(rpcBased -> {
-            try {
-                sb.append(ErrorCheckFactory.INSTANCE.checkErrors(rpcBased)).append('\n').append(LOG_FORMATTER.format(rpcBased)).append('\n');
-            } catch (InvocationTargetException|CompileException e) {
-                throw new RuntimeException(e);
-            }
-        });
-        writeResponse(sb.toString().getBytes(), response);
-    }
-
 
     /**
      * 整数数组间的比较，前面的数较大，则算大，相等则比较下一位。 前面都相等时，长的数组较大。
@@ -268,11 +249,11 @@ public class ZipkinQueryApiV2 {
                 break;
             case MiddlewareType
                     .TYPE_RPC:
-                kind = rpcBased.getLogType() == Pradar.LOG_TYPE_RPC_CLIENT ? Span.Kind.CLIENT : Span.Kind.SERVER;
+                kind = rpcBased.getLogType() == PradarLogType.LOG_TYPE_RPC_CLIENT ? Span.Kind.CLIENT : Span.Kind.SERVER;
                 break;
             case MiddlewareType
                     .TYPE_MQ:
-                kind = rpcBased.getLogType() == Pradar.LOG_TYPE_RPC_CLIENT ? Span.Kind.PRODUCER : Span.Kind.CONSUMER;
+                kind = rpcBased.getLogType() == PradarLogType.LOG_TYPE_RPC_CLIENT ? Span.Kind.PRODUCER : Span.Kind.CONSUMER;
                 break;
         }
         builder.putTag("logType", String.valueOf(rpcBased.getLogType()));
