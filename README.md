@@ -8,7 +8,10 @@ DaYuX is an Java-based open-source system designed to measure online environment
 大禹X是一款基于Java的开源系统，可嵌入到各个服务节点，实现生产环境的性能测试，尤其适合面向微服务架构系统。通过大禹X，系统中的中间件和应用可以在生产环境识别真实流量和测试流量，保证它们进入不同的数据库，实现真实和测试流量的现网隔离。
 
 # Why should we do online environmental performance test
-Microservices Architecture is used commonly nowadays and it always make system complex to understand for humans. Moreover, businesses are also very complex in huge system. Business complexity and system complexity make it difficult to Keep entire system highly available and Maintain Research & Development efficiency.<br/> 
+Microservices Architecture is used commonly nowadays and it always make system complex to understand for humans. Moreover, businesses are also very complex in huge system. Business complexity and system complexity make it difficult to :
+- Keep entire system highly available 
+- Maintain Research & Development efficiency.
+
 In order to keep system high availabile, we usually make performance test on test environment or online single-service. However, test environment is very different from online environment, single-service performance test can't stand for the whole service-links. They can't guarantee system performance.
 
 **Microservices Are Complex**<br/>
