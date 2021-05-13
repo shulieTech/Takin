@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.web.data.mapper.mysql.MqMsgMapper">
+    <resultMap id="BaseResultMap" type="io.shulie.tro.web.data.model.mysql.MqMsgEntity">
+        <!--@mbg.generated-->
+        <!--@Table t_mq_msg-->
+        <id column="MSG_ID" jdbcType="BIGINT" property="msgId"/>
+        <result column="MSG_TYPE" jdbcType="VARCHAR" property="msgType"/>
+        <result column="DICT_TYPE" jdbcType="VARCHAR" property="dictType"/>
+        <result column="MSG_HOST" jdbcType="VARCHAR" property="msgHost"/>
+        <result column="MSG_PORT" jdbcType="VARCHAR" property="msgPort"/>
+        <result column="MSG_IP" jdbcType="VARCHAR" property="msgIp"/>
+        <result column="TOPIC" jdbcType="VARCHAR" property="topic"/>
+        <result column="GROUPNAME" jdbcType="VARCHAR" property="groupname"/>
+        <result column="QUEUE_CHANNEL" jdbcType="VARCHAR" property="queueChannel"/>
+        <result column="QUEUE_MANAGER" jdbcType="VARCHAR" property="queueManager"/>
+        <result column="CCSID" jdbcType="VARCHAR" property="ccsid"/>
+        <result column="BASE_QUEUE_NAME" jdbcType="VARCHAR" property="baseQueueName"/>
+        <result column="TRANSPORT_TYPE" jdbcType="VARCHAR" property="transportType"/>
+        <result column="ESBCODE" jdbcType="VARCHAR" property="esbcode"/>
+        <result column="CONSUME_STATUS" jdbcType="CHAR" property="consumeStatus"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="CONSUME_START_TIME" jdbcType="TIMESTAMP" property="consumeStartTime"/>
+        <result column="CONSUME_END_TIME" jdbcType="TIMESTAMP" property="consumeEndTime"/>
+        <result column="LAST_CONSUME_TIME" jdbcType="TIMESTAMP" property="lastConsumeTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        MSG_ID, MSG_TYPE, DICT_TYPE, MSG_HOST, MSG_PORT, MSG_IP, TOPIC, GROUPNAME, QUEUE_CHANNEL,
+        QUEUE_MANAGER, `CCSID`, BASE_QUEUE_NAME, TRANSPORT_TYPE, ESBCODE, CONSUME_STATUS,
+        CREATE_TIME, UPDATE_TIME, CONSUME_START_TIME, CONSUME_END_TIME, LAST_CONSUME_TIME
+    </sql>
+</mapper>

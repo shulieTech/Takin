@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.web.data.mapper.mysql.MiddlewareLinkRelateMapper">
+    <resultMap id="BaseResultMap" type="io.shulie.tro.web.data.model.mysql.MiddlewareLinkRelateEntity">
+        <!--@mbg.generated-->
+        <!--@Table t_middleware_link_relate-->
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="MIDDLEWARE_ID" jdbcType="VARCHAR" property="middlewareId"/>
+        <result column="TECH_LINK_ID" jdbcType="VARCHAR" property="techLinkId"/>
+        <result column="BUSINESS_LINK_ID" jdbcType="VARCHAR" property="businessLinkId"/>
+        <result column="SCENE_ID" jdbcType="VARCHAR" property="sceneId"/>
+        <result column="IS_DELETED" jdbcType="TINYINT" property="isDeleted"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        ID, MIDDLEWARE_ID, TECH_LINK_ID, BUSINESS_LINK_ID, SCENE_ID, IS_DELETED, CREATE_TIME,
+        UPDATE_TIME
+    </sql>
+</mapper>

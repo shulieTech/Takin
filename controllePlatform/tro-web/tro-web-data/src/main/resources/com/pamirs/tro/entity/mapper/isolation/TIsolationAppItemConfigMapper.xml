@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pamirs.tro.entity.dao.isolation.TIsolationAppItemConfigMapper">
+    <resultMap id="BaseResultMap" type="com.pamirs.tro.entity.domain.entity.TIsolationAppItemConfig">
+        <id column="ITEM_ID" jdbcType="BIGINT" property="itemId"/>
+        <result column="APPLICATION_ID" jdbcType="BIGINT" property="applicationId"/>
+        <result column="TYPE" jdbcType="VARCHAR" property="type"/>
+        <result column="KEY_ID" jdbcType="BIGINT" property="keyId"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        ITEM_ID, APPLICATION_ID, TYPE, KEY_ID, CREATE_TIME, UPDATE_TIME
+    </sql>
+    <select id="selectByItemId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_isolation_app_item_config
+        where ITEM_ID = #{itemId,jdbcType=BIGINT}
+    </select>
+    <select id="selectListByVO" parameterType="com.pamirs.tro.entity.domain.vo.TIsolationAppItemConfigVO"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_isolation_app_item_config
+        <where>
+            <if test="keyIds!=null and keyIds.size>0">
+                and KEY_ID in
+                <foreach collection="keyIds" item="keyId" open="(" separator="," close=")">
+                    #{keyId}
+                </foreach>
+            </if>
+            <if test="type!=null">
+                and TYPE=#{type}
+            </if>
+            <if test="applicationId!=null">
+                and APPLICATION_ID=#{applicationId}
+            </if>
+            <if test="keyId!=null">
+                and KEY_ID=#{keyId}
+            </if>
+        </where>
+    </select>
+    <select id="selectByAppId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_isolation_app_item_config
+        where application_id = #{applicationId,jdbcType=BIGINT}
+    </select>
+    <insert id="insert" parameterType="com.pamirs.tro.entity.domain.entity.TIsolationAppItemConfig"
+            useGeneratedKeys="true" keyColumn="ITEM_ID" keyProperty="itemId">
+        insert into t_isolation_app_item_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">
+                ITEM_ID,
+            </if>
+            <if test="applicationId != null">
+                APPLICATION_ID,
+            </if>
+            <if test="type != null">
+                TYPE,
+            </if>
+            <if test="keyId != null">
+                KEY_ID,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">
+                #{itemId,jdbcType=BIGINT},
+            </if>
+            <if test="applicationId != null">
+                #{applicationId,jdbcType=BIGINT},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="keyId != null">
+                #{keyId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertList" parameterType="com.pamirs.tro.entity.domain.entity.TIsolationAppItemConfig">
+        insert into t_isolation_app_item_config(APPLICATION_ID, TYPE, KEY_ID)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.applicationId,jdbcType=BIGINT}, #{item.type,jdbcType=VARCHAR}, #{item.keyId,jdbcType=BIGINT})
+        </foreach>
+    </insert>
+
+    <update id="updateByItemId" parameterType="com.pamirs.tro.entity.domain.entity.TIsolationAppItemConfig">
+        update t_isolation_app_item_config
+        <set>
+            <if test="applicationId != null">
+                APPLICATION_ID = #{applicationId,jdbcType=BIGINT},
+            </if>
+            <if test="type != null">
+                TYPE = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="keyId != null">
+                KEY_ID = #{keyId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where ITEM_ID = #{itemId,jdbcType=BIGINT}
+    </update>
+    <delete id="deleteByApplicationIds" parameterType="java.lang.Long">
+        delete from t_isolation_app_item_config where application_id in
+        <foreach collection="list" item="applicationId" open="(" separator="," close=")">
+            #{applicationId,jdbcType=BIGINT}
+        </foreach>
+    </delete>
+</mapper>

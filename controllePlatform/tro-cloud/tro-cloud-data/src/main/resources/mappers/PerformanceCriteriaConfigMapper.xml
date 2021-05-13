@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.cloud.data.mapper.mysql.PerformanceCriteriaConfigMapper">
+  <resultMap id="BaseResultMap" type="io.shulie.tro.cloud.data.model.mysql.PerformanceCriteriaConfigEntity">
+    <!--@mbg.generated-->
+    <!--@Table t_performance_criteria_config-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="env" jdbcType="VARCHAR" property="env" />
+    <result column="app_id" jdbcType="BIGINT" property="appId" />
+    <result column="app_name" jdbcType="VARCHAR" property="appName" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="value" jdbcType="VARCHAR" property="value" />
+    <result column="standard" jdbcType="BOOLEAN" property="standard" />
+    <result column="is_deleted" jdbcType="BOOLEAN" property="isDeleted" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, env, app_id, app_name, `type`, `value`, `standard`, is_deleted, CREATE_TIME, 
+    UPDATE_TIME
+  </sql>
+</mapper>

@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pamirs.tro.entity.dao.linkmanage.TBusinessLinkManageTableMapper">
+    <resultMap id="BaseResultMap" type="com.pamirs.tro.entity.domain.entity.linkmanage.BusinessLinkManageTable">
+        <id column="LINK_ID" jdbcType="BIGINT" property="linkId"/>
+        <result column="LINK_NAME" jdbcType="VARCHAR" property="linkName"/>
+        <result column="ENTRACE" jdbcType="VARCHAR" property="entrace"/>
+        <result column="RELATED_TECH_LINK" jdbcType="VARCHAR" property="relatedTechLink"/>
+        <result column="LINK_LEVEL" jdbcType="VARCHAR" property="linkLevel"/>
+        <result column="PARENT_BUSINESS_ID" jdbcType="VARCHAR" property="parentBusinessId"/>
+        <result column="IS_CHANGE" jdbcType="TINYINT" property="isChange"/>
+        <result column="IS_CORE" jdbcType="TINYINT" property="isCore"/>
+        <result column="IS_DELETED" jdbcType="TINYINT" property="isDeleted"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="BUSINESS_DOMAIN" property="businessDomain"/>
+    </resultMap>
+
+    <resultMap id="BusinessActiveIdAndNameDtoMap"
+               type="com.pamirs.tro.entity.domain.dto.linkmanage.BusinessActiveIdAndNameDto">
+        <result column="LINK_NAME" property="businessActiveName"/>
+        <result column="LINK_ID" property="id"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        LINK_ID, LINK_NAME, ENTRACE, RELATED_TECH_LINK, LINK_LEVEL, PARENT_BUSINESS_ID,
+    IS_CHANGE, IS_CORE, IS_DELETED, CREATE_TIME,
+    UPDATE_TIME,BUSINESS_DOMAIN,CAN_DELETE
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_business_link_manage_table
+        where LINK_ID = #{linkId,jdbcType=BIGINT}
+    </select>
+
+
+    <select id="selectByPrimaryKeys" resultMap="BaseResultMap" parameterType="java.util.List">
+        select
+        <include refid="Base_Column_List"/>
+        from t_business_link_manage_table
+        where LINK_ID in
+        <foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and IS_DELETED = 0
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from t_business_link_manage_table
+        where LINK_ID = #{linkId,jdbcType=BIGINT}
+    </delete>
+
+    <resultMap id="BussinessLinkResultDtoMap" type="com.pamirs.tro.entity.domain.dto.linkmanage.BusinessLinkDto">
+        <result column="LINK_ID" property="id"/>
+        <result column="LINK_NAME" jdbcType="VARCHAR" property="linkName"/>
+        <result column="USER_ID" jdbcType="BIGINT" property="userId"/>
+        <result column="ENTRACE" jdbcType="VARCHAR" property="entrance"/>
+        <result column="BUSINESS_IS_CHANGE" property="ischange"/>
+        <result column="BUSINESS_CAN_DELETE" property="candelete"/>
+        <result column="BUSINESS_IS_CORE" property="isCore"/>
+        <result column="BUSINESS_DOMAIN" property="businessDomain"/>
+        <result column="LINK_LEVEL" property="linkLevel"/>
+
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+        <collection property="techLinkDto" ofType="com.pamirs.tro.entity.domain.dto.linkmanage.TechLinkDto">
+            <result column="TECH_LINK_ID" property="linkId"/>
+            <result column="TECH_LINK_NAME" property="techLinkName"/>
+            <result column="TECH_CHANGE_BEFORE" jdbcType="VARCHAR" property="body_before"/>
+            <result column="TECH_CHANGE_AFTER" jdbcType="VARCHAR" property="body_after"/>
+            <result column="TECH_CHANGE_REMARK" jdbcType="VARCHAR" property="change_remark"/>
+            <result column="TECH_CHANGE_TYPE" property="changeType"/>
+            <collection property="middleWareEntities"
+                        ofType="com.pamirs.tro.entity.domain.vo.linkmanage.MiddleWareEntity">
+                <result column="ID" property="id"/>
+                <result column="MIDDLEWARE_TYPE" property="middleWareType"/>
+                <result column="MIDDLEWARE_NAME" property="middleWareName"/>
+                <result column="MIDDLEWARE_VERSION" property="version"/>
+            </collection>
+        </collection>
+
+    </resultMap>
+
+    <insert id="insert" parameterType="com.pamirs.tro.entity.domain.entity.linkmanage.BusinessLinkManageTable">
+        insert into t_business_link_manage_table (LINK_ID, LINK_NAME, ENTRACE,
+                                                  RELATED_TECH_LINK, LINK_LEVEL,
+                                                  PARENT_BUSINESS_ID,
+                                                  IS_CHANGE, IS_CORE,
+                                                  IS_DELETED, CREATE_TIME, UPDATE_TIME, BUSINESS_DOMAIN, CAN_DELETE)
+        values (#{linkId,jdbcType=BIGINT}, #{linkName,jdbcType=VARCHAR}, #{entrace,jdbcType=VARCHAR},
+                #{relatedTechLink,jdbcType=VARCHAR}, #{linkLevel,jdbcType=VARCHAR},
+                #{parentBusinessId,jdbcType=VARCHAR},
+                #{isChange,jdbcType=TINYINT}, #{isCore,jdbcType=TINYINT},
+                #{isDeleted,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+                   , #{businessDomain}, #{canDelete})
+    </insert>
+    <insert id="insertSelective" parameterType="com.pamirs.tro.entity.domain.entity.linkmanage.BusinessLinkManageTable">
+        insert into t_business_link_manage_table
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="linkId != null">
+                LINK_ID,
+            </if>
+            <if test="linkName != null">
+                LINK_NAME,
+            </if>
+            <if test="entrace != null">
+                ENTRACE,
+            </if>
+            <if test="relatedTechLink != null">
+                RELATED_TECH_LINK,
+            </if>
+            <if test="linkLevel != null">
+                LINK_LEVEL,
+            </if>
+            <if test="parentBusinessId != null">
+                PARENT_BUSINESS_ID,
+            </if>
+            <if test="isChange != null">
+                IS_CHANGE,
+            </if>
+            <if test="isCore != null">
+                IS_CORE,
+            </if>
+            <if test="isDeleted != null">
+                IS_DELETED,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME,
+            </if>
+            <if test="businessDomain != null">
+                BUSINESS_DOMAIN,
+            </if>
+            <if test="canDelete !=null">
+                CAN_DELETE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="linkId != null">
+                #{linkId,jdbcType=BIGINT},
+            </if>
+            <if test="linkName != null">
+                #{linkName,jdbcType=VARCHAR},
+            </if>
+            <if test="entrace != null">
+                #{entrace,jdbcType=VARCHAR},
+            </if>
+            <if test="relatedTechLink != null">
+                #{relatedTechLink,jdbcType=VARCHAR},
+            </if>
+            <if test="linkLevel != null">
+                #{linkLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="parentBusinessId != null">
+                #{parentBusinessId,jdbcType=VARCHAR},
+            </if>
+            <if test="isChange != null">
+                #{isChange,jdbcType=TINYINT},
+            </if>
+            <if test="isCore != null">
+                #{isCore,jdbcType=TINYINT},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="businessDomain != null">
+                #{businessDomain},
+            </if>
+            <if test="canDelete !=null">
+                #{canDelete},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.pamirs.tro.entity.domain.entity.linkmanage.BusinessLinkManageTable">
+        update t_business_link_manage_table
+        <set>
+            <if test="linkName != null">
+                LINK_NAME = #{linkName,jdbcType=VARCHAR},
+            </if>
+            <if test="entrace != null">
+                ENTRACE = #{entrace,jdbcType=VARCHAR},
+            </if>
+            <if test="relatedTechLink != null">
+                RELATED_TECH_LINK = #{relatedTechLink,jdbcType=VARCHAR},
+            </if>
+            <if test="linkLevel != null">
+                LINK_LEVEL = #{linkLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="parentBusinessId != null">
+                PARENT_BUSINESS_ID = #{parentBusinessId,jdbcType=VARCHAR},
+            </if>
+            <if test="isChange != null">
+                IS_CHANGE = #{isChange,jdbcType=TINYINT},
+            </if>
+            <if test="isCore != null">
+                IS_CORE = #{isCore,jdbcType=TINYINT},
+            </if>
+            <if test="isDeleted != null">
+                IS_DELETED = #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="businessDomain != null">
+                BUSINESS_DOMAIN=#{businessDomain}
+            </if>
+            <if test="canDelete != null">
+                CAN_DELETE =#{canDelete}
+            </if>
+        </set>
+        where LINK_ID = #{linkId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey"
+            parameterType="com.pamirs.tro.entity.domain.entity.linkmanage.BusinessLinkManageTable">
+        update t_business_link_manage_table
+        set LINK_NAME          = #{linkName,jdbcType=VARCHAR},
+            ENTRACE            = #{entrace,jdbcType=VARCHAR},
+            RELATED_TECH_LINK  = #{relatedTechLink,jdbcType=VARCHAR},
+            LINK_LEVEL         = #{linkLevel,jdbcType=VARCHAR},
+            PARENT_BUSINESS_ID = #{parentBusinessId,jdbcType=VARCHAR},
+            IS_CHANGE          = #{isChange,jdbcType=TINYINT},
+            IS_CORE            = #{isCore,jdbcType=TINYINT},
+            IS_DELETED         = #{isDeleted,jdbcType=TINYINT},
+            BUSINESS_DOMAIN=#{businessDomain},
+            CREATE_TIME        = #{createTime,jdbcType=TIMESTAMP},
+            UPDATE_TIME        = #{updateTime,jdbcType=TIMESTAMP}
+        where LINK_ID = #{linkId,jdbcType=BIGINT}
+    </update>
+    <!--查看是否已经有同名业务链路-->
+    <select id="countByBussinessName" resultType="java.lang.Integer">
+        select count(1)
+        from t_business_link_manage_table
+        where LINK_NAME = #{linkName,jdbcType=VARCHAR}
+          and IS_DELETED = 0
+    </select>
+
+    <update id="updateByTechId" parameterType="com.pamirs.tro.entity.domain.entity.linkmanage.BusinessLinkManageTable">
+
+        update t_business_link_manage_table
+        <set>
+            <if test="linkName != null">
+                LINK_NAME = #{linkName,jdbcType=VARCHAR},
+            </if>
+            <if test="linkLevel != null">
+                LINK_LEVEL = #{linkLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="parentBusinessId != null">
+                PARENT_BUSINESS_Id = #{parentBusinessId,jdbcType=VARCHAR},
+            </if>
+
+            <if test="isChange != null">
+                IS_CHANGE = #{isChange,jdbcType=TINYINT},
+            </if>
+            <if test="isCore != null">
+                IS_CORE = #{isCore,jdbcType=TINYINT},
+            </if>
+            <if test="isDeleted != null">
+                IS_DELETED = #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where RELATED_TECH_LINK = #{relatedTechLink} and IS_DELETED = 0
+    </update>
+
+    <select id="selectBussinessLinkById" parameterType="java.lang.Long" resultMap="BussinessLinkResultDtoMap">
+        select manage.LINK_ID,
+               manage.LINK_NAME,
+               manage.ENTRACE,
+               manage.CREATE_TIME,
+               manage.UPDATE_TIME,
+               manage.IS_CHANGE   as BUSINESS_IS_CHANGE,
+               manage.CAN_DELETE  as BUSINESS_CAN_DELETE,
+               manage.IS_CORE     as BUSINESS_IS_CORE,
+               manage.BUSINESS_DOMAIN,
+               manage.LINK_LEVEL,
+               tech.LINK_ID       as TECH_LINK_ID,
+               tech.LINK_NAME     as TECH_LINK_NAME,
+               tech.CHANGE_BEFORE as TECH_CHANGE_BEFORE,
+               tech.CHANGE_AFTER  as TECH_CHANGE_AFTER,
+               tech.CHANGE_REMARK as TECH_CHANGE_REMARK,
+               tech.CHANGE_TYPE   as TECH_CHANGE_TYPE
+        from t_business_link_manage_table manage
+                 left join t_link_manage_table tech
+                           on manage.RELATED_TECH_LINK = tech.LINK_ID
+        where manage.IS_DELETED = 0
+          and manage.LINK_ID = #{id}
+        group by manage.LINK_ID
+    </select>
+
+    <select id="selectBussinessLinkByIdList" resultMap="BaseResultMap">
+        SELECT LINK_ID,LINK_NAME,ENTRACE FROM t_business_link_manage_table
+        WHERE LINK_ID in
+        <foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and IS_DELETED = 0
+    </select>
+    <select id="selectBussinessLinkListBySelective2"
+            parameterType="com.pamirs.tro.entity.domain.entity.linkmanage.LinkQueryVo"
+            resultMap="BussinessLinkResultDtoMap">
+        select
+        manage.LINK_ID ,
+        manage.LINK_NAME,
+        manage.ENTRACE,
+        manage.USER_ID,
+        manage.CREATE_TIME,
+        manage.UPDATE_TIME,
+        manage.IS_CHANGE as BUSINESS_IS_CHANGE,
+        manage.CAN_DELETE as BUSINESS_CAN_DELETE,
+        manage.IS_CORE as BUSINESS_IS_CORE,
+        manage.BUSINESS_DOMAIN,
+        manage.LINK_LEVEL,
+        middleware.ID,
+        tech.LINK_ID as TECH_LINK_ID,
+        tech.LINK_NAME as TECH_LINK_NAME
+        <!--tech.CHANGE_BEFORE as TECH_CHANGE_BEFORE,
+        tech.CHANGE_AFTER as TECH_CHANGE_AFTER,
+        tech.CHANGE_REMARK as TECH_CHANGE_REMARK,
+        tech.CHANGE_TYPE as TECH_CHANGE_TYPE,
+        middleware.MIDDLEWARE_TYPE,
+        middleware.MIDDLEWARE_NAME,
+        middleware.MIDDLEWARE_VERSION-->
+        from t_business_link_manage_table manage left join t_middleware_link_relate relate
+        on manage.RELATED_TECH_LINK = relate.TECH_LINK_ID
+        left join t_middleware_info middleware
+        on middleware.ID = relate.MIDDLEWARE_ID left join t_link_manage_table tech
+        on manage.RELATED_TECH_LINK = tech.LINK_ID
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="name != null">
+                and manage.LINK_NAME = #{name}
+            </if>
+            <if test="entrance !=null">
+                and manage.ENTRACE = #{entrance,jdbcType=VARCHAR}
+            </if>
+            <if test="isChange !=null">
+                and manage.IS_CHANGE = #{isChange,jdbcType=TINYINT}
+            </if>
+            <if test="systemProcessName != null">
+                and tech.LINK_NAME = #{systemProcessName}
+            </if>
+            <if test="middleWareType !=null">
+                and middleware.MIDDLEWARE_TYPE = #{middleWareType}
+            </if>
+            <if test="middleWareName !=null">
+                and middleware.MIDDLEWARE_NAME = #{middleWareName}
+            </if>
+            <if test="middleWareVersion !=null">
+                and middleware.MIDDLEWARE_VERSION = #{middleWareVersion}
+            </if>
+            <if test="id != null">
+                and manage.LINK_ID = #{id}
+            </if>
+            <if test="domain != null">
+                and manage.BUSINESS_DOMAIN = #{domain}
+            </if>
+            and manage.IS_DELETED = 0
+        </trim>
+        group by manage.LINK_ID order by manage.CREATE_TIME desc
+    </select>
+
+
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from t_business_link_manage_table
+        where IS_DELETED = 0
+    </select>
+    <update id="updateIsChangeByTechId" parameterType="java.lang.Long">
+        update t_business_link_manage_table
+        set IS_CHANGE=1
+        where RELATED_TECH_LINK = #{techLinkId}
+          and IS_DELETED = 0
+    </update>
+
+    <select id="bussinessActiveNameFuzzSearch" resultMap="BusinessActiveIdAndNameDtoMap">
+        select LINK_NAME, LINK_ID from t_business_link_manage_table
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="bussinessActiveName != null">
+                LINK_NAME like concat(concat('%',#{bussinessActiveName}),'%')
+            </if>
+            and IS_DELETED = 0
+        </trim>
+    </select>
+
+    <update id="updateEntranceNameBySystemProcessId">
+        update t_business_link_manage_table
+        set ENTRACE = #{newEntrance}
+        where RELATED_TECH_LINK = #{linkId}
+          and IS_DELETED = 0
+    </update>
+
+    <select id="selectTechIdsByBusinessIds" resultType="java.lang.Long">
+        select RELATED_TECH_LINK from t_business_link_manage_table where
+        LINK_ID in
+        <foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and IS_DELETED = 0
+    </select>
+
+    <update id="cannotdelete">
+        update t_business_link_manage_table set CAN_DELETE = #{canDelete} where LINK_ID in
+        <foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and IS_DELETED = 0
+    </update>
+</mapper>

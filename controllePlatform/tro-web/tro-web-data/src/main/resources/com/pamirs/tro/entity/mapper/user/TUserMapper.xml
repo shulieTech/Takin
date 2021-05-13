@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pamirs.tro.entity.dao.user.TUserMapper">
+    <resultMap id="BaseResultMap" type="com.pamirs.tro.entity.domain.entity.user.User">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="nick" property="nick" jdbcType="VARCHAR"/>
+        <result column="key" property="key" jdbcType="VARCHAR"/>
+        <result column="salt" property="salt" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="BIT"/>
+        <result column="user_type" property="userType" jdbcType="INTEGER"/>
+        <result column="model" property="model" jdbcType="BIT"/>
+        <result column="role" property="role" jdbcType="BIT"/>
+        <result column="is_delete" property="isDelete" jdbcType="BIT"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_update" property="gmtUpdate" jdbcType="TIMESTAMP"/>
+        <result column="customer_id" property="customerId" jdbcType="BIGINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, `name`, nick, `key`, salt, password, status, user_type,model,role, is_delete, gmt_create, gmt_update, customer_id
+    </sql>
+
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_tro_user
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_tro_user
+        where id = #{id,jdbcType=BIGINT} and role != 0
+    </select>
+    <select id="selectByKey" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_tro_user
+        where `key` = #{key,jdbcType=VARCHAR}
+        limit 1
+    </select>
+    <select id="selectByExample" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_tro_user
+        <where>
+
+            <if test=" param.id != null">
+                and id = #{param.id,jdbcType=BIGINT}
+            </if>
+            <if test="param.name != null and param.name !=''">
+                and name = #{param.name,jdbcType=VARCHAR}
+            </if>
+            <if test="param.nick != null and param.nick != ''">
+                and nick =#{param.nick,jdbcType=VARCHAR}
+            </if>
+            is_delete = 0 and role != 0
+        </where>
+        order by gmt_update desc
+    </select>
+
+    <select id="queryUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_tro_user
+        <where>
+            <if test="param.name != null and param.name !=''">
+                and name = #{param.name,jdbcType=VARCHAR}
+            </if>
+            <if test="param.password != null and param.password !=''">
+                and password = #{param.password,jdbcType=VARCHAR}
+            </if>
+            and is_delete = 0
+        </where>
+    </select>
+
+    <select id="queryByKey" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_tro_user
+        <where>
+            `key` = #{key}
+            and is_delete = 0
+        </where>
+        limit 1
+    </select>
+
+    <select id="queryByName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_tro_user where is_delete = 0 and `name` = #{param.name,jdbcType=VARCHAR} and `customer_id` =
+        #{param.customerId,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from t_tro_user
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.pamirs.tro.entity.domain.entity.user.User">
+        insert into t_tro_user (id, name, nick,
+                                key, password, status,
+                                model, is_delete, gmt_create,
+                                gmt_update)
+        values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{nick,jdbcType=VARCHAR},
+                #{key,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{status,jdbcType=BIT},
+                #{model,jdbcType=BIT}, #{isDelete,jdbcType=BIT}, #{gmtCreate,jdbcType=TIMESTAMP},
+                #{gmtUpdate,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.pamirs.tro.entity.domain.entity.user.User" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into t_tro_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="nick != null">
+                nick,
+            </if>
+            <if test="key != null">
+                `key`,
+            </if>
+            <if test="salt != null">
+                `salt`,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="userType != null">
+                user_type,
+            </if>
+            <if test="model != null">
+                model,
+            </if>
+            <if test="role != null">
+                role,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtUpdate != null">
+                gmt_update,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="nick != null">
+                #{nick,jdbcType=VARCHAR},
+            </if>
+            <if test="key != null">
+                #{key,jdbcType=VARCHAR},
+            </if>
+            <if test="salt != null">
+                #{salt,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=BIT},
+            </if>
+            <if test="userType != null">
+                #{userType,jdbcType=INTEGER},
+            </if>
+            <if test="model != null">
+                #{model,jdbcType=BIT},
+            </if>
+            <if test="role != null">
+                #{role,jdbcType=BIT},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=BIT},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtUpdate != null">
+                #{gmtUpdate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.pamirs.tro.entity.domain.entity.user.User">
+        update t_tro_user
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="nick != null">
+                nick = #{nick,jdbcType=VARCHAR},
+            </if>
+            <if test="key != null">
+                `key` = #{key,jdbcType=VARCHAR},
+            </if>
+            <if test="salt != null">
+                `salt` = #{salt,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=BIT},
+            </if>
+            <if test="model != null">
+                model = #{model,jdbcType=BIT},
+            </if>
+            <if test="role != null">
+                role = #{role,jdbcType=BIT},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete,jdbcType=BIT},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtUpdate != null">
+                gmt_update = #{gmtUpdate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.pamirs.tro.entity.domain.entity.user.User">
+        update t_tro_user
+        set name       = #{name,jdbcType=VARCHAR},
+            nick       = #{nick,jdbcType=VARCHAR},
+            key        = #{key,jdbcType=VARCHAR},
+            password   = #{password,jdbcType=VARCHAR},
+            status     = #{status,jdbcType=BIT},
+            model      = #{model,jdbcType=BIT},
+            is_delete  = #{isDelete,jdbcType=BIT},
+            gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            gmt_update = #{gmtUpdate,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectIdsByName" parameterType="java.lang.String" resultType="java.lang.Long">
+        select id
+        from t_tro_user
+        where `name` like concat('%', #{name}, '%')
+          and role != 0
+    </select>
+
+    <select id="selectByIds" parameterType="java.util.List" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_tro_user
+        where id in
+        <foreach collection="ids" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="selectAllUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_tro_user
+        <where>
+            is_delete = 0
+            <if test=" param.id != null">
+                and id = #{param.id,jdbcType=BIGINT}
+            </if>
+            <if test="param.name != null and param.name !=''">
+                and name = #{param.name,jdbcType=VARCHAR}
+            </if>
+            <if test="param.nick != null and param.nick != ''">
+                and nick =#{param.nick,jdbcType=VARCHAR}
+            </if>
+            <if test="param.userType != null">
+                and user_type =#{param.userType,jdbcType=INTEGER}
+            </if>
+            <if test="param.status != null">
+                and status =#{param.status,jdbcType=BIT}
+            </if>
+        </where>
+        order by gmt_update desc
+    </select>
+
+
+    <select id="selectDistinctUserAppKey" resultMap="BaseResultMap">
+        select distinct `key`,
+                        id
+        from t_tro_user
+        where is_delete = 0
+          and `key` is not null
+    </select>
+    <delete id="deleteByIds" parameterType="List">
+        delete from t_tro_user
+        where id in
+        <foreach collection="userIdList" separator="," item="userId" open="(" close=")">
+            #{userId}
+        </foreach>
+    </delete>
+</mapper>

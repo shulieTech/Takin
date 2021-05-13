@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.cloud.data.mapper.mysql.PessureTestTaskActivityConfigMapper">
+  <resultMap id="BaseResultMap" type="io.shulie.tro.cloud.data.model.mysql.PessureTestTaskActivityConfigEntity">
+    <!--@mbg.generated-->
+    <!--@Table t_pessure_test_task_activity_config-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="pessure_process_id" jdbcType="BIGINT" property="pessureProcessId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type_name" jdbcType="VARCHAR" property="typeName" />
+    <result column="scenario_id" jdbcType="VARCHAR" property="scenarioId" />
+    <result column="domain" jdbcType="VARCHAR" property="domain" />
+    <result column="target_tps" jdbcType="TINYINT" property="targetTps" />
+    <result column="target_rt" jdbcType="VARCHAR" property="targetRt" />
+    <result column="request_success_rate" jdbcType="INTEGER" property="requestSuccessRate" />
+    <result column="is_deleted" jdbcType="BOOLEAN" property="isDeleted" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, pessure_process_id, `name`, type_name, scenario_id, `domain`, target_tps, target_rt, 
+    request_success_rate, is_deleted, CREATE_TIME, UPDATE_TIME
+  </sql>
+</mapper>

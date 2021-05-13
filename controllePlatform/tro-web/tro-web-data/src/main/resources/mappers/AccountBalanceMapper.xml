@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.web.data.mapper.mysql.AccountBalanceMapper">
+    <resultMap id="BaseResultMap" type="io.shulie.tro.web.data.model.mysql.AccountBalanceEntity">
+        <!--@mbg.generated-->
+        <!--@Table t_ac_account_balance-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="acc_id" jdbcType="BIGINT" property="accId"/>
+        <result column="book_id" jdbcType="BIGINT" property="bookId"/>
+        <result column="amount" jdbcType="DECIMAL" property="amount"/>
+        <result column="balance" jdbcType="DECIMAL" property="balance"/>
+        <result column="lock_balance" jdbcType="DECIMAL" property="lockBalance"/>
+        <result column="subject" jdbcType="INTEGER" property="subject"/>
+        <result column="direct" jdbcType="TINYINT" property="direct"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="parent_book_id" jdbcType="BIGINT" property="parentBookId"/>
+        <result column="scene_code" jdbcType="VARCHAR" property="sceneCode"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="acc_time" jdbcType="TIMESTAMP" property="accTime"/>
+        <result column="outer_id" jdbcType="VARCHAR" property="outerId"/>
+        <result column="is_deleted" jdbcType="BOOLEAN" property="isDeleted"/>
+        <result column="tags" jdbcType="BIGINT" property="tags"/>
+        <result column="features" jdbcType="LONGVARCHAR" property="features"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_update" jdbcType="TIMESTAMP" property="gmtUpdate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, acc_id, book_id, amount, balance, lock_balance, subject, direct, remark, parent_book_id,
+        scene_code, `status`, acc_time, outer_id, is_deleted, tags, features, gmt_create,
+        gmt_update
+    </sql>
+</mapper>

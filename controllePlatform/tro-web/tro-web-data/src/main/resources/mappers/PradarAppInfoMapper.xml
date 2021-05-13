@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.web.data.mapper.mysql.PradarAppInfoMapper">
+    <resultMap id="BaseResultMap" type="io.shulie.tro.web.data.model.mysql.PradarAppInfoEntity">
+        <!--@mbg.generated-->
+        <!--@Table pradar_app_info-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="app_name" jdbcType="VARCHAR" property="appName"/>
+        <result column="manager_name" jdbcType="VARCHAR" property="managerName"/>
+        <result column="product_line" jdbcType="VARCHAR" property="productLine"/>
+        <result column="app_group" jdbcType="VARCHAR" property="appGroup"/>
+        <result column="host_ip" jdbcType="VARCHAR" property="hostIp"/>
+        <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="deleted" jdbcType="TINYINT" property="deleted"/>
+        <result column="PE" jdbcType="VARCHAR" property="pe"/>
+        <result column="app_manager" jdbcType="VARCHAR" property="appManager"/>
+        <result column="SCM" jdbcType="VARCHAR" property="scm"/>
+        <result column="DBA" jdbcType="VARCHAR" property="dba"/>
+        <result column="job_number" jdbcType="VARCHAR" property="jobNumber"/>
+        <result column="sms_number" jdbcType="VARCHAR" property="smsNumber"/>
+        <result column="reverser_registration" jdbcType="VARCHAR" property="reverserRegistration"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, app_name, manager_name, product_line, app_group, host_ip, modify_time, create_time,
+        deleted, PE, app_manager, SCM, DBA, job_number, sms_number, reverser_registration
+    </sql>
+</mapper>
