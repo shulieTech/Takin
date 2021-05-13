@@ -1,8 +1,8 @@
 resource:
   ## mysql
   mysql:
-    host: 192.168.1.207
-    port: 30511
+    host: 127.0.0.1
+    port: 3306
     username: root
     password: shulie@2020
   ## redis
@@ -12,7 +12,7 @@ resource:
     password: pamirs@2020
   ## influxdb
   influxdb:
-    url: http://192.168.1.207:32709
+    url: http://127.0.0.1:32709
     user: pradar
     password: pamirs@db2020
     database: jmeter
@@ -38,7 +38,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: "jdbc:mysql://${resource.mysql.host}:${resource.mysql.port}/trodb_cloud?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai"
+    url: jdbc:mysql://${resource.mysql.host}:${resource.mysql.port}/trodb_cloud?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
     username: ${resource.mysql.username}
     password: ${resource.mysql.password}
     initialSize: 1
@@ -92,3 +92,6 @@ spring:
 nfs.server: 192.168.1.110
 ## 共享目录 目前不支持文件切割 不支持k8s机器部署 预留
 nfs.file.dir: /share
+
+file.split.images: forcecop/filesplit:v4.2.2
+file.split.images.name: csvfilesplit
