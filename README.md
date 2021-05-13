@@ -59,7 +59,8 @@ see [Agent](https://github.com/shulieTech/DaYuX/blob/main/agent/README.md?_blank
 see [Surge Data](https://github.com/shulieTech/DaYuX/blob/main/data/surge-data/README.md?_blank)
 
 ## Controlle Platform
-see
+see [Quick Start](https://github.com/shulieTech/DaYuX/blob/main/controllePlatform/doc/QuickStart.md)
+see [How to build](https://github.com/shulieTech/DaYuX/blob/main/controllePlatform/doc/HowToBuild.md)
 
 # Community
 Mailing List: Mail to shulie@shulie.io<br/>
