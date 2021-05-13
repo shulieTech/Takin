@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.web.data.mapper.mysql.FastDebugResultMapper">
+  <resultMap id="BaseResultMap" type="io.shulie.tro.web.data.model.mysql.FastDebugResultEntity">
+    <!--@mbg.generated-->
+    <!--@Table t_fast_debug_result-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="config_id" jdbcType="BIGINT" property="configId" />
+    <result column="business_link_name" jdbcType="BIGINT" property="businessLinkName" />
+    <result column="request" jdbcType="VARCHAR" property="request" />
+    <result column="leakage_check_data" jdbcType="LONGVARCHAR" property="leakageCheckData" />
+    <result column="response" jdbcType="LONGVARCHAR" property="response" />
+    <result column="trace_id" jdbcType="VARCHAR" property="traceId" />
+    <result column="call_time" jdbcType="VARCHAR" property="callTime" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="is_deleted" jdbcType="BOOLEAN" property="isDeleted" />
+    <result column="creator_id" jdbcType="BIGINT" property="creatorId" />
+    <result column="debug_result" jdbcType="BOOLEAN" property="debugResult" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, config_id, business_link_name, request, leakage_check_data, response, trace_id, 
+    call_time, gmt_create, gmt_modified, is_deleted, creator_id, debug_result
+  </sql>
+</mapper>

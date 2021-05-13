@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.web.data.mapper.mysql.DataBuildMapper">
+    <resultMap id="BaseResultMap" type="io.shulie.tro.web.data.model.mysql.DataBuildEntity">
+        <!--@mbg.generated-->
+        <!--@Table t_data_build-->
+        <id column="DATA_BUILD_ID" jdbcType="BIGINT" property="dataBuildId"/>
+        <result column="APPLICATION_ID" jdbcType="BIGINT" property="applicationId"/>
+        <result column="DDL_BUILD_STATUS" jdbcType="INTEGER" property="ddlBuildStatus"/>
+        <result column="DDL_LAST_SUCCESS_TIME" jdbcType="TIMESTAMP" property="ddlLastSuccessTime"/>
+        <result column="CACHE_BUILD_STATUS" jdbcType="INTEGER" property="cacheBuildStatus"/>
+        <result column="CACHE_LAST_SUCCESS_TIME" jdbcType="TIMESTAMP" property="cacheLastSuccessTime"/>
+        <result column="READY_BUILD_STATUS" jdbcType="INTEGER" property="readyBuildStatus"/>
+        <result column="READY_LAST_SUCCESS_TIME" jdbcType="TIMESTAMP" property="readyLastSuccessTime"/>
+        <result column="BASIC_BUILD_STATUS" jdbcType="INTEGER" property="basicBuildStatus"/>
+        <result column="BASIC_LAST_SUCCESS_TIME" jdbcType="TIMESTAMP" property="basicLastSuccessTime"/>
+        <result column="CLEAN_BUILD_STATUS" jdbcType="INTEGER" property="cleanBuildStatus"/>
+        <result column="CLEAN_LAST_SUCCESS_TIME" jdbcType="TIMESTAMP" property="cleanLastSuccessTime"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        DATA_BUILD_ID, APPLICATION_ID, DDL_BUILD_STATUS, DDL_LAST_SUCCESS_TIME, CACHE_BUILD_STATUS,
+        CACHE_LAST_SUCCESS_TIME, READY_BUILD_STATUS, READY_LAST_SUCCESS_TIME, BASIC_BUILD_STATUS,
+        BASIC_LAST_SUCCESS_TIME, CLEAN_BUILD_STATUS, CLEAN_LAST_SUCCESS_TIME, CREATE_TIME,
+        UPDATE_TIME
+    </sql>
+</mapper>

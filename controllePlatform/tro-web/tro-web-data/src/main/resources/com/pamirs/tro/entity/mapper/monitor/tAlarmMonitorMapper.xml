@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pamirs.tro.entity.dao.monitor.TAlarmMonitorDao">
+
+    <select id="queryAlarmListBySecondLinkId" parameterType="String"
+            resultType="com.pamirs.tro.entity.domain.vo.TAlarmMonitorVo">
+        SELECT tlm.LINK_ID    BASIC_LINK_ID,
+               tlm.LINK_NAME  BASIC_LINK_NAME,
+               tal.id         alarmId,
+               tal.war_packages,
+               tal.ip,
+               tal.alarm_collects,
+               tal.alarm_date,
+               tal.create_time,
+               tal.modify_time,
+               tslm.link_name second_link_name,
+               tal.is_deleted
+        FROM t_link_mnt tlm,
+             t_white_list twl,
+             t_application_mnt tam,
+             t_link_service_mnt tlsm,
+             t_second_link_mnt tslm,
+             t_alarm_list tal,
+             t_second_basic tsb
+        where tam.APPLICATION_ID = twl.APPLICATION_ID
+          and tlm.LINK_ID = tlsm.LINK_ID
+          AND twl.INTERFACE_NAME = tlsm.INTERFACE_NAME
+          and tsb.SECOND_LINK_ID = tslm.LINK_ID
+          and tsb.BASIC_LINK_ID = tlm.LINK_ID
+          AND tal.war_packages = tam.APPLICATION_NAME
+          and tslm.LINK_ID = #{secondLinkId}
+          and tal.alarm_date BETWEEN date_format(#{startTime}, '%Y%m%d%H%i%s') and
+            date_format(#{endTime}, '%Y%m%d%H%i%s')
+        GROUP BY tslm.LINK_ID, tlm.LINK_ID, tam.APPLICATION_ID
+        order by tal.modify_time desc
+    </select>
+
+
+</mapper>

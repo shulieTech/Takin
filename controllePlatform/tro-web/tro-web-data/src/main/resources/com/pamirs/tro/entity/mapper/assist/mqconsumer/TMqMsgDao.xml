@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pamirs.tro.entity.dao.assist.mqconsumer.TMqMsgDao">
+
+    <!--数据库t_mq_msg表字段映射到TMqMsg对象-->
+    <resultMap id="BaseResultMap" type="com.pamirs.tro.entity.domain.entity.TMqMsg">
+        <id column="MSG_ID" jdbcType="BIGINT" property="msgId"/>
+        <result column="MSG_TYPE" jdbcType="VARCHAR" property="msgType"/>
+        <result column="DICT_TYPE" jdbcType="VARCHAR" property="dictType"/>
+        <result column="MSG_HOST" jdbcType="VARCHAR" property="msgHost"/>
+        <result column="MSG_PORT" jdbcType="VARCHAR" property="msgPort"/>
+        <result column="MSG_IP" jdbcType="VARCHAR" property="msgIp"/>
+        <result column="QUEUE_CHANNEL" jdbcType="VARCHAR" property="queueChannel"/>
+        <result column="QUEUE_MANAGER" jdbcType="VARCHAR" property="queueManager"/>
+        <result column="CCSID" jdbcType="VARCHAR" property="ccsid"/>
+        <result column="BASE_QUEUE_NAME" jdbcType="VARCHAR" property="baseQueueName"/>
+        <result column="TRANSPORT_TYPE" jdbcType="VARCHAR" property="transportType"/>
+        <result column="ESBCODE" jdbcType="VARCHAR" property="esbcode"/>
+        <!--<result column="DESTINATION" jdbcType="VARCHAR" property="destination"/>-->
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="CONSUME_START_TIME" jdbcType="TIMESTAMP" property="consumeStartTime"/>
+        <result column="CONSUME_END_TIME" jdbcType="TIMESTAMP" property="consumeEndTime"/>
+        <result column="LAST_CONSUME_TIME" jdbcType="TIMESTAMP" property="lastConsumeTime"/>
+        <result column="CONSUME_STATUS" jdbcType="CHAR" property="consumeStatus"/>
+
+        <result column="TOPIC" jdbcType="VARCHAR" property="topic"/>
+        <result column="GROUPNAME" jdbcType="VARCHAR" property="groupName"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        MSG_ID, MSG_TYPE, DICT_TYPE, MSG_HOST, MSG_PORT,MSG_IP, QUEUE_CHANNEL, QUEUE_MANAGER, CCSID, BASE_QUEUE_NAME,
+        TRANSPORT_TYPE,
+        ESBCODE, CREATE_TIME, UPDATE_TIME, CONSUME_START_TIME, CONSUME_END_TIME, LAST_CONSUME_TIME, CONSUME_STATUS,
+        TOPIC,GROUPNAME
+    </sql>
+
+    <!--根据主键查询-->
+    <select id="selectMqMsgById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_mq_msg
+        where MSG_ID = #{msgId,jdbcType=BIGINT}
+    </select>
+
+    <!--查询消息列表字段-->
+    <sql id="SelectMqListColumns">
+        MSG_ID,
+        d.VALUE_NAME MSG_TYPE,
+        m.DICT_TYPE,
+        MSG_HOST,
+        MSG_PORT,
+        MSG_IP,
+        QUEUE_CHANNEL,
+        QUEUE_MANAGER,
+        CCSID,
+        BASE_QUEUE_NAME,
+        TRANSPORT_TYPE,
+        ESBCODE,
+        m.CREATE_TIME,
+        m.UPDATE_TIME,
+        CONSUME_START_TIME,
+        CONSUME_END_TIME,
+        LAST_CONSUME_TIME,
+        CONSUME_STATUS,
+        TOPIC,
+        GROUPNAME
+    </sql>
+
+    <!--查询消息列表-->
+    <select id="selectMqMsgList" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="SelectMqListColumns"/>
+        FROM
+        t_mq_msg m
+        LEFT JOIN t_dictionary_type t ON m.DICT_TYPE = t.ID
+        LEFT JOIN t_dictionary_data d ON t.ID = d.DICT_TYPE
+        WHERE t.ACTIVE ='Y' AND m.MSG_TYPE = d.VALUE_ORDER
+        <if test="msgType!=null and msgType!=''">
+            AND m.MSG_TYPE = #{msgType}
+        </if>
+        <if test="esbCode!=null and esbCode!=''">
+            AND m.ESBCODE LIKE CONCAT('%',#{esbCode},'%')
+        </if>
+        <if test="topic!=null and topic!=''">
+            AND m.TOPIC LIKE CONCAT('%',#{topic},'%')
+        </if>
+        <if test="groupName!=null and groupName!=''">
+            AND m.GROUPNAME LIKE CONCAT('%',#{groupName},'%')
+        </if>
+        <if test="consumeStartTime!=null and consumeStartTime!=''">
+            AND m.CONSUME_START_TIME >= #{consumeStartTime}
+        </if>
+        <if test="consumeEndTime!=null and consumeEndTime!=''">
+            AND m.CONSUME_END_TIME &lt;= #{consumeEndTime}
+        </if>
+        ORDER BY m.UPDATE_TIME DESC
+    </select>
+
+
+    <!--查询ROCKETMQ消息列表-->
+    <select id="selectRocketMqMsgList" parameterType="map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="SelectMqListColumns"/>
+        FROM
+        t_mq_msg m
+        LEFT JOIN t_dictionary_type t ON m.DICT_TYPE = t.ID
+        LEFT JOIN t_dictionary_data d ON t.ID = d.DICT_TYPE
+        WHERE t.ACTIVE ='Y' AND m.MSG_TYPE = d.VALUE_ORDER
+        AND m.MSG_TYPE >= 3
+        <if test="esbCode!=null and esbCode!=''">
+            AND m.ESBCODE LIKE CONCAT('%',#{esbCode},'%')
+        </if>
+        <if test="topic!=null and topic!=''">
+            AND m.TOPIC LIKE CONCAT('%',#{topic},'%')
+        </if>
+        <if test="groupName!=null and groupName!=''">
+            AND m.GROUPNAME LIKE CONCAT('%',#{groupName},'%')
+        </if>
+        <if test="consumeStartTime!=null and consumeStartTime!=''">
+            AND m.CONSUME_START_TIME >= #{consumeStartTime}
+        </if>
+        <if test="consumeEndTime!=null and consumeEndTime!=''">
+            AND m.CONSUME_END_TIME &lt;= #{consumeEndTime}
+        </if>
+        ORDER BY m.UPDATE_TIME DESC
+    </select>
+
+    <!--校验该mq信息是否存在,注意这里传递的msgType为字典翻译值,例如为ESB,IBM,ROCKETMQ等-->
+    <select id="mqMsgExist" parameterType="com.pamirs.tro.entity.domain.entity.TMqMsg" resultType="java.lang.Integer">
+        select count(1)
+        FROM
+        t_mq_msg m
+        LEFT JOIN t_dictionary_type t ON m.DICT_TYPE = t.ID
+        LEFT JOIN t_dictionary_data d ON t.ID = d.DICT_TYPE
+        WHERE t.ACTIVE ='Y' AND m.MSG_TYPE = d.VALUE_ORDER
+        <if test="msgType!=null and msgType!=''">
+            and d.VALUE_NAME=#{msgType}
+        </if>
+        <if test="msgHost!=null and msgHost!=''">
+            AND MSG_HOST=#{msgHost}
+        </if>
+        <if test="msgPort!=null and msgPort!=''">
+            AND MSG_PORT=#{msgPort}
+        </if>
+        <if test="topic!=null and topic!=''">
+            AND TOPIC=#{topic}
+        </if>
+        <if test="groupName!=null and groupName!=''">
+            AND GROUPNAME=#{groupName}
+        </if>
+        <if test="queueChannel!=null and queueChannel!=''">
+            AND QUEUE_CHANNEL=#{queueChannel}
+        </if>
+        <if test="esbcode!=null and esbcode!=''">
+            AND ESBCODE=#{esbcode}
+        </if>
+        <if test="queueManager!=null and queueManager!=''">
+            AND QUEUE_MANAGER=#{queueManager}
+        </if>
+    </select>
+
+    <!--删除MQ消息-->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from t_mq_msg
+        where MSG_ID = #{msgId,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="batchDeleteMqMsg" parameterType="list">
+        delete from t_mq_msg where MSG_ID IN
+        <foreach collection="msgIds" open="(" close=")" separator="," item="msgId">
+            #{msgId}
+        </foreach>
+    </delete>
+
+    <!--保存mq消息-->
+    <insert id="insert" parameterType="com.pamirs.tro.entity.domain.entity.TMqMsg">
+        insert into t_mq_msg
+        (MSG_ID,
+         MSG_TYPE,
+         DICT_TYPE,
+         MSG_HOST,
+         MSG_PORT,
+         MSG_IP,
+         QUEUE_CHANNEL,
+         QUEUE_MANAGER,
+         CCSID,
+         BASE_QUEUE_NAME,
+         TRANSPORT_TYPE,
+         ESBCODE,
+         CREATE_TIME,
+         UPDATE_TIME,
+         TOPIC,
+         GROUPNAME)
+        values (#{msgId,jdbcType=BIGINT},
+                #{msgType,jdbcType=VARCHAR},
+                #{dictType,jdbcType=VARCHAR},
+                #{msgHost,jdbcType=VARCHAR},
+                #{msgPort,jdbcType=VARCHAR},
+                #{msgIp},
+                #{queueChannel,jdbcType=VARCHAR},
+                #{queueManager,jdbcType=VARCHAR},
+                #{ccsid,jdbcType=VARCHAR},
+                #{baseQueueName,jdbcType=VARCHAR},
+                #{transportType,jdbcType=VARCHAR},
+                #{esbcode,jdbcType=VARCHAR},
+                now(),
+                now(),
+                #{topic,jdbcType=VARCHAR},
+                #{groupName,jdbcType=VARCHAR})
+    </insert>
+
+    <!--更新部分字段-->
+    <update id="updateByPrimaryKeySelective" parameterType="com.pamirs.tro.entity.domain.entity.TMqMsg">
+        update t_mq_msg
+        <set>
+            <if test="msgType != null and msgType!=''">
+                MSG_TYPE = #{msgType,jdbcType=VARCHAR},
+            </if>
+            <if test="dictType != null and dictType!=''">
+                DICT_TYPE = #{dictType,jdbcType=VARCHAR},
+            </if>
+            <if test="msgHost != null and msgHost!=''">
+                MSG_HOST = #{msgHost,jdbcType=VARCHAR},
+            </if>
+            <if test="msgPort != null and msgPort!=''">
+                MSG_PORT = #{msgPort,jdbcType=VARCHAR},
+            </if>
+            <if test="queueChannel != null and queueChannel!=''">
+                QUEUE_CHANNEL = #{queueChannel,jdbcType=VARCHAR},
+            </if>
+            <if test="queueManager != null and queueManager!=''">
+                QUEUE_MANAGER = #{queueManager,jdbcType=VARCHAR},
+            </if>
+            <if test="ccsid != null and ccsid!=''">
+                CCSID = #{ccsid,jdbcType=VARCHAR},
+            </if>
+            <if test="baseQueueName != null  and baseQueueName!=''">
+                BASE_QUEUE_NAME = #{baseQueueName,jdbcType=VARCHAR},
+            </if>
+            <if test="transportType != null and transportType!=''">
+                TRANSPORT_TYPE = #{transportType,jdbcType=VARCHAR},
+            </if>
+            <if test="esbcode != null  and esbcode!=''">
+                ESBCODE = #{esbcode,jdbcType=VARCHAR},
+            </if>
+            <if test="consumeStartTime != null and consumeStartTime!=''">
+                CONSUME_START_TIME = #{consumeStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="consumeEndTime != null and consumeEndTime!=''">
+                CONSUME_END_TIME = #{consumeEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastConsumeTime != null and lastConsumeTime!=''">
+                LAST_CONSUME_TIME = #{lastConsumeTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="consumeStatus != null and consumeStatus!=''">
+                CONSUME_STATUS = #{consumeStatus,jdbcType=TIMESTAMP},
+            </if>
+            <if test="topic != null and topic!=''">
+                TOPIC = #{topic,jdbcType=VARCHAR},
+            </if>
+            <if test="groupName != null and groupName!=''">
+                GROUPNAME = #{groupName,jdbcType=VARCHAR},
+            </if>
+            <if test="msgIp != null and msgIp!=''">
+                MSG_IP = #{msgIp,jdbcType=VARCHAR},
+            </if>
+            UPDATE_TIME = now()
+        </set>
+        where MSG_ID = #{msgId,jdbcType=BIGINT}
+    </update>
+
+    <!--消费消息更新消费状态-->
+    <update id="updateByPrimaryKey" parameterType="com.pamirs.tro.entity.domain.entity.TMqMsg">
+        update t_mq_msg
+        <set>
+            <if test="consumeStartTime != null">
+                CONSUME_START_TIME = #{consumeStartTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="consumeEndTime != null">
+                CONSUME_END_TIME = #{consumeEndTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastConsumeTime != null">
+                LAST_CONSUME_TIME = #{lastConsumeTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="consumeStatus != null">
+                CONSUME_STATUS = #{consumeStatus},
+            </if>
+            UPDATE_TIME = now()
+        </set>
+        where MSG_ID = #{msgId,jdbcType=BIGINT}
+    </update>
+
+    <!--失败的情况下更新消费状态-->
+    <update id="updateConsumeStatusById" parameterType="String">
+        update t_mq_msg
+        set CONSUME_STATUS = #{consumeStatus},
+            UPDATE_TIME=now()
+        where MSG_ID = #{msgId}
+    </update>
+
+    <!--根据id列表批量查询消费信息-->
+    <select id="queryConsumeListByIds" parameterType="list" resultType="com.pamirs.tro.entity.domain.entity.TMqMsg">
+        SELECT
+        t1.*
+        FROM
+        t_mq_msg t1
+        WHERE
+        t1.MSG_ID IN
+        <foreach collection="consumeListIds" item="consumeListId" open="(" close=")" separator=",">
+            #{consumeListId}
+        </foreach>
+        ORDER BY t1.MSG_ID
+    </select>
+</mapper>

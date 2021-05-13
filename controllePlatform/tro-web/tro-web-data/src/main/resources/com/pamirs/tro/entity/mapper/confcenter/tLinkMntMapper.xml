@@ -1,0 +1,1037 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pamirs.tro.entity.dao.confcenter.TLinkMntDao">
+
+    <!-- 保存时根据链路名称判断链路是否存在 -->
+    <select id="saveLinkExist" parameterType="String" resultType="Integer">
+        select count(1)
+        from t_link_mnt
+        where LINK_NAME = #{linkName}
+    </select>
+
+    <!-- 更新时根据链路id判断链路是否存在 -->
+    <select id="updateLinkExist" parameterType="String" resultType="Integer">
+        select count(1)
+        from t_link_mnt
+        where LINK_ID = #{linkId}
+    </select>
+
+    <!-- 保存时校验该链路服务关联表是否已经存在 -->
+    <select id="saveLinkInterfaceExist" parameterType="String"
+            resultType="Integer">
+        select count(1)
+        from t_link_mnt tlm,
+             t_link_service_mnt tlsm
+        where tlm.LINK_ID = tlsm.LINK_ID
+          and tlsm.LINK_ID = #{linkId}
+          and tlsm.INTERFACE_NAME = #{interfaceName}
+    </select>
+
+    <!-- 根据链路名称查询链路id -->
+    <select id="selectLinkId" parameterType="String" resultType="Map">
+        select LINK_ID
+        from t_link_mnt
+        where LINK_NAME = #{linkName}
+    </select>
+
+    <!-- 查询链路服务id-->
+    <select id="selectLinkInterfaceId" parameterType="String" resultType="String">
+        select LINK_SERVICE_ID
+        from t_link_service_mnt
+        where LINK_ID = #{linkId}
+          and INTERFACE_NAME = #{interfaceName}
+    </select>
+
+    <!-- 更新时校验该链路服务关联表是否已经存在 -->
+    <select id="updateLinkInterfaceExist" parameterType="String"
+            resultType="Integer">
+        select count(1)
+        from t_link_mnt tlm,
+             t_link_service_mnt tlsm
+        where tlm.LINK_ID = tlsm.LINK_ID
+          and tlsm.LINK_ID = #{linkId}
+          and tlsm.LINK_SERVICE_ID = #{linkServiceId}
+    </select>
+
+    <!-- 新增链路信息 -->
+    <insert id="addBasicLink" parameterType="com.pamirs.tro.entity.domain.vo.TLinkServiceMntVo">
+        insert into t_link_mnt
+        (LINK_ID,
+         LINK_NAME,
+         TECH_LINKS,
+         LINK_DESC,
+         LINK_TYPE,
+         ASWAN_ID,
+         LINK_ENTRENCE,
+         RT_SA,
+         RT,
+         TPS,
+         TARGET_TPS,
+         TARGET_SUCCESS_RATE,
+         LINK_RANK,
+         DICT_TYPE,
+         PRINCIPAL_NO,
+         USE_YN,
+         CREATE_TIME,
+         UPDATE_TIME,
+         LINK_MODULE,
+         VOLUME_CALC_STATUS)
+        values (#{linkId},
+                #{linkName},
+                #{techLinks},
+                #{linkDesc},
+                #{linkType},
+                #{aswanId},
+                #{linkEntrence},
+                #{rtSa},
+                #{rt},
+                #{tps},
+                #{targetTps},
+                #{targetSuccessRate},
+                #{linkRank},
+                #{dictType},
+                #{principalNo},
+                #{useYn},
+                now(),
+                now(),
+                #{linkModule},
+                #{volumeCalcStatus})
+    </insert>
+
+    <!-- 新增链路服务信息 -->
+    <insert id="addLinkInterface" parameterType="List">
+        insert into
+        t_link_service_mnt
+        (
+        LINK_SERVICE_ID,
+        LINK_ID,
+        INTERFACE_NAME,
+        INTERFACE_DESC,
+        CREATE_TIME,
+        UPDATE_TIME
+        )
+        values
+        <foreach collection="tLinkServiceMntLists" item="tLinkServiceMnt"
+                 index="index" separator=",">
+            (
+            #{tLinkServiceMnt.linkServiceId},
+            #{tLinkServiceMnt.linkId},
+            #{tLinkServiceMnt.interfaceName},
+            #{tLinkServiceMnt.interfaceDesc},
+            now(),
+            now()
+            )
+        </foreach>
+    </insert>
+
+    <!-- 查询链路信息列表 -->
+    <select id="queryBasicLinkList" parameterType="Map"
+            resultType="com.pamirs.tro.entity.domain.vo.TLinkApplicationInterface">
+        SELECT
+        t1.LINK_ID,
+        t1.LINK_SERVICE_ID,
+        t1.LINK_NAME,
+        t1.TECH_LINKS,
+        t1.LINK_DESC,
+        t3.VALUE_NAME LINK_TYPE,
+        t4.VALUE_NAME LINK_RANK,
+        t5.VALUE_NAME LINK_MODULE,
+        t1.ASWAN_ID,
+        t1.USE_YN,
+        t1.PRINCIPAL_NO,
+        t1.APPLICATION_ID,
+        t1.APPLICATION_NAME,
+        t1.APPLICATION_DESC,
+        t1.WLIST_ID,
+        t1.INTERFACE_NAME,
+        t1.INTERFACE_DESC,
+        t2.WHILE_NAME TYPE,
+        t1.DDL_SCRIPT_PATH,
+        t1.CLEAN_SCRIPT_PATH,
+        t1.READY_SCRIPT_PATH,
+        t1.BASIC_SCRIPT_PATH,
+        t1.CACHE_SCRIPT_PATH,
+        t1.CACHE_EXP_TIME,
+        t1.CREATE_TIME,
+        t1.UPDATE_TIME,
+        t1.SECOND_LINK_NAME
+        FROM
+        (
+        SELECT
+        tlm.LINK_ID,
+        tlsm.LINK_SERVICE_ID,
+        tlm.LINK_NAME,
+        tlm.TECH_LINKS,
+        tlm.LINK_DESC,
+        tlm.LINK_TYPE,
+        tlm.LINK_RANK,
+        tlm.ASWAN_ID,
+        tlm.USE_YN,
+        tlm.PRINCIPAL_NO,
+        tam.APPLICATION_ID,
+        tam.APPLICATION_NAME,
+        tam.APPLICATION_DESC,
+        twl.WLIST_ID,
+        tlsm.INTERFACE_NAME,
+        tlsm.INTERFACE_DESC,
+        twl.TYPE,
+        tam.DDL_SCRIPT_PATH,
+        tam.CLEAN_SCRIPT_PATH,
+        tam.READY_SCRIPT_PATH,
+        tam.BASIC_SCRIPT_PATH,
+        tam.CACHE_SCRIPT_PATH,
+        tam.CACHE_EXP_TIME,
+        tlm.CREATE_TIME,
+        tlm.UPDATE_TIME,
+        tlm.LINK_MODULE,
+        tslm.LINK_NAME AS SECOND_LINK_NAME
+        FROM
+        t_link_mnt tlm
+        LEFT JOIN t_link_service_mnt tlsm ON tlm.LINK_ID = tlsm.LINK_ID
+        LEFT JOIN t_white_list twl ON (tlsm.INTERFACE_NAME = twl.INTERFACE_NAME OR tlsm.INTERFACE_NAME = twl.QUEUE_NAME)
+        LEFT JOIN t_application_mnt tam ON twl.APPLICATION_ID = tam.APPLICATION_ID
+        LEFT JOIN t_second_basic_ref tsbr ON tlm.LINK_ID = tsbr.BASIC_LINK_ID
+        LEFT JOIN t_second_link_mnt tslm ON tsbr.SECOND_LINK_ID = tslm.LINK_ID
+        <where>
+            <if test="linkType !=null and linkType !='' ">
+                AND tlm.LINK_TYPE in ( #{linkType} )
+            </if>
+            <if test="linkName!=null and linkName!=''">
+                AND tlm.LINK_NAME like concat('%',#{linkName},'%')
+            </if>
+            <if test="linkRank!=null and linkRank!=''">
+                AND tlm.LINK_RANK =#{linkRank}
+            </if>
+            <if test="principalNo!=null and principalNo!=''">
+                AND tlm.PRINCIPAL_NO =#{principalNo}
+            </if>
+            <if test="interfaceName!=null and interfaceName!=''">
+                AND tlsm.INTERFACE_NAME like concat('%',#{interfaceName},'%')
+            </if>
+            <if test="applicationName!=null and applicationName!=''">
+                AND tam.APPLICATION_NAME like
+                concat('%',#{applicationName},'%')
+            </if>
+        </where>
+        ) t1
+        LEFT JOIN (
+        SELECT
+        twl.WLIST_ID,
+        twl.TYPE,
+        tdd.VALUE_NAME WHILE_NAME,
+        tdt.TYPE_NAME
+        FROM
+        t_dictionary_type tdt,
+        t_dictionary_data tdd,
+        t_white_list twl
+        WHERE
+        tdt.ID = tdd.DICT_TYPE
+        AND twl.type = tdd.value_order
+        AND tdt.TYPE_ALIAS = 'WLIST'
+        ) t2 ON t1.WLIST_ID = t2.WLIST_ID
+        AND t1.type = t2.TYPE
+        LEFT JOIN (
+        SELECT
+        tlm.LINK_ID,
+        tdd.VALUE_ORDER,
+        tdd.VALUE_CODE,
+        tdd.VALUE_NAME
+        FROM
+        t_dictionary_type tdt,
+        t_dictionary_data tdd,
+        t_link_mnt tlm
+        WHERE
+        tdt.ID = tdd.DICT_TYPE
+        AND tlm.LINK_TYPE = tdd.value_order
+        AND tdt.TYPE_ALIAS = 'LINK_TYPE'
+        ) t3 ON t1.LINK_ID = t3.LINK_ID
+        AND t1.LINK_TYPE = t3.VALUE_ORDER
+        LEFT JOIN (
+        SELECT
+        tlm.LINK_ID,
+        tdd.VALUE_ORDER,
+        tdd.VALUE_CODE,
+        tdd.VALUE_NAME
+        FROM
+        t_dictionary_type tdt,
+        t_dictionary_data tdd,
+        t_link_mnt tlm
+        WHERE
+        tdt.ID = tdd.DICT_TYPE
+        AND tlm.LINK_RANK = tdd.value_order
+        AND tdt.TYPE_ALIAS = 'LINKRANK'
+        ) t4 ON t1.LINK_ID = t4.LINK_ID
+        AND t1.LINK_RANK = t4.VALUE_ORDER
+        LEFT JOIN (
+        SELECT
+        tlm.LINK_ID,
+        tdd.VALUE_ORDER,
+        tdd.VALUE_CODE,
+        tdd.VALUE_NAME
+        FROM
+        t_dictionary_type tdt,
+        t_dictionary_data tdd,
+        t_link_mnt tlm
+        WHERE
+        tdt.ID = tdd.DICT_TYPE
+        AND tlm.LINK_MODULE = tdd.value_order
+        AND tdt.TYPE_ALIAS = 'LINK_MODULE'
+        ) t5 ON t1.LINK_ID = t5.LINK_ID
+        AND t1.LINK_MODULE = t5.VALUE_ORDER
+        ORDER BY
+        t1.UPDATE_TIME DESC
+    </select>
+
+
+    <!-- 查询链路信息列表 -->
+    <select id="queryBasicLinkListDownload" parameterType="Map"
+            resultType="com.pamirs.tro.entity.domain.vo.TLinkServiceMntVo">
+        SELECT
+        t1.LINK_ID,
+        t1.LINK_TYPE,
+        t1.LINK_NAME,
+        t1.RT,
+        t1.TPS,
+        t1.TARGET_TPS,
+        t1.RT_SA,
+        t1.TARGET_SUCCESS_RATE,
+        t1.SECOND_LINK_NAME,
+        t1.LINK_DESC,
+        t1.ASWAN_ID,
+        t1.LINK_RANK,
+        t1.LINK_ENTRENCE,
+        t1.PRINCIPAL_NO,
+        t1.USE_YN,
+        t1.TYPE,
+        t1.VOLUME_CALC_STATUS,
+        t1.LINK_MODULE,
+        t1.INTERFACE_LEVEL,
+        t1.INTERFACE_NAME INTERFACE_NAME,
+        t1.LINK_SERVICE_ID,
+        t1.TECH_LINKS,
+        t1.WLIST_ID,
+        t1.INTERFACE_NAME,
+        t1.UPDATE_TIME
+        FROM
+        (
+        SELECT
+        tlm.LINK_ID,
+        tlm.LINK_TYPE,
+        tlm.LINK_NAME,
+        tlm.RT,
+        tlm.TPS,
+        tlm.TARGET_TPS,
+        tlm.RT_SA,
+        tlm.TARGET_SUCCESS_RATE,
+        tslm.LINK_NAME AS SECOND_LINK_NAME,
+        tlm.LINK_DESC,
+        tlm.ASWAN_ID,
+        tlm.LINK_RANK,
+        tlm.LINK_ENTRENCE,
+        tlm.PRINCIPAL_NO,
+        tlm.USE_YN,
+        twl.TYPE,
+        tlm.VOLUME_CALC_STATUS,
+        tlm.LINK_MODULE,
+        twl.INTERFACE_LEVEL,
+        tlsm.LINK_SERVICE_ID,
+        tlm.TECH_LINKS,
+        twl.WLIST_ID,
+        tlsm.INTERFACE_NAME,
+        tlm.UPDATE_TIME
+        FROM
+        t_link_mnt tlm
+        LEFT JOIN t_link_service_mnt tlsm ON tlm.LINK_ID = tlsm.LINK_ID
+        LEFT JOIN t_white_list twl ON (tlsm.INTERFACE_NAME = twl.INTERFACE_NAME OR tlsm.INTERFACE_NAME = twl.QUEUE_NAME)
+        LEFT JOIN t_application_mnt tam ON twl.APPLICATION_ID = tam.APPLICATION_ID
+        LEFT JOIN t_second_basic_ref tsbr ON tlm.LINK_ID = tsbr.BASIC_LINK_ID
+        LEFT JOIN t_second_link_mnt tslm ON tsbr.SECOND_LINK_ID = tslm.LINK_ID
+
+        <where>
+            <if test="applicationIds !=null">
+                tlm.LINK_ID in
+                <foreach collection="applicationIds" item="linkId" index="index" open="(" separator="," close=")">
+                    #{linkId}
+                </foreach>
+            </if>
+            <if test="linkType !=null and linkType !='' ">
+                AND tlm.LINK_TYPE in ( #{linkType} )
+            </if>
+            <if test="linkName!=null and linkName!=''">
+                AND tlm.LINK_NAME like concat('%',#{linkName},'%')
+            </if>
+            <if test="linkRank!=null and linkRank!=''">
+                AND tlm.LINK_RANK =#{linkRank}
+            </if>
+            <if test="principalNo!=null and principalNo!=''">
+                AND tlm.PRINCIPAL_NO =#{principalNo}
+            </if>
+            <if test="interfaceName!=null and interfaceName!=''">
+                AND tlsm.INTERFACE_NAME like concat('%',#{interfaceName},'%')
+            </if>
+            <if test="applicationName!=null and applicationName!=''">
+                AND tam.APPLICATION_NAME like
+                concat('%',#{applicationName},'%')
+            </if>
+        </where>
+
+        ) t1
+        LEFT JOIN (
+        SELECT
+        twl.WLIST_ID,
+        twl.TYPE,
+        tdd.VALUE_NAME WHILE_NAME,
+        tdt.TYPE_NAME
+        FROM
+        t_dictionary_type tdt,
+        t_dictionary_data tdd,
+        t_white_list twl
+        WHERE
+        tdt.ID = tdd.DICT_TYPE
+        AND twl.type = tdd.value_order
+        AND tdt.TYPE_ALIAS = 'WLIST'
+        ) t2 ON t1.WLIST_ID = t2.WLIST_ID
+        AND t1.type = t2.TYPE
+        LEFT JOIN (
+        SELECT
+        tlm.LINK_ID,
+        tdd.VALUE_ORDER,
+        tdd.VALUE_CODE,
+        tdd.VALUE_NAME
+        FROM
+        t_dictionary_type tdt,
+        t_dictionary_data tdd,
+        t_link_mnt tlm
+        WHERE
+        tdt.ID = tdd.DICT_TYPE
+        AND tlm.LINK_TYPE = tdd.value_order
+        AND tdt.TYPE_ALIAS = 'LINK_TYPE'
+        ) t3 ON t1.LINK_ID = t3.LINK_ID
+        AND t1.LINK_TYPE = t3.VALUE_ORDER
+        LEFT JOIN (
+        SELECT
+        tlm.LINK_ID,
+        tdd.VALUE_ORDER,
+        tdd.VALUE_CODE,
+        tdd.VALUE_NAME
+        FROM
+        t_dictionary_type tdt,
+        t_dictionary_data tdd,
+        t_link_mnt tlm
+        WHERE
+        tdt.ID = tdd.DICT_TYPE
+        AND tlm.LINK_RANK = tdd.value_order
+        AND tdt.TYPE_ALIAS = 'LINKRANK'
+        ) t4 ON t1.LINK_ID = t4.LINK_ID
+        AND t1.LINK_RANK = t4.VALUE_ORDER
+        LEFT JOIN (
+        SELECT
+        tlm.LINK_ID,
+        tdd.VALUE_ORDER,
+        tdd.VALUE_CODE,
+        tdd.VALUE_NAME
+        FROM
+        t_dictionary_type tdt,
+        t_dictionary_data tdd,
+        t_link_mnt tlm
+        WHERE
+        tdt.ID = tdd.DICT_TYPE
+        AND tlm.LINK_MODULE = tdd.value_order
+        AND tdt.TYPE_ALIAS = 'LINK_MODULE'
+        ) t5 ON t1.LINK_ID = t5.LINK_ID
+        AND t1.LINK_MODULE = t5.VALUE_ORDER
+        ORDER BY
+        t1.UPDATE_TIME DESC;
+    </select>
+
+
+    <resultMap type="com.pamirs.tro.entity.domain.vo.TLinkServiceMntVo"
+               id="tLinkServiceMnt">
+        <id column="LINK_ID" property="linkId" javaType="long"/>
+        <result column="LINK_NAME" property="linkName" javaType="String"/>
+        <result column="LINK_DESC" property="linkDesc" javaType="String"/>
+        <result column="LINK_TYPE" property="linkType" javaType="String"/>
+        <result column="ASWAN_ID" property="aswanId" javaType="String"/>
+        <result column="LINK_ENTRENCE" property="linkEntrence" javaType="String"/>
+        <result column="RT_SA" property="rtSa" javaType="String"/>
+        <result column="RT" property="rt" javaType="String"/>
+        <result column="TPS" property="tps" javaType="String"/>
+        <result column="TARGET_SUCCESS_RATE" property="targetSuccessRate" javaType="String"/>
+        <result column="DICT_TYPE" property="dictType" javaType="String"/>
+        <result column="LINK_RANK" property="linkRank" javaType="String"/>
+        <result column="RT_SA" property="rtSa" javaType="String"/>
+        <result column="PRINCIPAL_NO" property="principalNo" javaType="String"/>
+        <result column="USE_YN" property="useYn" javaType="Integer"/>
+        <result column="CREATE_TIME" property="createTime" javaType="Date"/>
+        <result column="UPDATE_TIME" property="updateTime" javaType="Date"/>
+        <result column="TECH_LINKS" property="techLinks" javaType="String"/>
+        <result column="LINK_MODULE" property="linkModule" javaType="String"/>
+        <result column="VOLUME_CALC_STATUS" property="volumeCalcStatus" javaType="String"/>
+        <result column="SECOND_LINK_ID" property="secondLinkId" javaType="String"/>
+        <collection column="LINK_ID" property="tLinkServiceMntList"
+                    ofType="com.pamirs.tro.entity.domain.entity.TLinkServiceMnt" select="queryLinkInterface">
+            <result column="LINK_SERVICE_ID" property="linkServiceId"
+                    javaType="long"/>
+            <result column="LINK_ID" property="linkId" javaType="long"/>
+            <result column="INTERFACE_NAME" property="interfaceName"
+                    javaType="String"/>
+            <result column="INTERFACE_DESC" property="interfaceDesc"
+                    javaType="Integer"/>
+            <result column="CREATE_TIME" property="createTime" javaType="Date"/>
+            <result column="UPDATE_TIME" property="updateTime" javaType="Date"/>
+        </collection>
+    </resultMap>
+
+    <!-- 根据基础链路id查询链路信息详情 -->
+    <select id="queryLinkByLinkId" resultMap="tLinkServiceMnt">
+        SELECT
+        tlm.LINK_ID,
+        tlm.LINK_NAME,
+        tlm.LINK_DESC,
+        tlm.LINK_TYPE,
+        tlm.LINK_RANK,
+        <!--t1.VALUE_NAME LINK_TYPE,-->
+        <!--t2.VALUE_NAME LINK_RANK,-->
+        tlm.ASWAN_ID,
+        tlm.LINK_ENTRENCE,
+        tlm.RT_SA,
+        tlm.RT,
+        tlm.TPS,
+        tlm.TARGET_SUCCESS_RATE,
+        tlm.DICT_TYPE,
+        tlm.RT_SA,
+        tlm.PRINCIPAL_NO,
+        tlm.USE_YN,
+        tlm.TECH_LINKS,
+        tlm.CREATE_TIME,
+        tlm.UPDATE_TIME,
+        tlm.LINK_MODULE,
+        tlm.VOLUME_CALC_STATUS,
+        r.SECOND_LINK_ID
+        FROM
+        t_link_mnt tlm
+        LEFT JOIN
+        t_second_basic_ref r
+        <!--LEFT JOIN (-->
+        <!--SELECT-->
+        <!--tlm.LINK_ID,-->
+        <!--tdd.VALUE_ORDER,-->
+        <!--tdd.VALUE_CODE,-->
+        <!--tdd.VALUE_NAME-->
+        <!--FROM-->
+        <!--t_dictionary_type tdt,-->
+        <!--t_dictionary_data tdd,-->
+        <!--t_link_mnt tlm-->
+        <!--WHERE-->
+        <!--tdt.ID = tdd.DICT_TYPE-->
+        <!--AND tlm.LINK_TYPE = tdd.value_order-->
+        <!--AND tdt.TYPE_ALIAS = 'LINK_TYPE'-->
+        <!--) t1 ON tlm.LINK_ID = t1.LINK_ID-->
+        <!--AND tlm.LINK_TYPE = t1.VALUE_ORDER-->
+        <!--LEFT JOIN (-->
+        <!--SELECT-->
+        <!--tlm.LINK_ID,-->
+        <!--tdd.VALUE_ORDER,-->
+        <!--tdd.VALUE_CODE,-->
+        <!--tdd.VALUE_NAME-->
+        <!--FROM-->
+        <!--t_dictionary_type tdt,-->
+        <!--t_dictionary_data tdd,-->
+        <!--t_link_mnt tlm-->
+        <!--WHERE-->
+        <!--tdt.ID = tdd.DICT_TYPE-->
+        <!--AND tlm.LINK_RANK = tdd.value_order-->
+        <!--AND tdt.TYPE_ALIAS = 'LINKRANK'-->
+        <!--) t2 ON tlm.LINK_ID = t2.LINK_ID-->
+        <!--AND tlm.LINK_RANK = t2.VALUE_ORDER-->
+        ON
+        tlm.LINK_ID = r.BASIC_LINK_ID
+        WHERE tlm.LINK_ID = #{linkId}
+    </select>
+
+    <!-- 根据业务链路的id批量转换业务链路名称 -->
+    <select id="transferBusinessLinkName" parameterType="list" resultType="string">
+        SELECT
+        LINK_NAME
+        FROM
+        t_link_mnt
+        where
+        LINK_ID in
+        <foreach collection="linkIdList" item="linkId" open="(" close=")" separator=",">
+            #{linkId}
+        </foreach>
+    </select>
+
+    <!-- 根据业务链路的id批量转换业务链路名称 -->
+    <select id="transferBusinessLinkNameAndId" parameterType="list" resultType="map">
+        SELECT
+        <!--tlm.LINK_ID value,-->
+        CONCAT(tlm.LINK_ID,"") value,
+        tlm.LINK_NAME label
+        FROM
+        t_link_mnt tlm
+        WHERE
+        tlm.LINK_ID IN
+        <foreach collection="linkIdList" item="linkId" open="(" close=")" separator=",">
+            #{linkId}
+        </foreach>
+    </select>
+
+    <!-- 根据链路id集合批量查询 -->
+    <select id="queryLinksByLinkIds" resultMap="tLinkServiceMnt">
+        select
+        tlm.LINK_ID,
+        tlm.LINK_NAME,
+        tlm.LINK_DESC,
+        tlm.ASWAN_ID,
+        tlm.LINK_ENTRENCE,
+        tlm.RT_SA,
+        tlm.RT,
+        tlm.TPS,
+        tlm.TARGET_TPS,
+        tlm.TARGET_SUCCESS_RATE,
+        tlm.DICT_TYPE,
+        tlm.LINK_RANK,
+        tlm.RT_SA,
+        tlm.PRINCIPAL_NO,
+        tlm.USE_YN,
+        tlm.CREATE_TIME,
+        tlm.UPDATE_TIME
+        from
+        t_link_mnt tlm
+        where
+        tlm.LINK_ID in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <!-- 根据id查询链路关联服务信息 -->
+    <select id="queryLinkInterface" parameterType="String"
+            resultType="com.pamirs.tro.entity.domain.entity.TLinkServiceMnt">
+        select LINK_SERVICE_ID,
+               LINK_ID,
+               INTERFACE_NAME,
+               INTERFACE_DESC,
+               CREATE_TIME,
+               UPDATE_TIME
+        from t_link_service_mnt
+        where LINK_ID = #{linkId}
+    </select>
+
+    <select id="queryLinksBySecondLinkId" resultMap="tLinkServiceMnt">
+        SELECT tlm.LINK_ID,
+               tlm.LINK_NAME,
+               tlm.LINK_DESC,
+               tlm.ASWAN_ID,
+               tlm.LINK_ENTRENCE,
+               tlm.RT_SA,
+               tlm.RT,
+               tlm.TPS,
+               tlm.TARGET_TPS,
+               tlm.TARGET_SUCCESS_RATE,
+               tlm.DICT_TYPE,
+               tlm.LINK_RANK,
+               tlm.RT_SA,
+               tlm.PRINCIPAL_NO,
+               tlm.USE_YN,
+               tlm.CREATE_TIME,
+               tlm.UPDATE_TIME
+        FROM t_second_basic tsb,
+             t_link_mnt tlm
+        WHERE tsb.BASIC_LINK_ID = tlm.LINK_ID
+          AND tsb.second_link_id = #{secondLinkId}
+        GROUP BY tsb.second_link_id,
+                 tlm.LINK_ID
+    </select>
+
+    <!-- 批量删除链路信息 -->
+    <delete id="deleteLinkByLinkIds" parameterType="List">
+        delete from t_link_mnt where LINK_ID in
+        <foreach collection="linkIdLists" separator="," item="linkId"
+                 open="(" close=")">
+            #{linkId}
+        </foreach>
+    </delete>
+
+    <!-- 删除业务链路和技术链路关联关系 -->
+    <delete id="deleteBTLinkRelationShip" parameterType="List">
+        delete from t_bs_tch_link where BLINK_ID in
+        <foreach collection="linkIdLists" separator="," item="linkId" open="(" close=")">
+            #{linkId}
+        </foreach>
+    </delete>
+
+    <!-- 批量删除链路服务信息根据链路id -->
+    <delete id="deleteLinkInterfaceByLinkIds" parameterType="List">
+        delete from t_link_service_mnt where LINK_ID in
+        <foreach collection="linkIdLists" separator="," item="linkId"
+                 open="(" close=")">
+            #{linkId}
+        </foreach>
+    </delete>
+
+    <!--批量删除二级链路关联基础链路关系-->
+    <delete id="deleteSecondLinkRelationBasicLinkByBasicLinkIds" parameterType="List">
+        delete from t_second_basic where BASIC_LINK_ID in
+        <foreach collection="basicLinkIdLists" separator="," item="basicLinkId"
+                 open="(" close=")">
+            #{basicLinkId}
+        </foreach>
+    </delete>
+
+    <!-- 删除二级/基础链路关联关系-->
+    <delete id="deleteSecondLinkRelationBasicLinkByBasicLinkId" parameterType="String">
+        delete
+        from t_second_basic
+        where BASIC_LINK_ID = #{basicLinkId}
+    </delete>
+
+    <!-- 批量删除链路服务信息根据链路服务关联表id -->
+    <delete id="deleteLinkInterfaceByLinkServiceId" parameterType="List">
+        delete from t_link_service_mnt where LINK_SERVICE_ID in
+        <foreach collection="linkServiceIdsList" separator="," item="linkserviceId"
+                 open="(" close=")">
+            #{linkserviceId}
+        </foreach>
+    </delete>
+
+
+    <!-- 更新链路信息 -->
+    <update id="updateLink" parameterType="com.pamirs.tro.entity.domain.vo.TLinkServiceMntVo">
+        update
+            t_link_mnt
+        set LINK_NAME=#{linkName},
+            TECH_LINKS=#{techLinks},
+            LINK_DESC=#{linkDesc},
+            ASWAN_ID=#{aswanId},
+            LINK_ENTRENCE=#{linkEntrence},
+            RT_SA=#{rtSa},
+            RT=#{rt},
+            TPS=#{tps},
+            TARGET_SUCCESS_RATE=#{targetSuccessRate},
+            LINK_RANK=#{linkRank},
+            LINK_TYPE=#{linkType},
+            PRINCIPAL_NO=#{principalNo},
+            USE_YN=#{useYn},
+            UPDATE_TIME=now(),
+            LINK_MODULE=#{linkModule},
+            VOLUME_CALC_STATUS=#{volumeCalcStatus}
+        where LINK_ID = #{linkId}
+    </update>
+
+    <!-- 批量删除业务链路和技术链路关联关系 -->
+    <delete id="deleteReLationShipByTLinkId" parameterType="List">
+        delete from t_bs_tch_link where BLINK_ID in
+        <foreach collection="linkIdLists" separator="," item="linkId" open="(" close=")">
+            #{linkId}
+        </foreach>
+    </delete>
+    <delete id="deleteSecondBasicLinkRef" parameterType="list">
+        delete from t_second_basic_ref where BASIC_LINK_ID IN
+        <foreach collection="linkIds" item="linkId" separator="," open="(" close=")">
+            #{linkId}
+        </foreach>
+    </delete>
+
+    <!-- 更新链路服务信息 -->
+    <update id="updateLinkInterface" parameterType="List">
+        <foreach separator=";" index="index" item="serviceMnt"
+                 collection="updateServiceMntLists" close="" open="">
+            update
+            t_link_service_mnt
+            set
+            INTERFACE_NAME=#{serviceMnt.interfaceName,jdbcType=VARCHAR },
+            INTERFACE_DESC=#{serviceMnt.interfaceDesc,jdbcType=VARCHAR },
+            UPDATE_TIME=now()
+            where
+            LINK_SERVICE_ID=#{serviceMnt.linkServiceId,jdbcType=NUMERIC }
+        </foreach>
+    </update>
+
+    <!--根据基础链路id查询关联的二级链路id和二级链路名称-->
+    <select id="querySecondLinkRelationBasicLinkByBasicLinkId" resultType="Map">
+        SELECT count(1)    relationSecondLinkCount,
+               t.LINK_NAME basicLinkName
+        FROM (
+                 SELECT tslm.LINK_ID      SECOND_LINK_ID,
+                        tslm.LINK_NAME    SECOND_LINK_NAME,
+                        tsb.BASIC_LINK_ID LINK_ID,
+                        tlm.LINK_NAME     LINK_NAME
+                 FROM t_second_basic tsb,
+                      t_second_link_mnt tslm,
+                      t_link_mnt tlm
+                 WHERE tsb.SECOND_LINK_ID = tslm.LINK_ID
+                   AND tsb.BASIC_LINK_ID = tlm.LINK_ID
+                   AND tlm.LINK_ID = #{basicLinkId}
+                 GROUP BY tslm.LINK_ID,
+                          tlm.LINK_ID
+             ) t
+        GROUP BY t.LINK_ID
+        HAVING count(t.LINK_NAME) > 0
+    </select>
+
+    <!--根据二级链路id和选中的基础链路ids查询选中的基础链路信息-->
+    <select id="queryBasicLinkInfoBySecondLinkIdAndBasicLInks"
+            resultType="com.pamirs.tro.entity.domain.vo.TLinkServiceMntVo">
+        SELECT
+        tlm.LINK_ID,
+        tlm.LINK_NAME,
+        tlm.LINK_DESC,
+        tlm.ASWAN_ID,
+        tlm.LINK_ENTRENCE,
+        tlm.RT_SA,
+        tlm.RT,
+        tlm.TPS,
+        tlm.TARGET_TPS,
+        tlm.TARGET_SUCCESS_RATE,
+        tlm.DICT_TYPE,
+        tlm.LINK_RANK,
+        tlm.RT_SA,
+        tlm.PRINCIPAL_NO,
+        tlm.USE_YN,
+        tlm.CREATE_TIME,
+        tlm.UPDATE_TIME
+        FROM
+        t_second_basic tsb,
+        t_link_mnt tlm
+        WHERE
+        tsb.BASIC_LINK_ID = tlm.LINK_ID
+        AND tsb.second_link_id = #{secondLinkId}
+        and tlm.LINK_ID in
+        <foreach collection="baseLinkIdsList" item="baseLink" open="(" separator="," close=")">
+            #{baseLink}
+        </foreach>
+        GROUP BY
+        tsb.second_link_id,
+        tlm.LINK_ID
+    </select>
+
+    <select id="getNodesByBlinkId" parameterType="String" resultType="com.pamirs.tro.entity.domain.vo.TLinkNodesVo">
+        select t1.TLINK_ID, t1.TLINK_ORDER, t1.TLINK_BANK, t2.LINK_NAME
+        from t_bs_tch_link t1
+                 LEFT JOIN t_link_mnt t2 on t1.TLINK_ID = t2.LINK_ID
+        where t1.BLINK_ID = #{linkId}
+        ORDER BY t1.TLINK_BANK, t1.TLINK_ORDER;
+    </select>
+
+    <select id="queryLinksByLinkType" resultType="com.pamirs.tro.entity.domain.vo.TLinkBasicVO">
+        select
+        tlm.LINK_ID,
+        tlm.LINK_NAME
+        from
+        t_link_mnt tlm
+        <where>
+            <if test="linkTypeList !=null and linkTypeList.size > 0 ">
+                and tlm.LINK_TYPE in
+                <foreach collection="linkTypeList" item="linkType" open="(" separator="," close=")">
+                    #{linkType}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="queryLinkIdName" resultType="map">
+        select CONCAT(tlm.LINK_ID, "") as linkId,
+               tlm.LINK_NAME           as linkName
+        from t_link_mnt tlm
+    </select>
+
+    <select id="queryLinkHeaderInfo" resultType="com.pamirs.tro.entity.domain.vo.TLinkMntDictoryVo">
+        SELECT t1.VALUE_NAME  AS name,
+               t1.VALUE_ORDER AS `order`,
+               tlm.LINK_ID,
+               tlm.LINK_NAME,
+               tlm.TECH_LINKS,
+               tlm.LINK_DESC,
+               tlm.LINK_TYPE,
+               tlm.ASWAN_ID,
+               tlm.LINK_ENTRENCE,
+               tlm.RT_SA,
+               tlm.RT,
+               tlm.TPS,
+               tlm.TARGET_TPS,
+               tlm.TARGET_SUCCESS_RATE,
+               tlm.DICT_TYPE,
+               tlm.LINK_RANK,
+               tlm.PRINCIPAL_NO,
+               tlm.USE_YN,
+               tlm.CREATE_TIME,
+               tlm.UPDATE_TIME,
+               tlm.LINK_MODULE,
+               tlm.VOLUME_CALC_STATUS
+        FROM (
+                 SELECT tdd.VALUE_NAME,
+                        tdd.VALUE_ORDER
+                 FROM t_dictionary_data tdd,
+                      t_dictionary_type tdt
+                 WHERE tdd.DICT_TYPE = tdt.ID
+                   AND tdt.TYPE_ALIAS = 'LINK_MODULE'
+                 ORDER BY tdd.VALUE_ORDER
+             ) t1
+                 LEFT JOIN t_link_mnt tlm ON t1.VALUE_ORDER = tlm.LINK_MODULE
+        ORDER BY t1.VALUE_ORDER
+    </select>
+
+    <!--查询链路头信息-->
+    <select id="queryLinkHeaderInfoList" resultType="com.pamirs.tro.entity.domain.vo.TLinkTopologyInfoVo">
+        SELECT t1.VALUE_NAME  AS `name`,
+               t1.VALUE_ORDER AS `order`,
+               t.LINK_ID,
+               t.LINK_NAME,
+               t.SECOND_LINK_ID,
+               m.LINK_NAME    AS SECOND_LINK_NAME
+        FROM (
+                 SELECT tdd.VALUE_NAME,
+                        tdd.VALUE_ORDER
+                 FROM t_dictionary_data tdd,
+                      t_dictionary_type tdt
+                 WHERE tdd.DICT_TYPE = tdt.ID
+                   AND tdt.TYPE_ALIAS = 'LINK_MODULE'
+             ) t1
+                 LEFT JOIN t_link_topology_info t ON t1.VALUE_ORDER = t.LINK_GROUP
+                 LEFT JOIN t_second_link_mnt m ON t.SECOND_LINK_ID = m.LINK_ID
+    </select>
+
+    <select id="queryCalcVolumeLinkList" parameterType="string" resultType="java.util.Map">
+        SELECT CONCAT(tlm.LINK_ID, "")        AS linkId,
+               tlm.LINK_NAME                  AS linkName,
+               tlm.LINK_MODULE                AS linkModule,
+               CONCAT(tam.APPLICATION_ID, "") AS applicationId,
+               tam.APPLICATION_NAME           AS applicationName,
+               twl.INTERFACE_NAME             AS interfaceName,
+               tlm.VOLUME_CALC_STATUS         AS volumeCalcStatus,
+               tdd.VALUE_CODE                 AS interfaceType
+        FROM t_link_mnt tlm
+                 LEFT JOIN t_link_service_mnt tlsm ON tlm.LINK_ID = tlsm.LINK_ID
+                 LEFT JOIN t_white_list twl ON tlsm.INTERFACE_NAME = twl.INTERFACE_NAME
+                 LEFT JOIN t_application_mnt tam ON twl.APPLICATION_ID = tam.APPLICATION_ID
+                 LEFT JOIN t_dictionary_data tdd ON tdd.VALUE_ORDER = twl.TYPE
+                 LEFT JOIN t_dictionary_type tdt ON tdt.ID = tdd.DICT_TYPE
+        WHERE twl.INTERFACE_NAME IS NOT NULL
+          AND tlm.VOLUME_CALC_STATUS != '3'
+          AND tdt.TYPE_ALIAS = 'WLIST'
+          AND tlm.LINK_MODULE = #{linkModule}
+        UNION
+        SELECT CONCAT(tlm.LINK_ID, "")        AS linkId,
+               tlm.LINK_NAME                  AS linkName,
+               tlm.LINK_MODULE                AS linkModule,
+               CONCAT(tam.APPLICATION_ID, "") AS applicationId,
+               tam.APPLICATION_NAME           AS applicationName,
+               twl.QUEUE_NAME                 AS interfaceName,
+               tlm.VOLUME_CALC_STATUS         AS volumeCalcStatus,
+               tdd.VALUE_CODE                 AS interfaceType
+        FROM t_link_mnt tlm
+                 LEFT JOIN t_link_service_mnt tlsm ON tlm.LINK_ID = tlsm.LINK_ID
+                 LEFT JOIN t_white_list twl ON twl.QUEUE_NAME = tlsm.INTERFACE_NAME
+                 LEFT JOIN t_application_mnt tam ON twl.APPLICATION_ID = tam.APPLICATION_ID
+                 LEFT JOIN t_dictionary_data tdd ON tdd.VALUE_ORDER = twl.TYPE
+                 LEFT JOIN t_dictionary_type tdt ON tdt.ID = tdd.DICT_TYPE
+        WHERE twl.QUEUE_NAME IS NOT NULL
+          AND tlm.VOLUME_CALC_STATUS != '3'
+          AND tdt.TYPE_ALIAS = 'WLIST'
+          AND tlm.LINK_MODULE = #{linkModule}
+    </select>
+
+    <!--查询计算单量方式-->
+    <select id="queryCalcVolumeLinkListByModule" parameterType="string" resultType="java.util.Map">
+        SELECT CONCAT(t.LINK_ID, "") AS linkId,
+               t.LINK_NAME           AS linkName,
+               t.LINK_GROUP          AS linkModule,
+               t.APPLICATION_NAME    AS applicationName,
+               t.LINK_ENTRANCE       AS interfaceName,
+               t.VOLUME_CALC_STATUS  AS volumeCalcStatus,
+               t.ENTRANCE_TYPE       AS interfaceType
+        FROM t_link_topology_info t
+        WHERE t.LINK_GROUP = #{linkModule}
+          AND t.VOLUME_CALC_STATUS IN ('1', '2')
+    </select>
+
+
+    <insert id="addSecondLinkRef" parameterType="string">
+        insert into t_second_basic_ref (SECOND_LINK_ID,
+                                        BASIC_LINK_ID,
+                                        CREATE_TIME,
+                                        UPDATE_TIME)
+        VALUES (#{secondLinkId},
+                #{linkId},
+                NOW(),
+                NOW())
+    </insert>
+
+    <update id="updateSecondLinkRef" parameterType="string">
+        UPDATE t_second_basic_ref
+        SET SECOND_LINK_ID = #{secondLinkId},
+            UPDATE_TIME    = NOW()
+        WHERE BASIC_LINK_ID = #{linkId}
+    </update>
+
+    <select id="querySecondLinkByModule" resultType="com.pamirs.tro.entity.domain.entity.TSecondLinkMnt"
+            parameterType="string">
+        SELECT m.*
+        FROM t_second_link_mnt m
+        WHERE m.LINK_ID IN (
+            SELECT DISTINCT r.SECOND_LINK_ID
+            FROM t_second_basic_ref r,
+                 t_link_mnt tlm
+            WHERE r.BASIC_LINK_ID = tlm.LINK_ID
+              AND tlm.LINK_MODULE = #{linkModule}
+        )
+    </select>
+
+    <select id="querySecondLinkMapByModule" resultType="com.pamirs.tro.entity.domain.entity.TSecondLinkMnt"
+            parameterType="string">
+        <!--SELECT-->
+        <!--t.SECOND_LINK_ID,-->
+        <!--t.SECOND_LINK_NAME-->
+        <!--FROM-->
+        <!--t_link_topology_info t-->
+        <!--WHERE-->
+        <!--t.LINK_GROUP = #{linkModule}-->
+        <!--GROUP BY-->
+        <!--t.SECOND_LINK_ID, t.SECOND_LINK_NAME-->
+
+        SELECT
+        m.*
+        FROM
+        t_second_link_mnt m
+        WHERE
+        m.LINK_ID IN (
+        SELECT
+        DISTINCT t.SECOND_LINK_ID
+        FROM
+        t_link_topology_info t
+        WHERE
+        t.LINK_GROUP = #{linkModule}
+        )
+    </select>
+
+    <!--查询是否存在链路关系-->
+    <select id="existSecondLinkRef" resultType="java.lang.Integer" parameterType="string">
+        select count(BASIC_LINK_ID)
+        from t_second_basic_ref t
+        WHERE t.BASIC_LINK_ID = #{linkId};
+    </select>
+
+    <select id="queryAppIdByAppName" resultType="java.lang.Long" parameterType="java.lang.String">
+        select LINK_ID
+        from t_link_mnt t
+        where t.LINK_NAME = #{linkName}
+    </select>
+</mapper>

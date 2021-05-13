@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pamirs.tro.entity.dao.scenemanage.TSceneSlaRefMapper">
+    <resultMap id="BaseResultMap" type="com.pamirs.tro.entity.domain.entity.scenemanage.SceneSlaRef">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="scene_id" property="sceneId" jdbcType="BIGINT"/>
+        <result column="sla_name" property="slaName" jdbcType="VARCHAR"/>
+        <result column="business_activity_ids" property="businessActivityIds" jdbcType="VARCHAR"/>
+        <result column="target_type" property="targetType" jdbcType="TINYINT"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="is_deleted" property="isDeleted" jdbcType="TINYINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_name" property="createName" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_name" property="updateName" jdbcType="VARCHAR"/>
+        <result column="condition" property="condition" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, scene_id, sla_name, business_activity_ids, target_type, status, is_deleted, create_time,
+    create_name, update_time, update_name, `condition`
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_scene_sla_ref
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from t_scene_sla_ref
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteBySceneId" parameterType="java.lang.Long">
+        delete
+        from t_scene_sla_ref
+        where scene_id = #{sceneId,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.pamirs.tro.entity.domain.entity.scenemanage.SceneSlaRef"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into t_scene_sla_ref
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sceneId != null">
+                scene_id,
+            </if>
+            <if test="slaName != null">
+                sla_name,
+            </if>
+            <if test="businessActivityIds != null">
+                business_activity_ids,
+            </if>
+            <if test="targetType != null">
+                target_type,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createName != null">
+                create_name,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="updateName != null">
+                update_name,
+            </if>
+            <if test="condition != null">
+                condition,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sceneId != null">
+                #{sceneId,jdbcType=BIGINT},
+            </if>
+            <if test="slaName != null">
+                #{slaName,jdbcType=VARCHAR},
+            </if>
+            <if test="businessActivityIds != null">
+                #{businessActivityIds,jdbcType=VARCHAR},
+            </if>
+            <if test="targetType != null">
+                #{targetType,jdbcType=TINYINT},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createName != null">
+                #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateName != null">
+                #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="condition != null">
+                #{condition,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="batchInsert">
+        insert into t_scene_sla_ref
+        (scene_id, sla_name, business_activity_ids, target_type,
+        `condition`, `status`)
+        values
+        <foreach collection="items" item="item" separator=",">
+            (
+            #{item.sceneId},
+            #{item.slaName},
+            #{item.businessActivityIds},
+            #{item.targetType},
+            #{item.condition},
+            #{item.status}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.pamirs.tro.entity.domain.entity.scenemanage.SceneSlaRef">
+        update t_scene_sla_ref
+        <set>
+            <if test="sceneId != null">
+                scene_id = #{sceneId,jdbcType=BIGINT},
+            </if>
+            <if test="slaName != null">
+                sla_name = #{slaName,jdbcType=VARCHAR},
+            </if>
+            <if test="businessActivityIds != null">
+                business_activity_ids = #{businessActivityIds,jdbcType=VARCHAR},
+            </if>
+            <if test="targetType != null">
+                target_type = #{targetType,jdbcType=TINYINT},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createName != null">
+                create_name = #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateName != null">
+                update_name = #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="condition != null">
+                condition = #{condition,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectBySceneId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_scene_sla_ref
+        where scene_id = #{sceneId,jdbcType=BIGINT}
+    </select>
+</mapper>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pamirs.tro.entity.dao.simplify.TAppBusinessTableInfoMapper">
+    <resultMap id="BaseResultMap" type="com.pamirs.tro.entity.domain.entity.simplify.AppBusinessTableInfo">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="APPLICATION_ID" jdbcType="BIGINT" property="applicationId"/>
+        <result column="table_name" jdbcType="VARCHAR" property="tableName"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        ID, APPLICATION_ID, `table_name`, url,user_id, CREATE_TIME, UPDATE_TIME
+    </sql>
+    <select id="selectList" parameterType="com.pamirs.tro.entity.domain.query.agent.AppBusinessTableQuery"
+            resultMap="BaseResultMap">
+        select
+        'false' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from t_app_business_table_info
+        <include refid="Data_Where_Clause"/>
+        <include refid="Data_Where_Plus"/>
+    </select>
+    <select id="selectListCount" parameterType="com.pamirs.tro.entity.domain.entity.simplify.AppBusinessTableInfo"
+            resultMap="BaseResultMap">
+        'false' as QUERYID,
+        select count(*) from t_app_business_table_info
+        <include refid="Data_Where_Clause"/>
+    </select>
+
+    <select id="selectCountByUserIdAndUrl"
+            parameterType="com.pamirs.tro.entity.domain.entity.simplify.AppBusinessTableInfo"
+            resultType="java.lang.Long">
+        select count(*) from t_app_business_table_info
+        <where>
+            user_id = #{userId} and url = #{url} and is_deleted = 0
+        </where>
+    </select>
+
+    <select id="selectByUserIdAndUrl" parameterType="com.pamirs.tro.entity.domain.entity.simplify.AppBusinessTableInfo"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_app_business_table_info
+        <where>
+            user_id = #{userId} and url = #{url} and is_deleted = 0
+        </where>
+    </select>
+
+    <select id="selectOneById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        'false' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from t_app_business_table_info where id = #{id,jdbcType=BIGINT}
+    </select>
+    <update id="delete" parameterType="java.lang.Long">
+        update t_app_business_table_info
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+    <insert id="insert" keyColumn="ID" keyProperty="id"
+            parameterType="com.pamirs.tro.entity.domain.entity.simplify.AppBusinessTableInfo" useGeneratedKeys="true">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        insert into t_app_business_table_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="applicationId != null">
+                APPLICATION_ID,
+            </if>
+            <if test="tableName != null">
+                table_name,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="applicationId != null">
+                #{applicationId,jdbcType=BIGINT},
+            </if>
+            <if test="tableName != null">
+                #{tableName,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true">
+        INSERT INTO t_app_business_table_info (`APPLICATION_ID`, `table_name`, `url`)
+        values
+        <foreach collection="list" separator="," index="item">
+            (#{item.applicationId}, #{item.tableName}, #{item.url})
+        </foreach>
+    </insert>
+    <update id="update" parameterType="com.pamirs.tro.entity.domain.entity.simplify.AppBusinessTableInfo">
+        update t_app_business_table_info
+        <set>
+            <if test="applicationId != null">
+                APPLICATION_ID = #{applicationId,jdbcType=BIGINT},
+            </if>
+            <if test="tableName != null">
+                `table_name` = #{tableName,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+        <if test="userId != null">
+            and user_id = #{userId}
+        </if>
+    </update>
+    <sql id="Data_Where_Clause">
+        <where>
+            <if test="id != null">
+                and ID = #{id,jdbcType=BIGINT}
+            </if>
+            <if test="applicationId != null">
+                and APPLICATION_ID = #{applicationId,jdbcType=BIGINT}
+            </if>
+            <if test="tableName != null">
+                and table_name = #{tableName,jdbcType=VARCHAR}
+            </if>
+            <if test="url != null">
+                and url = #{url,jdbcType=VARCHAR}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            and is_deleted = 0
+        </where>
+    </sql>
+    <sql id="Data_Where_Plus">
+        <if test="orderBy != null">
+            order by ${orderBy}
+        </if>
+    </sql>
+</mapper>

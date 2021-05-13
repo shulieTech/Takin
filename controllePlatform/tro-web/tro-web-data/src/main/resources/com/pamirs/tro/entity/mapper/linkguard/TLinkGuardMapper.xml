@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pamirs.tro.entity.dao.linkguard.TLinkGuardMapper">
+    <resultMap id="BaseResultMap" type="com.pamirs.tro.entity.domain.entity.LinkGuardEntity">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="application_name" jdbcType="VARCHAR" property="applicationName"/>
+        <result column="application_id" jdbcType="BIGINT" property="applicationId"></result>
+        <result column="method_info" jdbcType="VARCHAR" property="methodInfo"/>
+        <result column="groovy" jdbcType="VARCHAR" property="groovy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="is_deleted" jdbcType="BIT" property="isDeleted"/>
+        <result column="is_enable" jdbcType="BIT" property="isEnable"></result>
+        <result column="customer_id" jdbcType="BIGINT" property="customerId"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, application_name,application_id, method_info,
+    groovy, create_time, update_time, is_deleted,is_enable,customer_id,user_id,remark
+    </sql>
+
+    <update id="update" parameterType="com.pamirs.tro.entity.domain.entity.LinkGuardEntity">
+        update t_link_guard
+        <set>
+            <if test=" applicationName!= null and applicationName != ''">
+                application_name = #{applicationName ,jdbcType=VARCHAR},
+            </if>
+            <if test=" methodInfo != null and methodInfo != ''">
+                method_info = #{methodInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="groovy != null and groovy != ''">
+                groovy = #{groovy,jdbcType=VARCHAR},
+            </if>
+            <if test="isEnable != null">
+                is_enable =#{isEnable,jdbcType=BOOLEAN},
+            </if>
+            <if test="remark != null">
+                remark =#{remark,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+
+    <insert id="insertSelective" parameterType="com.pamirs.tro.entity.domain.entity.LinkGuardEntity"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into t_link_guard
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="applicationName != null">
+                application_name,
+            </if>
+            <if test="applicationId != null">
+                application_id,
+            </if>
+
+            <if test="methodInfo != null">
+                method_info,
+            </if>
+            <if test="groovy != null">
+                groovy,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+            <if test="isEnable != null">
+                is_enable
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="applicationName != null">
+                #{applicationName,jdbcType=VARCHAR},
+            </if>
+            <if test="applicationId != null">
+                #{applicationId,jdbcType=BIGINT} ,
+            </if>
+            <if test="methodInfo != null">
+                #{methodInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="groovy != null">
+                #{groovy,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=BIT},
+            </if>
+            <if test="isEnable != null">
+                #{isEnable,jdbcType=BIT}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deleteById">
+        delete
+        from t_link_guard
+        where is_deleted = 0
+          and id = #{id,jdbcType=BIGINT}
+    </delete>
+    <select id="countGuardNum" resultType="java.lang.Long">
+        select count(*)
+        from t_link_guard
+        where is_deleted = 0
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        select *
+        from t_link_guard
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectByExample" resultMap="BaseResultMap">
+        select * from t_link_guard where is_deleted = 0
+        <if test=" param.id != null">and id = #{param.id,jdbcType=BIGINT}</if>
+        <if test="param.applicationName != null">and application_name = #{param.applicationName,jdbcType=VARCHAR}</if>
+        <if test="param.appId != null and param.appId != ''">
+            and application_id =#{param.appId,jdbcType=BIGINT}
+        </if>
+        <if test="param.methodInfo != null and param.methodInfo != ''">and method_info =
+            #{param.methodInfo,jdbcType=VARCHAR}
+        </if>
+        <if test="param.isEnable != null ">and is_enable = #{param.isEnable,jdbcType=BOOLEAN}</if>
+        order by create_time desc
+        <!--        <if test="param.pageSize!= null  and param.pageSize!= null ">-->
+        <!--            <bind name="key_offset" value="(param.currentPage)*param.pageSize"></bind>-->
+        <!--            limit #{key_offset} , #{param.pageSize}-->
+        <!--        </if>-->
+
+    </select>
+
+    <select id="selectCountByExample" resultType="java.lang.Long">
+        select count(*) from t_link_guard where is_deleted = 0
+        <if test=" param.id != null">and id = #{param.id,jdbcType=BIGINT}</if>
+        <if test="param.applicationName != null">and application_name = #{param.applicationName,jdbcType=VARCHAR}</if>
+    </select>
+    <select id="getAllEnabledGuard" resultType="com.pamirs.tro.entity.domain.entity.LinkGuardEntity">
+        select id,
+               application_name,
+               application_id,
+               method_info,
+               groovy,
+               remark,
+               is_enable
+        from t_link_guard
+        where application_id = #{applicationId}
+          and is_deleted = 0
+          and is_enable = 1
+    </select>
+
+</mapper>

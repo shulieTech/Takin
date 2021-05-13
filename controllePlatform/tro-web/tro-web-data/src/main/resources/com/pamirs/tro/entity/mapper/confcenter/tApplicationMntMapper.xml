@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pamirs.tro.entity.dao.confcenter.TApplicationMntDao">
+
+    <sql id="Base_Column_List">
+        APPLICATION_ID, APPLICATION_NAME, APPLICATION_DESC, DDL_SCRIPT_PATH, CLEAN_SCRIPT_PATH, READY_SCRIPT_PATH,
+        BASIC_SCRIPT_PATH, CACHE_SCRIPT_PATH, CACHE_EXP_TIME, USE_YN,NODE_NUM,ACCESS_STATUS,EXCEPTION_INFO,
+        SWITCH_STATUS,CREATE_TIME,UPDATE_TIME,ALARM_PERSON,PRADAR_VERSION,USER_ID,CUSTOMER_ID
+    </sql>
+
+    <!-- 校验该应用是否已经存在 -->
+    <select id="applicationExist" parameterType="String" resultType="Integer">
+        select count(1)
+        from t_application_mnt
+        where APPLICATION_NAME = #{applicationName}
+    </select>
+
+    <select id="applicationExistByAppName" parameterType="String" resultType="Integer">
+        select count(1) from t_application_mnt where
+        APPLICATION_NAME=#{applicationName}
+    </select>
+
+    <select id="applicationExistByCustomerIdAndAppName" resultType="Integer">
+        select count(1) from t_application_mnt where
+        CUSTOMER_ID = #{customerId}
+        AND
+        APPLICATION_NAME= #{applicationName}
+    </select>
+
+    <!-- 新增应用信息 -->
+    <insert id="addApplication" parameterType="com.pamirs.tro.entity.domain.entity.TApplicationMnt">
+        insert into
+        t_application_mnt
+        (
+        <include refid="Base_Column_List"/>
+        )values(
+        #{applicationId},
+        #{applicationName},
+        #{applicationDesc},
+        #{ddlScriptPath},
+        #{cleanScriptPath},
+        #{readyScriptPath},
+        #{basicScriptPath},
+        #{cacheScriptPath},
+        #{cacheExpTime},
+        #{useYn},
+        #{nodeNum},
+        #{accessStatus},
+        #{exceptionInfo},
+        #{switchStatus},
+        now(),
+        now(),
+        #{alarmPerson},
+        #{pradarVersion},
+        #{userId},
+        #{userId}
+        )
+    </insert>
+
+    <!-- 查询应用信息列表 -->
+    <select id="queryApplicationinfo"
+            resultType="com.pamirs.tro.entity.domain.vo.TLinkApplicationInterface"
+            parameterType="String">
+        SELECT
+        tlm.LINK_ID,
+        tlm.LINK_NAME,
+        tlm.LINK_DESC,
+        tlm.LINK_RANK,
+        t2.VALUE_NAME LINK_RANK_TYPE,
+        tlm.PRINCIPAL_NO,
+        tam.APPLICATION_ID,
+        tam.APPLICATION_NAME,
+        tam.APPLICATION_DESC,
+        twl.WLIST_ID,
+        twl.INTERFACE_NAME,
+        t1.VALUE_NAME TYPE_NAME,
+        tam.DDL_SCRIPT_PATH,
+        tam.CLEAN_SCRIPT_PATH,
+        tam.READY_SCRIPT_PATH,
+        tam.BASIC_SCRIPT_PATH,
+        tam.CACHE_SCRIPT_PATH,
+        tam.CACHE_EXP_TIME,
+        tam.NODE_NUM,
+        tam.ACCESS_STATUS,
+        tam.EXCEPTION_INFO,
+        tam.SWITCH_STATUS,
+        tam.CREATE_TIME,
+        tam.UPDATE_TIME
+        FROM
+        t_link_mnt tlm,
+        t_link_service_mnt tlsm,
+        t_white_list twl,
+        t_application_mnt tam,
+        (
+        SELECT
+        tdt.ID,
+        twl.WLIST_ID,
+        tdd.VALUE_ORDER,
+        tdd.VALUE_NAME,
+        tdt.TYPE_NAME
+        FROM
+        t_dictionary_type tdt,
+        t_dictionary_data tdd,
+        t_white_list twl
+        WHERE
+        tdt.ID = tdd.DICT_TYPE
+        AND
+        twl.DICT_TYPE = tdt.ID
+        AND twl.type =
+        tdd.value_order
+        ) t1,
+        (
+        SELECT
+        tdt.ID,
+        tlm.LINK_ID,
+        tdd.VALUE_ORDER,
+        tdd.VALUE_NAME,
+        tdt.TYPE_NAME
+        FROM
+        t_dictionary_type tdt,
+        t_dictionary_data tdd,
+        t_link_mnt tlm
+        WHERE
+        tdt.ID
+        = tdd.DICT_TYPE
+        AND tlm.DICT_TYPE = tdt.ID
+        AND tlm.LINK_RANK =
+        tdd.value_order
+        ) t2
+        WHERE
+        twl.WLIST_ID = t1.WLIST_ID
+        AND twl.DICT_TYPE =
+        t1.ID
+        AND twl.type = t1.value_order
+        AND tlm.LINK_ID = t2.LINK_ID
+        AND
+        tlm.DICT_TYPE = t2.ID
+        AND tlm.LINK_RANK = t2.value_order
+        AND tlm.LINK_ID
+        = tlsm.LINK_ID
+        AND twl.INTERFACE_NAME = tlsm.INTERFACE_NAME
+        AND
+        tam.APPLICATION_NAME = twl.APPLICATION_NAME
+        <if test="linkName!=null and linkName!=''">
+            AND tlm.LINK_NAME like
+            concat('%',#{linkName},'%')
+        </if>
+        <if test="applicationName!=null and applicationName!=''">
+            AND tam.APPLICATION_NAME like
+            concat('%',#{applicationName},'%')
+        </if>
+        order by tam.APPLICATION_NAME,tam.CREATE_TIME desc
+    </select>
+
+    <!-- 查询应用列表 -->
+    <select id="queryApplicationList" resultType="com.pamirs.tro.entity.domain.entity.TApplicationMnt">
+        SELECT
+        tam.APPLICATION_ID,
+        tam.APPLICATION_NAME,
+        tam.APPLICATION_DESC,
+        tam.USER_ID,
+        tam.DDL_SCRIPT_PATH,
+        tam.CLEAN_SCRIPT_PATH,
+        tam.READY_SCRIPT_PATH,
+        tam.BASIC_SCRIPT_PATH,
+        tam.CACHE_SCRIPT_PATH,
+        tam.CACHE_EXP_TIME,
+        tam.USE_YN,
+        tam.NODE_NUM,
+        tam.ACCESS_STATUS,
+        tam.EXCEPTION_INFO,
+        tam.SWITCH_STATUS,
+        tam.CREATE_TIME,
+        tam.UPDATE_TIME,
+        tam.ALARM_PERSON
+        from
+        t_application_mnt tam
+        where 1=1
+        <if test="applicationName!=null and applicationName!=''">
+            AND tam.APPLICATION_NAME like
+            concat('%',#{applicationName},'%')
+        </if>
+        <if test="applicationIds !=null">
+            AND tam.APPLICATION_ID IN
+            <foreach collection="applicationIds" item="applicationId" open="(" close=")" separator=",">
+                #{applicationId}
+            </foreach>
+        </if>
+        order by tam.APPLICATION_ID desc
+    </select>
+
+    <!--根据id列表批量查询应用和白名单信息-->
+    <select id="queryApplicationListByIds" parameterType="list" resultType="java.util.Map">
+        SELECT
+        t1.*, t2.*
+        FROM
+        t_application_mnt t1
+        LEFT JOIN t_white_list t2 ON t1.APPLICATION_ID = t2.APPLICATION_ID
+        WHERE
+        t1.APPLICATION_ID IN
+        <foreach collection="applicationIds" item="applicationId" open="(" close=")" separator=",">
+            #{applicationId}
+        </foreach>
+        ORDER BY t1.APPLICATION_ID
+    </select>
+
+    <select id="queryApplicationMntListByIds" parameterType="list"
+            resultType="com.pamirs.tro.entity.domain.entity.TApplicationMnt">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_application_mnt WHERE application_id IN
+        <foreach collection="list" item="applicationId" open="(" close=")" separator=",">
+            #{applicationId}
+        </foreach>
+    </select>
+
+    <!-- 根据应用id查询应用信息 -->
+    <select id="queryApplicationinfoById" resultType="com.pamirs.tro.entity.domain.entity.TApplicationMnt">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        t_application_mnt where
+        APPLICATION_ID=#{applicationId}
+    </select>
+
+    <select id="queryApplicationinfoByIdAndRole" resultType="com.pamirs.tro.entity.domain.entity.TApplicationMnt">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        t_application_mnt where
+        APPLICATION_ID=#{applicationId}
+        <if test="role != null and role != 0">
+            and customer_id = #{userId}
+        </if>
+    </select>
+
+    <!-- 根据应用id查询应用信息 -->
+    <select id="queryApplicationinfoByIdAndTenant" resultType="com.pamirs.tro.entity.domain.entity.TApplicationMnt">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        t_application_mnt where
+        APPLICATION_ID=#{applicationId}
+        <if test="userId != null">
+            and customer_id = #{userId}
+        </if>
+    </select>
+
+    <!-- 根据应用id查询应用信息 -->
+    <select id="queryApplicationinfoByName" resultType="com.pamirs.tro.entity.domain.entity.TApplicationMnt">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        t_application_mnt where
+        APPLICATION_NAME=#{applicationName}
+        limit 1
+    </select>
+
+    <!-- 根据应用id查询应用信息 -->
+    <select id="queryApplicationinfoByNameTenant" resultType="com.pamirs.tro.entity.domain.entity.TApplicationMnt">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        t_application_mnt where
+        APPLICATION_NAME=#{applicationName}
+        <if test="userId != null">
+            AND customer_id = #{userId}
+        </if>
+    </select>
+
+    <select id="queryApplicationInfoByNameAndTenant" resultType="com.pamirs.tro.entity.domain.entity.TApplicationMnt">
+        select
+        <include refid="Base_Column_List"/>
+        from t_application_mnt where
+        APPLICATION_NAME=#{applicationName}
+        <if test="userId != null">
+            and customer_id=#{userId}
+        </if>
+    </select>
+
+    <!-- 根据应用ID批量删除应用信息 -->
+    <delete id="deleteApplicationinfoByIds" parameterType="List">
+        delete from t_application_mnt where APPLICATION_ID in
+        <foreach collection="applicationIdLists" separator=","
+                 item="applicationId" open="(" close=")">
+            #{applicationId}
+        </foreach>
+    </delete>
+
+    <!-- 查询应用下拉框数据 -->
+    <select id="queryApplicationdata" resultType="Map">
+        SELECT APPLICATION_ID   applicationId,
+               APPLICATION_NAME applicationName
+        FROM t_application_mnt
+        order by 2
+    </select>
+
+    <!-- 根据应用id更新应用信息 -->
+    <update id="updateApplicationinfo" parameterType="com.pamirs.tro.entity.domain.entity.TApplicationMnt">
+        update
+        t_application_mnt
+        <set>
+            <if test="applicationName != null">
+                APPLICATION_NAME=#{applicationName},
+            </if>
+            <if test="applicationDesc != null">
+                APPLICATION_DESC=#{applicationDesc},
+            </if>
+            <if test="ddlScriptPath != null">
+                DDL_SCRIPT_PATH=#{ddlScriptPath},
+            </if>
+            <if test="cleanScriptPath != null">
+                CLEAN_SCRIPT_PATH=#{cleanScriptPath},
+            </if>
+            <if test="readyScriptPath != null">
+                READY_SCRIPT_PATH=#{readyScriptPath},
+            </if>
+            <if test="basicScriptPath != null">
+                BASIC_SCRIPT_PATH=#{basicScriptPath},
+            </if>
+            <if test="cacheScriptPath != null">
+                CACHE_SCRIPT_PATH=#{cacheScriptPath},
+            </if>
+            <if test="cacheExpTime != null">
+                CACHE_EXP_TIME=#{cacheExpTime},
+            </if>
+            <if test="useYn != null">
+                USE_YN=#{useYn},
+            </if>
+            <if test="nodeNum != null">
+                NODE_NUM =#{nodeNum,jdbcType=INTEGER} ,
+            </if>
+            <if test="accessStatus != null">
+                ACCESS_STATUS = #{accessStatus} ,
+            </if>
+            <if test="exceptionInfo != null and exceptionInfo != ''">
+                EXCEPTION_INFO = #{exceptionInfo,jdbcType=VARCHAR} ,
+            </if>
+            <if test="switchStatus != null and switchStatus != ''">
+                SWITCH_STATUS =#{switchStatus,jdbcType=VARCHAR} ,
+            </if>
+            <if test="alarmPerson != null">
+                ALARM_PERSON=#{alarmPerson},
+            </if>
+            UPDATE_TIME=now()
+        </set>
+        where APPLICATION_ID=#{applicationId}
+    </update>
+
+    <!-- 根据应用id更新应用信息 -->
+    <update id="updateApplicationStatus" parameterType="com.pamirs.tro.entity.domain.entity.TApplicationMnt">
+        update
+        t_application_mnt
+        <set>
+            <if test="accessStatus != null">
+                ACCESS_STATUS = #{accessStatus} ,
+            </if>
+            UPDATE_TIME=now()
+        </set>
+        where APPLICATION_ID in
+        <foreach collection="applicationIds" item="applicationId" open="(" close=")" separator=",">
+            #{applicationId}
+        </foreach>
+    </update>
+
+    <!-- 查询缓存失效时间 -->
+    <select id="queryCacheExpTime" parameterType="String"
+            resultType="Map">
+        select APPLICATION_NAME applicationName,
+               CACHE_EXP_TIME
+                                cacheExpTime
+        from t_application_mnt
+        where APPLICATION_ID =
+              #{applicationId}
+    </select>
+
+    <!-- 根据应用id查询应用脚本路径 -->
+    <select id="selectScriptPath" parameterType="String" resultType="String">
+        select
+        <if test="scriptType!=null and scriptType=='1'.toString()">
+            DDL_SCRIPT_PATH
+        </if>
+        <if test="scriptType!=null and scriptType=='2'.toString()">
+            CACHE_SCRIPT_PATH
+        </if>
+        <if test="scriptType!=null and scriptType=='3'.toString()">
+            READY_SCRIPT_PATH
+        </if>
+        <if test="scriptType!=null and scriptType=='4'.toString()">
+            BASIC_SCRIPT_PATH
+        </if>
+        <if test="scriptType!=null and scriptType=='5'.toString()">
+            CLEAN_SCRIPT_PATH
+        </if>
+        from
+        t_application_mnt
+        where APPLICATION_ID =#{applicationId}
+    </select>
+
+    <!-- 根据应用id查询应用名称 -->
+    <select id="selectApplicationName" resultType="String">
+        select APPLICATION_NAME
+        from t_application_mnt
+        where APPLICATION_ID = #{applicationId}
+    </select>
+
+    <select id="queryApplicationBySecondLinkId" parameterType="Long"
+            resultType="com.pamirs.tro.entity.domain.entity.TApplicationMnt">
+        SELECT DISTINCT tam.*
+        FROM t_link_mnt tlm,
+             t_link_service_mnt tlsm,
+             t_white_list twl,
+             t_application_mnt tam,
+             t_second_link_mnt tsl
+        WHERE tlm.LINK_ID = tlsm.LINK_ID
+          AND twl.INTERFACE_NAME = tlsm.INTERFACE_NAME
+          AND tam.APPLICATION_ID = twl.APPLICATION_ID
+          and tsl.BASE_LINKS LIKE concat('%', tlm.LINK_ID, '%')
+          and tsl.LINK_ID = #{secondLinkId}
+        GROUP BY tsl.LINK_ID, tlm.LINK_ID
+    </select>
+    <select id="queryApplicationByTenant" parameterType="Long"
+            resultType="com.pamirs.tro.entity.domain.entity.TApplicationMnt">
+        select *
+        from t_application_mnt
+        where customer_id = #{uid,jdbcType=BIGINT}
+    </select>
+
+    <!--根据应用id批量查询应用名称-->
+    <select id="queryApplicationName" parameterType="List" resultType="String">
+        select APPLICATION_NAME from t_application_mnt where APPLICATION_ID in
+        <foreach collection="applicationIdLists" separator=","
+                 item="applicationId" open="(" close=")">
+            #{applicationId}
+        </foreach>
+    </select>
+
+    <!--根据应用id查询关联的基础链路是否存在-->
+    <select id="queryApplicationRelationBasicLinkByApplicationId" resultType="java.util.Map">
+        SELECT count(1)           relationBasicLinkCount,
+               t.APPLICATION_NAME applicationName
+        FROM (
+                 SELECT tlm.LINK_ID,
+                        tlm.LINK_NAME,
+                        tam.APPLICATION_ID,
+                        tam.APPLICATION_NAME
+                 FROM t_link_mnt tlm,
+                      t_link_service_mnt tlsm,
+                      t_white_list twl,
+                      t_application_mnt tam
+                 WHERE tlm.LINK_ID = tlsm.LINK_ID
+                   AND twl.INTERFACE_NAME = tlsm.INTERFACE_NAME
+                   AND tam.APPLICATION_ID = twl.APPLICATION_ID
+                   AND tam.APPLICATION_ID = #{applicationId}
+             ) t
+        GROUP BY t.APPLICATION_ID
+        HAVING count(t.APPLICATION_NAME) > 0
+
+    </select>
+
+    <!--查询应用信息列表(prada同步表查数据)-->
+    <select id="queryAppNameList" resultType="java.lang.String">
+        SELECT APP_NAME
+        from t_prada_http_data
+        GROUP BY app_name
+    </select>
+
+    <update id="updateApplicaionAgentVersion">
+        UPDATE t_application_mnt
+        SET AGENT_VERSION = #{agentVersion},
+            PRADAR_VERSION= #{pradarVersion}
+        WHERE APPLICATION_ID = #{applicationId}
+    </update>
+
+
+    <!--查询应用信息列表(prada同步表查数据)-->
+    <select id="queryAgentVersionByApplicationName" resultType="java.lang.String">
+        SELECT AGENT_VERSION
+        from t_application_mnt
+        WHERE application_name = #{applicationName}
+    </select>
+    <!--根据应用名称查询application_id-->
+    <select id="queryIdByApplicationName" resultType="java.lang.Long">
+        SELECT APPLICATION_ID
+        from t_application_mnt
+        WHERE application_name = #{applicationName}
+    </select>
+
+    <select id="queryIdsByNameAndTenant" resultType="java.lang.String">
+        select APPLICATION_ID
+        from t_application_mnt
+        <where>
+            <if test="userId != null">
+                customer_id = #{userId}
+            </if>
+            <if test="names != null and names.size() != 0">
+                and application_name in
+                <foreach collection="names" item="name" open="(" close=")" separator=",">
+                    #{name}
+                </foreach>
+            </if>
+        </where>
+
+    </select>
+    <select id="getAllApplications"
+            resultType="com.pamirs.tro.entity.domain.entity.TApplicationMnt">
+        select application_id,
+               application_name
+        from t_application_mnt
+    </select>
+
+    <select id="getAllApplicationByStatus"
+            resultType="com.pamirs.tro.entity.domain.entity.TApplicationMnt">
+        select
+        <include refid="Base_Column_List"/>
+        from t_application_mnt where
+        `access_status` in
+        <foreach collection="statusList" item="status" open="(" close=")" separator=",">
+            #{status}
+        </foreach>
+    </select>
+
+    <select id="getApplicationsByTenants"
+            resultType="com.pamirs.tro.entity.domain.entity.TApplicationMnt">
+        select application_id,
+        application_name
+        from t_application_mnt where
+        customer_id in
+        <foreach collection="userIdList" item="userId" open="(" close=")" separator=",">
+            #{userId}
+        </foreach>
+    </select>
+
+    <select id="getIdByName" resultType="java.lang.String">
+        select application_id
+        from t_application_mnt
+        where application_name = #{applicationName}
+    </select>
+</mapper>

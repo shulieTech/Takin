@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pamirs.tro.entity.dao.transparentflow.TPressureTimeRecordDao">
+
+    <select id="queryLatestPressureTime" resultType="com.pamirs.tro.entity.domain.entity.TPressureTimeRecord">
+        SELECT *
+        FROM t_pressure_time_record
+        WHERE (END_TIME IS NULL or END_TIME = '')
+        ORDER BY START_TIME DESC
+        LIMIT 1
+    </select>
+
+    <insert id="insert" parameterType="string">
+        insert into t_pressure_time_record
+        (RECORD_ID,
+         START_TIME)
+        values (UUID_SHORT(),
+                #{startTime})
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="string">
+        update t_pressure_time_record
+        set END_TIME = #{endTime}
+        where RECORD_ID = #{recordId}
+    </update>
+</mapper>

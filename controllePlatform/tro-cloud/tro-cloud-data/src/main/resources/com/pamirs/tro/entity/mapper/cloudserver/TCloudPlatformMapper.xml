@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pamirs.tro.entity.dao.cloudserver.TCloudPlatformMapper">
+    <resultMap id="BaseResultMap" type="com.pamirs.tro.entity.domain.entity.cloudserver.CloudPlatform">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="class_path" property="classPath" jdbcType="VARCHAR"/>
+        <result column="jar_name" property="jarName" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="BIT"/>
+        <result column="authorize_param" property="authorizeParam" jdbcType="VARCHAR"></result>
+        <result column="is_delete" property="isDelete" jdbcType="BIT"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_update" property="gmtUpdate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, `name`,class_path,jar_name, status,authorize_param, is_delete, gmt_create, gmt_update
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+
+        from t_cloud_platform
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectByExample" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from t_cloud_platform where 1=1
+        <if test="param.id != null">
+            and id =#{param.id,jdbcType=BIGINT}
+        </if>
+        <if test="param.name != null and param.name != ''">
+            and name = #{param.name,jdbcType=VARCHAR}
+        </if>
+        <if test="param.jarName != null and param.jarName !=''">
+            and jar_name =#{param.jarName,jdbcType=VARCHAR}
+        </if>
+        order by gmt_create desc
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from t_cloud_platform
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.pamirs.tro.entity.domain.entity.cloudserver.CloudPlatform">
+        insert into t_cloud_platform
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="classPath != null">
+                class_path,
+            </if>
+            <if test="jarName != null">
+                jar_name,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtUpdate != null">
+                gmt_update,
+            </if>
+            <if test="authorizeParam != null">
+                authorize_param
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="classPath!= null ">
+                #{classPath,jdbcType=VARCHAR} ,
+            </if>
+            <if test="jarName != null">
+                #{jarName,jdbcType=VARCHAR} ,
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=BIT},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=BIT},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtUpdate != null">
+                #{gmtUpdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="authorizeParam != null">
+                #{authorizeParam,jdbcType=LONGVARCHAR}
+            </if>
+        </trim>
+    </insert>
+
+
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.pamirs.tro.entity.domain.entity.cloudserver.CloudPlatform">
+        update t_cloud_platform
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="classPath != null">
+                class_path = #{classPath,jdbcType=VARCHAR},
+            </if>
+            <if test="jarName != null">
+                jar_name=#{jarName,jdbcType=VARCHAR} ,
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=BIT},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete,jdbcType=BIT},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtUpdate != null">
+                gmt_update = #{gmtUpdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="authorizeParam != null">
+                authorize_param = #{authorizeParam,jdbcType=LONGVARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+</mapper>

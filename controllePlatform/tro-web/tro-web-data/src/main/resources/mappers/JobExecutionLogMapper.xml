@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.web.data.mapper.mysql.JobExecutionLogMapper">
+    <resultMap id="BaseResultMap" type="io.shulie.tro.web.data.model.mysql.JobExecutionLogEntity">
+        <!--@mbg.generated-->
+        <!--@Table JOB_EXECUTION_LOG-->
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="job_name" jdbcType="VARCHAR" property="jobName"/>
+        <result column="task_id" jdbcType="VARCHAR" property="taskId"/>
+        <result column="hostname" jdbcType="VARCHAR" property="hostname"/>
+        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+        <result column="sharding_item" jdbcType="INTEGER" property="shardingItem"/>
+        <result column="execution_source" jdbcType="VARCHAR" property="executionSource"/>
+        <result column="failure_cause" jdbcType="VARCHAR" property="failureCause"/>
+        <result column="is_success" jdbcType="INTEGER" property="isSuccess"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="complete_time" jdbcType="TIMESTAMP" property="completeTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, job_name, task_id, hostname, ip, sharding_item, execution_source, failure_cause,
+        is_success, start_time, complete_time
+    </sql>
+</mapper>

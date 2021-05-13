@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.web.data.mapper.mysql.TroRoleUserRelationMapper">
+    <resultMap id="BaseResultMap" type="io.shulie.tro.web.data.model.mysql.TroRoleUserRelationEntity">
+        <!--@mbg.generated-->
+        <!--@Table t_tro_role_user_relation-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="role_id" jdbcType="VARCHAR" property="roleId"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="is_deleted" jdbcType="BOOLEAN" property="isDeleted"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, role_id, user_id, remark, create_time, update_time, is_deleted
+    </sql>
+    <resultMap id="UserMap" type="io.shulie.tro.web.data.model.mysql.UserRoleEntity">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="role_id" property="roleId" jdbcType="VARCHAR"/>
+        <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="selectRoleByCondition" resultMap="UserMap">
+        SELECT
+        a.id AS id,
+        a.`name` AS `name`,
+        b.id AS role_id,
+        b.`name` AS role_name
+        FROM
+        t_tro_user a
+        JOIN t_tro_role b
+        JOIN t_tro_role_user_relation c ON a.id = c.user_id
+        AND b.id = c.role_id
+        <where>
+            <if test="param.roleIds !=null">
+                AND c.role_id in
+                <foreach collection="param.roleIds" item="roleId" index="index" open="(" separator="," close=")">
+                    #{roleId}
+                </foreach>
+            </if>
+            <if test="param.userIds !=null">
+                AND a.id in
+                <foreach collection="param.userIds" item="userId" index="index" open="(" separator="," close=")">
+                    #{userId}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+
+    <insert id="batchInsertRoleToUser" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        <!--@mbg.generated generated on Sat Nov 09 19:04:59 CST 2019.-->
+        insert into t_tro_role_user_relation
+        (role_id, user_id)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.roleId},#{item.userId})
+        </foreach>
+    </insert>
+</mapper>

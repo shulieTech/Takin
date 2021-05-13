@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.web.data.mapper.mysql.ReportMachineMapper">
+    <resultMap id="BaseResultMap" type="io.shulie.tro.web.data.model.mysql.ReportMachineEntity">
+        <!--@mbg.generated-->
+        <!--@Table t_report_machine-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="report_id" jdbcType="BIGINT" property="reportId"/>
+        <result column="application_name" jdbcType="VARCHAR" property="applicationName"/>
+        <result column="machine_ip" jdbcType="VARCHAR" property="machineIp"/>
+        <result column="agent_id" jdbcType="VARCHAR" property="agentId"/>
+        <result column="machine_base_config" jdbcType="VARCHAR" property="machineBaseConfig"/>
+        <result column="machine_tps_target_config" jdbcType="LONGVARCHAR" property="machineTpsTargetConfig"/>
+        <result column="risk_value" jdbcType="DECIMAL" property="riskValue"/>
+        <result column="risk_flag" jdbcType="TINYINT" property="riskFlag"/>
+        <result column="risk_content" jdbcType="VARCHAR" property="riskContent"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, report_id, application_name, machine_ip, agent_id, machine_base_config, machine_tps_target_config,
+        risk_value, risk_flag, risk_content
+    </sql>
+</mapper>
