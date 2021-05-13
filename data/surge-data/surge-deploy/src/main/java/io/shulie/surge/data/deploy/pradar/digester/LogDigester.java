@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class LogDigester implements DataDigester<RpcBased> {
     private static final Logger logger = LoggerFactory.getLogger(LogDigester.class);
     @Inject
-    private MysqlSupport clickHouseSupport;
+    private ClickHouseSupport clickHouseSupport;
 
     @Inject
     @DefaultValue("false")
