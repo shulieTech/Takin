@@ -193,13 +193,21 @@ public class Listeners {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Listeners listeners = (Listeners) o;
 
-        if (className != null ? !className.equals(listeners.className) : listeners.className != null) return false;
-        if (executionPolicy != listeners.executionPolicy) return false;
+        if (className != null ? !className.equals(listeners.className) : listeners.className != null) {
+            return false;
+        }
+        if (executionPolicy != listeners.executionPolicy) {
+            return false;
+        }
         return scopeName != null ? scopeName.equals(listeners.scopeName) : listeners.scopeName == null;
     }
 

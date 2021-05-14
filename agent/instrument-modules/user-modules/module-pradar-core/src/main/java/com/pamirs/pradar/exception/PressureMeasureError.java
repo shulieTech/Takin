@@ -14,8 +14,12 @@
  */
 package com.pamirs.pradar.exception;
 
-import com.pamirs.pradar.Pradar;
-
+/**
+ * 压测错误，可能在压测流量时产生，也可能在非压测流量时产生，此错误会强行中断流程
+ * 使用该错误时需要注意，不能随便乱用，不然可能会影响真实业务流量
+ *
+ * @since 2020-05-14
+ */
 public class PressureMeasureError extends Error {
     private boolean isClusterTest;
 
@@ -32,13 +36,24 @@ public class PressureMeasureError extends Error {
         if (isClusterTest) {
             return true;
         }
-        return Pradar.isClusterTest();
+        return false;
     }
 
+    /**
+     * 抛出此错误时不管是压测流量还是非压测流量都会中断业务流程
+     *
+     * @param errorMsg 错误信息
+     */
     public PressureMeasureError(String errorMsg) {
         super(errorMsg);
     }
 
+    /**
+     * 抛出此错误时不管是压测流量还是非压测流量都会中断业务流程
+     *
+     * @param errorMsg      错误信息
+     * @param isClusterTest 是否是压测流量
+     */
     public PressureMeasureError(String errorMsg, boolean isClusterTest) {
         super(errorMsg);
         this.isClusterTest = isClusterTest;

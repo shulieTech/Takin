@@ -51,12 +51,18 @@ public class BuildingForListeners {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         BuildingForListeners that = (BuildingForListeners) o;
 
-        if (listeners != null ? !listeners.equals(that.listeners) : that.listeners != null) return false;
+        if (listeners != null ? !listeners.equals(that.listeners) : that.listeners != null) {
+            return false;
+        }
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
         return Arrays.equals(eventTypes, that.eventTypes);
     }

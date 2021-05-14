@@ -46,7 +46,7 @@ import java.util.*;
 @ModuleInfo(id = MockConstants.MODULE_NAME, version = "1.0.0", author = "xiaobin@shulie.io",
         description = "mock挡板,使用 groovy 脚本编写 mock 内容,以方法为维度，支持方法精确到参数指定,如 com.shulie.test.Test#doTest(int,java.lang.String)")
 public class MockPlugin extends ModuleLifecycleAdapter implements ExtensionModule {
-    private final static Logger LOGGER = LoggerFactory.getLogger("MOCK-LOGGER");
+    private final static Logger LOGGER = LoggerFactory.getLogger(MockPlugin.class);
     private Map<String, EventWatcher> watchers;
 
     @Override

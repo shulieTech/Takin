@@ -37,7 +37,9 @@ public class CoreConfig {
     private final static String DEFAULT_NAMESPACE = "pamirs";
     private final static String DEFAULT_TOKEN = "pamirs@123";
     private final static String LOG_PATH_NAME = "simulator.log.path";
+    private final static String LOG_LEVEL_NAME = "simulator.log.level";
     private final static String MULTI_APP_SWITCH = "simulator.multiapp.switch.on";
+    private final static String DEFAULT_LOG_LEVEL = "info";
 
     private static final String RESULT_FILE_PATH = System.getProperties().getProperty("user.home")
             + File.separator + "%s" + File.separator + ".simulator.token";
@@ -124,6 +126,19 @@ public class CoreConfig {
     public boolean isMultiAppSwitch() {
         String value = configs.get(MULTI_APP_SWITCH);
         return Boolean.valueOf(value);
+    }
+
+    /**
+     * 获取日志级别
+     *
+     * @return 日志级别
+     */
+    public String getLogLevel() {
+        String level = configs.get(LOG_LEVEL_NAME);
+        if (StringUtils.isBlank(level)) {
+            return DEFAULT_LOG_LEVEL;
+        }
+        return StringUtils.trim(level);
     }
 
     /**

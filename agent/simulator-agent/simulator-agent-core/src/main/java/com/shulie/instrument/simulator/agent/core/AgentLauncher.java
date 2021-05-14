@@ -171,6 +171,9 @@ public class AgentLauncher {
             if (StringUtils.isNotBlank(this.agentConfig.getLogPath())) {
                 builder.append(";logPath=").append(encodeArg(this.agentConfig.getLogPath()));
             }
+            if (StringUtils.isNotBlank(this.agentConfig.getLogLevel())) {
+                builder.append(";logLevel=").append(encodeArg(this.agentConfig.getLogLevel()));
+            }
             if (StringUtils.isNotBlank(this.agentConfig.getZkServers())) {
                 builder.append(";zkServers=").append(encodeArg(this.agentConfig.getZkServers()));
             }
