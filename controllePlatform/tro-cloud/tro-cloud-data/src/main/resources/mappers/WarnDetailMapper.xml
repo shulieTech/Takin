@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.cloud.data.mapper.mysql.WarnDetailMapper">
+  <resultMap id="BaseResultMap" type="io.shulie.tro.cloud.data.model.mysql.WarnDetailEntity">
+    <!--@mbg.generated-->
+    <!--@Table t_warn_detail-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="pt_id" jdbcType="BIGINT" property="ptId" />
+    <result column="sla_id" jdbcType="BIGINT" property="slaId" />
+    <result column="sla_name" jdbcType="VARCHAR" property="slaName" />
+    <result column="business_activity_id" jdbcType="BIGINT" property="businessActivityId" />
+    <result column="business_activity_name" jdbcType="VARCHAR" property="businessActivityName" />
+    <result column="warn_content" jdbcType="VARCHAR" property="warnContent" />
+    <result column="warn_rule_detail" jdbcType="VARCHAR" property="warnRuleDetail" />
+    <result column="real_value" jdbcType="DOUBLE" property="realValue" />
+    <result column="warn_time" jdbcType="TIMESTAMP" property="warnTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, pt_id, sla_id, sla_name, business_activity_id, business_activity_name, warn_content, 
+    warn_rule_detail, real_value, warn_time, create_time
+  </sql>
+</mapper>

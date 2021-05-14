@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pamirs.tro.entity.dao.report.TReportBusinessActivityDetailMapper">
+    <resultMap id="BaseResultMap" type="com.pamirs.tro.entity.domain.entity.report.ReportBusinessActivityDetail">
+        <!--@mbg.generated-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="report_id" jdbcType="BIGINT" property="reportId"/>
+        <result column="scene_id" jdbcType="BIGINT" property="sceneId"/>
+        <result column="business_activity_id" jdbcType="BIGINT" property="businessActivityId"/>
+        <result column="business_activity_name" jdbcType="VARCHAR" property="businessActivityName"/>
+        <result column="request" jdbcType="BIGINT" property="request"/>
+        <result column="tps" jdbcType="DECIMAL" property="tps"/>
+        <result column="rt" jdbcType="DECIMAL" property="rt"/>
+        <result column="sa" jdbcType="DECIMAL" property="sa"/>
+        <result column="success_rate" jdbcType="DECIMAL" property="successRate"/>
+        <result column="max_tps" jdbcType="DECIMAL" property="maxTps"/>
+        <result column="max_rt" jdbcType="DECIMAL" property="maxRt"/>
+        <result column="min_rt" jdbcType="DECIMAL" property="minRt"/>
+        <result column="features" jdbcType="VARCHAR" property="features"/>
+        <result column="is_deleted" jdbcType="INTEGER" property="isDeleted"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_update" jdbcType="TIMESTAMP" property="gmtUpdate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, report_id, scene_id, business_activity_id, business_activity_name, request, tps, sa,
+        rt, success_rate, max_tps, max_rt, min_rt, features, is_deleted, gmt_create, gmt_update
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from t_report_business_activity_detail
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <insert id="insertSelective"
+            parameterType="com.pamirs.tro.entity.domain.entity.report.ReportBusinessActivityDetail">
+        <!--@mbg.generated-->
+        insert into t_report_business_activity_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="reportId != null">
+                report_id,
+            </if>
+            <if test="sceneId != null">
+                scene_id,
+            </if>
+            <if test="businessActivityId != null">
+                business_activity_id,
+            </if>
+            <if test="businessActivityName != null">
+                business_activity_name,
+            </if>
+            <if test="request != null">
+                request,
+            </if>
+            <if test="tps != null">
+                tps,
+            </if>
+            <if test="rt != null">
+                rt,
+            </if>
+            <if test="sa != null">
+                sa,
+            </if>
+            <if test="successRate != null">
+                success_rate,
+            </if>
+            <if test="maxTps != null">
+                max_tps,
+            </if>
+            <if test="maxRt != null">
+                max_rt,
+            </if>
+            <if test="minRt != null">
+                min_rt,
+            </if>
+            <if test="features != null">
+                features,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtUpdate != null">
+                gmt_update,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="reportId != null">
+                #{reportId,jdbcType=BIGINT},
+            </if>
+            <if test="sceneId != null">
+                #{sceneId,jdbcType=BIGINT},
+            </if>
+            <if test="businessActivityId != null">
+                #{businessActivityId,jdbcType=BIGINT},
+            </if>
+            <if test="businessActivityName != null">
+                #{businessActivityName,jdbcType=VARCHAR},
+            </if>
+            <if test="request != null">
+                #{request,jdbcType=BIGINT},
+            </if>
+            <if test="tps != null">
+                #{tps,jdbcType=DECIMAL},
+            </if>
+            <if test="rt != null">
+                #{rt,jdbcType=DECIMAL},
+            </if>
+            <if test="sa != null">
+                #{sa,jdbcType=DECIMAL},
+            </if>
+            <if test="successRate != null">
+                #{successRate,jdbcType=DECIMAL},
+            </if>
+            <if test="maxTps != null">
+                #{maxTps,jdbcType=DECIMAL},
+            </if>
+            <if test="maxRt != null">
+                #{maxRt,jdbcType=DECIMAL},
+            </if>
+            <if test="minRt != null">
+                #{minRt,jdbcType=DECIMAL},
+            </if>
+            <if test="features != null">
+                #{features,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtUpdate != null">
+                #{gmtUpdate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="queryReportBusinessActivityDetailByReportId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_report_business_activity_detail
+        where report_id = #{reportId,jdbcType=BIGINT} and is_deleted = 0
+    </select>
+
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.pamirs.tro.entity.domain.entity.report.ReportBusinessActivityDetail">
+        <!--@mbg.generated-->
+        update t_report_business_activity_detail
+        <set>
+            <if test="reportId != null">
+                report_id = #{reportId,jdbcType=BIGINT},
+            </if>
+            <if test="sceneId != null">
+                scene_id = #{sceneId,jdbcType=BIGINT},
+            </if>
+            <if test="businessActivityId != null">
+                business_activity_id = #{businessActivityId,jdbcType=BIGINT},
+            </if>
+            <if test="businessActivityName != null">
+                business_activity_name = #{businessActivityName,jdbcType=VARCHAR},
+            </if>
+            <if test="request != null">
+                request = #{request,jdbcType=BIGINT},
+            </if>
+            <if test="tps != null">
+                tps = #{tps,jdbcType=DECIMAL},
+            </if>
+            <if test="rt != null">
+                rt = #{rt,jdbcType=DECIMAL},
+            </if>
+            <if test="sa != null">
+                sa = #{sa,jdbcType=DECIMAL},
+            </if>
+            <if test="successRate != null">
+                success_rate = #{successRate,jdbcType=DECIMAL},
+            </if>
+            <if test="maxTps != null">
+                max_tps = #{maxTps,jdbcType=DECIMAL},
+            </if>
+            <if test="maxRt != null">
+                max_rt = #{maxRt,jdbcType=DECIMAL},
+            </if>
+            <if test="minRt != null">
+                min_rt = #{minRt,jdbcType=DECIMAL},
+            </if>
+            <if test="features != null">
+                features = #{features,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtUpdate != null">
+                gmt_update = #{gmtUpdate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

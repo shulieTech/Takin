@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.web.data.mapper.mysql.PressureMachineMapper">
+  <resultMap id="BaseResultMap" type="io.shulie.tro.web.data.model.mysql.PressureMachineEntity">
+    <!--@mbg.generated-->
+    <!--@Table t_pressure_machine-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="flag" jdbcType="VARCHAR" property="flag" />
+    <result column="cpu" jdbcType="INTEGER" property="cpu" />
+    <result column="memory" jdbcType="BIGINT" property="memory" />
+    <result column="disk" jdbcType="BIGINT" property="disk" />
+    <result column="cpu_usage" jdbcType="DECIMAL" property="cpuUsage" />
+    <result column="cpu_load" jdbcType="DECIMAL" property="cpuLoad" />
+    <result column="memory_used" jdbcType="DECIMAL" property="memoryUsed" />
+    <result column="disk_io_wait" jdbcType="DECIMAL" property="diskIoWait" />
+    <result column="transmitted_in" jdbcType="BIGINT" property="transmittedIn" />
+    <result column="transmitted_in_usage" jdbcType="DECIMAL" property="transmittedInUsage" />
+    <result column="transmitted_out" jdbcType="BIGINT" property="transmittedOut" />
+    <result column="transmitted_out_usage" jdbcType="DECIMAL" property="transmittedOutUsage" />
+    <result column="transmitted_usage" jdbcType="DECIMAL" property="transmittedUsage" />
+    <result column="scene_id" jdbcType="BIGINT" property="sceneId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="is_delete" jdbcType="BOOLEAN" property="isDelete" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_update" jdbcType="TIMESTAMP" property="gmtUpdate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `name`, ip, flag, cpu, memory, `disk`, cpu_usage, cpu_load, memory_used, disk_io_wait, 
+    transmitted_in, transmitted_in_usage, transmitted_out, transmitted_out_usage, transmitted_usage, 
+    scene_id, `status`, is_delete, gmt_create, gmt_update
+  </sql>
+</mapper>

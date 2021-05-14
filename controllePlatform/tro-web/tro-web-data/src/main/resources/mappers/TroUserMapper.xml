@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.web.data.mapper.mysql.TroUserMapper">
+    <resultMap id="BaseResultMap" type="io.shulie.tro.web.data.model.mysql.TroUserEntity">
+        <!--@mbg.generated-->
+        <!--@Table t_tro_user-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="nick" jdbcType="VARCHAR" property="nick"/>
+        <result column="key" jdbcType="VARCHAR" property="key"/>
+        <result column="salt" jdbcType="VARCHAR" property="salt"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="user_type" jdbcType="INTEGER" property="userType"/>
+        <result column="model" jdbcType="INTEGER" property="model"/>
+        <result column="role" jdbcType="INTEGER" property="role"/>
+        <result column="is_delete" jdbcType="BOOLEAN" property="isDelete"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_update" jdbcType="TIMESTAMP" property="gmtUpdate"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, `name`, nick, `key`, salt, `password`, `status`, user_type, model, `role`, is_delete,
+        gmt_create, gmt_update
+    </sql>
+
+    <!--批量的插入 or  更新的操作-->
+    <insert id="saveOrUpdateUserBatch" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        insert into t_tro_user
+        (id, `name`, nick, user_type, model, customer_id, `role`)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id},
+            #{item.name},
+            #{item.nick},
+            #{item.userType},
+            #{item.model},
+            #{item.customerId},
+            #{item.role})
+        </foreach>
+        ON DUPLICATE KEY UPDATE id=VALUES(id),`name`=VALUES(`name`),nick=VALUES(nick)
+    </insert>
+
+    <select id="getNoDefaultRoleUserIds" resultType="java.lang.Long">
+        SELECT
+            id
+        FROM
+            t_tro_user
+        WHERE
+            id NOT IN ( SELECT user_id FROM t_tro_role_user_relation WHERE role_id = #{defaultRoleId} )
+    </select>
+
+
+</mapper>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pamirs.tro.entity.dao.apimanage.TApplicationApiManageMapper">
+    <resultMap id="BaseResultMap" type="com.pamirs.tro.entity.domain.entity.ApplicationApiManage">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="APPLICATION_ID" jdbcType="BIGINT" property="applicationId"/>
+        <result column="APPLICATION_NAME" jdbcType="VARCHAR" property="applicationName"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="IS_DELETED" jdbcType="TINYINT" property="isDeleted"/>
+        <result column="api" property="api"/>
+        <result column="method" property="requestMethod"/>
+        <result column="CUSTOMER_ID" jdbcType="BIGINT" property="customerId"/>
+        <result column="USER_ID" jdbcType="BIGINT" property="userId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        ID, APPLICATION_ID, APPLICATION_NAME, CREATE_TIME, UPDATE_TIME, IS_DELETED,api,`method`,customer_id,user_id
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_application_api_manage
+        where ID = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from t_application_api_manage
+        where ID = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.pamirs.tro.entity.domain.entity.ApplicationApiManage">
+        insert into t_application_api_manage (ID, APPLICATION_ID, APPLICATION_NAME,
+                                              CREATE_TIME, UPDATE_TIME, IS_DELETED, api, method)
+        values (#{id,jdbcType=BIGINT}, #{applicationId,jdbcType=BIGINT}, #{applicationName,jdbcType=VARCHAR},
+                #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=TINYINT}
+                   , #{api}, #{requestMethod})
+
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into t_application_api_manage ( APPLICATION_NAME,
+        CREATE_TIME, UPDATE_TIME, IS_DELETED,api,method,application_id,customer_id,user_id,IS_AGENT_REGISTE)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.applicationName},#{item.createTime},#{item.updateTime},#{item.isDeleted},#{item.api},#{item.requestMethod},#{item.applicationId},#{item.customerId},#{item.userId},#{item.isAgentRegiste})
+        </foreach>
+
+
+    </insert>
+
+
+    <insert id="insertSelective" parameterType="com.pamirs.tro.entity.domain.entity.ApplicationApiManage">
+        insert into t_application_api_manage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="applicationId != null">
+                APPLICATION_ID,
+            </if>
+            <if test="applicationName != null">
+                APPLICATION_NAME,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME,
+            </if>
+            <if test="isDeleted != null">
+                IS_DELETED,
+            </if>
+            <if test="api != null">
+                api,
+            </if>
+            <if test="requestMethod != null">
+                method,
+            </if>
+            <if test="customerId != null">
+                customer_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="isAgentRegiste != null">
+                is_agent_registe,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="applicationId != null">
+                #{applicationId,jdbcType=BIGINT},
+            </if>
+            <if test="applicationName != null">
+                #{applicationName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="api != null">
+                #{api},
+            </if>
+            <if test="requestMethod != null">
+                #{requestMethod},
+            </if>
+            <if test="customerId != null">
+                #{customerId},
+            </if>
+            <if test="userId != null">
+                #{userId},
+            </if>
+            <if test="isAgentRegiste != null">
+                #{isAgentRegiste},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.pamirs.tro.entity.domain.entity.ApplicationApiManage">
+        update t_application_api_manage
+        <set>
+            <if test="applicationId != null">
+                APPLICATION_ID = #{applicationId,jdbcType=BIGINT},
+            </if>
+            <if test="applicationName != null">
+                APPLICATION_NAME = #{applicationName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDeleted != null">
+                IS_DELETED = #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="api != null">
+                api = #{api},
+            </if>
+            <if test="requestMethod != null">
+                method = #{requestMethod},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.pamirs.tro.entity.domain.entity.ApplicationApiManage">
+        update t_application_api_manage
+        set APPLICATION_ID   = #{applicationId,jdbcType=BIGINT},
+            APPLICATION_NAME = #{applicationName,jdbcType=VARCHAR},
+            CREATE_TIME      = #{createTime,jdbcType=TIMESTAMP},
+            UPDATE_TIME      = #{updateTime,jdbcType=TIMESTAMP},
+            IS_DELETED       = #{isDeleted,jdbcType=TINYINT}
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="query" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_application_api_manage where IS_DELETED=0
+    </select>
+
+    <select id="querySimple" resultMap="BaseResultMap">
+        select APPLICATION_NAME, api, method
+        from t_application_api_manage
+        where method is not null
+          and method != ''
+        <if test="appName != null">
+            and APPLICATION_NAME = #{appName}
+        </if>
+    </select>
+
+    <select id="selectBySelective" parameterType="com.pamirs.tro.entity.domain.entity.ApplicationApiManage"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_application_api_manage where IS_DELETED=0
+        <if test="api != null">
+            and api = #{api}
+        </if>
+        <if test="applicationName != null">
+            and APPLICATION_NAME = #{applicationName}
+        </if>
+    </select>
+
+    <select id="deleteByAppName" parameterType="java.lang.String">
+        delete
+        from t_application_api_manage
+        where application_name = #{appName}
+        and is_agent_registe = 1
+    </select>
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.web.data.mapper.mysql.SecondLinkMntMapper">
+    <resultMap id="BaseResultMap" type="io.shulie.tro.web.data.model.mysql.SecondLinkMntEntity">
+        <!--@mbg.generated-->
+        <!--@Table t_second_link_mnt-->
+        <id column="LINK_ID" jdbcType="VARCHAR" property="linkId"/>
+        <result column="LINK_NAME" jdbcType="VARCHAR" property="linkName"/>
+        <result column="BASE_LINKS" jdbcType="LONGVARCHAR" property="baseLinks"/>
+        <result column="ASWAN_ID" jdbcType="VARCHAR" property="aswanId"/>
+        <result column="LINK_TPS" jdbcType="BIGINT" property="linkTps"/>
+        <result column="TARGET_TPS" jdbcType="BIGINT" property="targetTps"/>
+        <result column="LINK_TPS_RULE" jdbcType="LONGVARCHAR" property="linkTpsRule"/>
+        <result column="USE_YN" jdbcType="INTEGER" property="useYn"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="TEST_STATUS" jdbcType="VARCHAR" property="testStatus"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        LINK_ID, LINK_NAME, BASE_LINKS, ASWAN_ID, LINK_TPS, TARGET_TPS, LINK_TPS_RULE, USE_YN,
+        CREATE_TIME, UPDATE_TIME, remark, TEST_STATUS
+    </sql>
+</mapper>

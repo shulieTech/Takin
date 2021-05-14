@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.web.data.mapper.mysql.MqIsolateConfigMapper">
+    <resultMap id="BaseResultMap" type="io.shulie.tro.web.data.model.mysql.MqIsolateConfigEntity">
+        <!--@mbg.generated-->
+        <!--@Table t_mq_isolate_config-->
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="CLUSTER_NAME" jdbcType="VARCHAR" property="clusterName"/>
+        <result column="CLUSTER_ALIAS" jdbcType="VARCHAR" property="clusterAlias"/>
+        <result column="NAMESRV_ADDR" jdbcType="VARCHAR" property="namesrvAddr"/>
+        <result column="PT_NAMESRV_ADDR" jdbcType="VARCHAR" property="ptNamesrvAddr"/>
+        <result column="BROKER_NAME" jdbcType="VARCHAR" property="brokerName"/>
+        <result column="TOPIC" jdbcType="VARCHAR" property="topic"/>
+        <result column="CONSUMER_GROUP" jdbcType="VARCHAR" property="consumerGroup"/>
+        <result column="ISOLATED_STATUS" jdbcType="INTEGER" property="isolatedStatus"/>
+        <result column="BROKER_PROPERTY" jdbcType="VARCHAR" property="brokerProperty"/>
+        <result column="ACTIVE" jdbcType="CHAR" property="active"/>
+        <result column="FAILED_DETAIL" jdbcType="LONGVARCHAR" property="failedDetail"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        ID, CLUSTER_NAME, CLUSTER_ALIAS, NAMESRV_ADDR, PT_NAMESRV_ADDR, BROKER_NAME, TOPIC,
+        CONSUMER_GROUP, ISOLATED_STATUS, BROKER_PROPERTY, ACTIVE, FAILED_DETAIL, CREATE_TIME,
+        UPDATE_TIME
+    </sql>
+</mapper>

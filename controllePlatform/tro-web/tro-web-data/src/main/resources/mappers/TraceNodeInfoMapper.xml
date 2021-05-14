@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.web.data.mapper.mysql.TraceNodeInfoMapper">
+  <resultMap id="BaseResultMap" type="io.shulie.tro.web.data.model.mysql.TraceNodeInfoEntity">
+    <!--@mbg.generated-->
+    <!--@Table t_trace_node_info-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="app_name" jdbcType="VARCHAR" property="appName" />
+    <result column="trace_id" jdbcType="VARCHAR" property="traceId" />
+    <result column="rpc_id" jdbcType="VARCHAR" property="rpcId" />
+    <result column="trace_app_name" jdbcType="VARCHAR" property="traceAppName" />
+    <result column="up_app_name" jdbcType="VARCHAR" property="upAppName" />
+    <result column="start_time" jdbcType="BIGINT" property="startTime" />
+    <result column="cost" jdbcType="BIGINT" property="cost" />
+    <result column="middleware_name" jdbcType="VARCHAR" property="middlewareName" />
+    <result column="service_name" jdbcType="VARCHAR" property="serviceName" />
+    <result column="method_name" jdbcType="VARCHAR" property="methodName" />
+    <result column="remote_ip" jdbcType="VARCHAR" property="remoteIp" />
+    <result column="result_code" jdbcType="VARCHAR" property="resultCode" />
+    <result column="request" jdbcType="VARCHAR" property="request" />
+    <result column="response" jdbcType="VARCHAR" property="response" />
+    <result column="cluster_test" jdbcType="BOOLEAN" property="clusterTest" />
+    <result column="host_ip" jdbcType="VARCHAR" property="hostIp" />
+    <result column="agent_id" jdbcType="VARCHAR" property="agentId" />
+    <result column="custom_id" jdbcType="VARCHAR" property="customId" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="is_deleted" jdbcType="BOOLEAN" property="isDeleted" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, app_name, trace_id, rpc_id, trace_app_name, up_app_name, start_time, cost, middleware_name, 
+    service_name, method_name, remote_ip, result_code, request, response, cluster_test, 
+    host_ip, agent_id, custom_id, gmt_create, gmt_modified, is_deleted
+  </sql>
+</mapper>

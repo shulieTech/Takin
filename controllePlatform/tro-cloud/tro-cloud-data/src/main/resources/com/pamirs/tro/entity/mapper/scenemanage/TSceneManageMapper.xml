@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pamirs.tro.entity.dao.scenemanage.TSceneManageMapper">
+    <resultMap id="BaseResultMap" type="com.pamirs.tro.entity.domain.entity.scenemanage.SceneManage">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="custom_id" property="customId" jdbcType="BIGINT"/>
+        <result column="deptId" property="deptId" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="scene_name" property="sceneName" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="type" property="type" jdbcType="TINYINT"/>
+        <result column="last_pt_time" property="lastPtTime" jdbcType="TIMESTAMP"/>
+        <result column="script_type" property="scriptType" jdbcType="TINYINT"/>
+        <result column="is_deleted" property="isDeleted" jdbcType="TINYINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="features" property="features" jdbcType="VARCHAR"/>
+        <result column="create_name" property="createName" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_name" property="updateName" jdbcType="VARCHAR"/>
+        <result column="pt_config" property="ptConfig" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, custom_id, scene_name, status, `type`,last_pt_time, script_type, is_deleted, create_time,features, create_name,
+    update_time, update_name, pt_config, dept_id, user_id
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_scene_manage
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectAllSceneManageList" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List"/>
+        from t_scene_manage
+        where is_deleted = 0
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        update t_scene_manage
+        set is_deleted = 1
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insertSelective" parameterType="com.pamirs.tro.entity.domain.entity.scenemanage.SceneManage"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into t_scene_manage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customId != null">
+                custom_id,
+            </if>
+            <if test="deptId != null">
+                dept_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="sceneName != null">
+                scene_name,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="type != null">
+                `type`,
+            </if>
+            <if test="lastPtTime != null">
+                last_pt_time,
+            </if>
+            <if test="scriptType != null">
+                script_type,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="features != null">
+                features ,
+            </if>
+            <if test="createName != null">
+                create_name,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="updateName != null">
+                update_name,
+            </if>
+            <if test="ptConfig != null">
+                pt_config,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customId != null">
+                #{customId,jdbcType=BIGINT},
+            </if>
+            <if test="deptId != null">
+                #{deptId,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="sceneName != null">
+                #{sceneName,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=TINYINT},
+            </if>
+            <if test="lastPtTime != null">
+                #{lastPtTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="scriptType != null">
+                #{scriptType,jdbcType=TINYINT},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="features!=null ">
+                #{features,jdbcType=VARCHAR} ,
+            </if>
+            <if test="createName != null">
+                #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateName != null">
+                #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="ptConfig != null">
+                #{ptConfig,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.pamirs.tro.entity.domain.entity.scenemanage.SceneManage">
+        update t_scene_manage
+        <set>
+            <if test="customId != null">
+                custom_id = #{customId,jdbcType=BIGINT},
+            </if>
+            <if test="sceneName != null">
+                scene_name = #{sceneName,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="type != null">
+                `type` = #{type,jdbcType=TINYINT},
+            </if>
+            <if test="lastPtTime != null">
+                last_pt_time = #{lastPtTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="scriptType != null">
+                script_type = #{scriptType,jdbcType=TINYINT},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="features != null ">
+                features = #{features,jdbcType=VARCHAR} ,
+            </if>
+            <if test="createName != null">
+                create_name = #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateName != null">
+                update_name = #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="ptConfig != null">
+                pt_config = #{ptConfig,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateStatus">
+        update t_scene_manage
+        set status = #{afterStatus}
+        where id = #{sceneId}
+          and status = #{preStatus}
+    </update>
+
+    <update id="resumeStatus">
+        update t_scene_manage
+        set status = 0
+        where id = #{id}
+    </update>
+
+    <update id="updateSceneUserById">
+        update t_scene_manage
+        set user_id = #{userId}
+        where id = #{id}
+    </update>
+
+    <select id="getPageList" parameterType="com.pamirs.tro.entity.domain.vo.scenemanage.SceneManageQueryVO"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_scene_manage
+        <where>
+            <if test="sceneId != null">
+                and id = #{sceneId}
+            </if>
+            <if test="customIds != null and customIds.size() > 0">
+                and custom_id in
+                <foreach collection="customIds" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="sceneIds != null and sceneIds.size() > 0">
+                and id in
+                <foreach collection="sceneIds" item="sceneId" open="(" separator="," close=")">
+                    #{sceneId}
+                </foreach>
+            </if>
+            <if test="customId != null">
+                and custom_id = #{customId}
+            </if>
+            <if test="sceneName != null">
+                and scene_name like concat('%', #{sceneName}, '%')
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="type != null">
+                and `type` = #{type}
+            </if>
+
+            <if test="lastPtEndTime != null and lastPtEndTime != ''">
+                and last_pt_time &lt;= #{lastPtEndTime,jdbcType=VARCHAR}
+            </if>
+            <if test="lastPtStartTime != null and lastPtStartTime != ''">
+                and last_pt_time &gt;= #{lastPtStartTime,jdbcType=VARCHAR}
+            </if>
+            and is_deleted = 0
+        </where>
+        order by last_pt_time desc, id desc
+    </select>
+
+    <select id="getByIds" resultMap="BaseResultMap">
+        select * from t_scene_manage
+        where id in
+        <foreach collection="ids" open="(" close=")" separator="," item="sceneId">
+            #{sceneId}
+        </foreach>
+        and is_deleted = 0
+
+    </select>
+</mapper>

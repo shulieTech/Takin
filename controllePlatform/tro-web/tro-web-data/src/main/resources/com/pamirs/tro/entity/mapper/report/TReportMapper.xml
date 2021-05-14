@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pamirs.tro.entity.dao.report.TReportMapper">
+    <resultMap id="BaseResultMap" type="com.pamirs.tro.entity.domain.entity.report.Report">
+        <!--@mbg.generated-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="scene_id" jdbcType="BIGINT" property="sceneId"/>
+        <result column="custom_id" property="customId" jdbcType="BIGINT"/>
+        <result column="amount" jdbcType="DECIMAL" property="amount"/>
+        <result column="scene_name" jdbcType="VARCHAR" property="sceneName"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="conclusion" jdbcType="INTEGER" property="conclusion"/>
+        <result column="total_request" jdbcType="BIGINT" property="totalRequest"/>
+        <result column="avg_tps" jdbcType="DECIMAL" property="avgTps"/>
+        <result column="avg_rt" jdbcType="DECIMAL" property="avgRt"/>
+        <result column="concurrent" jdbcType="INTEGER" property="concurrent"/>
+        <result column="success_rate" jdbcType="DECIMAL" property="successRate"/>
+        <result column="sa" jdbcType="DECIMAL" property="sa"/>
+        <result column="operate_id" jdbcType="BIGINT" property="operateId"/>
+        <result column="features" jdbcType="VARCHAR" property="features"/>
+        <result column="is_deleted" jdbcType="INTEGER" property="isDeleted"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_update" jdbcType="TIMESTAMP" property="gmtUpdate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, scene_id, scene_name, start_time, end_time, `status`, conclusion, total_request,
+        avg_tps, avg_rt, concurrent, success_rate, sa, operate_id,features, is_deleted, gmt_create,
+        gmt_update,custom_id,amount
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from t_report
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <insert id="insertSelective" parameterType="com.pamirs.tro.entity.domain.entity.report.Report" keyProperty="id"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_report
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="sceneId != null">
+                scene_id,
+            </if>
+            <if test="sceneName != null">
+                scene_name,
+            </if>
+            <if test="startTime != null">
+                start_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="status != null">
+                `status`,
+            </if>
+            <if test="conclusion != null">
+                conclusion,
+            </if>
+            <if test="totalRequest != null">
+                total_request,
+            </if>
+            <if test="avgTps != null">
+                avg_tps,
+            </if>
+            <if test="avgRt != null">
+                avg_rt,
+            </if>
+            <if test="concurrent != null">
+                concurrent,
+            </if>
+            <if test="successRate != null">
+                success_rate,
+            </if>
+            <if test="sa != null">
+                sa,
+            </if>
+            <if test="operateId != null">
+                operate_id,
+            </if>
+            <if test="features != null">
+                features,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtUpdate != null">
+                gmt_update,
+            </if>
+            <if test="customId != null">
+                custom_id,
+            </if>
+            <if test="amount != null">
+                amount,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="sceneId != null">
+                #{sceneId,jdbcType=BIGINT},
+            </if>
+            <if test="sceneName != null">
+                #{sceneName,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null">
+                #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="conclusion != null">
+                #{conclusion,jdbcType=INTEGER},
+            </if>
+            <if test="totalRequest != null">
+                #{totalRequest,jdbcType=BIGINT},
+            </if>
+            <if test="avgTps != null">
+                #{avgTps,jdbcType=DECIMAL},
+            </if>
+            <if test="avgRt != null">
+                #{avgRt,jdbcType=DECIMAL},
+            </if>
+            <if test="concurrent != null">
+                #{concurrent,jdbcType=INTEGER},
+            </if>
+            <if test="successRate != null">
+                #{successRate,jdbcType=DECIMAL},
+            </if>
+            <if test="sa != null">
+                #{sa,jdbcType=DECIMAL},
+            </if>
+            <if test="operateId != null">
+                #{operateId,jdbcType=BIGINT},
+            </if>
+            <if test="features != null">
+                #{features,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtUpdate != null">
+                #{gmtUpdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="customId != null">
+                #{customId,jdbcType=BIGINT},
+            </if>
+            <if test="amount != null">
+                #{amount,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="listReport" resultMap="BaseResultMap"
+            parameterType="com.pamirs.tro.entity.domain.vo.report.ReportQueryParam">
+        select id, scene_id,scene_name,start_time,end_time,`status`,conclusion,concurrent,amount,custom_id from t_report
+        <where>
+            <if test="param.sceneName != null">
+                and scene_name like concat('%',#{param.sceneName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="param.startTime != null">
+                and start_time  <![CDATA[ >= ]]>  #{param.startTime}
+            </if>
+            <if test="param.endTime != null">
+                and start_time  <![CDATA[ <= ]]> #{param.endTime}
+            </if>
+            and status > 0 and is_deleted = 0
+        </where>
+        order by id desc
+    </select>
+
+    <select id="listReportSceneIds" resultMap="BaseResultMap">
+        select scene_id
+        from t_report
+        where scene_id in
+        <foreach collection="sceneIds" open="(" close=")" separator="," item="sceneId">
+            #{sceneId}
+        </foreach>
+        and `status` = 2 and is_deleted = 0
+        group by scene_id
+    </select>
+
+    <select id="getReportBySceneId" resultType="com.pamirs.tro.entity.domain.entity.report.Report">
+        select id,
+               scene_id,
+               scene_name,
+               start_time,
+               end_time,
+               `status`,
+               operate_id,
+               features,
+               amount,
+               custom_id
+        from t_report
+        where scene_id = #{sceneId,jdbcType=BIGINT}
+          and `status` = 0
+        order by id desc
+        limit 1
+    </select>
+
+    <select id="getTempReportBySceneId" resultType="com.pamirs.tro.entity.domain.entity.report.Report">
+        select id,
+               scene_id,
+               scene_name,
+               start_time,
+               end_time,
+               `status`,
+               operate_id,
+               amount,
+               custom_id
+        from t_report
+        where scene_id = #{sceneId,jdbcType=BIGINT}
+          and is_deleted = 0
+        order by id desc
+        limit 1
+    </select>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.pamirs.tro.entity.domain.entity.report.Report">
+        <!--@mbg.generated-->
+        update t_report
+        <set>
+            <if test="sceneId != null">
+                scene_id = #{sceneId,jdbcType=BIGINT},
+            </if>
+            <if test="sceneName != null">
+                scene_name = #{sceneName,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                `status` = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="conclusion != null">
+                conclusion = #{conclusion,jdbcType=INTEGER},
+            </if>
+            <if test="totalRequest != null">
+                total_request = #{totalRequest,jdbcType=BIGINT},
+            </if>
+            <if test="avgTps != null">
+                avg_tps = #{avgTps,jdbcType=DECIMAL},
+            </if>
+            <if test="avgRt != null">
+                avg_rt = #{avgRt,jdbcType=DECIMAL},
+            </if>
+            <if test="concurrent != null">
+                concurrent = #{concurrent,jdbcType=INTEGER},
+            </if>
+            <if test="successRate != null">
+                success_rate = #{successRate,jdbcType=DECIMAL},
+            </if>
+            <if test="sa != null">
+                sa = #{sa,jdbcType=DECIMAL},
+            </if>
+            <if test="features != null">
+                features = #{features,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtUpdate != null">
+                gmt_update = #{gmtUpdate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

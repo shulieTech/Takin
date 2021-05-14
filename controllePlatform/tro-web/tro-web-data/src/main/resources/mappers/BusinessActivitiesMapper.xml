@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.web.data.mapper.mysql.BusinessActivitiesMapper">
+    <resultMap id="BaseResultMap" type="io.shulie.tro.web.data.model.mysql.BusinessActivitiesEntity">
+        <!--@mbg.generated-->
+        <!--@Table t_business_activities-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="whole_report_id" jdbcType="BIGINT" property="wholeReportId"/>
+        <result column="pessure_process_id" jdbcType="BIGINT" property="pessureProcessId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="tps" jdbcType="VARCHAR" property="tps"/>
+        <result column="avg_rt" jdbcType="VARCHAR" property="avgRt"/>
+        <result column="success_rate" jdbcType="VARCHAR" property="successRate"/>
+        <result column="peak_time" jdbcType="VARCHAR" property="peakTime"/>
+        <result column="peak_tps" jdbcType="VARCHAR" property="peakTps"/>
+        <result column="peak_avg_rt" jdbcType="VARCHAR" property="peakAvgRt"/>
+        <result column="peak_request" jdbcType="VARCHAR" property="peakRequest"/>
+        <result column="peak_request_rate" jdbcType="VARCHAR" property="peakRequestRate"/>
+        <result column="is_deleted" jdbcType="BOOLEAN" property="isDeleted"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, whole_report_id, pessure_process_id, `name`, tps, avg_rt, success_rate, peak_time,
+        peak_tps, peak_avg_rt, peak_request, peak_request_rate, is_deleted, CREATE_TIME,
+        UPDATE_TIME
+    </sql>
+</mapper>

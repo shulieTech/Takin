@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pamirs.tro.entity.dao.machine.TMachineTaskMapper">
+    <resultMap id="BaseResultMap" type="com.pamirs.tro.entity.domain.entity.machine.MachineTask">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="task_type" jdbcType="INTEGER" property="taskType"/>
+        <result column="serial_no" jdbcType="VARCHAR" property="serialNo"/>
+        <result column="platform_id" jdbcType="BIGINT" property="platformId"/>
+        <result column="platform_name" jdbcType="VARCHAR" property="platformName"/>
+        <result column="account_id" jdbcType="BIGINT" property="accountId"/>
+        <result column="account_name" jdbcType="VARCHAR" property="accountName"/>
+        <result column="spec_id" jdbcType="BIGINT" property="specId"/>
+        <result column="spec" jdbcType="VARCHAR" property="spec"/>
+        <result column="open_type" jdbcType="INTEGER" property="openType"/>
+        <result column="open_time" jdbcType="INTEGER" property="openTime"/>
+        <result column="machine_num" jdbcType="INTEGER" property="machineNum"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="is_delete" jdbcType="BIT" property="isDelete"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_update" jdbcType="TIMESTAMP" property="gmtUpdate"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+               type="com.pamirs.tro.entity.domain.entity.machine.MachineTask">
+        <result column="extend_config" jdbcType="LONGVARCHAR" property="extendConfig"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id, task_type, serial_no, platform_id, platform_name, account_id, account_name, spec_id,
+    spec, open_type, open_time, machine_num, status, is_delete, gmt_create, gmt_update
+    </sql>
+    <sql id="Blob_Column_List">
+        extend_config
+    </sql>
+    <select id="selectByExampleWithBLOBs" parameterType="com.pamirs.tro.entity.domain.entity.machine.MachineTaskExample"
+            resultMap="ResultMapWithBLOBs">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'false' as QUERYID,
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from t_machine_task
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByExample" parameterType="com.pamirs.tro.entity.domain.entity.machine.MachineTaskExample"
+            resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'false' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from t_machine_task
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from t_machine_task
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from t_machine_task
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.pamirs.tro.entity.domain.entity.machine.MachineTask">
+        insert into t_machine_task (id, task_type, serial_no,
+                                    platform_id, platform_name, account_id,
+                                    account_name, spec_id, spec,
+                                    open_type, open_time, machine_num,
+                                    status, is_delete, gmt_create,
+                                    gmt_update, extend_config)
+        values (#{id,jdbcType=BIGINT}, #{taskType,jdbcType=INTEGER}, #{serialNo,jdbcType=VARCHAR},
+                #{platformId,jdbcType=BIGINT}, #{platformName,jdbcType=VARCHAR}, #{accountId,jdbcType=BIGINT},
+                #{accountName,jdbcType=VARCHAR}, #{specId,jdbcType=BIGINT}, #{spec,jdbcType=VARCHAR},
+                #{openType,jdbcType=INTEGER}, #{openTime,jdbcType=INTEGER}, #{machineNum,jdbcType=INTEGER},
+                #{status,jdbcType=INTEGER}, #{isDelete,jdbcType=BIT}, #{gmtCreate,jdbcType=TIMESTAMP},
+                #{gmtUpdate,jdbcType=TIMESTAMP}, #{extendConfig,jdbcType=LONGVARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.pamirs.tro.entity.domain.entity.machine.MachineTask">
+        insert into t_machine_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="taskType != null">
+                task_type,
+            </if>
+            <if test="serialNo != null">
+                serial_no,
+            </if>
+            <if test="platformId != null">
+                platform_id,
+            </if>
+            <if test="platformName != null">
+                platform_name,
+            </if>
+            <if test="accountId != null">
+                account_id,
+            </if>
+            <if test="accountName != null">
+                account_name,
+            </if>
+            <if test="specId != null">
+                spec_id,
+            </if>
+            <if test="spec != null">
+                spec,
+            </if>
+            <if test="openType != null">
+                open_type,
+            </if>
+            <if test="openTime != null">
+                open_time,
+            </if>
+            <if test="machineNum != null">
+                machine_num,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtUpdate != null">
+                gmt_update,
+            </if>
+            <if test="extendConfig != null">
+                extend_config,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="taskType != null">
+                #{taskType,jdbcType=INTEGER},
+            </if>
+            <if test="serialNo != null">
+                #{serialNo,jdbcType=VARCHAR},
+            </if>
+            <if test="platformId != null">
+                #{platformId,jdbcType=BIGINT},
+            </if>
+            <if test="platformName != null">
+                #{platformName,jdbcType=VARCHAR},
+            </if>
+            <if test="accountId != null">
+                #{accountId,jdbcType=BIGINT},
+            </if>
+            <if test="accountName != null">
+                #{accountName,jdbcType=VARCHAR},
+            </if>
+            <if test="specId != null">
+                #{specId,jdbcType=BIGINT},
+            </if>
+            <if test="spec != null">
+                #{spec,jdbcType=VARCHAR},
+            </if>
+            <if test="openType != null">
+                #{openType,jdbcType=INTEGER},
+            </if>
+            <if test="openTime != null">
+                #{openTime,jdbcType=INTEGER},
+            </if>
+            <if test="machineNum != null">
+                #{machineNum,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=BIT},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtUpdate != null">
+                #{gmtUpdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="extendConfig != null">
+                #{extendConfig,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByExampleSelective" parameterType="map">
+        update t_machine_task
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.taskType != null">
+                task_type = #{record.taskType,jdbcType=INTEGER},
+            </if>
+            <if test="record.serialNo != null">
+                serial_no = #{record.serialNo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.platformId != null">
+                platform_id = #{record.platformId,jdbcType=BIGINT},
+            </if>
+            <if test="record.platformName != null">
+                platform_name = #{record.platformName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.accountId != null">
+                account_id = #{record.accountId,jdbcType=BIGINT},
+            </if>
+            <if test="record.accountName != null">
+                account_name = #{record.accountName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.specId != null">
+                spec_id = #{record.specId,jdbcType=BIGINT},
+            </if>
+            <if test="record.spec != null">
+                spec = #{record.spec,jdbcType=VARCHAR},
+            </if>
+            <if test="record.openType != null">
+                open_type = #{record.openType,jdbcType=INTEGER},
+            </if>
+            <if test="record.openTime != null">
+                open_time = #{record.openTime,jdbcType=INTEGER},
+            </if>
+            <if test="record.machineNum != null">
+                machine_num = #{record.machineNum,jdbcType=INTEGER},
+            </if>
+            <if test="record.status != null">
+                status = #{record.status,jdbcType=INTEGER},
+            </if>
+            <if test="record.isDelete != null">
+                is_delete = #{record.isDelete,jdbcType=BIT},
+            </if>
+            <if test="record.gmtCreate != null">
+                gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.gmtUpdate != null">
+                gmt_update = #{record.gmtUpdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.extendConfig != null">
+                extend_config = #{record.extendConfig,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExampleWithBLOBs" parameterType="map">
+        update t_machine_task
+        set id = #{record.id,jdbcType=BIGINT},
+        task_type = #{record.taskType,jdbcType=INTEGER},
+        serial_no = #{record.serialNo,jdbcType=VARCHAR},
+        platform_id = #{record.platformId,jdbcType=BIGINT},
+        platform_name = #{record.platformName,jdbcType=VARCHAR},
+        account_id = #{record.accountId,jdbcType=BIGINT},
+        account_name = #{record.accountName,jdbcType=VARCHAR},
+        spec_id = #{record.specId,jdbcType=BIGINT},
+        spec = #{record.spec,jdbcType=VARCHAR},
+        open_type = #{record.openType,jdbcType=INTEGER},
+        open_time = #{record.openTime,jdbcType=INTEGER},
+        machine_num = #{record.machineNum,jdbcType=INTEGER},
+        status = #{record.status,jdbcType=INTEGER},
+        is_delete = #{record.isDelete,jdbcType=BIT},
+        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+        gmt_update = #{record.gmtUpdate,jdbcType=TIMESTAMP},
+        extend_config = #{record.extendConfig,jdbcType=LONGVARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update t_machine_task
+        set id = #{record.id,jdbcType=BIGINT},
+        task_type = #{record.taskType,jdbcType=INTEGER},
+        serial_no = #{record.serialNo,jdbcType=VARCHAR},
+        platform_id = #{record.platformId,jdbcType=BIGINT},
+        platform_name = #{record.platformName,jdbcType=VARCHAR},
+        account_id = #{record.accountId,jdbcType=BIGINT},
+        account_name = #{record.accountName,jdbcType=VARCHAR},
+        spec_id = #{record.specId,jdbcType=BIGINT},
+        spec = #{record.spec,jdbcType=VARCHAR},
+        open_type = #{record.openType,jdbcType=INTEGER},
+        open_time = #{record.openTime,jdbcType=INTEGER},
+        machine_num = #{record.machineNum,jdbcType=INTEGER},
+        status = #{record.status,jdbcType=INTEGER},
+        is_delete = #{record.isDelete,jdbcType=BIT},
+        gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
+        gmt_update = #{record.gmtUpdate,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.pamirs.tro.entity.domain.entity.machine.MachineTask">
+        update t_machine_task
+        <set>
+            <if test="taskType != null">
+                task_type = #{taskType,jdbcType=INTEGER},
+            </if>
+            <if test="serialNo != null">
+                serial_no = #{serialNo,jdbcType=VARCHAR},
+            </if>
+            <if test="platformId != null">
+                platform_id = #{platformId,jdbcType=BIGINT},
+            </if>
+            <if test="platformName != null">
+                platform_name = #{platformName,jdbcType=VARCHAR},
+            </if>
+            <if test="accountId != null">
+                account_id = #{accountId,jdbcType=BIGINT},
+            </if>
+            <if test="accountName != null">
+                account_name = #{accountName,jdbcType=VARCHAR},
+            </if>
+            <if test="specId != null">
+                spec_id = #{specId,jdbcType=BIGINT},
+            </if>
+            <if test="spec != null">
+                spec = #{spec,jdbcType=VARCHAR},
+            </if>
+            <if test="openType != null">
+                open_type = #{openType,jdbcType=INTEGER},
+            </if>
+            <if test="openTime != null">
+                open_time = #{openTime,jdbcType=INTEGER},
+            </if>
+            <if test="machineNum != null">
+                machine_num = #{machineNum,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete,jdbcType=BIT},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtUpdate != null">
+                gmt_update = #{gmtUpdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="extendConfig != null">
+                extend_config = #{extendConfig,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pamirs.tro.entity.domain.entity.machine.MachineTask">
+        update t_machine_task
+        set task_type     = #{taskType,jdbcType=INTEGER},
+            serial_no     = #{serialNo,jdbcType=VARCHAR},
+            platform_id   = #{platformId,jdbcType=BIGINT},
+            platform_name = #{platformName,jdbcType=VARCHAR},
+            account_id    = #{accountId,jdbcType=BIGINT},
+            account_name  = #{accountName,jdbcType=VARCHAR},
+            spec_id       = #{specId,jdbcType=BIGINT},
+            spec          = #{spec,jdbcType=VARCHAR},
+            open_type     = #{openType,jdbcType=INTEGER},
+            open_time     = #{openTime,jdbcType=INTEGER},
+            machine_num   = #{machineNum,jdbcType=INTEGER},
+            status        = #{status,jdbcType=INTEGER},
+            is_delete     = #{isDelete,jdbcType=BIT},
+            gmt_create    = #{gmtCreate,jdbcType=TIMESTAMP},
+            gmt_update    = #{gmtUpdate,jdbcType=TIMESTAMP},
+            extend_config = #{extendConfig,jdbcType=LONGVARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.pamirs.tro.entity.domain.entity.machine.MachineTask">
+        update t_machine_task
+        set task_type     = #{taskType,jdbcType=INTEGER},
+            serial_no     = #{serialNo,jdbcType=VARCHAR},
+            platform_id   = #{platformId,jdbcType=BIGINT},
+            platform_name = #{platformName,jdbcType=VARCHAR},
+            account_id    = #{accountId,jdbcType=BIGINT},
+            account_name  = #{accountName,jdbcType=VARCHAR},
+            spec_id       = #{specId,jdbcType=BIGINT},
+            spec          = #{spec,jdbcType=VARCHAR},
+            open_type     = #{openType,jdbcType=INTEGER},
+            open_time     = #{openTime,jdbcType=INTEGER},
+            machine_num   = #{machineNum,jdbcType=INTEGER},
+            status        = #{status,jdbcType=INTEGER},
+            is_delete     = #{isDelete,jdbcType=BIT},
+            gmt_create    = #{gmtCreate,jdbcType=TIMESTAMP},
+            gmt_update    = #{gmtUpdate,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

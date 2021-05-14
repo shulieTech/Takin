@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pamirs.tro.entity.dao.confcenter.TSecondBasicDao">
+    <!--插入二级链路基础链路关联关系-->
+    <insert id="saveSecondBasicLink" parameterType="com.pamirs.tro.entity.domain.entity.TSecondBasic">
+        INSERT INTO t_second_basic
+        (SECOND_LINK_ID, BASIC_LINK_ID, BLINK_ORDER, BLINK_BANK, CREATE_TIME, UPDATE_TIME)
+        VALUES (#{secondLinkId}, #{basicLinkId}, #{blinkOrder}, #{blinkBank}, now(), now())
+    </insert>
+
+
+    <!-- 批量删除链路信息 -->
+    <delete id="deleteRefBySecondLinkId" parameterType="List">
+        delete from t_second_basic where SECOND_LINK_ID in
+        <foreach collection="linkIdLists" separator="," item="linkId" open="(" close=")">
+            #{linkId}
+        </foreach>
+    </delete>
+
+    <!--根据id列表批量查询二级链路关联映射关系数据-->
+    <select id="querySecondBasicLinkListByIds" parameterType="list" resultType="java.util.Map">
+        SELECT
+        t1.*
+        FROM
+        t_second_basic t1
+        WHERE
+        t1.SECOND_LINK_ID IN
+        <foreach collection="secondLinkIds" item="secondLinkId" open="(" close=")" separator=",">
+            #{secondLinkId}
+        </foreach>
+        ORDER BY t1.SECOND_LINK_ID
+    </select>
+
+    <select id="querySecondBasicLinkBySecondLinkId" parameterType="java.lang.String"
+            resultType="com.pamirs.tro.entity.domain.entity.TSecondBasic">
+        SELECT t.SECOND_LINK_ID,
+               t.BASIC_LINK_ID,
+               t.BLINK_ORDER,
+               t.BLINK_BANK,
+               t.CREATE_TIME,
+               t.UPDATE_TIME
+        FROM t_second_basic t
+        WHERE t.SECOND_LINK_ID = #{secondLinkId}
+        ORDER BY t.BLINK_BANK, t.BLINK_ORDER
+    </select>
+
+
+    <select id="querySecondBasicLinkBySecondLinkIdModify" resultType="Map">
+        SELECT concat("", tsb.BASIC_LINK_ID) value,
+               tlm.LINK_NAME                 label,
+               tsb.BLINK_BANK
+        FROM t_second_basic tsb,
+             t_second_link_mnt tslm,
+             t_link_mnt tlm
+        WHERE tsb.SECOND_LINK_ID = tslm.LINK_ID
+          AND tsb.BASIC_LINK_ID = tlm.LINK_ID
+          AND tslm.LINK_ID = #{secondLinkId}
+        ORDER BY tsb.BLINK_BANK,
+                 tsb.BLINK_ORDER
+    </select>
+
+    <!--根据二级链路id查询链路条数-->
+    <select id="getBasicLinkBankCount" parameterType="String" resultType="int">
+        SELECT count(DISTINCT tsb.BLINK_BANK)
+        FROM t_second_basic tsb
+        WHERE tsb.SECOND_LINK_ID = #{secondLinkId}
+    </select>
+
+    <!--根据二级链路名称查询基础链路信息-->
+    <select id="querySecondBasicLinkRelationBySecondLinkId" parameterType="String"
+            resultType="com.pamirs.tro.entity.domain.entity.TLinkMnt">
+        SELECT
+        tslm.LINK_ID SECOND_LINK_ID,
+        tslm.LINK_NAME SECOND_LINK_NAME,
+        tsb.BASIC_LINK_ID LINK_ID,
+        tlm.LINK_NAME LINK_NAME,
+        tsb.BLINK_ORDER,
+        tsb.BLINK_BANK
+        FROM
+        t_second_basic tsb,
+        t_second_link_mnt tslm,
+        t_link_mnt tlm
+        WHERE
+        tsb.SECOND_LINK_ID=tslm.LINK_ID
+        and tsb.BASIC_LINK_ID=tlm.LINK_ID
+        <if test="secondLinkId!=null and secondLinkId!=''">
+            and tslm.LINK_ID=#{secondLinkId}
+        </if>
+        order by tsb.BLINK_BANK, tsb.BLINK_ORDER
+    </select>
+
+    <select id="queryBasicLinkBank" parameterType="String" resultType="int">
+        SELECT DISTINCT tsb.BLINK_BANK
+        FROM t_second_basic tsb
+        WHERE tsb.SECOND_LINK_ID = #{secondLinkId}
+        ORDER BY tsb.BLINK_BANK
+    </select>
+</mapper>

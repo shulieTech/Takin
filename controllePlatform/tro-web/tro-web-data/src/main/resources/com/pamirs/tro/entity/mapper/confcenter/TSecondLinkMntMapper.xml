@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pamirs.tro.entity.dao.confcenter.TSecondLinkMntDao">
+
+    <!-- 保存时根据链路名称判断链路是否存在 -->
+    <select id="saveSecondLinkExist" parameterType="String" resultType="Integer">
+        SELECT COUNT(1)
+        FROM t_second_link_mnt
+        WHERE LINK_NAME = #{linkName}
+    </select>
+
+    <!-- 更新时根据链路id判断链路是否存在 -->
+    <select id="updateLinkExist" parameterType="String" resultType="Integer">
+        SELECT COUNT(1)
+        FROM t_second_link_mnt
+        WHERE LINK_ID = #{secondLinkId}
+    </select>
+
+    <!-- 新增链路信息 -->
+    <insert id="addSecondLink" parameterType="com.pamirs.tro.entity.domain.entity.TSecondLinkMnt">
+        INSERT INTO t_second_link_mnt
+        (LINK_ID, LINK_NAME, BASE_LINKS, ASWAN_ID, USE_YN, LINK_TPS_RULE, CREATE_TIME, UPDATE_TIME, REMARK)
+        VALUES (#{linkId}, #{linkName}, #{baseLinks}, #{aswanId}, #{useYn}, #{linkTpsRule}, now(), now(), #{remark})
+    </insert>
+
+    <!-- 根据链路id查询链路信息详情 -->
+    <select id="queryLinkByLinkId" parameterType="String" resultMap="tsecondLinkMnt">
+        SELECT tslm.LINK_ID,
+               tslm.LINK_NAME,
+               tslm.BASE_LINKS,
+               tslm.ASWAN_ID,
+               tslm.LINK_TPS,
+               tslm.LINK_TPS_RULE,
+               tslm.USE_YN,
+               CREATE_TIME,
+               UPDATE_TIME,
+               REMARK,
+               TEST_STATUS
+        FROM t_second_link_mnt tslm
+        WHERE tslm.LINK_ID = #{linkId}
+    </select>
+
+    <!--  二级链路表字段和实体对应关系映射 -->
+    <resultMap id="tsecondLinkMnt" type="com.pamirs.tro.entity.domain.entity.TSecondLinkMnt">
+        <id column="LINK_ID" property="linkId" javaType="String"/>
+        <result column="LINK_NAME" property="linkName" javaType="String"/>
+        <result column="BASE_LINKS" property="baseLinks" javaType="String"/>
+        <result column="ASWAN_ID" property="aswanId" javaType="String"/>
+        <result column="LINK_TPS" property="linkTps" javaType="long"/>
+        <result column="LINK_TPS_RULE" property="linkTpsRule" javaType="String"/>
+        <result column="USE_YN" property="useYn" javaType="Integer"/>
+        <result column="CREATE_TIME" property="createTime" javaType="Date"/>
+        <result column="UPDATE_TIME" property="updateTime" javaType="Date"/>
+        <result column="REMARK" property="remark" javaType="String"/>
+        <result column="TEST_STATUS" property="testStatus" javaType="String"/>
+    </resultMap>
+
+    <!-- 批量删除链路信息 -->
+    <delete id="deleteLinkByLinkIds" parameterType="List">
+        delete from t_second_link_mnt where LINK_ID in
+        <foreach collection="linkIdLists" separator="," item="linkId" open="(" close=")">
+            #{linkId}
+        </foreach>
+    </delete>
+
+    <!--根据id列表批量查询二级链路信息-->
+    <select id="querySecondLinkListByIds" parameterType="list" resultType="java.util.Map">
+        SELECT
+        t1.*
+        FROM
+        t_second_link_mnt t1
+        WHERE
+        t1.LINK_ID IN
+        <foreach collection="secondLinkIds" item="secondLinkId" open="(" close=")" separator=",">
+            #{secondLinkId}
+        </foreach>
+        ORDER BY t1.LINK_ID
+    </select>
+
+
+    <!-- 更新链路信息 -->
+    <update id="updateLink" parameterType="com.pamirs.tro.entity.domain.entity.TSecondLinkMnt">
+        UPDATE
+            t_second_link_mnt
+        SET LINK_NAME=#{linkName},
+            BASE_LINKS=#{baseLinks},
+            ASWAN_ID=#{aswanId},
+            USE_YN=#{useYn},
+            LINK_TPS_RULE=#{linkTpsRule},
+            REMARK=#{remark},
+            UPDATE_TIME=now(),
+            LINK_TPS=#{linkTps},
+            TEST_STATUS=#{testStatus}
+        WHERE LINK_ID = #{linkId}
+    </update>
+
+    <!-- 查询二级链路列表 -->
+    <select id="queryLinkList" parameterType="String" resultMap="tsecondLinkMnt">
+        SELECT
+        tslm.LINK_ID,tslm.LINK_NAME,tslm.BASE_LINKS,tslm.ASWAN_ID,tslm.LINK_TPS,
+        tslm.LINK_TPS_RULE,tslm.USE_YN,tslm.REMARK,CREATE_TIME,UPDATE_TIME,TEST_STATUS
+        FROM
+        t_second_link_mnt tslm
+        WHERE 1=1
+        <if test="linkName!=null and linkName!=''">
+            AND tslm.LINK_NAME like CONCAT('%',#{linkName},'%')
+        </if>
+        ORDER BY tslm.UPDATE_TIME DESC
+    </select>
+
+    <!-- 查询二级链路列表 -->
+    <select id="querySecondLinkList" parameterType="String" resultMap="tsecondLinkMnt">
+        SELECT
+        tslm.LINK_ID,
+        tslm.LINK_NAME,
+        tslm.ASWAN_ID,
+        tslm.LINK_TPS,
+        tslm.BASE_LINKS,
+        tslm.LINK_TPS_RULE,
+        tslm.USE_YN,
+        tslm.CREATE_TIME,
+        tslm.UPDATE_TIME,
+        tslm.remark,
+        tslm.TEST_STATUS
+        FROM
+        t_second_link_mnt tslm,
+        t_link_mnt tlm,
+        t_second_basic tsb
+        WHERE
+        tslm.LINK_ID = tsb.SECOND_LINK_ID
+        AND tlm.LINK_ID = tsb.BASIC_LINK_ID
+        <if test="linkName!=null and linkName!=''">
+            AND tslm.LINK_NAME LIKE CONCAT('%',#{linkName},'%')
+        </if>
+        <if test="baseLinkName!=null and baseLinkName!=''">
+            AND tlm.LINK_NAME LIKE CONCAT ('%',#{baseLinkName},'%')
+        </if>
+        GROUP BY SECOND_LINK_ID
+        ORDER BY tslm.UPDATE_TIME DESC
+    </select>
+
+
+    <!-- 查询二级链路列表（视图中） -->
+    <select id="querySecondLinkListByView" parameterType="String" resultMap="tsecondLinkMnt">
+        SELECT
+        v.second_link_id LINK_ID,
+        v.second_link_name LINK_NAME,
+        v.BASE_LINKS,
+        v.second_aswan_id ASWAN_ID,
+        v.second_link_tps LINK_TPS,
+        v.second_link_tps_rule LINK_TPS_RULE,
+        v.second_remark REMARK,
+        v.second_use_yn USE_YN,
+        v.second_test_status TEST_STATUS,
+        v.second_create_time CREATE_TIME,
+        v.second_update_time UPDATE_TIME
+        FROM
+        v_second_base_link_ref v
+        WHERE 1=1
+        <if test="linkName!=null and linkName!=''">
+            AND v.second_link_name LIKE CONCAT('%',#{linkName},'%')
+        </if>
+        AND v.base_link_name LIKE CONCAT('%',#{baseLinkName},'%')
+    </select>
+
+    <!--  根据基础链路id查询出应用列表 -->
+    <select id="queryApplicationByBaseLinkId" parameterType="String"
+            resultType="com.pamirs.tro.entity.domain.entity.TApplicationMnt">
+        SELECT tam.APPLICATION_ID,
+               tam.APPLICATION_NAME,
+               tam.APPLICATION_DESC,
+               tam.DDL_SCRIPT_PATH,
+               tam.CLEAN_SCRIPT_PATH,
+               tam.READY_SCRIPT_PATH,
+               tam.BASIC_SCRIPT_PATH,
+               tam.CACHE_SCRIPT_PATH,
+               tam.CACHE_EXP_TIME,
+               tam.USE_YN,
+               tam.CREATE_TIME,
+               tam.UPDATE_TIME
+        FROM t_white_list twl,
+             t_application_mnt tam,
+             t_link_service_mnt tlsm
+        WHERE tam.APPLICATION_ID = twl.APPLICATION_ID
+          AND twl.INTERFACE_NAME = tlsm.INTERFACE_NAME
+          AND tlsm.LINK_ID = #{linkId}
+        GROUP BY tlsm.LINK_ID, tam.APPLICATION_ID
+    </select>
+    <select id="queryAppIdByAppName" resultType="java.lang.String" parameterType="java.lang.String">
+        select LINK_ID
+        from t_second_link_mnt t
+        where t.LINK_NAME = #{linkName}
+    </select>
+    <select id="queryIdByAswId" resultType="java.lang.String" parameterType="java.lang.String">
+        select LINK_ID
+        from t_second_link_mnt t
+        where t.ASWAN_ID = #{aswid}
+        limit 1
+    </select>
+
+</mapper>
