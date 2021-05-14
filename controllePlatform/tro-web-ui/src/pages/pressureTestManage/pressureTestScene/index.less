@@ -1,0 +1,129 @@
+/*
+ * Copyright 2021 Shulie Technology, Co.Ltd
+ * Email: shulie@shulie.io
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+.suffix {
+  margin: 0 10px;
+}
+
+.cardTitle::before {
+  content: '';
+  display: inline-block;
+  border-radius: 999px;
+  width: 8px;
+  height: 8px;
+  border: 2px solid rgba(17, 187, 213, 1);
+  margin: 0 8px;
+}
+
+.modalFailTitle {
+  text-align: center;
+  color: #4d4f61;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 20px;
+}
+
+.modalErrorImg {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.modalErrorWrap {
+  background: #f4f6fa;
+  margin-top: 20px;
+  padding: 16px 32px;
+  border-radius: 4px;
+}
+
+.modalErrorWrapTitle {
+  color: #4d4f61;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.errorReason {
+  color: #fe7d61;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.chartWrap {
+  width: 600px;
+  height: 238px;
+  position: absolute;
+  border: 1px dashed rgba(151, 151, 151, 1);
+  // top: -150%;
+  left: 110%;
+  // left: 600px;
+  padding: 5px 20px;
+  background-color: #fafbfd;
+}
+
+.title {
+  font-size: 16px;
+  color: #474c50;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+}
+
+.subTitle {
+  font-size: 12px;
+  font-weight: 400;
+  // margin-left: 20px;
+  color: #646676;
+}
+
+.subTitleNum {
+  :global {
+    .ant-statistic {
+      display: inline-block;
+    }
+
+    .ant-statistic-content,
+    .ant-statistic-content-value-int,
+    .ant-statistic-content-suffix,
+    .ant-statistic-content-value-decimal {
+      font-size: 12px;
+      font-weight: 600;
+    }
+  }
+}
+
+.missingDataWrap {
+  position: relative;
+  .title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #434343;
+  }
+  .subTitle {
+    font-weight: 400;
+    color: #595959;
+  }
+  .rightIcon {
+    position: absolute;
+    right: 0;
+    top: 10px;
+  }
+}
+
+.formCard {
+  :global {
+    .ant-form-item-children {
+      position: initial;
+    }
+  }
+}
