@@ -1,9 +1,25 @@
+/*
+ * Copyright 2021 Shulie Technology, Co.Ltd
+ * Email: shulie@shulie.io
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.shulie.surge.data.deploy.pradar.digester.command;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.pamirs.pradar.log.parser.trace.RpcBased;
+import io.shulie.surge.data.runtime.common.utils.ApiProcessor;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import java.util.Date;
@@ -55,6 +71,8 @@ public class BaseCommand implements ClickhouseCommand {
         meta.add("hostIp");
         meta.add("agentId");
         meta.add("startDate");
+        meta.add("parsedServiceName");
+        meta.add("parsedMethod");
         return meta;
     }
 
@@ -79,7 +97,7 @@ public class BaseCommand implements ClickhouseCommand {
         map.put("serviceName", rpcBased.getServiceName());
         map.put("methodName", rpcBased.getMethodName());
         map.put("remoteIp", rpcBased.getRemoteIp());
-        map.put("port", NumberUtils.toInt(rpcBased.getPort(),0));
+        map.put("port", NumberUtils.toInt(rpcBased.getPort(), 0));
         map.put("resultCode", rpcBased.getResultCode());
         map.put("requestSize", rpcBased.getRequestSize());
         map.put("responseSize", rpcBased.getResponseSize());
@@ -96,6 +114,21 @@ public class BaseCommand implements ClickhouseCommand {
         map.put("hostIp", rpcBased.getHostIp());
         map.put("agentId", rpcBased.getAgentId());
         map.put("startDate", new Date(rpcBased.getStartTime()));
+        map.put("parsedServiceName", serviceParse(rpcBased));
+        map.put("parsedMethod", methodParse(rpcBased));
         return map;
+    }
+
+    public String methodParse(RpcBased rpcBased) {
+        return rpcBased.getMethodName();
+    }
+
+    public String serviceParse(RpcBased rpcBased) {
+        if (rpcBased.getRpcType() == 0) {
+            String formatUrl = ApiProcessor.merge(rpcBased.getAppName(), rpcBased.getServiceName(), rpcBased.getMethodName());
+            return formatUrl;
+        } else {
+            return rpcBased.getServiceName();
+        }
     }
 }
