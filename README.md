@@ -60,7 +60,7 @@ see [Controlle Platform](https://github.com/shulieTech/DaYuX/blob/main/controlle
 # Community
 Mailing List: Mail to shulie@shulie.io<br/>
 Wechat group<br/>
-<img src="https://raw.githubusercontent.com/shulieTech/Images/main/2.png" width="30%" height="30%">
+<img src="https://raw.githubusercontent.com/shulieTech/Images/main/code1.png" width="30%" height="30%">
 <br/>
 QQ group(QQ群) : **118098566**<br/>
 QR code（群二维码）：<br/>
