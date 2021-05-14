@@ -1,0 +1,97 @@
+resource:
+  ## mysql
+  mysql:
+    host: 127.0.0.1
+    port: 3306
+    username: root
+    password: shulie@2020
+  ## redis
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: pamirs@2020
+  ## influxdb
+  influxdb:
+    url: http://127.0.0.1:32709
+    user: pradar
+    password: pamirs@db2020
+    database: jmeter
+## 引擎包位置  引擎包可在github下载
+pressure.engine.install.dir: /Users/shulie/engine/pressure-engine.tar.gz
+## 引擎包工作目录 记录引擎包工作的配置文件 记录引擎包生成的日志（jtl,log）
+pressure.engine.task.dir: /Users/shulie/engine
+## 脚本管理 临时文件目录
+script.temp.path: /data/apps/tro-cloud/script/temp
+## 脚本管理 脚本文件目录
+script.path: /data/apps/tro-cloud/script/
+
+## 配置cloud地址 即当前系统部署的url
+console.url: http://127.0.0.1:10010/tro-cloud
+## influx 时间间隔分组
+report.aggregation.interval: 5s
+#微服务类型，目前不支持支持k8s 支持本地线程启动引擎包
+micro.type: localThread
+## 压测包工作jvm
+pressure.engine.memSetting: -Xmx512m -Xms512m -Xss256K -XX:MaxMetaspaceSize=256m
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${resource.mysql.host}:${resource.mysql.port}/trodb_cloud?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: ${resource.mysql.username}
+    password: ${resource.mysql.password}
+    initialSize: 1
+    minIdle: 3
+    maxActive: 20
+    # 配置获取连接等待超时的时间
+    maxWait: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 30000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    # 打开PSCache，并且指定每个连接上PSCache的大小
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,slf4j
+    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+  ## redis
+  redis:
+    host: ${resource.redis.host}
+    port: ${resource.redis.port}
+    password: ${resource.redis.password}
+    timeout: 10000
+    jedis:
+      pool:
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池中的最小空闲连接
+        min-idle: 10
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 100
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1
+    database: 0
+  aop:
+    auto: true
+    proxy-target-class: true
+  ## influxdb
+  influxdb:
+    url: ${resource.influxdb.url}
+    user: ${resource.influxdb.user}
+    password: ${resource.influxdb.password}
+    database: ${resource.influxdb.database}
+
+## 共享目录服务器 目前不支持文件切割 不支持k8s机器部署 预留
+nfs.server: 192.168.1.110
+## 共享目录 目前不支持文件切割 不支持k8s机器部署 预留
+nfs.file.dir: /share
+
+file.split.images: forcecop/filesplit:v4.2.2
+file.split.images.name: csvfilesplit

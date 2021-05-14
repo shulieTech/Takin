@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.web.data.mapper.mysql.TroUserDeptRelationMapper">
+    <resultMap id="BaseResultMap" type="io.shulie.tro.web.data.model.mysql.TroUserDeptRelationEntity">
+        <!--@mbg.generated-->
+        <!--@Table t_tro_user_dept_relation-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="dept_id" jdbcType="VARCHAR" property="deptId"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="is_deleted" jdbcType="BOOLEAN" property="isDeleted"/>
+    </resultMap>
+    <resultMap id="UserMap" type="io.shulie.tro.web.data.model.mysql.UserDeptEntity">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="dept_id" property="deptId" jdbcType="VARCHAR"/>
+        <result column="dept_name" property="deptName" jdbcType="VARCHAR"/>
+        <result column="parent_id" property="parentId" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, user_id, dept_id, remark, create_time, update_time, is_deleted
+    </sql>
+    <select id="selectUserIdByCondition" resultMap="UserMap">
+        SELECT
+        a.id as id,a.name as name
+        FROM
+        t_tro_user a
+        JOIN t_tro_user_dept_relation b on a.id=b.user_id
+        LEFT JOIN t_tro_role_user_relation c on a.id=c.user_id
+        <where>
+            <if test="param.deptIds !=null">
+                AND b.dept_id in
+                <foreach collection="param.deptIds" item="deptId" index="index" open="(" separator="," close=")">
+                    #{deptId}
+                </foreach>
+            </if>
+            <if test="param.name!=null and param.name!=''">
+                AND a.`name` like
+                concat('%',#{param.name},'%')
+            </if>
+            <if test="param.roleIds!=null">
+                AND c.role_id in
+                <foreach collection="param.roleIds" item="roleId" index="index" open="(" separator="," close=")">
+                    #{roleId}
+                </foreach>
+            </if>
+        </where>
+        group by a.id
+    </select>
+    <select id="selectUserByDeptIds" resultMap="UserMap">
+        SELECT
+        a.id AS id,
+        a.`name` AS `name`,
+        c.id AS dept_id,
+        c.`name` AS dept_name
+        FROM
+        t_tro_user a
+        JOIN t_tro_user_dept_relation b ON a.id = b.user_id
+        JOIN t_tro_dept c ON b.dept_id = c.id
+        <where>
+            <if test="param.deptIds !=null">
+                AND b.dept_id in
+                <foreach collection="param.deptIds" item="deptId" index="index" open="(" separator="," close=")">
+                    #{deptId}
+                </foreach>
+            </if>
+        </where>
+        group by a.id
+    </select>
+    <select id="selectDeptByCondition" resultMap="UserMap">
+        SELECT
+        a.id as id,
+        a.`name` as `name`,
+        b.id as dept_id,
+        b.`name` as dept_name,
+        b.`parent_id` as parent_id
+        FROM
+        t_tro_user a
+        JOIN t_tro_dept b
+        JOIN t_tro_user_dept_relation c ON a.id = c.user_id
+        AND b.id = c.dept_id
+        <where>
+            <if test="param.deptIds !=null">
+                AND c.dept_id in
+                <foreach collection="param.deptIds" item="deptId" index="index" open="(" separator="," close=")">
+                    #{deptId}
+                </foreach>
+            </if>
+            <if test="param.name!=null and param.name!=''">
+                AND a.`name` like
+                concat('%',#{param.name},'%')
+            </if>
+            <if test="param.userIds !=null">
+                AND a.id in
+                <foreach collection="param.userIds" item="userId" index="index" open="(" separator="," close=")">
+                    #{userId}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        insert into t_tro_user_dept_relation
+        (user_id, dept_id)
+        values
+        <foreach collection="list" item="data" separator=",">
+            (#{data.userId}, #{data.deptId})
+        </foreach>
+    </insert>
+</mapper>

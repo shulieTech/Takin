@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.web.data.mapper.mysql.LinkMntMapper">
+    <resultMap id="BaseResultMap" type="io.shulie.tro.web.data.model.mysql.LinkMntEntity">
+        <!--@mbg.generated-->
+        <!--@Table t_link_mnt-->
+        <id column="LINK_ID" jdbcType="BIGINT" property="linkId"/>
+        <result column="LINK_NAME" jdbcType="VARCHAR" property="linkName"/>
+        <result column="TECH_LINKS" jdbcType="LONGVARCHAR" property="techLinks"/>
+        <result column="LINK_DESC" jdbcType="VARCHAR" property="linkDesc"/>
+        <result column="LINK_TYPE" jdbcType="INTEGER" property="linkType"/>
+        <result column="ASWAN_ID" jdbcType="VARCHAR" property="aswanId"/>
+        <result column="LINK_ENTRENCE" jdbcType="VARCHAR" property="linkEntrence"/>
+        <result column="RT_SA" jdbcType="VARCHAR" property="rtSa"/>
+        <result column="RT" jdbcType="VARCHAR" property="rt"/>
+        <result column="TPS" jdbcType="VARCHAR" property="tps"/>
+        <result column="TARGET_SUCCESS_RATE" jdbcType="VARCHAR" property="targetSuccessRate"/>
+        <result column="DICT_TYPE" jdbcType="VARCHAR" property="dictType"/>
+        <result column="LINK_RANK" jdbcType="VARCHAR" property="linkRank"/>
+        <result column="PRINCIPAL_NO" jdbcType="VARCHAR" property="principalNo"/>
+        <result column="USE_YN" jdbcType="INTEGER" property="useYn"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="LINK_MODULE" jdbcType="VARCHAR" property="linkModule"/>
+        <result column="VOLUME_CALC_STATUS" jdbcType="VARCHAR" property="volumeCalcStatus"/>
+        <result column="TARGET_TPS" jdbcType="VARCHAR" property="targetTps"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        LINK_ID, LINK_NAME, TECH_LINKS, LINK_DESC, LINK_TYPE, ASWAN_ID, LINK_ENTRENCE, RT_SA,
+        RT, TPS, TARGET_SUCCESS_RATE, DICT_TYPE, LINK_RANK, PRINCIPAL_NO, USE_YN, CREATE_TIME,
+        UPDATE_TIME, LINK_MODULE, VOLUME_CALC_STATUS, TARGET_TPS
+    </sql>
+</mapper>

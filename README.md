@@ -41,16 +41,12 @@ In a microservices architecture system with a lot of business services, the call
 
 # Quick Start Instruction（快速入门说明）
 **docker镜像获取地址:**<br/>
-
-**配置修改:**<br/>
-
-**接入探针:**<br/>
-
-**进行压测:**<br/>
+see [Quick Start](https://github.com/shulieTech/DaYuX/blob/main/controllePlatform/doc/QuickStart.md)
 
 # Instruction（使用说明）
 #### DaYuX Architecture（大禹X系统架构）
-<img src="https://raw.githubusercontent.com/shulieTech/Images/main/DaYuX_Architecture.png" width="70%" height="70%">
+<img src="https://raw.githubusercontent.com/shulieTech/Images/main/DaYuX_Architecture.png" width="70%" height="70%"><br/>
+DaYuX consists of Agent, Controlle Platform and Surge Data. 
 
 ## Agent
 see [Agent](https://github.com/shulieTech/DaYuX/blob/main/agent/README.md?_blank)
@@ -59,7 +55,7 @@ see [Agent](https://github.com/shulieTech/DaYuX/blob/main/agent/README.md?_blank
 see [Surge Data](https://github.com/shulieTech/DaYuX/blob/main/data/surge-data/README.md?_blank)
 
 ## Controlle Platform
-see
+see [Controlle Platform](https://github.com/shulieTech/DaYuX/blob/main/controllePlatform/doc/QuickStart.md)
 
 # Community
 Mailing List: Mail to shulie@shulie.io<br/>

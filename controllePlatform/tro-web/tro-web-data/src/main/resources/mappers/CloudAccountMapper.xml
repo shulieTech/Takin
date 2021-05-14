@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.web.data.mapper.mysql.CloudAccountMapper">
+    <resultMap id="BaseResultMap" type="io.shulie.tro.web.data.model.mysql.CloudAccountEntity">
+        <!--@mbg.generated-->
+        <!--@Table t_cloud_account-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="platform_id" jdbcType="BIGINT" property="platformId"/>
+        <result column="platform_name" jdbcType="VARCHAR" property="platformName"/>
+        <result column="account" jdbcType="VARCHAR" property="account"/>
+        <result column="authorize_param" jdbcType="LONGVARCHAR" property="authorizeParam"/>
+        <result column="status" jdbcType="BOOLEAN" property="status"/>
+        <result column="is_delete" jdbcType="BOOLEAN" property="isDelete"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_update" jdbcType="TIMESTAMP" property="gmtUpdate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, platform_id, platform_name, account, authorize_param, `status`, is_delete, gmt_create,
+        gmt_update
+    </sql>
+</mapper>

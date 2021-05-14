@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.cloud.data.mapper.mysql.SceneScriptRefMapper">
+  <resultMap id="BaseResultMap" type="io.shulie.tro.cloud.data.model.mysql.SceneScriptRefEntity">
+    <!--@mbg.generated-->
+    <!--@Table t_scene_script_ref-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="scene_id" jdbcType="BIGINT" property="sceneId" />
+    <result column="script_type" jdbcType="TINYINT" property="scriptType" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="file_size" jdbcType="VARCHAR" property="fileSize" />
+    <result column="file_type" jdbcType="TINYINT" property="fileType" />
+    <result column="file_extend" jdbcType="LONGVARCHAR" property="fileExtend" />
+    <result column="upload_time" jdbcType="TIMESTAMP" property="uploadTime" />
+    <result column="upload_path" jdbcType="VARCHAR" property="uploadPath" />
+    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_name" jdbcType="VARCHAR" property="createName" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_name" jdbcType="VARCHAR" property="updateName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, scene_id, script_type, file_name, file_size, file_type, file_extend, upload_time, 
+    upload_path, is_deleted, create_time, create_name, update_time, update_name
+  </sql>
+</mapper>

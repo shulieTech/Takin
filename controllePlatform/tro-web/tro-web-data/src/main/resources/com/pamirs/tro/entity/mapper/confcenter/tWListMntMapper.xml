@@ -1,0 +1,649 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pamirs.tro.entity.dao.confcenter.TWListMntDao">
+
+    <!-- 根据应用ID批量删除应用关联白名单接口 -->
+    <delete id="deleteApplicationinfoRelatedInterfaceByIds"
+            parameterType="List">
+        DELETE
+        FROM
+        t_white_list
+        WHERE
+        APPLICATION_ID IN
+        <foreach collection="applicationRelatedInterfaceLists"
+                 separator="," item="applicationId" open="(" close=")">
+            #{applicationId}
+        </foreach>
+    </delete>
+
+    <!-- 校验该白名单接口是否已经存在 -->
+    <select id="wListExist" parameterType="String" resultType="Integer">
+        select count(1) from t_white_list where
+        APPLICATION_ID=#{appId}
+        and
+        INTERFACE_NAME=#{interfaceName}
+        <!--and USE_YN = #{useYn}-->
+    </select>
+
+    <!-- 新增白名单信息 -->
+    <insert id="addWList" parameterType="com.pamirs.tro.entity.domain.entity.TWList">
+        insert into t_white_list
+        (WLIST_ID,
+         INTERFACE_NAME,
+         TYPE,
+         DICT_TYPE,
+         APPLICATION_ID,
+         PRINCIPAL_NO,
+         USE_YN,
+         GMT_CREATE,
+         GMT_MODIFIED,
+         MQ_TYPE,
+         QUEUE_NAME,
+         IP_PORT)
+        values (#{wlistId},
+                #{interfaceName},
+                #{type},
+                #{dictType},
+                #{applicationId},
+                #{principalNo},
+                #{useYn},
+                now(),
+                now(),
+                #{mqType},
+                #{queueName},
+                #{ipPort})
+    </insert>
+
+
+    <!-- 查询白名单列表 -->
+    <select id="queryOnlyWList" resultType="com.pamirs.tro.entity.domain.vo.TApplicationInterface"
+            parameterType="String">
+        SELECT
+        tam.APPLICATION_ID,
+        tam.APPLICATION_NAME,
+        tam.APPLICATION_DESC,
+        twl.WLIST_ID,
+        twl.INTERFACE_NAME,
+        twl.PRINCIPAL_NO,
+        twl.APPLICATION_ID,
+        twl.TYPE,
+        twl.USE_YN,
+        twl.MQ_TYPE,
+        twl.IP_PORT,
+        twl.QUEUE_NAME,
+        t1.VALUE_NAME TYPE_NAME,
+        tam.DDL_SCRIPT_PATH,
+        tam.CLEAN_SCRIPT_PATH,
+        tam.READY_SCRIPT_PATH,
+        tam.BASIC_SCRIPT_PATH,
+        tam.CACHE_SCRIPT_PATH,
+        tam.CACHE_EXP_TIME,
+        twl.GMT_CREATE,
+        twl.GMT_MODIFIED,
+        twl.HTTP_TYPE,
+        twl.PAGE_LEVEL,
+        twl.INTERFACE_LEVEL,
+        twl.JOB_INTERVAL
+        FROM
+        t_white_list twl,
+        t_application_mnt
+        tam,
+        (
+        SELECT
+        tdt.ID,
+        twl.WLIST_ID,
+        tdd.VALUE_ORDER,
+        tdd.VALUE_NAME,
+        tdt.TYPE_NAME
+        FROM
+        t_dictionary_type tdt,
+        t_dictionary_data tdd,
+        t_white_list twl
+        WHERE
+        tdt.ID = tdd.DICT_TYPE
+        AND twl.DICT_TYPE = tdt.ID
+        AND twl.type =
+        tdd.value_order
+        ) t1
+        WHERE
+        twl.WLIST_ID = t1.WLIST_ID
+        AND
+        twl.DICT_TYPE = t1.ID
+        AND twl.type = t1.value_order
+        AND
+        tam.APPLICATION_ID = twl.APPLICATION_ID
+        <if test="wlistIds != null">
+            AND twl.WLIST_ID in
+            <foreach collection="wlistIds" item="wlistId" index="index" open="(" separator="," close=")">
+                #{wlistId}
+            </foreach>
+        </if>
+        <if test="applicationName!=null and applicationName!=''">
+            AND tam.APPLICATION_NAME=#{applicationName}
+        </if>
+        <if test="principalNo!=null and principalNo!=''">
+            AND twl.PRINCIPAL_NO =#{principalNo}
+        </if>
+        <if test="type!=null and type!=''">
+            AND twl.TYPE=#{type}
+        </if>
+        <if test="whiteListUrl!=null and whiteListUrl!=''">
+            <![CDATA[
+                AND twl.INTERFACE_NAME like CONCAT('%',#{whiteListUrl},'%')
+             ]]>
+        </if>
+        <if test="applicationId != null">
+            and twl.APPLICATION_ID =#{applicationId,jdbcType=BIGINT}
+        </if>
+        order by twl.UPDATE_TIME desc
+    </select>
+
+    <select id="queryWListTotalByApplicationId" resultType="com.pamirs.tro.entity.domain.entity.TWList">
+        select
+        WLIST_ID,
+        INTERFACE_NAME,
+        TYPE,
+        DICT_TYPE,
+        APPLICATION_ID,
+        USE_YN,
+        GMT_CREATE,
+        GMT_MODIFIED
+        from t_white_list where 1=1
+        <if test="applicationId != null">
+            and APPLICATION_ID= #{applicationId,jdbcType=BIGINT}
+        </if>
+        and IS_DELETED = 0
+    </select>
+
+    <select id="queryDistinctWListTotalByApplicationId" resultType="com.pamirs.tro.entity.domain.entity.TWList">
+        select
+        distinct INTERFACE_NAME,
+        WLIST_ID,
+        `TYPE`,
+        DICT_TYPE,
+        APPLICATION_ID,
+        USE_YN,
+        GMT_CREATE,
+        GMT_MODIFIED,
+        CUSTOMER_ID,
+        USER_ID,
+        IS_GLOBAL,
+        IS_HANDWORK
+        from t_white_list where 1=1
+        <if test="applicationId != null">
+            and APPLICATION_ID= #{applicationId,jdbcType=BIGINT}
+        </if>
+        and IS_DELETED = 0
+    </select>
+
+    <!-- 根据id查询单个白名单信息 -->
+    <select id="querySingleWListById" parameterType="String"
+            resultType="com.pamirs.tro.entity.domain.entity.TWList">
+        select twl.WLIST_ID,
+               twl.INTERFACE_NAME,
+               twl.APPLICATION_ID,
+               twl.TYPE,
+               twl.MQ_TYPE,
+               twl.IP_PORT,
+               twl.QUEUE_NAME,
+               tdd.VALUE_NAME TYPE_NAME,
+               twl.PRINCIPAL_NO,
+               twl.USE_YN,
+               twl.GMT_CREATE,
+               twl.GMT_MODIFIED,
+               twl.HTTP_TYPE,
+               twl.PAGE_LEVEL,
+               twl.INTERFACE_LEVEL,
+               twl.JOB_INTERVAL
+        from t_dictionary_type tdt,
+             t_dictionary_data tdd,
+             t_white_list twl
+        where tdt.ID = tdd.DICT_TYPE
+          AND twl.DICT_TYPE = tdt.ID
+          AND twl.type = tdd.value_order
+          AND WLIST_ID = #{wlistId}
+    </select>
+    <!-- 根据id更新白名单接口 -->
+    <update id="updateWListById" parameterType="com.pamirs.tro.entity.domain.entity.TWList">
+        update t_white_list
+        set INTERFACE_NAME=#{interfaceName},
+            APPLICATION_ID=#{applicationId},
+            TYPE=#{type},
+            PRINCIPAL_NO=#{principalNo},
+            USE_YN=#{useYn},
+            MQ_TYPE=#{mqType},
+            QUEUE_NAME=#{queueName},
+            IP_PORT=#{ipPort},
+            HTTP_TYPE = #{httpType},
+            PAGE_LEVEL=#{pageLevel},
+            INTERFACE_LEVEL=#{interfaceLevel},
+            JOB_INTERVAL=#{jobInterval},
+            UPDATE_TIME=now()
+        where WLIST_ID = #{wlistId}
+    </update>
+
+    <update id="updateSelective" parameterType="com.pamirs.tro.entity.domain.entity.TWList">
+        update t_white_list
+        <set>
+            <if test=" interfaceName != null and interfaceName != ''">
+                INTERFACE_NAME = #{interfaceName,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null and type != ''">
+                TYPE=#{type,jdbcType=VARCHAR},
+            </if>
+            <if test="applicationId != null and applicationId != ''">
+                APPLICATION_ID=#{applicationId,jdbcType=VARCHAR} ,
+            </if>
+            <if test="useYn != null and useYn != '' and useYn != 'null'">
+                USE_YN = #{useYn,jdbcType=VARCHAR} ,
+            </if>
+        </set>
+        where WLIST_ID = #{wlistId,jdbcType=BIGINT}
+    </update>
+
+    <!-- 根据白名单id批量删除白名单 -->
+    <delete id="deleteWListByIds" parameterType="List">
+        delete from t_white_list where WLIST_ID in
+        <foreach collection="wlistIds" separator="," item="wlistId"
+                 open="(" close=")">
+            #{wlistId}
+        </foreach>
+    </delete>
+
+    <!-- 根据白名单id批量删除白名单 -->
+    <delete id="deleteByIds" parameterType="List">
+        delete from t_white_list where WLIST_ID in
+        <foreach collection="wlistIds" separator="," item="wlistId"
+                 open="(" close=")">
+            #{wlistId}
+        </foreach>
+    </delete>
+
+    <!--根据id列表批量查询白名单信息-->
+    <select id="queryWListByIds" parameterType="list" resultType="com.pamirs.tro.entity.domain.entity.TWList">
+        SELECT
+        t1.*
+        FROM
+        t_white_list t1
+        WHERE
+        t1.WLIST_ID IN
+        <foreach collection="wlistIds" item="wlistId" open="(" close=")" separator=",">
+            #{wlistId}
+        </foreach>
+        ORDER BY t1.WLIST_ID
+    </select>
+
+    <!--根据id列表批量查询白名单信息-->
+    <select id="getWListByIds" parameterType="list" resultType="com.pamirs.tro.entity.domain.entity.TWList">
+        SELECT
+        t1.*
+        FROM
+        t_white_list t1
+        WHERE
+        t1.WLIST_ID IN
+        <foreach collection="wlistIds" item="wlistId" open="(" close=")" separator=",">
+            #{wlistId}
+        </foreach>
+        ORDER BY t1.WLIST_ID
+    </select>
+
+
+    <!-- 无参数查询白名单列表 -->
+    <select id="queryWListList" resultType="java.util.Map" parameterType="string">
+        SELECT
+        DISTINCT twl.INTERFACE_NAME,
+        tdd.VALUE_CODE TYPE,
+        twl.MQ_TYPE,
+        m.APPLICATION_NAME
+        FROM
+        t_dictionary_type tdt,
+        t_dictionary_data tdd,
+        t_white_list twl,
+        t_application_mnt m
+        WHERE
+        tdt.ID = tdd.DICT_TYPE
+        AND twl.DICT_TYPE = tdt.ID
+        AND twl.type = tdd.value_order
+        AND twl.APPLICATION_ID = m.APPLICATION_ID
+        AND twl.type != '5'
+        AND tdd.ACTIVE = 'Y'
+        <if test="applicationName!=null and applicationName!=''">
+            AND m.APPLICATION_NAME = #{applicationName}
+        </if>
+        UNION
+        SELECT
+        twl.QUEUE_NAME AS INTERFACE_NAME,
+        tdd.VALUE_CODE TYPE,
+        twl.MQ_TYPE,
+        m.APPLICATION_NAME
+        FROM
+        t_dictionary_type tdt,
+        t_dictionary_data tdd,
+        t_white_list twl,
+        t_application_mnt m
+        WHERE
+        tdt.ID = tdd.DICT_TYPE
+        AND twl.DICT_TYPE = tdt.ID
+        AND twl.type = tdd.value_order
+        AND twl.APPLICATION_ID = m.APPLICATION_ID
+        AND twl.type = '5'
+        AND tdd.ACTIVE = 'Y'
+        <if test="applicationName!=null and applicationName!=''">
+            AND m.APPLICATION_NAME = #{applicationName}
+        </if>
+    </select>
+
+    <!--根据白名单id查询是否在基础链路中使用-->
+    <select id="queryWListRelationBasicLinkByWListId" resultType="java.util.Map">
+        SELECT count(1)         relationBasicLinkCount,
+               t.INTERFACE_NAME interfaceName
+        FROM (
+                 SELECT tlm.LINK_ID,
+                        tlm.LINK_NAME,
+                        twl.WLIST_ID,
+                        twl.INTERFACE_NAME
+                 FROM t_link_mnt tlm,
+                      t_link_service_mnt tlsm,
+                      t_white_list twl,
+                      t_application_mnt tam
+                 WHERE tlm.LINK_ID = tlsm.LINK_ID
+                   AND twl.INTERFACE_NAME = tlsm.INTERFACE_NAME
+                   AND tam.APPLICATION_ID = twl.APPLICATION_ID
+                   AND twl.WLIST_ID = #{wListId}
+             ) t
+        GROUP BY t.WLIST_ID
+        HAVING count(t.INTERFACE_NAME) > 0
+
+    </select>
+    <!-- 数据插入到关系型数据库 -->
+    <insert id="pradaDataInsertToMysql" parameterType="List">
+        Insert into t_prada_http_data
+        (
+        TPHD_ID,
+        APP_NAME,
+        INTERFACE_NAME,
+        CREATE_TIME
+        )values
+        <foreach item="tPradaHttpData" index="index" collection="list" separator=",">
+            (
+            #{tPradaHttpData.tphdId},
+            #{tPradaHttpData.appName},
+            #{tPradaHttpData.interfaceName},
+            now()
+            )
+        </foreach>
+    </insert>
+
+    <!--清除同步数据-->
+    <select id="truncateTable" parameterType="java.lang.String">
+        truncate
+            table
+            ${tableName}
+    </select>
+
+    <!--根据应用和接口名称查询应用下http接口数据-->
+    <select id="queryInterfaceByAppNameByTPHD" resultType="com.pamirs.tro.entity.domain.entity.TPradaHttpData">
+        SELECT
+        tphd.TPHD_ID,
+        tphd.APP_NAME,
+        tphd.INTERFACE_NAME,
+        tphd.INTERFACE_TYPE,
+        td.VALUE_NAME interfaceValueName,
+        tphd.CREATE_TIME
+        FROM
+        t_prada_http_data tphd
+        LEFT JOIN (
+        SELECT
+        VALUE_ORDER,
+        VALUE_NAME,
+        VALUE_CODE
+        FROM
+        t_dictionary_data a,
+        t_dictionary_type b
+        WHERE
+        b.ID = a.DICT_TYPE
+        AND b.TYPE_NAME = '白名单'
+        ) td ON tphd.INTERFACE_TYPE = td.VALUE_ORDER
+        where 1=1
+        <if test="applicationName!=null and applicationName!=''">
+            AND tphd.APP_NAME=#{applicationName}
+        </if>
+        <if test="type!=null and type!=''">
+            and tphd.INTERFACE_TYPE=#{type}
+        </if>
+        <if test="interfaceName!=null and interfaceName!=''">
+            AND tphd.INTERFACE_NAME like concat('%',#{interfaceName},'%')
+        </if>
+    </select>
+
+    <!--根据应用和接口名称查询应用下dubbo/job接口数据-->
+    <select id="queryInterfaceByAppNameFromTUID" resultType="com.pamirs.tro.entity.domain.vo.TUploadInterfaceDataVo">
+        SELECT
+        tuid.ID,
+        tuid.APP_NAME,
+        tuid.INTERFACE_VALUE INTERFACE_NAME,
+        tuid.INTERFACE_TYPE,
+        td.VALUE_NAME interfaceValueName,
+        tuid.CREATE_TIME
+        FROM
+        t_upload_interface_data tuid
+        LEFT JOIN (
+        SELECT
+        VALUE_ORDER,
+        VALUE_NAME,
+        VALUE_CODE
+        FROM
+        t_dictionary_data a,
+        t_dictionary_type b
+        WHERE
+        b.ID = a.DICT_TYPE
+        AND b.TYPE_NAME = '白名单'
+        ) td ON tuid.INTERFACE_TYPE = td.VALUE_ORDER
+        where 1=1
+        <if test="applicationName!=null and applicationName!=''">
+            AND tuid.APP_NAME=#{applicationName}
+        </if>
+        <if test="type!=null and type!=''">
+            and tuid.INTERFACE_TYPE=#{type}
+        </if>
+        <if test="interfaceName!=null and interfaceName!=''">
+            and tuid.INTERFACE_VALUE like concat('%',#{interfaceName},'%')
+        </if>
+    </select>
+
+    <!--查询白名单数量-->
+    <select id="queryWListCountByMqInfo" parameterType="com.pamirs.tro.entity.domain.query.TWListVo"
+            resultType="java.lang.Integer">
+        SELECT
+        count(1)
+        FROM
+        t_white_list w
+        WHERE
+        w.APPLICATION_ID = #{applicationId}
+        AND w.QUEUE_NAME = #{queueName}
+        AND w.MQ_TYPE = #{mqType}
+        <!--AND w.USE_YN = #{useYn}-->
+        <if test="ipPort!=null and ipPort!=''">
+            AND w.IP_PORT = #{ipPort}
+        </if>
+    </select>
+    <!--给链路提供白名单列表接口-->
+    <select id="getWhiteListForLink" resultType="java.util.Map">
+        SELECT CONCAT(twl.WLIST_ID, "") AS wlistId,
+               twl.INTERFACE_NAME       AS interfaceName
+        FROM t_white_list twl
+        WHERE twl.TYPE != '5'
+        UNION
+        SELECT CONCAT(twl.WLIST_ID, "") AS wlistId,
+               twl.QUEUE_NAME           AS interfaceName
+        FROM t_white_list twl
+        WHERE twl.TYPE = '5' and twl.IS_DELETED = 0
+    </select>
+
+    <!--通过应用ID查询白名单列表-->
+    <select id="queryWListByAppId" resultType="java.util.Map">
+        SELECT twl.INTERFACE_NAME AS interfaceName,
+               twl.WLIST_ID       AS wlistId
+        FROM t_white_list twl
+        WHERE twl.type != '5'
+          AND twl.APPLICATION_ID = #{applicationId}
+        UNION
+        SELECT twl.QUEUE_NAME AS interfaceName,
+               twl.WLIST_ID   AS wlistId
+        FROM t_white_list twl
+        WHERE twl.type = '5'
+          AND twl.APPLICATION_ID = #{applicationId} AND twl.IS_DELETED = 0
+    </select>
+
+    <!--批量新增白名单列表-->
+    <select id="getWListByParam" parameterType="java.util.Map"
+            resultType="com.pamirs.tro.entity.domain.entity.TWList">
+        SELECT
+        t1.*
+        FROM
+        t_white_list t1
+        WHERE
+        USE_YN = '1'
+        <if test="appId != null and appId != ''">
+            and APPLICATION_ID = #{appId,jdbcType=VARCHAR}
+        </if>
+        <if test="url != null and url !=''">
+            and INTERFACE_NAME like CONCAT('%',#{url,jdbcType=VARCHAR})
+        </if>
+        <if test="type != null and type !=''">
+            and `TYPE` =#{type,jdbcType=VARCHAR}
+        </if>
+        limit 1
+    </select>
+
+    <!--根据应用名称列表批量查询白名单信息-->
+    <insert id="batchAddWList" parameterType="List">
+        insert into
+        t_white_list
+        (
+        WLIST_ID,
+        INTERFACE_NAME,
+        TYPE,
+        DICT_TYPE,
+        APPLICATION_ID,
+        PRINCIPAL_NO,
+        USE_YN,
+        HTTP_TYPE,
+        PAGE_LEVEL,
+        INTERFACE_LEVEL,
+        JOB_INTERVAL,
+        GMT_CREATE,
+        GMT_MODIFIED,
+        CUSTOMER_ID,
+        USER_ID,
+        IS_GLOBAL
+        )values
+        <foreach item="twList" index="index" collection="twLists" separator=",">
+            (
+            #{twList.wlistId},
+            #{twList.interfaceName},
+            #{twList.type},
+            #{twList.dictType},
+            #{twList.applicationId},
+            #{twList.principalNo},
+            #{twList.useYn},
+            #{twList.httpType},
+            #{twList.pageLevel},
+            #{twList.interfaceLevel},
+            #{twList.jobInterval},
+            now(),
+            now(),
+            #{twList.customerId},
+            #{twList.userId},
+            #{twList.isGlobal}
+            )
+        </foreach>
+    </insert>
+
+    <update id="batchEnableWList" parameterType="List">
+        update t_white_list
+        set
+        USE_YN= 1,
+        GMT_MODIFIED=now()
+        where WLIST_ID in
+        <foreach collection="wlistIdList"
+                 separator="," item="wlistId" open="(" close=")">
+            #{wlistId}
+        </foreach>
+    </update>
+
+    <update id="batchDisableWList" parameterType="List">
+        update t_white_list
+        set
+        USE_YN= 0,
+        GMT_MODIFIED=now()
+        where WLIST_ID in
+        <foreach collection="wlistIdList"
+                 separator="," item="wlistId" open="(" close=")">
+            #{wlistId}
+        </foreach>
+    </update>
+    <select id="getWListByAppIds" resultType="java.util.Map">
+        select
+        twl.INTERFACE_NAME as interfaceName,
+        twl.TYPE as type,
+        twl.WLIST_ID as wlistId
+        from t_white_list twl
+        where APPLICATION_ID in
+        <foreach collection="ids" separator="," open="(" close=")" item="applicationId">
+            #{applicationId}
+        </foreach>
+        and IS_DELETED = 0
+        and twl.USE_YN = 1
+    </select>
+    <select id="getWListByApplicationId" resultType="com.pamirs.tro.entity.domain.entity.TWList">
+        select
+        twl.WLIST_ID as wlistId,
+        twl.INTERFACE_NAME as interfaceName,
+        twl.TYPE as type
+        from t_white_list twl
+        where 1 = 1
+        <if test="_parameter != null">
+            and twl.APPLICATION_ID = #{applicationId}
+        </if>
+        and IS_DELETED = 0
+    </select>
+    <select id="getAllEnableWhitelists" resultType="com.pamirs.tro.entity.domain.entity.TWList">
+        select twl.WLIST_ID       as wlistId,
+               twl.INTERFACE_NAME as interfaceName,
+               twl.TYPE           as type,
+               twl.DICT_TYPE      as dictType,
+               twl.APPLICATION_ID as applicationId,
+               twl.PRINCIPAL_NO   as principalNo,
+               twl.USE_YN         as useYn,
+               twl.CUSTOMER_ID    as customerId,
+               USER_ID            as userId,
+               QUEUE_NAME         as queueName,
+               MQ_TYPE            as mqType,
+               IP_PORT            as ipPort,
+               HTTP_TYPE          as httpType,
+               PAGE_LEVEL         as pageLevel,
+               INTERFACE_LEVEL    as interfaceLevel,
+               JOB_INTERVAL       as jobInterval
+        from t_white_list twl
+        where twl.USE_YN = 1
+          and twl.APPLICATION_ID = #{applicationId} AND twl.IS_DELETED = 0
+    </select>
+
+</mapper>

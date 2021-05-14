@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.cloud.data.mapper.mysql.ReturnDataMapper">
+  <resultMap id="BaseResultMap" type="io.shulie.tro.cloud.data.model.mysql.ReturnDataEntity">
+    <!--@mbg.generated-->
+    <!--@Table t_return_data-->
+    <id column="TRD_ID" jdbcType="BIGINT" property="trdId" />
+    <result column="INC_DATA_JAR_NAME" jdbcType="VARCHAR" property="incDataJarName" />
+    <result column="INC_DATA_JAR_PATH" jdbcType="VARCHAR" property="incDataJarPath" />
+    <result column="PRINCIPAL_NO" jdbcType="VARCHAR" property="principalNo" />
+    <result column="LINK_ID" jdbcType="BIGINT" property="linkId" />
+    <result column="START_CLASS" jdbcType="VARCHAR" property="startClass" />
+    <result column="LOAD_STATUS" jdbcType="INTEGER" property="loadStatus" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    TRD_ID, INC_DATA_JAR_NAME, INC_DATA_JAR_PATH, PRINCIPAL_NO, LINK_ID, START_CLASS, 
+    LOAD_STATUS, CREATE_TIME, UPDATE_TIME
+  </sql>
+</mapper>

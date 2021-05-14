@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pamirs.tro.entity.dao.confcenter.TFirstLinkMntDao">
+
+    <!-- 保存时根据链路名称判断链路是否存在 -->
+    <select id="saveLinkExist" parameterType="String" resultType="Integer">
+        SELECT COUNT(1)
+        FROM t_first_link_mnt
+        WHERE LINK_NAME = #{linkName}
+    </select>
+
+    <!-- 更新时根据链路id判断链路是否存在 -->
+    <select id="updateLinkExist" parameterType="String" resultType="Integer">
+        SELECT COUNT(1)
+        FROM t_first_link_mnt
+        WHERE LINK_ID = #{linkId}
+    </select>
+
+    <!-- 新增链路信息 -->
+    <insert id="addLink" parameterType="com.pamirs.tro.entity.domain.entity.TFirstLinkMnt">
+        INSERT INTO t_first_link_mnt
+        (LINK_ID, LINK_NAME, SECOND_LINKS, USE_YN, LINK_TPS_RULE, CREATE_TIME, UPDATE_TIME, REMARK)
+        VALUES (#{linkId}, #{linkName}, #{secondLinks}, #{useYn}, #{linkTpsRule}, now(), now(), #{remark})
+    </insert>
+
+    <!-- 根据链路id查询链路信息详情 -->
+    <select id="queryLinkByLinkId" parameterType="String" resultMap="tfirstLinkMnt">
+        SELECT tflm.LINK_ID,
+               tflm.LINK_NAME,
+               tflm.SECOND_LINKS,
+               tflm.LINK_TPS,
+               tflm.LINK_TPS_RULE,
+               tflm.USE_YN,
+               CREATE_TIME,
+               UPDATE_TIME,
+               REMARK
+        FROM t_first_link_mnt tflm
+        WHERE tflm.LINK_ID = #{linkId}
+    </select>
+
+    <select id="queryLinkBySecondLinkId" resultMap="tfirstLinkMnt">
+        SELECT tflm.*
+        FROM t_first_link_mnt tflm
+        WHERE tflm.SECOND_LINKS like '%${secondLinkId}%'
+    </select>
+
+    <!-- 	一级链路表字段和实体对应关系 -->
+    <resultMap id="tfirstLinkMnt" type="com.pamirs.tro.entity.domain.entity.TFirstLinkMnt">
+        <id column="LINK_ID" property="linkId" javaType="String"/>
+        <result column="LINK_NAME" property="linkName" javaType="String"/>
+        <result column="SECOND_LINKS" property="secondLinks" javaType="String"/>
+        <result column="LINK_TPS" property="linkTps" javaType="long"/>
+        <result column="LINK_TPS_RULE" property="linkTpsRule" javaType="String"/>
+        <result column="USE_YN" property="useYn" javaType="Integer"/>
+        <result column="CREATE_TIME" property="createTime" javaType="Date"/>
+        <result column="UPDATE_TIME" property="updateTime" javaType="Date"/>
+        <result column="REMARK" property="remark" javaType="String"/>
+    </resultMap>
+
+    <!-- 批量删除链路信息 -->
+    <delete id="deleteLinkByLinkIds" parameterType="List">
+        delete from t_first_link_mnt where LINK_ID in
+        <foreach collection="linkIdLists" separator="," item="linkId" open="(" close=")">
+            #{linkId}
+        </foreach>
+    </delete>
+
+    <!--根据id列表批量查询一级链路信息-->
+    <select id="queryFirstLinkByIds" parameterType="list"
+            resultType="com.pamirs.tro.entity.domain.entity.TFirstLinkMnt">
+        SELECT
+        t1.*
+        FROM
+        t_first_link_mnt t1
+        WHERE
+        t1.LINK_ID IN
+        <foreach collection="firstLinkIds" item="firstLinkId" open="(" close=")" separator=",">
+            #{firstLinkId}
+        </foreach>
+        ORDER BY t1.LINK_ID
+    </select>
+
+    <!-- 更新链路信息 -->
+    <update id="updateLink" parameterType="com.pamirs.tro.entity.domain.entity.TFirstLinkMnt">
+        UPDATE
+            t_first_link_mnt
+        SET LINK_NAME=#{linkName},
+            SECOND_LINKS=#{secondLinks},
+            USE_YN=#{useYn},
+            LINK_TPS_RULE=#{linkTpsRule},
+            REMARK=#{remark},
+            UPDATE_TIME=now()
+        WHERE LINK_ID = #{linkId}
+    </update>
+
+    <!-- 根据链路id查询链路信息详情 -->
+    <select id="queryLinkList" parameterType="String" resultMap="tfirstLinkMnt">
+        SELECT
+        tflm.LINK_ID,tflm.LINK_NAME,tflm.SECOND_LINKS,tflm.LINK_TPS,tflm.LINK_TPS_RULE,
+        tflm.USE_YN,CREATE_TIME,UPDATE_TIME,REMARK
+        FROM
+        t_first_link_mnt tflm
+        WHERE 1=1
+        <if test="linkName!=null and linkName!=''">
+            AND tflm.LINK_NAME LIKE CONCAT('%',#{linkName},'%')
+        </if>
+        ORDER BY tflm.UPDATE_TIME DESC
+    </select>
+
+    <!-- 查询链路列表 -->
+    <select id="queryLinkListByView" parameterType="map" resultMap="tfirstLinkMnt">
+        SELECT
+        v.first_link_id LINK_ID,
+        v.first_link_name LINK_NAME,
+        v.SECOND_LINKS,
+        v.first_link_tps LINK_TPS,
+        v.first_link_tps_rule LINK_TPS_RULE,
+        v.first_use_yn USE_YN,
+        v.first_create_time CREATE_TIME,
+        v.first_update_time UPDATE_TIME,
+        v.first_remark REMARK
+        FROM
+        v_first_second_link_ref v
+        WHERE 1=1
+        <if test="firstLinkName!=null and firstLinkName!=''">
+            AND v.first_link_name LIKE CONCAT('%',#{firstLinkName},'%')
+        </if>
+        AND v.second_link_name LIKE CONCAT('%',#{secondLinkName},'%')
+        GROUP BY
+        v.first_link_id
+        ORDER BY v.first_update_time DESC
+    </select>
+
+</mapper>

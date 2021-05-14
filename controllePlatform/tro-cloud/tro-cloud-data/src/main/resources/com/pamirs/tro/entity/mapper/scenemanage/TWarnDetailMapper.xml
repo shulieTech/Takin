@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pamirs.tro.entity.dao.scenemanage.TWarnDetailMapper">
+    <resultMap id="BaseResultMap" type="com.pamirs.tro.entity.domain.entity.scenemanage.WarnDetail">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="pt_id" property="ptId" jdbcType="BIGINT"/>
+        <result column="sla_id" property="slaId" jdbcType="BIGINT"/>
+        <result column="sla_name" property="slaName" jdbcType="VARCHAR"/>
+        <result column="business_activity_id" property="businessActivityId" jdbcType="BIGINT"/>
+        <result column="business_activity_name" property="businessActivityName" jdbcType="VARCHAR"/>
+        <result column="warn_content" property="warnContent" jdbcType="VARCHAR"/>
+        <result column="real_value" property="realValue" jdbcType="INTEGER"/>
+        <result column="warn_time" property="warnTime" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap id="WarnResultMap" type="com.pamirs.tro.entity.domain.bo.scenemanage.WarnBO">
+        <result column="pt_id" property="reportId" jdbcType="BIGINT"/>
+        <result column="sla_id" property="slaId" jdbcType="BIGINT"/>
+        <result column="sla_name" property="slaName" jdbcType="VARCHAR"/>
+        <result column="business_activity_id" property="businessActivityId" jdbcType="BIGINT"/>
+        <result column="business_activity_name" property="businessActivityName" jdbcType="VARCHAR"/>
+        <result column="warn_content" property="content" jdbcType="VARCHAR"/>
+        <result column="lastWarnTime" property="lastWarnTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, pt_id, sla_id, sla_name, business_activity_id, business_activity_name, warn_content,
+    real_value, warn_time, create_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_warn_detail
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from t_warn_detail
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insertSelective" parameterType="com.pamirs.tro.entity.domain.entity.scenemanage.WarnDetail">
+        insert into t_warn_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="ptId != null">
+                pt_id,
+            </if>
+            <if test="slaId != null">
+                sla_id,
+            </if>
+            <if test="slaName != null">
+                sla_name,
+            </if>
+            <if test="businessActivityId != null">
+                business_activity_id,
+            </if>
+            <if test="businessActivityName != null">
+                business_activity_name,
+            </if>
+            <if test="warnContent != null">
+                warn_content,
+            </if>
+            <if test="realValue != null">
+                real_value,
+            </if>
+            <if test="warnTime != null">
+                warn_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="ptId != null">
+                #{ptId,jdbcType=BIGINT},
+            </if>
+            <if test="slaId != null">
+                #{slaId,jdbcType=BIGINT},
+            </if>
+            <if test="slaName != null">
+                #{slaName,jdbcType=VARCHAR},
+            </if>
+            <if test="businessActivityId != null">
+                #{businessActivityId,jdbcType=BIGINT},
+            </if>
+            <if test="businessActivityName != null">
+                #{businessActivityName,jdbcType=VARCHAR},
+            </if>
+            <if test="warnContent != null">
+                #{warnContent,jdbcType=VARCHAR},
+            </if>
+            <if test="realValue != null">
+                #{realValue,jdbcType=INTEGER},
+            </if>
+            <if test="warnTime != null">
+                #{warnTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.pamirs.tro.entity.domain.entity.scenemanage.WarnDetail">
+        update t_warn_detail
+        <set>
+            <if test="ptId != null">
+                pt_id = #{ptId,jdbcType=BIGINT},
+            </if>
+            <if test="slaId != null">
+                sla_id = #{slaId,jdbcType=BIGINT},
+            </if>
+            <if test="slaName != null">
+                sla_name = #{slaName,jdbcType=VARCHAR},
+            </if>
+            <if test="businessActivityId != null">
+                business_activity_id = #{businessActivityId,jdbcType=BIGINT},
+            </if>
+            <if test="businessActivityName != null">
+                business_activity_name = #{businessActivityName,jdbcType=VARCHAR},
+            </if>
+            <if test="warnContent != null">
+                warn_content = #{warnContent,jdbcType=VARCHAR},
+            </if>
+            <if test="realValue != null">
+                real_value = #{realValue,jdbcType=INTEGER},
+            </if>
+            <if test="warnTime != null">
+                warn_time = #{warnTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="summaryWarnByReportId" resultMap="WarnResultMap" resultType="java.lang.Long">
+        select count(*)       as total,
+               max(warn_time) as lastWarnTime,
+               business_activity_id,
+               business_activity_name,
+               warn_content,
+               sla_id,
+               pt_id,
+               sla_name
+        from t_warn_detail
+        where pt_id = #{reportId,jdbcType=BIGINT}
+        group by business_activity_id,business_activity_name,warn_content,sla_id, pt_id,sla_name
+    </select>
+
+
+    <select id="listWarn" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_warn_detail
+        <where>
+            <if test="reportId != null">
+                and pt_id = #{reportId,jdbcType=BIGINT}
+            </if>
+            <if test="slaId != null">
+                and sla_id = #{slaId,jdbcType=BIGINT}
+            </if>
+            <if test="businessActivityId != null">
+                and business_activity_id = #{businessActivityId,jdbcType=BIGINT}
+            </if>
+        </where>
+    </select>
+
+    <select id="countReportTotalWarn" resultType="java.lang.Long">
+        select count(1)
+        from t_warn_detail
+        where pt_id = #{reportId,jdbcType=BIGINT}
+    </select>
+
+
+</mapper>

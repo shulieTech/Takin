@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pamirs.tro.entity.dao.linkmanage.TMiddlewareInfoMapper">
+    <resultMap id="BaseResultMap" type="com.pamirs.tro.entity.domain.entity.linkmanage.TMiddlewareInfo">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="MIDDLEWARE_TYPE" jdbcType="VARCHAR" property="middlewareType"/>
+        <result column="MIDDLEWARE_NAME" jdbcType="VARCHAR" property="middlewareName"/>
+        <result column="MIDDLEWARE_VERSION" jdbcType="VARCHAR" property="middlewareVersion"/>
+        <result column="IS_DELETED" jdbcType="TINYINT" property="isDeleted"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        ID, MIDDLEWARE_TYPE, MIDDLEWARE_NAME, MIDDLEWARE_VERSION, IS_DELETED, CREATE_TIME,
+    UPDATE_TIME
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_middleware_info
+        where ID = #{id,jdbcType=BIGINT}
+    </select>
+    <resultMap id="MiddleWareEntityMap" type="com.pamirs.tro.entity.domain.vo.linkmanage.MiddleWareEntity">
+        <result column="ID" property="id"/>
+        <result column="MIDDLEWARE_TYPE" property="middleWareType"/>
+        <result column="MIDDLEWARE_NAME" property="middleWareName"/>
+        <result column="MIDDLEWARE_VERSION" property="version"/>
+    </resultMap>
+
+
+    <resultMap id="StatisticsResultMap"
+               type="com.pamirs.tro.entity.domain.dto.linkmanage.linkstatistics.LinkRemarkmiddleWareDto">
+        <result column="MIDDLE_WARE_ID" property="middleWareId"/>
+        <result column="MIDDLEWARE_TYPE" jdbcType="VARCHAR" property="middleWareType"/>
+        <result column="MIDDLEWARE_NAME" jdbcType="VARCHAR" property="middleWareName"/>
+        <result column="MIDDLEWARE_VERSION" jdbcType="VARCHAR" property="version"/>
+        <!--    <result column="BUSSINESSPROCESSCOUNT" property="bussinessProcessCount"/>
+            <result column="SYSTEMPROCESSCOUNT" property="systemProcessCount"/>-->
+
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from t_middleware_info
+        where ID = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.pamirs.tro.entity.domain.entity.linkmanage.TMiddlewareInfo"
+            keyProperty="id" useGeneratedKeys="true">
+        insert into t_middleware_info (MIDDLEWARE_TYPE, MIDDLEWARE_NAME,
+                                       MIDDLEWARE_VERSION, IS_DELETED)
+        values (#{middlewareType,jdbcType=VARCHAR}, #{middlewareName,jdbcType=VARCHAR},
+                #{middlewareVersion,jdbcType=VARCHAR}, 0)
+    </insert>
+    <insert id="insertSelective" parameterType="com.pamirs.tro.entity.domain.entity.linkmanage.TMiddlewareInfo"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into t_middleware_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="middlewareType != null">
+                MIDDLEWARE_TYPE,
+            </if>
+            <if test="middlewareName != null">
+                MIDDLEWARE_NAME,
+            </if>
+            <if test="middlewareVersion != null">
+                MIDDLEWARE_VERSION,
+            </if>
+            <if test="isDeleted != null">
+                IS_DELETED,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="middlewareType != null">
+                #{middlewareType,jdbcType=VARCHAR},
+            </if>
+            <if test="middlewareName != null">
+                #{middlewareName,jdbcType=VARCHAR},
+            </if>
+            <if test="middlewareVersion != null">
+                #{middlewareVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.pamirs.tro.entity.domain.entity.linkmanage.TMiddlewareInfo">
+        update t_middleware_info
+        <set>
+            <if test="middlewareType != null">
+                MIDDLEWARE_TYPE = #{middlewareType,jdbcType=VARCHAR},
+            </if>
+            <if test="middlewareName != null">
+                MIDDLEWARE_NAME = #{middlewareName,jdbcType=VARCHAR},
+            </if>
+            <if test="middlewareVersion != null">
+                MIDDLEWARE_VERSION = #{middlewareVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                IS_DELETED = #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.pamirs.tro.entity.domain.entity.linkmanage.TMiddlewareInfo">
+        update t_middleware_info
+        set MIDDLEWARE_TYPE    = #{middlewareType,jdbcType=VARCHAR},
+            MIDDLEWARE_NAME    = #{middlewareName,jdbcType=VARCHAR},
+            MIDDLEWARE_VERSION = #{middlewareVersion,jdbcType=VARCHAR},
+            IS_DELETED         = #{isDeleted,jdbcType=TINYINT},
+            CREATE_TIME        = #{createTime,jdbcType=TIMESTAMP},
+            UPDATE_TIME        = #{updateTime,jdbcType=TIMESTAMP}
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectBySelective" parameterType="com.pamirs.tro.entity.domain.entity.linkmanage.TMiddlewareInfo"
+            resultMap="BaseResultMap">
+        select * from t_middleware_info
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="middlewareType != null">
+                and MIDDLEWARE_TYPE = #{middlewareType,jdbcType=VARCHAR}
+            </if>
+            <if test="middlewareName != null">
+                and MIDDLEWARE_NAME = #{middlewareName,jdbcType=VARCHAR}
+            </if>
+            <if test="middlewareVersion != null">
+                and MIDDLEWARE_VERSION = #{middlewareVersion,jdbcType=VARCHAR}
+            </if>
+            and IS_DELETED=0
+        </trim>
+    </select>
+
+    <select id="selectforstatistics"
+            parameterType="com.pamirs.tro.entity.domain.entity.linkmanage.statistics.StatisticsQueryVo"
+            resultMap="StatisticsResultMap">
+
+        select
+        info.ID as MIDDLE_WARE_ID,
+        info.MIDDLEWARE_TYPE,
+        info.MIDDLEWARE_NAME,
+        info.MIDDLEWARE_VERSION
+        /*count(scene_relate.SCENE_ID) as BUSSINESSPROCESSCOUNT,
+        count(middleware_relate.TECH_LINK_ID) as SYSTEMPROCESSCOUNT*/
+        from t_middleware_info info left join t_middleware_link_relate middleware_relate
+        on middleware_relate.MIDDLEWARE_ID = info.ID
+        left join t_scene_link_relate scene_relate
+        on middleware_relate.TECH_LINK_ID = scene_relate.TECH_LINK_ID
+        left join t_scene scene on scene.ID = scene_relate.SCENE_ID
+        left join t_link_manage_table tech_table on tech_table.LINK_ID = scene_relate.TECH_LINK_ID
+        <trim prefix="where" prefixOverrides="and | or">
+            <!--这儿的middleWareType实际是中间件名字-->
+            <if test="middleWareType != null">
+                and info.MIDDLEWARE_NAME = #{middleWareType}
+            </if>
+            <if test="businessProcess != null">
+                and scene.ID=#{businessProcess}
+            </if>
+            <if test="systemProcess != null">
+                and tech_table.LINK_ID = #{systemProcess}
+            </if>
+        </trim>
+        group by info.MIDDLEWARE_TYPE,info.MIDDLEWARE_NAME,info.MIDDLEWARE_VERSION
+    </select>
+
+
+    <select id="selectByIds" resultType="java.lang.Long" resultMap="MiddleWareEntityMap">
+        select ID,MIDDLEWARE_TYPE,MIDDLEWARE_NAME,MIDDLEWARE_VERSION from t_middleware_info where
+        ID in
+        <foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and IS_DELETED = 0
+    </select>
+
+    <select id="selectBySystemProcessId" resultMap="BaseResultMap">
+        select *
+        from t_middleware_info info
+                 left join t_middleware_link_relate relate
+                           on info.ID = relate.MIDDLEWARE_ID
+        where relate.TECH_LINK_ID = #{systemProcessId}
+          and info.IS_DELETED = 0
+    </select>
+</mapper>
