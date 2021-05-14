@@ -29,19 +29,12 @@ public class DefaultExceptionHandler implements ExceptionHandler {
 
     @Override
     public void handleException(Throwable throwable, String message, Object listener) throws Throwable {
+        if (throwable instanceof PressureMeasureError) {
+            throw throwable;
+        }
         if (Pradar.isClusterTest()) {
-            if (throwable instanceof PressureMeasureError) {
-                throw throwable;
-            } else {
-                throw new PressureMeasureError(throwable, Pradar.isClusterTest());
-            }
+            throw new PressureMeasureError(throwable, Pradar.isClusterTest());
         } else {
-            if (throwable instanceof PressureMeasureError) {
-                PressureMeasureError pressureMeasureError = (PressureMeasureError) throwable;
-                if (pressureMeasureError.isClusterTest()) {
-                    throw throwable;
-                }
-            }
             logger.warn("SIMULATOR: {} listener:{}",
                     message,
                     listener == null ? "" : listener.getClass().getName(),

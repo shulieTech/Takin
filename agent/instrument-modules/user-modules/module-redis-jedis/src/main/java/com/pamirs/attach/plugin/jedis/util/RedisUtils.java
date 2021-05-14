@@ -14,11 +14,6 @@
  */
 package com.pamirs.attach.plugin.jedis.util;
 
-import org.apache.commons.lang.StringUtils;
-import redis.clients.jedis.BinaryJedis;
-import redis.clients.jedis.Client;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,6 +22,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
+import org.apache.commons.lang.StringUtils;
+import redis.clients.jedis.BinaryJedis;
+import redis.clients.jedis.Client;
 
 /**
  * @author vincent
@@ -255,6 +254,7 @@ public final class RedisUtils {
         METHOD_NAMES.put("xadd", READ);
         METHOD_NAMES.put("xinfoConsumers", READ);
         METHOD_NAMES.put("xclaim", READ);
+        METHOD_NAMES.put("xpending", READ);
 
         //METHOD_NAMES.put("info", READ);
 

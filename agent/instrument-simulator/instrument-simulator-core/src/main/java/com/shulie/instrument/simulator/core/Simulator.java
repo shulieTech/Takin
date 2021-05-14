@@ -22,7 +22,7 @@ import com.shulie.instrument.simulator.core.manager.impl.DefaultCoreLoadedClassD
 import com.shulie.instrument.simulator.core.manager.impl.DefaultCoreModuleManager;
 import com.shulie.instrument.simulator.core.manager.impl.DefaultProviderManager;
 import com.shulie.instrument.simulator.core.util.MessageUtils;
-import com.shulie.instrument.simulator.core.util.SimulatorGuard;
+import com.shulie.instrument.simulator.api.guard.SimulatorGuard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

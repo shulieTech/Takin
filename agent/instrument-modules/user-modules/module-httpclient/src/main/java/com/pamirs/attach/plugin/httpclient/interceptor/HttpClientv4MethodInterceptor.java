@@ -16,6 +16,7 @@ package com.pamirs.attach.plugin.httpclient.interceptor;
 
 import com.pamirs.attach.plugin.httpclient.HttpClientConstants;
 import com.pamirs.pradar.ResultCode;
+import com.pamirs.pradar.common.HeaderMark;
 import com.pamirs.pradar.interceptor.ContextTransfer;
 import com.pamirs.pradar.interceptor.SpanRecord;
 import com.pamirs.pradar.interceptor.TraceInterceptorAdaptor;
@@ -209,7 +210,10 @@ public class HttpClientv4MethodInterceptor extends TraceInterceptorAdaptor {
         return new ContextTransfer() {
             @Override
             public void transfer(String key, String value) {
-                request.setHeader(key, value);
+                if(request.getHeaders(HeaderMark.DONT_MODIFY_HEADER) == null ||
+                    request.getHeaders(HeaderMark.DONT_MODIFY_HEADER).length == 0){
+                    request.setHeader(key, value);
+                }
             }
         };
     }

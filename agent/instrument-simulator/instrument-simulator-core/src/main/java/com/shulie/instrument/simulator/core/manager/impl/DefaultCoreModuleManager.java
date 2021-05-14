@@ -34,7 +34,7 @@ import com.shulie.instrument.simulator.core.manager.CoreModuleManager;
 import com.shulie.instrument.simulator.core.manager.ModuleLoaders;
 import com.shulie.instrument.simulator.core.manager.ProviderManager;
 import com.shulie.instrument.simulator.core.util.ModuleSpecUtils;
-import com.shulie.instrument.simulator.core.util.SimulatorGuard;
+import com.shulie.instrument.simulator.api.guard.SimulatorGuard;
 import com.shulie.instrument.simulator.core.util.VersionUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
@@ -200,9 +200,6 @@ public class DefaultCoreModuleManager implements CoreModuleManager {
          * 查看是否配置指定了模块不启用，如果指定了则直接忽略
          */
         final String moduleId = coreModule.getUniqueId();
-        if (!coreModule.getSimulatorConfig().getBooleanProperty(moduleId + ".enabled", true)) {
-            return;
-        }
 
         if (coreModule.getModule() instanceof ModuleLifecycle) {
             final ModuleLifecycle moduleLifecycle = (ModuleLifecycle) coreModule.getModule();
@@ -956,26 +953,26 @@ public class DefaultCoreModuleManager implements CoreModuleManager {
         if (logger.isInfoEnabled()) {
             logger.info("SIMULATOR: {} modules[{}]: load module success. module-lib={}", action, moduleSpec.getModuleId(), moduleSpec.getFile());
         }
-        if (CollectionUtils.isNotEmpty(moduleSpec.getSwitchControls())) {
+        if (CollectionUtils.isNotEmpty(moduleSpec.getDependencies())) {
             /**
              * 如果开关已经是开启状态，则直接执行即可
              */
-            if (GlobalSwitch.isAllSwitchOn(moduleSpec.getSwitchControls())) {
+            if (GlobalSwitch.isAllSwitchOn(moduleSpec.getDependencies())) {
                 loadModule(moduleSpec);
             } else {
-                GlobalSwitch.registerMultiSwitchOnCallback(moduleSpec.getSwitchControls(), new Runnable() {
+                GlobalSwitch.registerMultiSwitchOnCallback(moduleSpec.getDependencies(), new Runnable() {
                     @Override
                     public void run() {
                         /**
                          * 当开启状态时执行加载
                          */
-                        if (GlobalSwitch.isAllSwitchOn(moduleSpec.getSwitchControls())) {
+                        if (GlobalSwitch.isAllSwitchOn(moduleSpec.getDependencies())) {
                             loadModule(moduleSpec);
                         } else {
                             /**
                              * 否则重新注册开关,因为回调执行一次就会销毁
                              */
-                            GlobalSwitch.registerMultiSwitchOnCallback(moduleSpec.getSwitchControls(), this);
+                            GlobalSwitch.registerMultiSwitchOnCallback(moduleSpec.getDependencies(), this);
                         }
                     }
                 });

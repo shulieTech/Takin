@@ -43,7 +43,7 @@ import java.util.concurrent.ExecutorService;
  * @Date: 2020/12/8 16:07
  * @Description: 采样率
  */
-public class SamplingRateConfigFetcher {
+public class SamplingRateConfigFetcher implements ISamplingRateConfigFetcher {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SamplingRateConfigFetcher.class.getName());
 
@@ -76,6 +76,7 @@ public class SamplingRateConfigFetcher {
         zkClientSpec.setThreadName("SamplingRateConfigPuller");
     }
 
+    @Override
     public void start() {
         try {
             this.zkClient = NetflixCuratorZkClientFactory.getInstance().create(zkClientSpec);
@@ -112,6 +113,17 @@ public class SamplingRateConfigFetcher {
         }
 
 
+    }
+
+    @Override
+    public void stop() {
+        if (this.zkClient != null) {
+            try {
+                this.zkClient.stop();
+            } catch (Exception e) {
+                LOGGER.error("Sampling rate config fetcher zkclient stop error.", e);
+            }
+        }
     }
 
     private void listenPathChange(ExecutorService executor, final String path) {

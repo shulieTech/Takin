@@ -334,6 +334,20 @@ public interface IPradarInternalService {
     void endServerInvoke(String resultCode, int type);
 
     /**
+     * 服务端返回RPC响应，指定 invoke 类型，Threadlocal变量会被清空
+     *
+     * @param resultCode 参考 RPC_RESULT_开头的结果码。有响应表示RPC成功，但业务上有可能还是失败，因此有不同的结果码。
+     */
+    void endServerInvoke(String resultCode);
+
+    /**
+     * 是否需要线程来提交上下文
+     *
+     * @return
+     */
+    boolean isThreadCommit();
+
+    /**
      * 获取入口应用名
      */
     String getTraceAppName();

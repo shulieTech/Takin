@@ -27,7 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MockAdviceListener extends AdviceListener {
-    private final static Logger logger = LoggerFactory.getLogger("MOCK-LOGGER");
+    private final static Logger logger = LoggerFactory.getLogger(MockAdviceListener.class);
+    private final static Logger mockLogger = LoggerFactory.getLogger("MOCK-LOGGER");
 
     private String scriptContent;
     private int scriptType;
@@ -50,7 +51,7 @@ public class MockAdviceListener extends AdviceListener {
                 binding.put("args", advice.getParameterArray());
                 binding.put("target", advice.getTarget());
                 binding.put("classLoader", advice.getClassLoader());
-                binding.put("logger", logger);
+                binding.put("logger", mockLogger);
 
                 Object result = GroovyUtils.execute(scriptContent, binding);
                 ProcessController.returnImmediately(result);

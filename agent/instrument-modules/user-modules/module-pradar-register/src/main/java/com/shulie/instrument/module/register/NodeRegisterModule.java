@@ -24,6 +24,7 @@ import com.shulie.instrument.simulator.api.GlobalSwitch;
 import com.shulie.instrument.simulator.api.ModuleInfo;
 import com.shulie.instrument.simulator.api.ModuleLifecycleAdapter;
 import com.shulie.instrument.simulator.api.executors.ExecutorServiceFactory;
+import com.shulie.instrument.simulator.api.guard.SimulatorGuard;
 import org.kohsuke.MetaInfServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +58,7 @@ public class NodeRegisterModule extends ModuleLifecycleAdapter implements Extens
                 }
                 RegisterOptions registerOptions = buildRegisterOptions();
                 try {
-                    register = RegisterFactory.getRegister(registerOptions.getRegisterName());
+                    register = SimulatorGuard.getInstance().doGuard(Register.class, RegisterFactory.getRegister(registerOptions.getRegisterName()));
                     register.init(registerOptions);
                     register.start();
                     logger.info("SIMULATOR: Register start success. register to {}", register.getPath());

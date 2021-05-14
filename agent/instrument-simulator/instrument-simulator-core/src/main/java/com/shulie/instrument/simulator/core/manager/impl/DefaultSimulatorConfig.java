@@ -362,4 +362,9 @@ class DefaultSimulatorConfig implements SimulatorConfig {
     public String getLogPath() {
         return config.getLogPath();
     }
+
+    @Override
+    public String getLogLevel() {
+        return config.getLogLevel();
+    }
 }

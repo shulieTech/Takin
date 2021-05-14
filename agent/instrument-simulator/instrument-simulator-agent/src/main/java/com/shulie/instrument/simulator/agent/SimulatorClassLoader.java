@@ -57,7 +57,10 @@ class SimulatorClassLoader extends URLClassLoader {
 
     SimulatorClassLoader(final String namespace,
                          final String simulatorCoreJarFilePath) throws MalformedURLException {
-        super(new URL[]{new URL("file:" + simulatorCoreJarFilePath)});
+        /**
+         * 指定父类加载器为 null，防止类冲突问题
+         */
+        super(new URL[]{new URL("file:" + simulatorCoreJarFilePath)}, null);
         this.path = simulatorCoreJarFilePath;
         this.toString = String.format("SimulatorClassLoader[namespace=%s;path=%s;]", namespace, path);
     }
@@ -81,7 +84,7 @@ class SimulatorClassLoader extends URLClassLoader {
         initBootLoader();
         url = bootLoader.findResource(name);
         if (url == null) {
-            url = loadResourceOfParent(name);
+            url = loadResourceOfSystem(name);
         }
         return url;
     }
@@ -95,7 +98,7 @@ class SimulatorClassLoader extends URLClassLoader {
         initBootLoader();
         urls = bootLoader.findResources(name);
         if (urls == null) {
-            urls = loadResourcesOfParent(name);
+            urls = loadResourcesOfSystem(name);
         }
         return urls;
     }
@@ -121,7 +124,7 @@ class SimulatorClassLoader extends URLClassLoader {
                  * 对于有一些 jdk 中的类如jdbc，可能是由 AppClassLoader 加载的，此时需要父类加载加载
                  */
                 if (clazz == null) {
-                    clazz = loadClassOfParent(name, resolve);
+                    clazz = loadClassOfSystem(name, resolve);
                 }
                 return clazz;
             } catch (ClassNotFoundException e) {
@@ -132,28 +135,40 @@ class SimulatorClassLoader extends URLClassLoader {
         }
     }
 
-    private Class loadClassOfParent(String name, boolean resolve) throws ClassNotFoundException {
+    private Class loadClassOfSystem(String name, boolean resolve) throws ClassNotFoundException {
         for (String prefix : PREFIX_CLASS_OF_LOAD_PARENTS) {
             if (name.startsWith(prefix)) {
-                return super.loadClass(name, resolve);
+                try {
+                    ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();
+                    if (systemClassLoader != null) {
+                        return systemClassLoader.loadClass(name);
+                    }
+                } catch (Throwable e) {
+                }
             }
         }
         return null;
     }
 
-    private URL loadResourceOfParent(String name) {
+    private URL loadResourceOfSystem(String name) {
         for (String prefix : PREFIX_RESOURCE_OF_LOAD_PARENTS) {
             if (name.startsWith(prefix)) {
-                return super.getResource(name);
+                ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();
+                if (systemClassLoader != null) {
+                    return systemClassLoader.getResource(name);
+                }
             }
         }
         return null;
     }
 
-    private Enumeration<URL> loadResourcesOfParent(String name) throws IOException {
+    private Enumeration<URL> loadResourcesOfSystem(String name) throws IOException {
         for (String prefix : PREFIX_RESOURCE_OF_LOAD_PARENTS) {
             if (name.startsWith(prefix)) {
-                return super.getResources(name);
+                ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();
+                if (systemClassLoader != null) {
+                    return systemClassLoader.getResources(name);
+                }
             }
         }
         return null;

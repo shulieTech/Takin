@@ -6,7 +6,7 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${SIMULATOR_LOG_PATH}/simulator-agent.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
             <maxFileSize>100MB</maxFileSize>  <!-- 日志文件过大会使的编辑器打开非常慢，因此设置日志最大100MB -->
-            <maxHistory>7</maxHistory>  <!-- 保存7天 -->
+            <maxHistory>3</maxHistory>  <!-- 保存7天 -->
             <totalSizeCap>300MB</totalSizeCap>  <!-- 总日志大小 -->
         </rollingPolicy>
         <encoder>
@@ -15,7 +15,7 @@
         </encoder>
     </appender>
 
-    <root level="info">
+    <root level="${SIMULATOR_LOG_LEVEL}">
         <appender-ref ref="SIMULATOR-AGENT-FILE-APPENDER"/>
     </root>
 

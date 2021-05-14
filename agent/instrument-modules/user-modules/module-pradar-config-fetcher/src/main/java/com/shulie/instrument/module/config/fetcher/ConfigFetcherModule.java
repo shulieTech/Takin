@@ -18,11 +18,13 @@ import com.pamirs.pradar.internal.PradarInternalService;
 import com.shulie.instrument.module.config.fetcher.config.ConfigManager;
 import com.shulie.instrument.module.config.fetcher.config.DefaultConfigFetcher;
 import com.shulie.instrument.module.config.fetcher.config.resolver.zk.ZookeeperOptions;
+import com.shulie.instrument.module.config.fetcher.interval.ISamplingRateConfigFetcher;
 import com.shulie.instrument.module.config.fetcher.interval.SamplingRateConfigFetcher;
 import com.shulie.instrument.simulator.api.ExtensionModule;
 import com.shulie.instrument.simulator.api.ModuleInfo;
 import com.shulie.instrument.simulator.api.ModuleLifecycleAdapter;
 import com.shulie.instrument.simulator.api.executors.ExecutorServiceFactory;
+import com.shulie.instrument.simulator.api.guard.SimulatorGuard;
 import com.shulie.instrument.simulator.api.resource.SimulatorConfig;
 import org.apache.commons.lang.StringUtils;
 import org.kohsuke.MetaInfServices;
@@ -48,6 +50,8 @@ public class ConfigFetcherModule extends ModuleLifecycleAdapter implements Exten
 
     private ScheduledFuture future;
 
+    private ISamplingRateConfigFetcher samplingRateConfigFetcher;
+
     private ZookeeperOptions buildZookeeperOptions() {
         ZookeeperOptions zookeeperOptions = new ZookeeperOptions();
         zookeeperOptions.setName("zookeeper");
@@ -67,7 +71,6 @@ public class ConfigFetcherModule extends ModuleLifecycleAdapter implements Exten
                 if (!isActive) {
                     return;
                 }
-
                 try {
                     if (StringUtils.equalsIgnoreCase(configFetchType, "zookeeper")) {
                         ConfigManager.getInstance(buildZookeeperOptions()).initAll();
@@ -78,7 +81,7 @@ public class ConfigFetcherModule extends ModuleLifecycleAdapter implements Exten
                         ConfigManager.getInstance(interval, timeUnit).initAll();
                     }
                     // 采样率配置拉取
-                    SamplingRateConfigFetcher samplingRateConfigFetcher = new SamplingRateConfigFetcher(buildZookeeperOptions(), simulatorConfig);
+                    samplingRateConfigFetcher = SimulatorGuard.getInstance().doGuard(ISamplingRateConfigFetcher.class, new SamplingRateConfigFetcher(buildZookeeperOptions(), simulatorConfig));
                     samplingRateConfigFetcher.start();
                 } catch (Throwable e) {
                     logger.warn("SIMULATOR: Config Fetch module start failed. log data can't push to the server.", e);
@@ -93,6 +96,9 @@ public class ConfigFetcherModule extends ModuleLifecycleAdapter implements Exten
     @Override
     public void onFrozen() throws Throwable {
         isActive = false;
+        if (samplingRateConfigFetcher != null) {
+            samplingRateConfigFetcher.stop();
+        }
         int interval = simulatorConfig.getIntProperty("config.fetch.interval", 60);
         String unit = simulatorConfig.getProperty("config.fetch.unit", "SECONDS");
         TimeUnit timeUnit = TimeUnit.valueOf(unit);

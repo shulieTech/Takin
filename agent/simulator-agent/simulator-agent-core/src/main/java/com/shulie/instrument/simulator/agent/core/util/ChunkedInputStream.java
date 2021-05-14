@@ -84,7 +84,7 @@ public class ChunkedInputStream extends InputStream {
         return read(b, 0, b.length);
     }
 
-    private void readCRLF() throws IOException {
+    private void readCrlf() throws IOException {
         int cr = in.read();
         int lf = in.read();
         if ((cr != '\r') || (lf != '\n')) {
@@ -95,7 +95,7 @@ public class ChunkedInputStream extends InputStream {
 
     private void nextChunk() throws IOException {
         if (!bof) {
-            readCRLF();
+            readCrlf();
         }
         chunkSize = getChunkSizeFromInputStream(in);
         bof = false;

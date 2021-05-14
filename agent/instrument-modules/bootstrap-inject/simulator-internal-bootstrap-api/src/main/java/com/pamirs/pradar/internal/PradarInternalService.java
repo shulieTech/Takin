@@ -377,6 +377,19 @@ public class PradarInternalService {
         service.endServerInvoke(resultCode, type);
     }
 
+    public static void endServerInvoke(String resultCode) {
+        if (service == null) {
+            return;
+        }
+        service.endServerInvoke(resultCode);
+    }
+
+    public static boolean isThreadCommit() {
+        if(service == null) {
+            return false;
+        }
+        return service.isThreadCommit();
+    }
 
     public static String getTraceAppName() {
         if (service == null) {

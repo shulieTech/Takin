@@ -27,7 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since 2020/11/12 11:35 上午
  */
 public class GroovyCache<T> {
-    private static Logger LOGGER = LoggerFactory.getLogger("MOCK-LOGGER");
+    private static Logger LOGGER = LoggerFactory.getLogger(GroovyCache.class);
 
     private static Map<String, WeakReference<Object>> localMemoryCache =
             new ConcurrentHashMap<String, WeakReference<Object>>();

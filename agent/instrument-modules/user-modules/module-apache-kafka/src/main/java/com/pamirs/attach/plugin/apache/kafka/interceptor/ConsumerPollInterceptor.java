@@ -14,10 +14,10 @@
  */
 package com.pamirs.attach.plugin.apache.kafka.interceptor;
 
-import com.pamirs.attach.plugin.apache.kafka.util.BytesUtils;
 import com.pamirs.pradar.Pradar;
 import com.pamirs.pradar.PradarService;
 import com.pamirs.pradar.PradarSwitcher;
+import com.pamirs.pradar.common.BytesUtils;
 import com.pamirs.pradar.exception.PradarException;
 import com.pamirs.pradar.exception.PressureMeasureError;
 import com.pamirs.pradar.interceptor.AroundInterceptor;

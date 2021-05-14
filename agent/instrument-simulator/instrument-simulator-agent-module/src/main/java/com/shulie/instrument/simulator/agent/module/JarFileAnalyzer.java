@@ -67,8 +67,12 @@ public class JarFileAnalyzer implements PackageAnalyzer {
         while (entries.hasMoreElements()) {
             final JarEntry jarEntry = entries.nextElement();
 
-            final String packageName = this.filter.filter(jarEntry);
+            String packageName = this.filter.filter(jarEntry);
             if (packageName != null) {
+                // 如果包名是非法的，则取上一级包名
+                if (packageName.endsWith(".enum") || packageName.contains(".enum.")) {
+                    packageName = packageName.substring(0, packageName.indexOf(".enum"));
+                }
                 packageSet.add(packageName);
             }
 

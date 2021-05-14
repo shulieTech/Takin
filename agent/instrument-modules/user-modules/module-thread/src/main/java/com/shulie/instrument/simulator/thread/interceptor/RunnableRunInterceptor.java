@@ -14,10 +14,10 @@
  */
 package com.shulie.instrument.simulator.thread.interceptor;
 
-import com.pamirs.pradar.Pradar;
 import com.pamirs.pradar.ResultCode;
+import com.pamirs.pradar.interceptor.AroundInterceptor;
+import com.pamirs.pradar.internal.PradarInternalService;
 import com.shulie.instrument.simulator.api.listener.ext.Advice;
-import com.shulie.instrument.simulator.api.listener.ext.AdviceListener;
 import com.shulie.instrument.simulator.api.resource.DynamicFieldManager;
 import com.shulie.instrument.simulator.thread.ThreadConstants;
 
@@ -27,12 +27,12 @@ import javax.annotation.Resource;
  * @author xiaobin.zfb|xiaobin@shulie.io
  * @since 2021/1/22 8:12 下午
  */
-public class RunnableRunInterceptor extends AdviceListener {
+public class RunnableRunInterceptor extends AroundInterceptor {
     @Resource
     protected DynamicFieldManager manager;
 
     @Override
-    public void before(Advice advice) throws Throwable {
+    public void doBefore(Advice advice) throws Throwable {
         Object context = manager.getDynamicField(advice.getTarget(), ThreadConstants.DYNAMIC_FIELD_CONTEXT);
         Object threadId = manager.getDynamicField(advice.getTarget(), ThreadConstants.DYNAMIC_FIELD_THREAD_ID);
         if (threadId == null) {
@@ -43,12 +43,12 @@ public class RunnableRunInterceptor extends AdviceListener {
         }
         Long tid = (Long) threadId;
         if (context != null && Thread.currentThread().getId() != tid) {
-            Pradar.setInvokeContext(context);
+            PradarInternalService.setInvokeContext(context);
         }
     }
 
     @Override
-    public void afterReturning(Advice advice) throws Throwable {
+    public void doAfter(Advice advice) throws Throwable {
         try {
             Object threadId = manager.getDynamicField(advice.getTarget(), ThreadConstants.DYNAMIC_FIELD_THREAD_ID);
             if (threadId == null) {
@@ -59,18 +59,18 @@ public class RunnableRunInterceptor extends AdviceListener {
             }
             Long tid = (Long) threadId;
             if (Thread.currentThread().getId() != tid) {
-                Pradar.clearInvokeContext();
+                PradarInternalService.clearInvokeContext();
             }
         } finally {
             manager.removeAll(advice.getTarget());
         }
-        if (Pradar.isThreadCommit()) {
-            Pradar.endServerInvoke(ResultCode.INVOKE_RESULT_SUCCESS);
+        if (PradarInternalService.isThreadCommit()) {
+            PradarInternalService.endServerInvoke(ResultCode.INVOKE_RESULT_SUCCESS);
         }
     }
 
     @Override
-    public void afterThrowing(Advice advice) throws Throwable {
+    public void doException(Advice advice) throws Throwable {
         try {
             Object threadId = manager.getDynamicField(advice.getTarget(), ThreadConstants.DYNAMIC_FIELD_THREAD_ID);
             if (threadId == null) {
@@ -81,13 +81,13 @@ public class RunnableRunInterceptor extends AdviceListener {
             }
             Long tid = (Long) threadId;
             if (Thread.currentThread().getId() != tid) {
-                Pradar.clearInvokeContext();
+                PradarInternalService.clearInvokeContext();
             }
         } finally {
             manager.removeAll(advice.getTarget());
         }
-        if (Pradar.isThreadCommit()) {
-            Pradar.endServerInvoke(ResultCode.INVOKE_RESULT_FAILED);
+        if (PradarInternalService.isThreadCommit()) {
+            PradarInternalService.endServerInvoke(ResultCode.INVOKE_RESULT_FAILED);
         }
     }
 }

@@ -19,7 +19,7 @@ import com.shulie.instrument.simulator.api.util.ArrayUtils;
 import com.shulie.instrument.simulator.api.util.CollectionUtils;
 import com.shulie.instrument.simulator.core.manager.CoreLoadedClassDataSource;
 import com.shulie.instrument.simulator.core.util.SimulatorClassUtils;
-import com.shulie.instrument.simulator.core.util.SimulatorGuard;
+import com.shulie.instrument.simulator.api.guard.SimulatorGuard;
 import com.shulie.instrument.simulator.core.util.SimulatorStringUtils;
 import com.shulie.instrument.simulator.core.util.matcher.ExtFilterMatcher;
 import com.shulie.instrument.simulator.core.util.matcher.Matcher;

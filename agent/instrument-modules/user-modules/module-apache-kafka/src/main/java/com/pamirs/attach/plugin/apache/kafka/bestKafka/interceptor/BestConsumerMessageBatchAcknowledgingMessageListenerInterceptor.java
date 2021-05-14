@@ -15,10 +15,10 @@
 package com.pamirs.attach.plugin.apache.kafka.bestKafka.interceptor;
 
 import com.pamirs.attach.plugin.apache.kafka.KafkaConstants;
-import com.pamirs.attach.plugin.apache.kafka.util.BytesUtils;
 import com.pamirs.pradar.Pradar;
 import com.pamirs.pradar.PradarService;
 import com.pamirs.pradar.PradarSwitcher;
+import com.pamirs.pradar.common.BytesUtils;
 import com.pamirs.pradar.interceptor.TraceInterceptorAdaptor;
 import com.pamirs.pradar.pressurement.ClusterTestUtils;
 import com.shulie.instrument.simulator.api.listener.ext.Advice;

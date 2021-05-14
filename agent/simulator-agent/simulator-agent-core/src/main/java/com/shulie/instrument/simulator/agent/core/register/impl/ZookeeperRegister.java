@@ -37,10 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -173,7 +170,7 @@ public class ZookeeperRegister implements Register {
                 refresh();
             }
         });
-        this.executorService = Executors.newScheduledThreadPool(1, new ThreadFactory() {
+        this.executorService = new ScheduledThreadPoolExecutor(1, new ThreadFactory() {
             @Override
             public Thread newThread(Runnable r) {
                 Thread t = new Thread(r, "Scan-App-Jar-Thread");
