@@ -1,0 +1,153 @@
+/*
+ * Copyright 2021 Shulie Technology, Co.Ltd
+ * Email: shulie@shulie.io
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+.linkCardWrap {
+  display: flex;
+  width: '100%';
+  justify-content: 'space-around';
+}
+
+.cardWrap {
+  display: block;
+  min-width: 200px;
+  height: 91px;
+  border: 1px solid rgba(233, 239, 255, 1);
+  padding: 16px;
+  border-radius: 4px;
+  margin-right: 16px;
+  margin-bottom: 16px;
+  position: relative;
+}
+p {
+  padding: 0;
+  margin: 0;
+}
+.title {
+  color: #a7a9bf;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.cardNum {
+  color: #393c50;
+  font-weight: bold;
+  font-size: 28px;
+  margin-top: 8px;
+  font-family: HelveticaNeue-Bold, HelveticaNeue;
+  line-height: 20px;
+}
+
+.header {
+  font-size: 16px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: rgba(57, 59, 79, 1);
+  line-height: 50px;
+  border-bottom: 1px solid #f2f2f5;
+}
+
+.header::before {
+  content: '';
+  display: inline-block;
+  border-radius: 999px;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #11bbd5;
+  margin: 0 8px;
+}
+
+.percent {
+  :global {
+    .ant-statistic,
+    .ant-statistic-content {
+      display: inline-block;
+    }
+    .ant-statistic-content-value-int {
+      font-size: 28px;
+      font-family: HelveticaNeue-Bold, HelveticaNeue;
+      font-weight: bold;
+      color: rgba(63, 65, 88, 1);
+      line-height: 34px;
+    }
+    .ant-statistic-content-value-decimal {
+      font-size: 18px;
+      font-family: HelveticaNeue-Bold, HelveticaNeue;
+      font-weight: bold;
+      color: rgba(63, 65, 88, 1);
+    }
+  }
+}
+
+.percentIcon {
+  margin-left: 2px;
+  font-size: 16px;
+  font-weight: bold;
+  color: rgba(63, 65, 88, 1);
+}
+
+.percentName {
+  color: #a7a9bf;
+}
+
+.leftWrap {
+  display: inline-block;
+  margin-left: 30px;
+  margin-top: 40px;
+}
+.chartInfo {
+  display: inline-block;
+  width: 150px;
+  color: #a7a9bf;
+  margin-left: 40px;
+  margin-top: 40px;
+}
+.chartInfoNum {
+  color: #3f4158;
+}
+
+.rightWrap {
+  display: inline-block;
+  // width: 800px;
+  height: 150px;
+}
+
+.rightWrap2 {
+  display: flex;
+  // width: 800px;
+  height: 150px;
+}
+
+.chartWrap {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 90px;
+}
+
+.chartTitle {
+  color: #393b4f;
+  font-weight: 500;
+  // margin-left: 50px;
+}
+
+.chartTitle::before {
+  content: '';
+  display: inline-block;
+  border-radius: 999px;
+  width: 9px;
+  height: 9px;
+  border: 2px solid #11bbd5;
+  margin: 0 8px;
+}
