@@ -14,6 +14,7 @@
  */
 package com.pamirs.attach.plugin.apache.kafka.interceptor;
 
+import com.pamirs.attach.plugin.apache.kafka.ConfigCache;
 import com.pamirs.attach.plugin.apache.kafka.KafkaConstants;
 import com.pamirs.pradar.ErrorTypeEnum;
 import com.pamirs.pradar.Pradar;
@@ -36,8 +37,6 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * 创建影子Consumer
@@ -53,21 +52,6 @@ public class KafkaListenerContainerInterceptor extends AroundInterceptor {
     @Resource
     private ModuleController moduleController;
 
-    private static ConcurrentMap<Integer, Boolean> isInited = new ConcurrentHashMap<Integer, Boolean>();
-
-    public static void clear() {
-        isInited.clear();
-    }
-
-    private boolean isInited(Object target) {
-        int code = System.identityHashCode(target);
-        Boolean old = isInited.putIfAbsent(code, Boolean.TRUE);
-        if (old != null) {
-            return true;
-        }
-        return false;
-    }
-
     @Override
     public void doBefore(Advice advice) {
         if (PradarSpringUtil.getBeanFactory() == null) {
@@ -77,7 +61,7 @@ public class KafkaListenerContainerInterceptor extends AroundInterceptor {
         /**
          * 如果已经初始化过了，则忽略
          */
-        if (isInited(thisObj)) {
+        if (ConfigCache.isInited(thisObj)) {
             return;
         }
         Object externalContainer = null;
@@ -315,7 +299,7 @@ public class KafkaListenerContainerInterceptor extends AroundInterceptor {
                  * topic 都需要在白名单中配置好才可以启动
                  */
                 if (StringUtils.isNotBlank(topic) && !Pradar.isClusterTestPrefix(topic)) {
-                    if (GlobalConfig.getInstance().getMqWhiteList().contains(topic) || GlobalConfig.getInstance().getMqWhiteList().contains(topic + '#'+ groupId)) {
+                    if (GlobalConfig.getInstance().getMqWhiteList().contains(topic) || GlobalConfig.getInstance().getMqWhiteList().contains(topic + '#' + groupId)) {
                         topicList.add(Pradar.addClusterTestPrefix(topic));
                     }
                 }

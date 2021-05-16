@@ -42,7 +42,7 @@ class ModuleBuilder {
             Module module = Modules.loadModule(moduleName);
             return module != null;
         } catch (Throwable e) {
-            return true;
+            return false;
         }
     }
 

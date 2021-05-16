@@ -43,8 +43,8 @@ public class KafkaPlugin extends ModuleLifecycleAdapter implements ExtensionModu
     }
 
     @Override
-    public void onUnload() throws Throwable {
-        KafkaListenerContainerInterceptor.clear();
+    public void onFrozen() throws Throwable {
+        ConfigCache.clear();
     }
 
     private void addHookRegisterInterceptor() {

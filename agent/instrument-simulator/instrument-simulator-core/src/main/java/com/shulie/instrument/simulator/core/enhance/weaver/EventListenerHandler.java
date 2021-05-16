@@ -22,7 +22,7 @@ import com.shulie.instrument.simulator.api.event.InvokeEvent;
 import com.shulie.instrument.simulator.api.listener.EventListener;
 import com.shulie.instrument.simulator.core.classloader.BizClassLoaderHolder;
 import com.shulie.instrument.simulator.core.util.ReflectUtils;
-import com.shulie.instrument.simulator.core.util.SimulatorGuard;
+import com.shulie.instrument.simulator.api.guard.SimulatorGuard;
 import com.shulie.instrument.simulator.message.MessageHandler;
 import com.shulie.instrument.simulator.message.Messager;
 import com.shulie.instrument.simulator.message.Result;

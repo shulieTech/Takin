@@ -21,7 +21,7 @@ import com.shulie.instrument.simulator.compatible.transformer.SimulatorClassFile
 import com.shulie.instrument.simulator.core.CoreModule;
 import com.shulie.instrument.simulator.core.enhance.EventEnhancer;
 import com.shulie.instrument.simulator.core.util.SimulatorClassUtils;
-import com.shulie.instrument.simulator.core.util.SimulatorGuard;
+import com.shulie.instrument.simulator.api.guard.SimulatorGuard;
 import com.shulie.instrument.simulator.core.util.matcher.Matcher;
 import com.shulie.instrument.simulator.core.util.matcher.MatchingResult;
 import com.shulie.instrument.simulator.core.util.matcher.UnsupportedMatcher;

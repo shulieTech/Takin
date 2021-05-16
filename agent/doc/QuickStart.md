@@ -1,6 +1,6 @@
 # QuickStart
 
-## 一、获取agent包
+##一、获取agent包
 
 下载安装包：[download](http://xxxxx)
 
@@ -8,7 +8,7 @@
 
 see [HowToBuild](HowToBuild.md)
 
-### 二、配置修改
+###二、配置修改
 
 #### agent.properties
 
@@ -97,7 +97,7 @@ mongodb322.enabled - mongdb 3.2.2版本插件是否启用，默认为 false
 
 > 这个配置文件里面所有的配置项都支持远程拉取配置，拉取的 url 请参考agent.properties 配置项
 
-### 三、应用接入
+###三、应用接入
 
 应用接入需要在应用启动时添加如下jvm参数即可:
 

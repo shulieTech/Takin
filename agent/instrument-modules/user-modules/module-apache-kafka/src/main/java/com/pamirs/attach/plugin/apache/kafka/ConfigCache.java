@@ -16,6 +16,8 @@ package com.pamirs.attach.plugin.apache.kafka;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author xiaobin.zfb|xiaobin@shulie.io
@@ -24,6 +26,21 @@ import java.util.Map;
 public final class ConfigCache {
     private static Map<Integer, String> servers = new HashMap<Integer, String>();
     private static Map<Integer, String> groups = new HashMap<Integer, String>();
+    private static ConcurrentMap<Integer, Boolean> isInited = new ConcurrentHashMap<Integer, Boolean>();
+
+    public static void clear() {
+        isInited.clear();
+    }
+
+    public static boolean isInited(Object target) {
+        int code = System.identityHashCode(target);
+        Boolean old = isInited.putIfAbsent(code, Boolean.TRUE);
+        if (old != null) {
+            return true;
+        }
+        return false;
+    }
+
 
     public static void setServers(Object target, String server) {
         servers.put(System.identityHashCode(target), server);

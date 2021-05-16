@@ -28,7 +28,7 @@ import java.util.List;
  * @author shiyajian
  * @since 2020-08-11
  */
-public abstract class AbstractConfig<T> {
+public abstract class AbstractConfig<T> implements IConfig<T> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractConfig.class);
 
@@ -43,7 +43,8 @@ public abstract class AbstractConfig<T> {
         this.resolver = resolver;
     }
 
-    protected boolean isInit() {
+    @Override
+    public boolean isInit() {
         return isInit;
     }
 
@@ -55,16 +56,19 @@ public abstract class AbstractConfig<T> {
         return true;
     }
 
-    protected void init() {
+    @Override
+    public void init() {
         this.resolver.resolve(this);
         this.loaded();
     }
 
-    protected void triggerFetch() {
+    @Override
+    public void triggerFetch() {
         this.resolver.triggerFetch(this);
     }
 
-    protected void destroy() {
+    @Override
+    public void destroy() {
         if (this.resolver != null) {
             this.resolver.destroy();
         }
@@ -90,11 +94,4 @@ public abstract class AbstractConfig<T> {
             }
         }
     }
-
-    /**
-     * 手动触发拉取某个配置
-     */
-    public abstract void trigger(FIELDS... fields);
-
-    public abstract void refresh(T t);
 }

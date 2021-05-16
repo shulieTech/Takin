@@ -202,11 +202,18 @@ public interface AgentConfig {
     String getAttachName();
 
     /**
-     * 获取用户目录
+     * 获取日志目录
      *
-     * @return 用户目录
+     * @return 日志目录
      */
     String getLogPath();
+
+    /**
+     * 获取日志级别
+     *
+     * @return 日志级别
+     */
+    String getLogLevel();
 
     /**
      * 获取 agent 版本号

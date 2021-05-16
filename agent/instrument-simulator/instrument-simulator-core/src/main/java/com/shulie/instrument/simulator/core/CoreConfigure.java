@@ -18,6 +18,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.shulie.instrument.simulator.api.LoadMode;
 import com.shulie.instrument.simulator.api.ModuleRepositoryMode;
+import com.shulie.instrument.simulator.core.license.LicenseVerify;
 import com.shulie.instrument.simulator.core.util.FeatureCodec;
 import com.shulie.instrument.simulator.core.util.HttpUtils;
 import org.apache.commons.io.IOUtils;
@@ -54,6 +55,7 @@ public class CoreConfigure {
     private static final String KEY_USER_MODULE_LIB_PATH = "user_module";
     private static final String KEY_CLASSLOADER_JARS = "classloader_jars";
     private static final String KEY_LOG_PATH = "log_path";
+    private static final String KEY_LOG_LEVEL = "log_level";
     private static final String KEY_ZK_SERVERS = "zk_servers";
     private static final String KEY_REGISTER_PATH = "register_path";
     private static final String KEY_ZK_CONNECTION_TIMEOUT = "zk_connection_timeout";
@@ -92,6 +94,7 @@ public class CoreConfigure {
      * 写入 system property 的 key
      */
     private static final String PROP_KEY_LOG_PATH = "SIMULATOR_LOG_PATH";
+    private static final String PROP_KEY_LOG_LEVEL = "SIMULATOR_LOG_LEVEL";
 
     /**
      * license 文件名称
@@ -140,7 +143,7 @@ public class CoreConfigure {
         /**
          * license 验证
          */
-        //licenseVerify(this.featureMap.get(KEY_LICENSE_CODE));
+        licenseVerify(this.featureMap.get(KEY_LICENSE_CODE));
 
         this.simulatorVersion = getVersion0();
         this.instrumentation = instrumentation;
@@ -163,6 +166,24 @@ public class CoreConfigure {
             return path;
         }
         return System.getProperty("user.home") + File.separator + "logs" + File.separator + getAppName() + File.separator + "simulator";
+    }
+
+    /**
+     * 获取 log level
+     *
+     * @return
+     */
+    public String getLogLevel() {
+        return featureMap.get(KEY_LOG_LEVEL);
+    }
+
+    /**
+     * license校验
+     */
+    private void licenseVerify(String licenseCode) {
+        String licenseFile = getSimulatorHome() + File.separator + LICENSE_FILE_NAME;
+        LicenseVerify licenseVerify = new LicenseVerify(licenseCode, licenseFile);
+        licenseVerify.verify();
     }
 
     /**
@@ -216,6 +237,7 @@ public class CoreConfigure {
         System.setProperty(PROP_KEY_AGENT_ID, StringUtils.defaultIfBlank(getAgentId(), ""));
         System.setProperty(PROP_KEY_MD5, StringUtils.defaultIfBlank(getSimulatorMd5(), ""));
         System.setProperty(PROP_KEY_LOG_PATH, StringUtils.defaultIfBlank(getLogPath(), ""));
+        System.setProperty(PROP_KEY_LOG_LEVEL, StringUtils.defaultIfBlank(getLogLevel(), "info"));
         System.setProperty(PROP_KEY_SIMULATOR_HOME, StringUtils.defaultIfBlank(getSimulatorHome(), ""));
         System.setProperty(PROP_KEY_SIMULATOR_VERSION, simulatorVersion);
         String agentVersion = getAgentVersion();
@@ -919,7 +941,7 @@ public class CoreConfigure {
         if (property == null) {
             return defaultValue;
         }
-        String[] arr = StringUtils.split(key, separator);
+        String[] arr = StringUtils.split(property, separator);
         List<String> result = new ArrayList<String>();
         for (String str : arr) {
             if (StringUtils.isBlank(str)) {

@@ -22,5 +22,19 @@
             <version>1.0.0</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.shulie.instrument.module</groupId>
+            <artifactId>simulator-bootstrap-api</artifactId>
+            <version>1.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.shulie.instrument.module</groupId>
+            <artifactId>simulator-internal-bootstrap-api</artifactId>
+            <version>1.0.0</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

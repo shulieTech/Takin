@@ -1,31 +1,19 @@
 # 控制平台项目介绍
 - 项目结构如下
-
-
+![img.png](img.png)
+  - tro：tro-web 和 tro-cloud 抽象工程，包含工具类，agent交互通道，异常处理模块等
+  - tro-web:包含前后端，用于配置压测相关参数，例如应用管理，业务活动，脚本管理，场景管理，报告管理等
+  - tro-cloud:用于启动引擎包，目前只支持本地启动引擎包  
 ## 一、环境依赖
 
 ### 1.1 jdk8
 
-需要在环境变量中设置JAVA_8_HOME，如(mac)：
-```
-JAVA_8_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home
-CLASSPATH=.:$JAVA_8_HOME/lib/dt.jar:$JAVA_8_HOME/lib/tools.jar
-PATH=$JAVA_8_HOME/bin:$PATH:
-export JAVA_8_HOME
-```
+需要在环境变量中设置JAVA_HOME，如(mac)：
 
-### 1.2 jdk9
+### 1.2 maven
 
-需要在环境变量中设置JAVA_9_HOME，如(mac):
+### 1.3 node.js
 
-```aidl
-JAVA_9_HOME=/Library/Java/JavaVirtualMachines/jdk-9.0.4.jdk/Contents/Home
-CLASSPATH=.:$JAVA_9_HOME/lib/dt.jar:$JAVA_9_HOME/lib/tools.jar
-PATH=$JAVA_9_HOME/bin:$PATH:
-export JAVA_9_HOME
-```
-
-JAVA_HOME也必须要配置，如果有1.6版本的 jdk 请配置成1.6版本的，如果没有也可以使用 jdk8来替代
 
 ## 二、打包
 

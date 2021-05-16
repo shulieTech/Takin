@@ -160,6 +160,11 @@ public class AgentConfigImpl implements AgentConfig {
     }
 
     @Override
+    public String getLogLevel() {
+        return coreConfig.getLogLevel();
+    }
+
+    @Override
     public String getAgentVersion() {
         return version;
     }

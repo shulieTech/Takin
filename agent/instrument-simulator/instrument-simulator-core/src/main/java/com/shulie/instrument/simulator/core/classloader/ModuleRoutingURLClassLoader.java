@@ -334,7 +334,7 @@ public abstract class ModuleRoutingURLClassLoader extends RoutingURLClassLoader 
 
         // 8. load class from super
         if (clazz == null) {
-            clazz = resolveSuperClass(name, resolve);
+            clazz = resolveSystemClass(name, resolve);
         }
 
         if (clazz != null) {

@@ -41,7 +41,12 @@ public class RoutingURLClassLoader extends URLClassLoader {
 
     public RoutingURLClassLoader(final URL[] urls,
                                  final Routing... routingArray) {
-        super(urls);
+        /**
+         * 如果不指定 parent 则默认为 SystemClassLoader，这个地方显示指定为 null
+         * 防止由于 使用 SystemClassLoader 先于我们的 ClassLoader 加载了某些共同的类，
+         * 这样在我们内部用到了这个类会直接使用 SystemClassLoader 加载的类导致类冲突问题
+         */
+        super(urls, null);
         this.routingArray = routingArray;
         this.parent = null;
     }
@@ -247,6 +252,9 @@ public class RoutingURLClassLoader extends URLClassLoader {
         try {
             return bootLoader.findBootstrapClassOrNull(this, name);
         } catch (Throwable e) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("can't resolve class {} from jdk with classloader {}.", name, this, e);
+            }
             // ignore
         }
         return null;
@@ -266,6 +274,9 @@ public class RoutingURLClassLoader extends URLClassLoader {
             }
             return findClass(name);
         } catch (Throwable e) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("can't resolve class {} from local with classloader {}.", name, this, e);
+            }
             // ignore
         }
         return null;
@@ -278,10 +289,16 @@ public class RoutingURLClassLoader extends URLClassLoader {
      * @param resolve 是否resolve
      * @return resolved
      */
-    protected Class<?> resolveSuperClass(final String name, final boolean resolve) {
+    protected Class<?> resolveSystemClass(final String name, final boolean resolve) {
         try {
-            return super.loadClass(name, resolve);
+            ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+            if (classLoader != null) {
+                return classLoader.loadClass(name);
+            }
         } catch (Throwable e) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("can't resolve class {} from super with classloader {}.", name, this, e);
+            }
             // ignore
         }
         return null;
@@ -298,6 +315,9 @@ public class RoutingURLClassLoader extends URLClassLoader {
         try {
             return Thread.currentThread().getContextClassLoader().loadClass(name);
         } catch (Throwable e) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("can't resolve class {} from with context classloader {}.", name, this, e);
+            }
             // ignore
         }
         return null;
@@ -331,7 +351,7 @@ public class RoutingURLClassLoader extends URLClassLoader {
 
                 // 5. super classpath class
                 if (clazz == null) {
-                    clazz = resolveSuperClass(name, resolve);
+                    clazz = resolveSystemClass(name, resolve);
                 }
 
                 if (clazz != null) {
