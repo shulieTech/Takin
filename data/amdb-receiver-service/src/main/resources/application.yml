@@ -62,4 +62,4 @@ config:
     enableRound: true
   adaptor:
     instance:
-      open: false
+      open: true
