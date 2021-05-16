@@ -19,11 +19,13 @@ import com.shulie.instrument.module.config.fetcher.config.event.ConfigEvent;
 import com.shulie.instrument.module.config.fetcher.config.event.ConfigListener;
 import com.shulie.instrument.module.config.fetcher.config.impl.ApplicationConfig;
 import com.shulie.instrument.module.config.fetcher.config.impl.ClusterTestConfig;
+import com.shulie.instrument.module.config.fetcher.config.resolver.ConfigResolver;
 import com.shulie.instrument.module.config.fetcher.config.resolver.http.ApplicationConfigHttpResolver;
 import com.shulie.instrument.module.config.fetcher.config.resolver.http.ClusterTestConfigHttpResolver;
 import com.shulie.instrument.module.config.fetcher.config.resolver.zk.ApplicationConfigZkResolver;
 import com.shulie.instrument.module.config.fetcher.config.resolver.zk.ClusterTestConfigZkResolver;
 import com.shulie.instrument.module.config.fetcher.config.resolver.zk.ZookeeperOptions;
+import com.shulie.instrument.simulator.api.guard.SimulatorGuard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +46,11 @@ public final class ConfigManager {
     private ZookeeperOptions zookeeperOptions;
 
     private ConfigManager(int interval, TimeUnit timeUnit) {
-        this.applicationConfig = new ApplicationConfig(new ApplicationConfigHttpResolver(interval, timeUnit));
-        this.clusterTestConfig = new ClusterTestConfig(new ClusterTestConfigHttpResolver(interval, timeUnit));
+        /**
+         * 只需要你保护 ConfigResolver 下所有的操作不被其他插件增强即可
+         */
+        this.applicationConfig = new ApplicationConfig(SimulatorGuard.getInstance().doGuard(ConfigResolver.class, new ApplicationConfigHttpResolver(interval, timeUnit)));
+        this.clusterTestConfig = new ClusterTestConfig(SimulatorGuard.getInstance().doGuard(ConfigResolver.class, new ClusterTestConfigHttpResolver(interval, timeUnit)));
         initAll();
     }
 
@@ -109,13 +114,6 @@ public final class ConfigManager {
         return INSTANCE;
     }
 
-    public ApplicationConfig getApplicationConfig() {
-        return applicationConfig;
-    }
-
-    public ClusterTestConfig getClusterTestConfig() {
-        return clusterTestConfig;
-    }
 
     public ConcurrentHashMap<String, List<ConfigListener>> getListenerHolder() {
         return listenerHolder;
@@ -152,7 +150,7 @@ public final class ConfigManager {
                 }
             }
         }
-        if (!clusterTestConfig.isInit) {
+        if (!clusterTestConfig.isInit()) {
             synchronized (clusterTestConfig) {
                 if (!clusterTestConfig.isInit()) {
                     clusterTestConfig.init();

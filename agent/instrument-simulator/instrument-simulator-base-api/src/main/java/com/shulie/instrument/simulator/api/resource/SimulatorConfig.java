@@ -332,4 +332,10 @@ public interface SimulatorConfig {
      */
     String getLogPath();
 
+    /**
+     * 获取日志打印的级别
+     *
+     * @return 日志级别
+     */
+    String getLogLevel();
 }

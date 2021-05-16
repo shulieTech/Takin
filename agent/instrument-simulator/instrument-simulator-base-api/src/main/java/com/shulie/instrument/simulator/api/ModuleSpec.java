@@ -95,9 +95,9 @@ public class ModuleSpec {
     private Class classOfModule;
 
     /**
-     * 是不是由开关控制启动加载
+     * 模块的依赖列表，可以直接依赖模块，也可以依赖某个自定义开关
      */
-    private Set<String> switchControls = Collections.EMPTY_SET;
+    private Set<String> dependencies = Collections.EMPTY_SET;
 
     /**
      * 所有导出的包名
@@ -298,12 +298,12 @@ public class ModuleSpec {
         return isMiddlewareModule;
     }
 
-    public Set<String> getSwitchControls() {
-        return switchControls;
+    public Set<String> getDependencies() {
+        return dependencies;
     }
 
-    public void setSwitchControls(Set<String> switchControls) {
-        this.switchControls = switchControls;
+    public void setDependencies(Set<String> dependencies) {
+        this.dependencies = dependencies;
     }
 
     public int getPriority() {
@@ -525,7 +525,7 @@ public class ModuleSpec {
         return "ModuleSpec{" +
                 "moduleId='" + moduleId + '\'' +
                 ", isSystemModule=" + isSystemModule +
-                ", switchControls=" + switchControls +
+                ", switchControls=" + dependencies +
                 ", exportPackages=" + exportPackages +
                 ", exportExactlyPackages=" + exportExactlyPackages +
                 ", exportPrefixPackages=" + exportPrefixPackages +

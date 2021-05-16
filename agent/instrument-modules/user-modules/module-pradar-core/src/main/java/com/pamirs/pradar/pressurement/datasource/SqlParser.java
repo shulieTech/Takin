@@ -297,6 +297,9 @@ public class SqlParser {
     }
 
     private static String toShadowTable(String table) {
+        if (!Pradar.isShadowDatabaseWithShadowTable()){
+            return table;
+        }
         if (PradarInternalService.isClusterTestPrefix(table)) {
             return table;
         }

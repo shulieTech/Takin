@@ -62,12 +62,18 @@ public class ModuleConfig implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         ModuleConfig that = (ModuleConfig) o;
 
-        if (moduleId != null ? !moduleId.equals(that.moduleId) : that.moduleId != null) return false;
+        if (moduleId != null ? !moduleId.equals(that.moduleId) : that.moduleId != null) {
+            return false;
+        }
         return version != null ? version.equals(that.version) : that.version == null;
     }
 

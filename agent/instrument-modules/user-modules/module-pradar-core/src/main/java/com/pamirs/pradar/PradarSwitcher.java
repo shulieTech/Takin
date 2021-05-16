@@ -500,7 +500,7 @@ public class PradarSwitcher {
     }
 
     private static boolean getKafkaMessageHeadersEnabled() {
-        Boolean flag = Boolean.valueOf(getSystemProperty("is.kafka.message.headers", "true"));
+        Boolean flag = Boolean.valueOf(getSystemProperty("is.kafka.message.headers", "false"));
         LOGGER.info("is.kafka.shadow.message={}" , flag);
         return flag;
     }

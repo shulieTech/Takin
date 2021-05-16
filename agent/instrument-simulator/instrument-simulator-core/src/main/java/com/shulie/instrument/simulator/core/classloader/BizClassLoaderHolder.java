@@ -49,7 +49,7 @@ public class BizClassLoaderHolder {
      */
     public static void clearBizClassLoader() {
         ClassLoaderNode stack = holder.get();
-        if (stack == null){
+        if (stack == null) {
             return;
         }
         ClassLoaderNode parent = stack.parent;
@@ -62,15 +62,21 @@ public class BizClassLoaderHolder {
 
     /**
      * 获取当前节点的业务类加载器
+     * 获取不存业务类加载器则获取当前线程类加载器
      *
      * @return 业务类加载器
      */
     public static ClassLoader getBizClassLoader() {
         ClassLoaderNode stack = holder.get();
         if (stack == null) {
-            return null;
+            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+            if (classLoader instanceof RoutingURLClassLoader || classLoader == ModuleClassLoader.class.getClassLoader()) {
+                return null;
+            }
+            return Thread.currentThread().getContextClassLoader();
         }
-        return stack.classLoader;
+        ClassLoader classLoader = stack.classLoader;
+        return classLoader == null ? Thread.currentThread().getContextClassLoader() : classLoader;
     }
 
     /**

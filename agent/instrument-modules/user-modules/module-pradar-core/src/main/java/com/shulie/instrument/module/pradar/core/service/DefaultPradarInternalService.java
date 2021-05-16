@@ -243,6 +243,16 @@ public class DefaultPradarInternalService implements IPradarInternalService {
     }
 
     @Override
+    public void endServerInvoke(String resultCode) {
+        Pradar.endServerInvoke(resultCode);
+    }
+
+    @Override
+    public boolean isThreadCommit() {
+        return Pradar.isThreadCommit();
+    }
+
+    @Override
     public String getTraceAppName() {
         return Pradar.getTraceAppName();
     }

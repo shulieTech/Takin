@@ -213,6 +213,11 @@ public final class Pradar {
     static public final String MONITOR_QUEUE_SIZE = "pradar.monitor.queue.size";
 
     /**
+     * 是否影子库里用影子表模式
+     */
+    static public final String SHADOW_DATABASE_WITH_SHADOW_TABLE = "shadow.database.with.shadow.table";
+
+    /**
      * 默认 trace 缓存队列的大小
      */
     static public final int DEFAULT_TRACE_QUEUE_SIZE = 1024;
@@ -362,6 +367,19 @@ public final class Pradar {
             return Integer.valueOf(value);
         }
         return DEFAULT_MONITOR_QUEUE_SIZE;
+    }
+
+    /**
+     * 是否影子库里用影子表模式
+     *
+     * @return 默认返回 false
+     */
+    public static boolean isShadowDatabaseWithShadowTable() {
+        String value = System.getProperty(SHADOW_DATABASE_WITH_SHADOW_TABLE);
+        if (StringUtils.isNotBlank(value)) {
+            return Boolean.valueOf(value);
+        }
+        return false;
     }
 
     /**

@@ -166,7 +166,7 @@ public final class ModuleSpecUtils {
                 }
 
                 final String priority = properties.getProperty("priority", "0");
-                moduleSpec.setSwitchControls(splitAndTrim(properties.getProperty("switch-control"), ","));
+                moduleSpec.setDependencies(splitAndTrim(properties.getProperty("dependencies"), ","));
                 if (NumberUtils.isDigits(priority)) {
                     moduleSpec.setPriority(Integer.valueOf(priority));
                 }

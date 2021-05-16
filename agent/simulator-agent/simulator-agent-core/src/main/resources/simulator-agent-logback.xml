@@ -15,7 +15,7 @@
         </encoder>
     </appender>
 
-    <root level="info">
+    <root level="${SIMULATOR_LOG_LEVEL}">
         <appender-ref ref="SIMULATOR-FILE-APPENDER"/>
     </root>
 

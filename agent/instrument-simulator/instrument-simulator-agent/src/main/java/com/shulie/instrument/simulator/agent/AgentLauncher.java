@@ -23,11 +23,7 @@ import java.lang.reflect.Method;
 import java.net.InetSocketAddress;
 import java.net.URL;
 import java.net.URLDecoder;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.jar.JarFile;
 import java.util.regex.Matcher;
@@ -44,37 +40,6 @@ import static java.lang.String.format;
  */
 public class AgentLauncher {
     private final static BootLogger LOGGER = BootLogger.getLogger(AgentLauncher.class.getName());
-
-    private static String getSimulatorConfigPath(String simulatorHome) {
-        return simulatorHome + File.separatorChar + "config";
-    }
-
-    private static String getSimulatorModulePath(String simulatorHome) {
-        return simulatorHome + File.separatorChar + "system";
-    }
-
-    private static String getSimulatorCoreJarPath(String simulatorHome) {
-        return simulatorHome + File.separatorChar + "lib" + File.separator + "instrument-simulator-core.jar";
-    }
-
-    private static List<File> getSimulatorBootstrapJars(String simulatorHome) {
-        File file = new File(simulatorHome, "bootstrap");
-        return Arrays.asList(file.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.endsWith(".jar");
-            }
-        }));
-    }
-
-    private static String getSimulatorPropertiesPath(String simulatorHome) {
-        return getSimulatorConfigPath(simulatorHome) + File.separator + "simulator.properties";
-    }
-
-    private static String getSimulatorProviderPath(String simulatorHome) {
-        return simulatorHome + File.separatorChar + "provider";
-    }
-
 
     // Simulator默认主目录
     private static final String DEFAULT_SIMULATOR_HOME
@@ -105,8 +70,93 @@ public class AgentLauncher {
     private static volatile Map<String/*NAMESPACE*/, SimulatorClassLoader> simulatorClassLoaderMap
             = new ConcurrentHashMap<String, SimulatorClassLoader>();
 
+    private static final Pattern SIMULATOR_HOME_PATTERN = Pattern.compile("(?i)^[/\\\\]([a-z])[/\\\\]");
+
     private static final String CLASS_OF_CORE_CONFIGURE = "com.shulie.instrument.simulator.core.CoreConfigure";
     private static final String CLASS_OF_PROXY_CORE_SERVER = "com.shulie.instrument.simulator.core.server.ProxyCoreServer";
+
+    // ----------------------------------------------- 以下代码用于配置解析 -----------------------------------------------
+
+    private static final String EMPTY_STRING = "";
+
+    private static final String KEY_SIMULATOR_HOME = "home";
+
+    private static final String KEY_NAMESPACE = "namespace";
+    private static final String DEFAULT_NAMESPACE = "default";
+
+    private static final String KEY_SERVER_IP = "server.ip";
+    private static final String DEFAULT_IP = "0.0.0.0";
+
+    private static final String KEY_SERVER_PORT = "server.port";
+    private static final String DEFAULT_PORT = "0";
+
+    private static final String KEY_TOKEN = "token";
+    private static final String DEFAULT_TOKEN = EMPTY_STRING;
+
+    private static final String KEY_LOG_PATH = "logPath";
+    private static final String DEFAULT_LOG_PATH = EMPTY_STRING;
+
+    private static final String KEY_LOG_LEVEL = "logLevel";
+    private static final String DEFAULT_LOG_LEVEL = "info";
+
+    private static final String KEY_ZK_SERVERS = "zkServers";
+    private static final String DEFAULT_ZK_SERVERS = "localhost:2181";
+
+    private static final String KEY_REGISTER_PATH = "registerPath";
+    private static final String DEFAULT_REGISTER_PATH = "/config/log/pradar/client";
+
+    private static final String KEY_ZK_CONNECTION_TIMEOUT = "zkConnectionTimeout";
+    private static final String DEFAULT_ZK_CONNECTION_TIMEOUT = "30000";
+
+    private static final String KEY_ZK_SESSION_TIMEOUT = "zkSessionTimeout";
+    private static final String DEFAULT_ZK_SESSION_TIMEOUT = "60000";
+
+    private static final String KEY_AGENT_VERSION = "agentVersion";
+    private static final String DEFAULT_AGENT_VERSION = "1.0.0.1";
+
+    private static final String KEY_APP_NAME = "app.name";
+    private static final String DEFAULT_APP_NAME = "";
+
+    private static final String KEY_AGENT_ID = "agentId";
+    private static final String DEFAULT_AGENT_ID = "";
+
+    private static final String KEY_MODULE_REPOSITORY_MODE = "module.repository.mode";
+    private static final String DEFAULT_MODULE_REPOSITORY_MODE = "local";
+
+    private static final String KEY_MODULE_REMOTE_REPOSITORY_ADDR = "module.remote.repository.addr";
+    private static final String DEFAULT_MODULE_REPOSITORY_ADDR = "http://127.0.0.1:9888";
+
+    private static final String KEY_PROPERTIES_FILE_PATH = "prop";
+
+    private static String getSimulatorConfigPath(String simulatorHome) {
+        return simulatorHome + File.separatorChar + "config";
+    }
+
+    private static String getSimulatorModulePath(String simulatorHome) {
+        return simulatorHome + File.separatorChar + "system";
+    }
+
+    private static String getSimulatorCoreJarPath(String simulatorHome) {
+        return simulatorHome + File.separatorChar + "lib" + File.separator + "instrument-simulator-core.jar";
+    }
+
+    private static List<File> getSimulatorBootstrapJars(String simulatorHome) {
+        File file = new File(simulatorHome, "bootstrap");
+        return Arrays.asList(file.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.endsWith(".jar");
+            }
+        }));
+    }
+
+    private static String getSimulatorPropertiesPath(String simulatorHome) {
+        return getSimulatorConfigPath(simulatorHome) + File.separator + "simulator.properties";
+    }
+
+    private static String getSimulatorProviderPath(String simulatorHome) {
+        return simulatorHome + File.separatorChar + "provider";
+    }
 
     private static void addBootResource(ClassLoader classLoader) {
         if (ModuleUtils.isModuleSupported()) {
@@ -421,56 +471,6 @@ public class AgentLauncher {
     }
 
 
-    // ----------------------------------------------- 以下代码用于配置解析 -----------------------------------------------
-
-    private static final String EMPTY_STRING = "";
-
-    private static final String KEY_SIMULATOR_HOME = "home";
-
-    private static final String KEY_NAMESPACE = "namespace";
-    private static final String DEFAULT_NAMESPACE = "default";
-
-    private static final String KEY_SERVER_IP = "server.ip";
-    private static final String DEFAULT_IP = "0.0.0.0";
-
-    private static final String KEY_SERVER_PORT = "server.port";
-    private static final String DEFAULT_PORT = "0";
-
-    private static final String KEY_TOKEN = "token";
-    private static final String DEFAULT_TOKEN = EMPTY_STRING;
-
-    private static final String KEY_LOG_PATH = "logPath";
-    private static final String DEFAULT_LOG_PATH = EMPTY_STRING;
-
-    private static final String KEY_ZK_SERVERS = "zkServers";
-    private static final String DEFAULT_ZK_SERVERS = "localhost:2181";
-
-    private static final String KEY_REGISTER_PATH = "registerPath";
-    private static final String DEFAULT_REGISTER_PATH = "/config/log/pradar/client";
-
-    private static final String KEY_ZK_CONNECTION_TIMEOUT = "zkConnectionTimeout";
-    private static final String DEFAULT_ZK_CONNECTION_TIMEOUT = "30000";
-
-    private static final String KEY_ZK_SESSION_TIMEOUT = "zkSessionTimeout";
-    private static final String DEFAULT_ZK_SESSION_TIMEOUT = "60000";
-
-    private static final String KEY_AGENT_VERSION = "agentVersion";
-    private static final String DEFAULT_AGENT_VERSION = "1.0.0.1";
-
-    private static final String KEY_APP_NAME = "app.name";
-    private static final String DEFAULT_APP_NAME = "";
-
-    private static final String KEY_AGENT_ID = "agentId";
-    private static final String DEFAULT_AGENT_ID = "";
-
-    private static final String KEY_MODULE_REPOSITORY_MODE = "module.repository.mode";
-    private static final String DEFAULT_MODULE_REPOSITORY_MODE = "local";
-
-    private static final String KEY_MODULE_REMOTE_REPOSITORY_ADDR = "module.remote.repository.addr";
-    private static final String DEFAULT_MODULE_REPOSITORY_ADDR = "http://127.0.0.1:9888";
-
-    private static final String KEY_PROPERTIES_FILE_PATH = "prop";
-
     private static boolean isNotBlank(final String string) {
         return null != string
                 && string.length() > 0
@@ -542,7 +542,7 @@ public class AgentLauncher {
     private static String getSimulatorHome(final Map<String, String> featureMap) {
         String home = getDefault(featureMap, KEY_SIMULATOR_HOME, DEFAULT_SIMULATOR_HOME);
         if (isWindows()) {
-            Matcher m = Pattern.compile("(?i)^[/\\\\]([a-z])[/\\\\]").matcher(home);
+            Matcher m = SIMULATOR_HOME_PATTERN.matcher(home);
             if (m.find()) {
                 home = m.replaceFirst("$1:/");
             }
@@ -563,6 +563,11 @@ public class AgentLauncher {
     //获取 log path
     private static String getLogPath(final Map<String, String> featureMap) {
         return getDefault(featureMap, KEY_LOG_PATH, DEFAULT_LOG_PATH);
+    }
+
+    //获取 log level
+    private static String getLogLevel(final Map<String, String> featureMap) {
+        return getDefault(featureMap, KEY_LOG_LEVEL, DEFAULT_LOG_LEVEL);
     }
 
     private static String getZkServers(final Map<String, String> featureMap) {
@@ -626,7 +631,7 @@ public class AgentLauncher {
         final String simulatorHome = getSimulatorHome(featureMap);
         final StringBuilder builder = new StringBuilder(
                 format(
-                        ";app_name=%s;agentId=%s;config=%s;system_module=%s;mode=%s;simulator_home=%s;user_module=%s;classloader_jars=%s;provider=%s;namespace=%s;module_repository_mode=%s;module_repository_addr=%s;log_path=%s;zk_servers=%s;register_path=%s;zk_connection_timeout=%s;zk_session_timeout=%s;agent_version=%s",
+                        ";app_name=%s;agentId=%s;config=%s;system_module=%s;mode=%s;simulator_home=%s;user_module=%s;classloader_jars=%s;provider=%s;namespace=%s;module_repository_mode=%s;module_repository_addr=%s;log_path=%s;log_level=%s;zk_servers=%s;register_path=%s;zk_connection_timeout=%s;zk_session_timeout=%s;agent_version=%s",
                         getAppName(featureMap),
                         getAgentId(featureMap),
                         getSimulatorConfigPath(simulatorHome),
@@ -647,6 +652,8 @@ public class AgentLauncher {
                         getRemoteRepositoryAddr(featureMap),
                         // LOG PATH
                         getLogPath(featureMap),
+                        //LOG LEVEL
+                        getLogLevel(featureMap),
                         // ZK SERVERS
                         getZkServers(featureMap),
                         // REGISTER PATH

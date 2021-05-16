@@ -65,8 +65,8 @@ public class CommandChannelPlugin extends ModuleLifecycleAdapter implements Exte
     }
 
     @Override
-    public void onUnload() throws Throwable {
-        super.onUnload();
+    public void onFrozen() throws Throwable {
+        super.onFrozen();
         if (this.channel != null) {
             this.channel.close();
         }

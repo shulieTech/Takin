@@ -88,7 +88,7 @@ public class ModuleManagementModule implements ExtensionModule {
                 moduleInf.setModuleId(moduleSpec.getModuleId());
                 moduleInf.setSystemModule(moduleSpec.isSystemModule());
                 moduleInf.setPath(moduleSpec.getFile() != null ? moduleSpec.getFile().getCanonicalPath() : null);
-                moduleInf.setSwitchControl(moduleSpec.getSwitchControls());
+                moduleInf.setSwitchControl(moduleSpec.getDependencies());
                 moduleInf.setExportClasses(moduleSpec.getExportClasses());
                 moduleInf.setExportExactlyPackages(moduleSpec.getExportExactlyPackages());
                 moduleInf.setExportExactlyResources(moduleSpec.getExportExactlyResources());

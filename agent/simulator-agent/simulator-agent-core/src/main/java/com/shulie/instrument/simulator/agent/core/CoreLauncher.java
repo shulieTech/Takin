@@ -46,8 +46,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ServiceLoader;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
@@ -81,11 +81,12 @@ public class CoreLauncher {
         this.coreConfig.setAttachName(attachName);
         this.agentConfig = new AgentConfigImpl(this.coreConfig);
         System.setProperty("SIMULATOR_LOG_PATH", this.agentConfig.getLogPath());
+        System.setProperty("SIMULATOR_LOG_LEVEL", this.agentConfig.getLogLevel());
         LogbackUtils.init(this.agentConfig.getLogConfigFile());
         this.launcher = new AgentLauncher(this.agentConfig);
         this.configProvider = new ConfigProviderImpl(this.agentConfig);
         initAgentLoader();
-        this.startService = Executors.newScheduledThreadPool(1, new ThreadFactory() {
+        this.startService = new ScheduledThreadPoolExecutor(1, new ThreadFactory() {
             @Override
             public Thread newThread(Runnable runnable) {
                 Thread t = new Thread(runnable, "Agent-Start-Instrument-Service");
