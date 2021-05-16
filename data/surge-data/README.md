@@ -1,31 +1,18 @@
-## `SURGE DATA`巨浪数据平台
-
-`common` 公共包
-
-`runtime` 执行包
-
-`sink` 写入
-
-`supplier` 数据接收
-
-`test` 测试工程
-
 # data
 
-DaYuX的数据处理
+DaYuX的实时数据处理
 
-
+使用guice管理依赖注入，主要为实时接收agent推送的数据
 ## 模块说明
 
-### amdb
-这个项目的职责主要是数据处理端与控制台进行交互，主要包括应用信息、实例信息、流量信息、调用链信息。
+### common
+使用到的公共包
 
-see [amdb](https://github.com/shulieTech/DaYuX/blob/main/data/amdb-receiver-service/README.md)
+### runtime
+运行时的统一管理
 
-### surge-data
-数据处理端，负责接收探针的性能数据调用链数据
+### supplier
+与探针对接的数据接收端
 
-see [surge-data](https://github.com/shulieTech/DaYuX/blob/main/data/surge-data/README.md)
-
-
-
+### sink
+数据处理完成后的数据写入

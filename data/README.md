@@ -3,6 +3,8 @@
 DaYuX的数据处理
 
 
+![](doc/diagram.png)
+
 ## 模块说明
 
 ### amdb
