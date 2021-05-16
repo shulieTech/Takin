@@ -1,16 +1,23 @@
-# data
+# amdb
 
-DaYuX的数据处理
+DaYuX的数据服务
 
-
+项目为springboot项目，使用springmvc，主要为控制台提供数据查询服务
 ## 模块说明
 
-### amdb
-这个项目的职责主要是数据处理端与控制台进行交互，主要包括应用信息、实例信息、流量信息、调用链信息。
+### controller
+核心开放三部分：应用、实施流量查询、调用链路查询
 
-see [amdb](https://github.com/shulieTech/DaYuX/blob/main/data/amdb-receiver-service/README.md)
+### adapter
+定时同步探针注册的应用数据，主要包括实例数据
 
-### surge-data
-数据处理端，负责接收探针的性能数据调用链数据
+## 工程打包
 
-see [surge-data](https://github.com/shulieTech/DaYuX/blob/main/data/surge-data/README.md)
+### 命令
+mvn clean package
+
+### 运行包路径
+amdb-receiver-service/target/amdb-app-1.0.4.1-SNAPSHOT.jar
+
+## 运行
+java -jar amdb-app-1.0.4.1-SNAPSHOT.jar
