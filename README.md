@@ -43,7 +43,7 @@ In a microservices architecture system with a lot of business services, the call
 **docker镜像安装:**<br/>
 - Pull docker：docker pull registry.cn-hangzhou.aliyuncs.com/sl-docker-hub/docker-hub:sl-ky1.0.0
 - Run docker：docker run -d -p 80:80 -p 2181:2181 -p 3306:3306 -p 6379:6379 -p 8086:8086 -p 9000:9000 -p 10032:10032 -p 6628:6628 -p 8000:8000 -p 6627:6627 -p 8888:8888 -p 29900-29999:29900-29999 imgaeID or name:tag
-- Parameter：-d start in background，-p port. 
+- Parameter：-d start in background，-p port. <br/>
 The Initiation of docker need about 10 mins because it need install necessary components. -d can ignore installment information of components in background. If you dont't want to open your server's port, you can use --net=host and make sure it and host server are in the same network。
 
 中文文档：
