@@ -18,7 +18,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.shulie.instrument.simulator.api.LoadMode;
 import com.shulie.instrument.simulator.api.ModuleRepositoryMode;
-import com.shulie.instrument.simulator.core.license.LicenseVerify;
 import com.shulie.instrument.simulator.core.util.FeatureCodec;
 import com.shulie.instrument.simulator.core.util.HttpUtils;
 import org.apache.commons.io.IOUtils;
@@ -143,11 +142,6 @@ public class CoreConfigure {
         final Map<String, String> propertiesMap = getPropertiesMap(propertiesFilePath, appName);
         this.featureMap.putAll(merge(featureMap, propertiesMap));
 
-        /**
-         * license 验证
-         */
-        licenseVerify(this.featureMap.get(KEY_LICENSE_CODE));
-
         this.simulatorVersion = getVersion0();
         this.instrumentation = instrumentation;
         this.md5 = readMd5(getSimulatorHome() + File.separator + "simulator.md5");
@@ -178,15 +172,6 @@ public class CoreConfigure {
      */
     public String getLogLevel() {
         return featureMap.get(KEY_LOG_LEVEL);
-    }
-
-    /**
-     * license校验
-     */
-    private void licenseVerify(String licenseCode) {
-        String licenseFile = getSimulatorHome() + File.separator + LICENSE_FILE_NAME;
-        LicenseVerify licenseVerify = new LicenseVerify(licenseCode, licenseFile);
-        licenseVerify.verify();
     }
 
     /**
