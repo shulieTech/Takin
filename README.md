@@ -40,7 +40,19 @@ In a microservices architecture system with a lot of business services, the call
 在微服务架构的系统中，服务之间的调用关系非常复杂，每次服务的发布和更新都可能影响整个系统的可用性，并使开发人员难以频繁发布新版本。
 
 # Quick Start Instruction（快速入门说明）
-**docker镜像获取地址:**<br/>
+**docker镜像安装:**<br/>
+- Docker mirror size ： 1.8 G
+- Pull docker：docker pull registry.cn-hangzhou.aliyuncs.com/sl-docker-hub/docker-hub:sl-ky1.0.0
+- Run docker：docker run -d -p 80:80 -p 2181:2181 -p 3306:3306 -p 6379:6379 -p 8086:8086 -p 9000:9000 -p 10032:10032 -p 6628:6628 -p 8000:8000 -p 6627:6627 -p 8888:8888 -p 29900-29999:29900-29999 imgaeID or name:tag
+- Parameter：-d start in background，-p port. <br/>
+The Initiation of docker need about 10 mins because it need install necessary components. -d can ignore installment information of components in background. If you dont't want to open your server's port, you can use --net=host and make sure it and host server are in the same network。
+
+中文文档：
+- 获取容器镜像：docker pull registry.cn-hangzhou.aliyuncs.com/sl-docker-hub/docker-hub:sl-ky1.0.0
+- 运行容器镜像：docker run -d -p 80:80 -p 2181:2181 -p 3306:3306 -p 6379:6379 -p 8086:8086 -p 9000:9000 -p 10032:10032 -p 6628:6628 -p 8000:8000 -p 6627:6627 -p 8888:8888 -p 29900-29999:29900-29999 imgaeID或者name:tag
+- 参数解释：-d是后台启动，-p是需要开放的端口，容器运行初始化的时候需要安装一些必要的组件需要十分钟样子，-d可以忽略后台组件的安装信息，如果想要查看安装信息可以去除-d参数，如果不使用-p的方式开放端口，也可以使用--net=host的方式与宿主机共用一套网络。
+
+安装完成后：
 see [Quick Start](https://github.com/shulieTech/DaYuX/blob/main/controllePlatform/doc/QuickStart.md)
 
 # Instruction（使用说明）
@@ -60,7 +72,7 @@ see [Controlle Platform](https://github.com/shulieTech/DaYuX/blob/main/controlle
 # Community
 Mailing List: Mail to shulie@shulie.io<br/>
 Wechat group<br/>
-<img src="https://raw.githubusercontent.com/shulieTech/Images/main/2.png" width="30%" height="30%">
+<img src="https://raw.githubusercontent.com/shulieTech/Images/main/code1.png" width="30%" height="30%">
 <br/>
 QQ group(QQ群) : **118098566**<br/>
 QR code（群二维码）：<br/>
