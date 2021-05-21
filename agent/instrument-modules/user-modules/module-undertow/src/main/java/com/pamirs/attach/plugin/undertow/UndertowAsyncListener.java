@@ -16,8 +16,6 @@ package com.pamirs.attach.plugin.undertow;
 
 
 import com.pamirs.attach.plugin.common.web.RequestTracer;
-import com.pamirs.attach.plugin.common.web.ServletRequestTracer;
-import com.pamirs.pradar.InvokeContext;
 import com.pamirs.pradar.Pradar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +26,7 @@ import javax.servlet.AsyncListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 public class UndertowAsyncListener implements AsyncListener {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -35,12 +34,12 @@ public class UndertowAsyncListener implements AsyncListener {
     private final boolean isInfo = logger.isInfoEnabled();
 
     private final AsyncContext asyncContext;
-    private final InvokeContext invokeContext_;
+    private final Map<String, String> invokeContext_;
     private final HttpServletRequest request;
     private final HttpServletResponse response;
     private final RequestTracer<HttpServletRequest, HttpServletResponse> requestTracer;
 
-    public UndertowAsyncListener(final AsyncContext asyncContext, final InvokeContext invokeContext_, final HttpServletRequest request, final HttpServletResponse response, final RequestTracer<HttpServletRequest, HttpServletResponse> requestTracer) {
+    public UndertowAsyncListener(final AsyncContext asyncContext, final Map<String, String> invokeContext_, final HttpServletRequest request, final HttpServletResponse response, final RequestTracer<HttpServletRequest, HttpServletResponse> requestTracer) {
         this.asyncContext = asyncContext;
         this.invokeContext_ = invokeContext_;
         this.request = request;

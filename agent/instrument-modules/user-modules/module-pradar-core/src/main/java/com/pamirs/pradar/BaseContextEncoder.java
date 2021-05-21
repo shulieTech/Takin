@@ -15,7 +15,7 @@
 package com.pamirs.pradar;
 
 import com.pamirs.pradar.json.ResultSerializer;
-import com.shulie.instrument.simulator.api.util.StringUtil;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -86,7 +86,7 @@ class DefaultInvokeContextEncoder extends BaseContextEncoder {
         buffer.append(PradarCoreUtils.NEWLINE);
         eea.append(buffer.toString());
 
-        if (!StringUtil.isEmpty(System.getProperty("pradar.UnitTest"))) {
+        if (!StringUtils.isEmpty(System.getProperty("pradar.UnitTest"))) {
             if (traceForUnitTest.size() > 98) {
                 traceForUnitTest.clear();
             }

@@ -73,8 +73,6 @@ public class DefaultProviderManager implements ProviderManager {
             File providerJarFile = (File) file;
             try {
                 final ProviderClassLoader providerClassLoader = new ProviderClassLoader(providerJarFile, getClass().getClassLoader());
-                // prepare module exports for version jdk9 or newest
-                prepareModule(providerClassLoader, config.getInstrumentation());
                 // load ModuleJarLoadingChain
                 inject(moduleJarLoadingChains, ModuleJarLoadingChain.class, providerClassLoader, providerJarFile);
 
@@ -95,24 +93,6 @@ public class DefaultProviderManager implements ProviderManager {
 
         }
 
-    }
-
-    /**
-     * 模块准备，如果 java 版本号为 jdk9及以上，则准备模块的相关处理
-     *
-     * @param classLoader 类加载器
-     * @param inst        inst
-     */
-    private void prepareModule(ClassLoader classLoader, Instrumentation inst) {
-        JvmVersion jvmVersion = JvmUtils.getVersion();
-        if (!jvmVersion.onOrAfter(JvmVersion.JAVA_9)) {
-            return;
-        }
-        try {
-            Reflect.on("com.shulie.instrument.simulator.compatible.jdk9.module.ModuleSupport").call("prepareModule", classLoader, inst);
-        } catch (ReflectException e) {
-            logger.error("SIMULATOR: jdk9 or later ModuleSupport init error! ", e);
-        }
     }
 
     private <T> void inject(final Collection<T> collection,

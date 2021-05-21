@@ -22,7 +22,6 @@ import com.pamirs.pradar.pressurement.agent.shared.domain.DoorPlank;
 import com.pamirs.pradar.pressurement.agent.shared.service.ErrorReporter;
 import com.pamirs.pradar.pressurement.agent.shared.service.impl.ArbiterEntrance;
 import com.pamirs.pradar.pressurement.base.util.PropertyUtil;
-import com.shulie.instrument.simulator.api.util.StringUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -225,7 +224,7 @@ public abstract class RequestTracer<REQ, RESP> {
      */
     public boolean isClusterTestRequest(REQ request) {
         String value = getProperty(request, PradarService.PRADAR_HTTP_CLUSTER_TEST_KEY);
-        if (StringUtil.endsWith(value, Pradar.PRADAR_CLUSTER_TEST_HTTP_USER_AGENT_SUFFIX)) {
+        if (StringUtils.endsWith(value, Pradar.PRADAR_CLUSTER_TEST_HTTP_USER_AGENT_SUFFIX)) {
             return true;
         }
         value = getProperty(request, PradarService.PRADAR_CLUSTER_TEST_KEY);

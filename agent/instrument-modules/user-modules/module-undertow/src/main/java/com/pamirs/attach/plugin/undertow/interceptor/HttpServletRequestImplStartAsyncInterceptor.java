@@ -104,7 +104,7 @@ public class HttpServletRequestImplStartAsyncInterceptor extends AroundIntercept
             }
 
             final AsyncContext asyncContext = (AsyncContext) advice.getTarget();
-            final AsyncListener asyncListener = new UndertowAsyncListener(asyncContext, Pradar.popInvokeContext(), (HttpServletRequest) servletRequest, (HttpServletResponse) servletRequest, requestTracer);
+            final AsyncListener asyncListener = new UndertowAsyncListener(asyncContext, Pradar.popInvokeContextMap(), (HttpServletRequest) servletRequest, (HttpServletResponse) servletRequest, requestTracer);
             asyncContext.addListener(asyncListener);
         } finally {
             advice.unMark(TraceInterceptorAdaptor.BEFORE_TRACE_SUCCESS);

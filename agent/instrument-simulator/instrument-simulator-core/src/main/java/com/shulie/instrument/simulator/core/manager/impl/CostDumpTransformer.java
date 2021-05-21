@@ -17,8 +17,8 @@ package com.shulie.instrument.simulator.core.manager.impl;
 import com.shulie.instrument.simulator.api.listener.EventListener;
 import com.shulie.instrument.simulator.api.listener.ext.BuildingForListeners;
 import com.shulie.instrument.simulator.api.resource.SimulatorConfig;
-import com.shulie.instrument.simulator.compatible.transformer.AffectStatistic;
-import com.shulie.instrument.simulator.compatible.transformer.SimulatorClassFileTransformer;
+import com.shulie.instrument.simulator.core.manager.AffectStatistic;
+import com.shulie.instrument.simulator.core.manager.SimulatorClassFileTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

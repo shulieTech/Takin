@@ -33,6 +33,8 @@ import com.pamirs.pradar.pressurement.agent.listener.PradarEventListener;
 import com.pamirs.pradar.pressurement.agent.shared.service.ErrorReporter;
 import com.pamirs.pradar.pressurement.agent.shared.service.EventRouter;
 import com.pamirs.pradar.pressurement.agent.shared.service.GlobalConfig;
+import com.shulie.instrument.simulator.api.reflect.Reflect;
+import com.shulie.instrument.simulator.api.reflect.ReflectException;
 import com.shulie.instrument.simulator.message.ConcurrentWeakHashMap;
 import com.shulie.instrument.simulator.message.DestroyHook;
 import org.slf4j.Logger;
@@ -41,6 +43,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author xiaobin.zfb|xiaobin@shulie.io
@@ -188,22 +191,49 @@ public final class ConsumerRegistry {
         } else {
             defaultMQPushConsumer.setInstanceName(Pradar.addClusterTestPrefix(businessConsumer.getConsumerGroup() + instanceName));
         }
-        defaultMQPushConsumer.setAdjustThreadPoolNumsThreshold(businessConsumer.getAdjustThreadPoolNumsThreshold());
-        defaultMQPushConsumer.setAllocateMessageQueueStrategy(businessConsumer.getAllocateMessageQueueStrategy());
+        try {
+            defaultMQPushConsumer.setAdjustThreadPoolNumsThreshold(businessConsumer.getAdjustThreadPoolNumsThreshold());
+        } catch (AbstractMethodError e) {
+        } catch (NoSuchMethodError e) {
+        }
+        try {
+            defaultMQPushConsumer.setAllocateMessageQueueStrategy(businessConsumer.getAllocateMessageQueueStrategy());
+        } catch (AbstractMethodError e) {
+        } catch (NoSuchMethodError e) {
+        }
         defaultMQPushConsumer.setConsumeConcurrentlyMaxSpan(businessConsumer.getConsumeConcurrentlyMaxSpan());
         defaultMQPushConsumer.setConsumeTimestamp(businessConsumer.getConsumeTimestamp());
         defaultMQPushConsumer.setMessageModel(businessConsumer.getMessageModel());
         defaultMQPushConsumer.setMessageListener(businessConsumer.getMessageListener());
-        defaultMQPushConsumer.setOffsetStore(businessConsumer.getOffsetStore());
         defaultMQPushConsumer.setPostSubscriptionWhenPull(businessConsumer.isPostSubscriptionWhenPull());
         defaultMQPushConsumer.setPullInterval(businessConsumer.getPullInterval());
         defaultMQPushConsumer.setSubscription(businessConsumer.getSubscription());
         defaultMQPushConsumer.setUnitMode(businessConsumer.isUnitMode());
-        defaultMQPushConsumer.setClientCallbackExecutorThreads(businessConsumer.getClientCallbackExecutorThreads());
-        defaultMQPushConsumer.setClientIP(businessConsumer.getClientIP());
-        defaultMQPushConsumer.setHeartbeatBrokerInterval(businessConsumer.getHeartbeatBrokerInterval());
-        defaultMQPushConsumer.setPersistConsumerOffsetInterval(businessConsumer.getPersistConsumerOffsetInterval());
-        defaultMQPushConsumer.setPollNameServerInteval(businessConsumer.getPollNameServerInteval());
+        try {
+            defaultMQPushConsumer.setClientCallbackExecutorThreads(businessConsumer.getClientCallbackExecutorThreads());
+        } catch (AbstractMethodError e) {
+        } catch (NoSuchMethodError e) {
+        }
+        try {
+            defaultMQPushConsumer.setClientIP(businessConsumer.getClientIP());
+        } catch (AbstractMethodError e) {
+        } catch (NoSuchMethodError e) {
+        }
+        try {
+            defaultMQPushConsumer.setHeartbeatBrokerInterval(businessConsumer.getHeartbeatBrokerInterval());
+        } catch (AbstractMethodError e) {
+        } catch (NoSuchMethodError e) {
+        }
+        try {
+            defaultMQPushConsumer.setPersistConsumerOffsetInterval(businessConsumer.getPersistConsumerOffsetInterval());
+        } catch (AbstractMethodError e) {
+        } catch (NoSuchMethodError e) {
+        }
+        try {
+            defaultMQPushConsumer.setPollNameServerInteval(businessConsumer.getPollNameServerInteval());
+        } catch (AbstractMethodError e) {
+        } catch (NoSuchMethodError e) {
+        }
         try {
             defaultMQPushConsumer.setUnitName(businessConsumer.getUnitName());
         } catch (AbstractMethodError e) {
@@ -229,7 +259,17 @@ public final class ConsumerRegistry {
 
         defaultMQPushConsumer.getDefaultMQPushConsumerImpl().registerConsumeMessageHook(new PushConsumeMessageHookImpl());
 
-        ConcurrentHashMap<String, SubscriptionData> map = businessConsumer.getDefaultMQPushConsumerImpl().getSubscriptionInner();
+        ConcurrentMap<String, SubscriptionData> map = null;
+        try {
+            map = businessConsumer.getDefaultMQPushConsumerImpl().getSubscriptionInner();
+        } catch (NoSuchMethodError e) {
+            try {
+                map = Reflect.on(businessConsumer.getDefaultMQPushConsumerImpl()).call("getSubscriptionInner").get();
+            } catch (ReflectException t) {
+                logger.error("buildMQPushConsumer getSubscriptionInner error.", e);
+                return null;
+            }
+        }
         boolean hasSubscribe = false;
         if (map != null) {
             for (Map.Entry<String, SubscriptionData> entry : map.entrySet()) {

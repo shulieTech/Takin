@@ -55,6 +55,7 @@ public final class Pradar {
      */
     static final public String THREAD_ID_KEY = "threadId";
     static final public String HAS_CONTEXT = "hasContext";
+    static final public String IDENTITY_CONTEXT_ID = "identity_context_id";
 
     /**
      * Pradar日志放置的位置 ~/pradarlogs/，统一使用 SIMULATOR_LOG_PATH 系统变量配置
@@ -372,14 +373,14 @@ public final class Pradar {
     /**
      * 是否影子库里用影子表模式
      *
-     * @return 默认返回 false
+     * @return 默认返回 true
      */
     public static boolean isShadowDatabaseWithShadowTable() {
         String value = System.getProperty(SHADOW_DATABASE_WITH_SHADOW_TABLE);
         if (StringUtils.isNotBlank(value)) {
             return Boolean.valueOf(value);
         }
-        return false;
+        return true;
     }
 
     /**
@@ -753,7 +754,6 @@ public final class Pradar {
     }
 
     /**
-     *
      * @return
      */
     static public int getPradarLogDaemonInterval() {
@@ -1156,15 +1156,7 @@ public final class Pradar {
      * @see #setInvokeContext(Object) 重新还原 InvokeContext
      */
     static public Object currentInvokeContext() {
-        try {
-            InvokeContext ctx = InvokeContext.get();
-            if (null != ctx) {
-                return ctx.toMap();
-            }
-        } catch (Throwable re) {
-            LOGGER.error("currentInvokeContext", re);
-        }
-        return null;
+        return getInvokeContextMap();
     }
 
     /**
@@ -1174,9 +1166,11 @@ public final class Pradar {
      * 需要使用{@link #hasInvokeContext(Map)} 来判断获取的值中是否包含上下文
      * 因为即使没有上下文时也会产生额外的数据如压测标和debug 标识
      *
+     * 如果远程传输请使用 {@link #getInvokeContextTransformMap()}
+     *
      * @see # setInvokeContext(InvokeContext) 还原 InvokeContext
      */
-    static InvokeContext getInvokeContext() {
+    static public InvokeContext getInvokeContext() {
         return InvokeContext.get();
     }
 
@@ -1243,6 +1237,8 @@ public final class Pradar {
     /**
      * 此方法只用于获取当前调用上下文的数据，不允许对其进行修改
      *
+     * 如果远程传输请使用 {@link #getInvokeContextTransformMap()}
+     *
      * @return 如果当前上下文中无值则返回 Collections.EMPTY_MAP
      */
     static public Map<String, String> getInvokeContextMap() {
@@ -1277,17 +1273,29 @@ public final class Pradar {
             //标记一下序列化的上下文所属的线程 ID, 因为这个可能会用到后续的反序列上下文上
             ctx.put(THREAD_ID_KEY, String.valueOf(Thread.currentThread().getId()));
             ctx.put(HAS_CONTEXT, Boolean.TRUE.toString());
+            ctx.put(IDENTITY_CONTEXT_ID, String.valueOf(invokeContext.getId()));
         }
         return ctx;
     }
 
     /**
-     * 获取专门用于数据传输的上下文数据
+     * 获取专门用于数据远程传输的上下文数据
+     *
+     * 该方法返回的传输字段在{@link #getInvokeContextTransformKeys()} 中定义，如果不在
+     * 这个范围内定义的字段，则会被强行移除，因为{@link #getInvokeContextMap()} 方法会返回一些用于
+     * 内部上下文传输时需要的冗余字段，而这些字段不在远程传输字段列表内
      *
      * @return
      */
     static public Map<String, String> getInvokeContextTransformMap() {
         Map<String, String> ctx = getInvokeContextMap();
+        Iterator<Map.Entry<String, String>> it = ctx.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, String> entry = it.next();
+            if (!getInvokeContextTransformKeys().contains(entry.getKey())) {
+                it.remove();
+            }
+        }
         return ctx;
     }
 
@@ -1309,7 +1317,28 @@ public final class Pradar {
         try {
             InvokeContext ctx = null;
             if (rpcCtx instanceof Map) {
-                ctx = InvokeContext.fromMap((Map<String, String>) rpcCtx, InvokeContext.get());
+                final Map<String, String> context = (Map<String, String>) rpcCtx;
+                boolean isSampleThreadId = false;
+                String threadId = context.get(THREAD_ID_KEY);
+                /**
+                 * 需要如果设置到上下文中的线程 ID与当前的线程 ID一致，并且上下文不为空，则忽略此次重构上下文
+                 */
+                if (threadId != null && threadId.equals(String.valueOf(Thread.currentThread().getId())) && getInvokeContext() != null) {
+                    LOGGER.warn("setInvokeContext is sample thread. will append child context auto.");
+                    String identityContextId = context.get(IDENTITY_CONTEXT_ID);
+                    //如果需要设置的目标 context 与当前的 context 是同一个，则直接忽略此次的设置上下文
+                    if (identityContextId != null && InvokeContext.get() != null && identityContextId.equals(String.valueOf(InvokeContext.get().getId()))) {
+                        return;
+                    }
+                    isSampleThreadId = true;
+                }
+                ctx = InvokeContext.fromMap(context);
+                //如果是相同线程，则将当前设置的上下文的父上下文设置成
+                if (isSampleThreadId) {
+                    if (InvokeContext.get() != null && ctx != null) {
+                        ctx.parentInvokeContext = InvokeContext.get();
+                    }
+                }
             } else if (rpcCtx instanceof InvokeContext) {
                 ctx = (InvokeContext) rpcCtx;
             }
@@ -1334,6 +1363,7 @@ public final class Pradar {
             InvokeContext ctx = null;
             Boolean isClusterTest = null;
             Boolean isDebug = null;
+            boolean isSampleThreadId = false;
             if (invokeCtx instanceof Map) {
                 Map<String, String> invokeContextMap = (Map<String, String>) invokeCtx;
                 String threadId = invokeContextMap.get(THREAD_ID_KEY);
@@ -1341,11 +1371,21 @@ public final class Pradar {
                  * 需要如果设置到上下文中的线程 ID与当前的线程 ID一致，并且上下文不为空，则忽略此次重构上下文
                  */
                 if (threadId != null && threadId.equals(String.valueOf(Thread.currentThread().getId())) && getInvokeContext() != null) {
-                    LOGGER.warn("setInvokeContext ignore. cause by same thread id with invoke context.");
-                    return;
+                    LOGGER.warn("setInvokeContext is sample thread. will append child context auto.");
+                    String identityContextId = invokeContextMap.get(IDENTITY_CONTEXT_ID);
+                    //如果需要设置的目标 context 与当前的 context 是同一个，则直接忽略此次的设置上下文
+                    if (identityContextId != null && InvokeContext.get() != null && identityContextId.equals(String.valueOf(InvokeContext.get().getId()))) {
+                        return;
+                    }
+                    isSampleThreadId = true;
                 }
-
                 ctx = InvokeContext.fromMap(invokeContextMap);
+                //如果是相同线程，则将当前设置的上下文的父上下文设置成
+                if (isSampleThreadId) {
+                    if (InvokeContext.get() != null && ctx != null) {
+                        ctx.parentInvokeContext = InvokeContext.get();
+                    }
+                }
                 isClusterTest = ClusterTestUtils.isClusterTestRequest(((Map<String, String>) invokeCtx).get(PradarService.PRADAR_CLUSTER_TEST_KEY));
                 isDebug = ClusterTestUtils.isDebugRequest(((Map<String, String>) invokeCtx).get(PradarService.PRADAR_DEBUG_KEY));
             } else if (invokeCtx instanceof InvokeContext) {
@@ -1384,14 +1424,35 @@ public final class Pradar {
         return ctx;
     }
 
-    static InvokeContext createInvokeContext(Object rpcCtx, InvokeContext parent) {
+    static InvokeContext createInvokeContext(Object rpcCtx) {
         InvokeContext ctx = null;
         boolean isClusterTest = false;
         boolean isDebug = false;
         if (rpcCtx instanceof Map) {
-            ctx = InvokeContext.fromMap((Map<String, String>) rpcCtx, parent);
-            isClusterTest = Boolean.valueOf(((Map<String, String>) rpcCtx).get(PradarService.PRADAR_CLUSTER_TEST_KEY));
-            isDebug = Boolean.valueOf(((Map<String, String>) rpcCtx).get(PradarService.PRADAR_DEBUG_KEY));
+            boolean isSampleThreadId = false;
+            final Map<String, String> context = (Map<String, String>) rpcCtx;
+            String threadId = context.get(THREAD_ID_KEY);
+            /**
+             * 需要如果设置到上下文中的线程 ID与当前的线程 ID一致，并且上下文不为空，则忽略此次重构上下文
+             */
+            if (threadId != null && threadId.equals(String.valueOf(Thread.currentThread().getId())) && getInvokeContext() != null) {
+                LOGGER.warn("setInvokeContext is sample thread. will append child context auto.");
+                String identityContextId = context.get(IDENTITY_CONTEXT_ID);
+                //如果需要设置的目标 context 与当前的 context 是同一个，则直接返回当前的上下文
+                if (identityContextId != null && InvokeContext.get() != null && identityContextId.equals(String.valueOf(InvokeContext.get().getId()))) {
+                    return InvokeContext.get();
+                }
+                isSampleThreadId = true;
+            }
+            ctx = InvokeContext.fromMap(context);
+            if (isSampleThreadId) {
+                if (InvokeContext.get() != null && ctx != null) {
+                    ctx.parentInvokeContext = InvokeContext.get();
+                }
+            }
+
+            isClusterTest = Boolean.valueOf((context).get(PradarService.PRADAR_CLUSTER_TEST_KEY));
+            isDebug = Boolean.valueOf((context).get(PradarService.PRADAR_DEBUG_KEY));
         } else if (rpcCtx instanceof InvokeContext) {
             ctx = (InvokeContext) rpcCtx;
         }
@@ -1428,12 +1489,32 @@ public final class Pradar {
      * @return 弹出的当前子 InvokeContext
      * @see #endClientInvoke(String, int) 类似用法，但不记日志
      */
+    static public Map<String, String> popInvokeContextMap() {
+        InvokeContext ctx = InvokeContext.get();
+        if (null == ctx) {
+            return null;
+        }
+        InvokeContext.set(ctx.parentInvokeContext);
+        return ctx.toMap();
+    }
+
+    /**
+     * 从栈上弹出一层 InvokeContext，用于客户端 Send/Recv 异步时主逻辑 需要把 send 的子 InvokeContext 弹出的场景
+     *
+     * @return 弹出的当前子 InvokeContext
+     * @see #endClientInvoke(String, int) 类似用法，但不记日志
+     */
     static public InvokeContext popInvokeContext() {
         InvokeContext ctx = InvokeContext.get();
         if (null == ctx) {
             return null;
         }
         InvokeContext.set(ctx.parentInvokeContext);
+        /**
+         * 如果弹出上下文，则将上下文的父上下文置空
+         * 否则继续引用父上下文可能会导致内存泄露隐患
+         */
+        ctx.parentInvokeContext = null;
         return ctx;
     }
 
@@ -1641,7 +1722,7 @@ public final class Pradar {
 
             if (null == ctx) {
                 if (!isEmptyContext(ctxObj)) {
-                    childCtx = createInvokeContext(ctxObj, null);
+                    childCtx = createInvokeContext(ctxObj);
                 } else {
                     childCtx = new InvokeContext(TraceIdGenerator.generate(), appName(), MAL_ROOT_INVOKE_ID
                             , method, service);
@@ -2085,6 +2166,37 @@ public final class Pradar {
     }
 
     /**
+     * 返回当前上下文是否有错误
+     * 这个只是在特殊的时候需要标记，正常的上下文是否有错误在
+     * trace 跟踪时即可获取到
+     *
+     * @return
+     */
+    static public boolean hasError() {
+        InvokeContext ctx = InvokeContext.get();
+        if (null == ctx) {
+            return false;
+        }
+        return ctx.isHasError();
+    }
+
+    /**
+     * 设置当前上下文是否有错误
+     * 这个只是在特殊的时候需要标记，正常的上下文是否有错误在
+     * trace 跟踪时即可获取到
+     *
+     * @param hasError 当前上下文是否有错误
+     * @return
+     */
+    static public void setError(boolean hasError) {
+        InvokeContext ctx = InvokeContext.get();
+        if (null == ctx) {
+            return;
+        }
+        ctx.setHasError(hasError);
+    }
+
+    /**
      * 生成全局唯一的traceid
      *
      * @param ip 用户出入的ip地址，如果非法或者为空，则使用当前机器的ip地址
@@ -2208,7 +2320,7 @@ public final class Pradar {
      * @return
      */
     public static Integer getPluginRequestSize() {
-        return getIntProperty("plugin.request.size", 5000);
+        return getIntProperty("plugin.request.size", 1000);
     }
 
     /**
@@ -2217,7 +2329,7 @@ public final class Pradar {
      * @return
      */
     public static Integer getPluginResponseSize() {
-        return getIntProperty("plugin.response.size", 5000);
+        return getIntProperty("plugin.response.size", 1000);
     }
 
     /**

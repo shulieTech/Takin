@@ -14,11 +14,13 @@
  */
 package com.pamirs.attach.plugin.apache.rocketmq.interceptor;
 
+import com.pamirs.attach.plugin.apache.rocketmq.hook.SendMessageHookImpl;
 import com.pamirs.pradar.Pradar;
 import com.pamirs.pradar.PradarService;
 import com.pamirs.pradar.PradarSwitcher;
 import com.pamirs.pradar.interceptor.AroundInterceptor;
 import com.shulie.instrument.simulator.api.listener.ext.Advice;
+import org.apache.rocketmq.client.impl.producer.DefaultMQProducerImpl;
 import org.apache.rocketmq.client.producer.SendCallback;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.Message;
@@ -28,8 +30,14 @@ import java.util.Map;
 
 public class MQProducerSendInterceptor extends AroundInterceptor {
 
+    private boolean registerSendMessageHook = false;
+
     @Override
     public void doBefore(Advice advice) {
+        if (advice.getTarget() instanceof DefaultMQProducerImpl && !registerSendMessageHook){
+            ((DefaultMQProducerImpl)advice.getTarget()).registerSendMessageHook(new SendMessageHookImpl());
+            registerSendMessageHook = true;
+        }
         Object[] args = advice.getParameterArray();
         Message msg = (Message) args[0];
         if (PradarSwitcher.isClusterTestEnabled()) {

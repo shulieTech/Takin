@@ -55,7 +55,7 @@ cd -
 # tar the simulator.tar
 cd ../target/simulator-agent
 current=`date "+%Y%m%d%H%M%S"`
-touch $current
+touch $current.tag
 cd ..
 tar -zcvf simulator-agent-${AGENT_VERSION}-bin.tar simulator-agent/
 cd -

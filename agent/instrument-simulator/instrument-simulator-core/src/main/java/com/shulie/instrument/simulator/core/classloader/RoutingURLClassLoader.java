@@ -16,8 +16,8 @@ package com.shulie.instrument.simulator.core.classloader;
 
 import com.shulie.instrument.simulator.core.util.CompoundEnumeration;
 import com.shulie.instrument.simulator.core.util.EmptyEnumeration;
-import com.shulie.instrument.simulator.message.boot.BootLoader;
-import com.shulie.instrument.simulator.message.boot.BootLoaderFactory;
+import com.shulie.instrument.simulator.jdk.api.boot.BootLoader;
+import com.shulie.instrument.simulator.jdk.impl.boot.BootLoaderFactory;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;

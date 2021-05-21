@@ -16,10 +16,10 @@ package com.shulie.instrument.simulator.core.manager.impl;
 
 import com.shulie.instrument.simulator.api.listener.EventListener;
 import com.shulie.instrument.simulator.api.listener.ext.BuildingForListeners;
-import com.shulie.instrument.simulator.compatible.transformer.AffectStatistic;
-import com.shulie.instrument.simulator.compatible.transformer.SimulatorClassFileTransformer;
 import com.shulie.instrument.simulator.core.CoreModule;
 import com.shulie.instrument.simulator.core.enhance.EventEnhancer;
+import com.shulie.instrument.simulator.core.manager.AffectStatistic;
+import com.shulie.instrument.simulator.core.manager.SimulatorClassFileTransformer;
 import com.shulie.instrument.simulator.core.util.SimulatorClassUtils;
 import com.shulie.instrument.simulator.api.guard.SimulatorGuard;
 import com.shulie.instrument.simulator.core.util.matcher.Matcher;

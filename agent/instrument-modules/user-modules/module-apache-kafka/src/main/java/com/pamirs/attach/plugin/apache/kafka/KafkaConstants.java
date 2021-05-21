@@ -44,6 +44,11 @@ public class KafkaConstants {
     public final static String REFLECT_FIELD_CONSUMER_FACTORY = "consumerFactory";
     public final static String REFLECT_FIELD_PRODUCER_CONFIG = "producerConfig";
 
+    public final static String REFLECT_FIELD_CONSUMER = "consumer";
+    public final static String REFLECT_FIELD_GROUP_ID = "groupId";
+    public final static String REFLECT_FIELD_COORDINATOR = "coordinator";
+
+
     public final static String REFLECT_METHOD_GET_MESSAGE_LISTENER = "getMessageListener";
     public final static String REFLECT_METHOD_SET_MESSAGE_LISTENER = "setMessageListener";
 
@@ -65,7 +70,6 @@ public class KafkaConstants {
     public final static String REFLECT_METHOD_GET_CONCURRENCY = "getConcurrency";
 
     public final static String REFLECT_METHOD_STOP = "stop";
-
 
     public static final String KEY_BOOTSTRAP_SERVERS = "bootstrap.servers";
     public static final String KEY_ZOOKEEPER_CONNECT = "zookeeper.connect";

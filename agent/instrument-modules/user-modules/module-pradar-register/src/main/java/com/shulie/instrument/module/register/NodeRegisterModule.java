@@ -20,7 +20,6 @@ import com.shulie.instrument.module.register.register.Register;
 import com.shulie.instrument.module.register.register.RegisterFactory;
 import com.shulie.instrument.module.register.register.RegisterOptions;
 import com.shulie.instrument.simulator.api.ExtensionModule;
-import com.shulie.instrument.simulator.api.GlobalSwitch;
 import com.shulie.instrument.simulator.api.ModuleInfo;
 import com.shulie.instrument.simulator.api.ModuleLifecycleAdapter;
 import com.shulie.instrument.simulator.api.executors.ExecutorServiceFactory;
@@ -56,19 +55,18 @@ public class NodeRegisterModule extends ModuleLifecycleAdapter implements Extens
                 if (!isActive) {
                     return;
                 }
-                RegisterOptions registerOptions = buildRegisterOptions();
                 try {
+                    RegisterOptions registerOptions = buildRegisterOptions();
                     register = SimulatorGuard.getInstance().doGuard(Register.class, RegisterFactory.getRegister(registerOptions.getRegisterName()));
                     register.init(registerOptions);
                     register.start();
                     logger.info("SIMULATOR: Register start success. register to {}", register.getPath());
                 } catch (Throwable e) {
-                    logger.warn("SIMULATOR: Register start failed. register to {} err.", registerOptions.getRegisterBasePath(), e);
+                    logger.warn("SIMULATOR: Register start failed. ", e);
                     ExecutorServiceFactory.GLOBAL_SCHEDULE_EXECUTOR_SERVICE.schedule(this, 5, TimeUnit.SECONDS);
                 }
             }
         }, 0, TimeUnit.SECONDS);
-        GlobalSwitch.switchOn("pradarRegisterSwitcher");
     }
 
     private RegisterOptions buildRegisterOptions() {
@@ -94,6 +92,5 @@ public class NodeRegisterModule extends ModuleLifecycleAdapter implements Extens
                 logger.error("[register] Register stop failed.");
             }
         }
-        GlobalSwitch.switchOff("pradarRegisterSwitcher");
     }
 }

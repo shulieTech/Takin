@@ -15,19 +15,14 @@
 package com.shulie.instrument.simulator.agent;
 
 
-import com.shulie.instrument.simulator.message.boot.BootLoader;
-import com.shulie.instrument.simulator.message.boot.BootLoaderFactory;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.jar.JarFile;
 
 /**
@@ -36,24 +31,8 @@ import java.util.jar.JarFile;
 class SimulatorClassLoader extends URLClassLoader {
     private final String toString;
     private final String path;
-    /**
-     * 兼容 jvm 多版本，多 jvm 类型的情况,也是为了与应用加载的类做隔离，不允许框架内部的类查找到应用上面
-     */
-    private BootLoader bootLoader;
 
-    private final static List<String> PREFIX_CLASS_OF_LOAD_PARENTS = Arrays.asList(
-            "javax.",
-            "java.",
-            "sun.",
-            "com.sun."
-    );
-
-    private final static List<String> PREFIX_RESOURCE_OF_LOAD_PARENTS = Arrays.asList(
-            "javax/",
-            "java/",
-            "sun/",
-            "com/sun/"
-    );
+    private final ClassLoader parentClassLoader;
 
     SimulatorClassLoader(final String namespace,
                          final String simulatorCoreJarFilePath) throws MalformedURLException {
@@ -63,16 +42,15 @@ class SimulatorClassLoader extends URLClassLoader {
         super(new URL[]{new URL("file:" + simulatorCoreJarFilePath)}, null);
         this.path = simulatorCoreJarFilePath;
         this.toString = String.format("SimulatorClassLoader[namespace=%s;path=%s;]", namespace, path);
+        this.parentClassLoader = getJdkClassLoader();
     }
 
-    private void initBootLoader() {
-        if (bootLoader == null) {
-            synchronized (this) {
-                if (bootLoader == null) {
-                    bootLoader = BootLoaderFactory.newBootLoader();
-                }
-            }
+    private ClassLoader getJdkClassLoader() {
+        ClassLoader classLoader = ClassLoader.getSystemClassLoader() == null ? getClass().getClassLoader() : ClassLoader.getSystemClassLoader();
+        if (classLoader.getParent() != null) {
+            classLoader = classLoader.getParent();
         }
+        return classLoader;
     }
 
     @Override
@@ -81,11 +59,7 @@ class SimulatorClassLoader extends URLClassLoader {
         if (null != url) {
             return url;
         }
-        initBootLoader();
-        url = bootLoader.findResource(name);
-        if (url == null) {
-            url = loadResourceOfSystem(name);
-        }
+        url = parentClassLoader.getResource(name);
         return url;
     }
 
@@ -95,11 +69,7 @@ class SimulatorClassLoader extends URLClassLoader {
         if (null != urls) {
             return urls;
         }
-        initBootLoader();
-        urls = bootLoader.findResources(name);
-        if (urls == null) {
-            urls = loadResourcesOfSystem(name);
-        }
+        urls = parentClassLoader.getResources(name);
         return urls;
     }
 
@@ -117,61 +87,8 @@ class SimulatorClassLoader extends URLClassLoader {
             }
             return aClass;
         } catch (Throwable t) {
-            try {
-                initBootLoader();
-                Class clazz = bootLoader.findBootstrapClassOrNull(this, name);
-                /**
-                 * 对于有一些 jdk 中的类如jdbc，可能是由 AppClassLoader 加载的，此时需要父类加载加载
-                 */
-                if (clazz == null) {
-                    clazz = loadClassOfSystem(name, resolve);
-                }
-                return clazz;
-            } catch (ClassNotFoundException e) {
-                throw e;
-            } catch (Throwable e) {
-                throw new ClassNotFoundException("", e);
-            }
+            return parentClassLoader.loadClass(name);
         }
-    }
-
-    private Class loadClassOfSystem(String name, boolean resolve) throws ClassNotFoundException {
-        for (String prefix : PREFIX_CLASS_OF_LOAD_PARENTS) {
-            if (name.startsWith(prefix)) {
-                try {
-                    ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();
-                    if (systemClassLoader != null) {
-                        return systemClassLoader.loadClass(name);
-                    }
-                } catch (Throwable e) {
-                }
-            }
-        }
-        return null;
-    }
-
-    private URL loadResourceOfSystem(String name) {
-        for (String prefix : PREFIX_RESOURCE_OF_LOAD_PARENTS) {
-            if (name.startsWith(prefix)) {
-                ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();
-                if (systemClassLoader != null) {
-                    return systemClassLoader.getResource(name);
-                }
-            }
-        }
-        return null;
-    }
-
-    private Enumeration<URL> loadResourcesOfSystem(String name) throws IOException {
-        for (String prefix : PREFIX_RESOURCE_OF_LOAD_PARENTS) {
-            if (name.startsWith(prefix)) {
-                ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();
-                if (systemClassLoader != null) {
-                    return systemClassLoader.getResources(name);
-                }
-            }
-        }
-        return null;
     }
 
     @Override

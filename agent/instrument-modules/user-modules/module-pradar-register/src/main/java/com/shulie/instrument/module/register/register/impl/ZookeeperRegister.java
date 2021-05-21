@@ -33,8 +33,6 @@ import com.shulie.instrument.module.register.zk.impl.NetflixCuratorZkClientFacto
 import com.shulie.instrument.module.register.zk.impl.ZkClientSpec;
 import com.shulie.instrument.simulator.api.executors.ExecutorServiceFactory;
 import com.shulie.instrument.simulator.api.resource.SimulatorConfig;
-import com.shulie.instrument.simulator.api.util.CollectionUtils;
-import com.shulie.instrument.simulator.api.util.StringUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -170,29 +168,29 @@ public class ZookeeperRegister implements Register {
             /**
              * 如果是 jdk 的 jar 包，过滤掉
              */
-            if (StringUtils.isNotBlank(javaHome) && StringUtil.startsWith(file, javaHome)) {
+            if (StringUtils.isNotBlank(javaHome) && StringUtils.startsWith(file, javaHome)) {
                 continue;
             }
             /**
              * 如果是仿真器的 jar 包，过滤掉
              */
-            if (StringUtil.startsWith(file, simulatorHome)) {
+            if (StringUtils.startsWith(file, simulatorHome)) {
                 continue;
             }
             /**
              * 如果是监时目录加载的 jar 包，则过滤掉, simulator 所有的扩展 jar 包
              * 都会从临时目录加载
              */
-            if (StringUtils.isNotBlank(tmpDir) && StringUtil.startsWith(file, tmpDir)) {
+            if (StringUtils.isNotBlank(tmpDir) && StringUtils.startsWith(file, tmpDir)) {
                 continue;
             }
 
             /**
              * 如果 jar包是这一些打头的，也过滤掉
              */
-            if (StringUtil.startsWith(file, "pradar-")
-                    || StringUtil.startsWith(file, "simulator-")
-                    || StringUtil.startsWith(file, "module-")) {
+            if (StringUtils.startsWith(file, "pradar-")
+                    || StringUtils.startsWith(file, "simulator-")
+                    || StringUtils.startsWith(file, "module-")) {
                 continue;
             }
             list.add(file);
@@ -209,8 +207,11 @@ public class ZookeeperRegister implements Register {
         this.appName = registerOptions.getAppName();
         this.md5 = registerOptions.getMd5();
         this.simulatorConfig = registerOptions.getSimulatorConfig();
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("[pradar-register] prepare to init register zookeeper node. {}", getAgentId());
+        }
         String registerBasePath = null;
-        if (StringUtil.endsWith(basePath, "/")) {
+        if (StringUtils.endsWith(basePath, "/")) {
             registerBasePath = this.basePath + appName;
         } else {
             registerBasePath = this.basePath + '/' + appName;
@@ -223,10 +224,10 @@ public class ZookeeperRegister implements Register {
             zkClientSpec.setThreadName("heartbeat");
             this.zkClient = NetflixCuratorZkClientFactory.getInstance().create(zkClientSpec);
         } catch (PradarException e) {
-            LOGGER.error("[register] ZookeeperRegister init error.", e);
+            LOGGER.error("[pradar-register] ZookeeperRegister init error.", e);
             throw e;
         } catch (Throwable e) {
-            LOGGER.error("[register] ZookeeperRegister init error.", e);
+            LOGGER.error("[pradar-register] ZookeeperRegister init error.", e);
             throw new PradarException(e);
         }
         String client = Pradar.AGENT_ID;
@@ -246,6 +247,9 @@ public class ZookeeperRegister implements Register {
                 }
             }
         });
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("[pradar-register] init register zookeeper node successful. {}", getAgentId());
+        }
     }
 
     @Override
@@ -259,17 +263,17 @@ public class ZookeeperRegister implements Register {
             return;
         }
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("[register] prepare to register zookeeper node. {}", getAgentId());
+            LOGGER.info("[pradar-register] prepare to register zookeeper node. {}", getAgentId());
         }
         try {
             this.jars = loadAllJars();
             this.heartbeatNode.start();
             this.heartbeatNode.setData(getHeartbeatDatas());
             if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("[register] register zookeeper node successful. {}", getAgentId());
+                LOGGER.info("[pradar-register] register zookeeper node successful. {}", getAgentId());
             }
         } catch (Throwable e) {
-            LOGGER.error("[register] register node to zk for heartbeat node err: {}!", heartbeatPath, e);
+            LOGGER.error("[pradar-register] register node to zk for heartbeat node err: {}!", heartbeatPath, e);
         }
         //5秒扫描一次当前应用所有加载的jar列表
         ExecutorServiceFactory.GLOBAL_SCHEDULE_EXECUTOR_SERVICE.schedule(new Runnable() {
@@ -291,22 +295,35 @@ public class ZookeeperRegister implements Register {
                         zkClient.ensureDirectoryExists(heartbeatPath);
                     }
                 } catch (Throwable e) {
-                    LOGGER.error("[register] zk ensureDirectoryExists err: {}!", heartbeatPath);
+                    LOGGER.error("[pradar-register] zk ensureDirectoryExists err: {}!", heartbeatPath);
                 }
 
                 Set<String> jarFiles = loadAllJars();
-                if (!CollectionUtils.equals(jarFiles, jars)) {
+                if (!collectionEquals(jarFiles, jars)) {
                     jars = jarFiles;
                 }
                 try {
                     heartbeatNode.setData(getHeartbeatDatas());
                 } catch (Throwable e) {
-                    LOGGER.error("[register] update heartbeat node agent data err: {}!", heartbeatPath, e);
+                    LOGGER.error("[pradar-register] update heartbeat node agent data err: {}!", heartbeatPath, e);
                 }
-                ExecutorServiceFactory.GLOBAL_SCHEDULE_EXECUTOR_SERVICE.schedule(this, 5, TimeUnit.SECONDS);
+                ExecutorServiceFactory.GLOBAL_SCHEDULE_EXECUTOR_SERVICE.schedule(this, 10, TimeUnit.SECONDS);
             }
         }, 5, TimeUnit.SECONDS);
         isStarted.compareAndSet(false, true);
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("[pradar-register] start to register zookeeper node successful. {}", getAgentId());
+        }
+    }
+
+    public static boolean collectionEquals(Collection source, Collection target) {
+        if (source == target) {
+            return true;
+        }
+        if (source == null || target == null) {
+            return false;
+        }
+        return source.equals(target);
     }
 
     @Override
@@ -314,11 +331,14 @@ public class ZookeeperRegister implements Register {
         if (!isStarted.compareAndSet(true, false)) {
             return;
         }
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("[pradar-register] prepare to stop register zookeeper node. {}", getAgentId());
+        }
         if (this.heartbeatNode != null) {
             try {
                 this.heartbeatNode.stop();
             } catch (Throwable e) {
-                LOGGER.error("[register] unregister node to zk for heartbeat node err: {}!", heartbeatPath, e);
+                LOGGER.error("[pradar-register] unregister node to zk for heartbeat node err: {}!", heartbeatPath, e);
             }
         }
         this.zkClient.deleteQuietly(this.heartbeatPath);
@@ -327,15 +347,21 @@ public class ZookeeperRegister implements Register {
         } catch (Throwable e) {
             LOGGER.error("[register] stop zkClient failed!", e);
         }
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("[pradar-register] stop register zookeeper node successful. {}", getAgentId());
+        }
     }
 
     @Override
     public void refresh() {
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("[pradar-register] prepare to refresh register zookeeper node. {}", getAgentId());
+        }
         if (isStarted.get()) {
             try {
                 heartbeatNode.setData(getHeartbeatDatas());
             } catch (Throwable e) {
-                LOGGER.error("[register] refresh node data to zk for heartbeat node err: {}!", heartbeatPath, e);
+                LOGGER.error("[pradar-register] refresh node data to zk for heartbeat node err: {}!", heartbeatPath, e);
             }
         } else {
             ExecutorServiceFactory.GLOBAL_SCHEDULE_EXECUTOR_SERVICE.schedule(new Runnable() {
@@ -344,11 +370,14 @@ public class ZookeeperRegister implements Register {
                     try {
                         heartbeatNode.setData(getHeartbeatDatas());
                     } catch (Throwable e) {
-                        LOGGER.error("[register] refresh node data to zk for heartbeat node err: {}!", heartbeatPath, e);
+                        LOGGER.error("[pradar-register] refresh node data to zk for heartbeat node err: {}!", heartbeatPath, e);
                         ExecutorServiceFactory.GLOBAL_SCHEDULE_EXECUTOR_SERVICE.schedule(this, 5, TimeUnit.SECONDS);
                     }
                 }
             }, 0, TimeUnit.SECONDS);
+        }
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("[pradar-register] refresh register zookeeper node successful. {}", getAgentId());
         }
 
     }

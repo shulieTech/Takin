@@ -40,6 +40,7 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileFilter;
 import java.lang.annotation.Annotation;
+import java.lang.instrument.Instrumentation;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ArrayList;
@@ -62,28 +63,34 @@ public class CoreLauncher {
     private final CoreConfig coreConfig;
     private final AgentConfig agentConfig;
     private final ConfigProvider configProvider;
+    private final Instrumentation instrumentation;
+    private final ClassLoader classLoader;
+    private final String tagName;
 
     /**
-     * agent 默认启动不延迟
+     * agent 默认延迟时间设置5分钟
      */
-    private int delay = 0;
+    private int delay = 300;
     private TimeUnit unit = TimeUnit.SECONDS;
 
     private final ScheduledExecutorService startService;
 
     public CoreLauncher(final String agentHome) {
-        this(agentHome, -1L, null);
+        this(agentHome, -1L, null, null, null, null);
     }
 
-    public CoreLauncher(String agentHome, long attachId, String attachName) {
+    public CoreLauncher(String agentHome, long attachId, String attachName, String tagName, Instrumentation instrumentation, ClassLoader classLoader) {
         this.coreConfig = new CoreConfig(agentHome);
+        this.instrumentation = instrumentation;
+        this.classLoader = classLoader;
+        this.tagName = tagName;
         this.coreConfig.setAttachId(attachId);
         this.coreConfig.setAttachName(attachName);
         this.agentConfig = new AgentConfigImpl(this.coreConfig);
         System.setProperty("SIMULATOR_LOG_PATH", this.agentConfig.getLogPath());
         System.setProperty("SIMULATOR_LOG_LEVEL", this.agentConfig.getLogLevel());
         LogbackUtils.init(this.agentConfig.getLogConfigFile());
-        this.launcher = new AgentLauncher(this.agentConfig);
+        this.launcher = new AgentLauncher(this.agentConfig, instrumentation, classLoader);
         this.configProvider = new ConfigProviderImpl(this.agentConfig);
         initAgentLoader();
         this.startService = new ScheduledThreadPoolExecutor(1, new ThreadFactory() {
@@ -217,6 +224,14 @@ public class CoreLauncher {
                 }
             }
         }, delay, unit);
+        if (LOGGER.isInfoEnabled()) {
+            if (tagName != null) {
+                LOGGER.info("SIMULATOR: current load tag file name {}.", tagName);
+            } else {
+                LOGGER.warn("SIMULATOR: current can't found tag name. may be agent file is incomplete.");
+            }
+            LOGGER.info("SIMULATOR: agent will start {} {} later... please wait for a while moment.", delay, unit.toString());
+        }
     }
 
     private RegisterOptions buildRegisterOptions(AgentConfig agentConfig) {
@@ -235,6 +250,8 @@ public class CoreLauncher {
     }
 
     public void setUnit(TimeUnit unit) {
-        this.unit = unit;
+        if (this.unit != null) {
+            this.unit = unit;
+        }
     }
 }

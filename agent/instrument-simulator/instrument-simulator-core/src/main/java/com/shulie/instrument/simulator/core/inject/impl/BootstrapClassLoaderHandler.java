@@ -17,8 +17,8 @@ package com.shulie.instrument.simulator.core.inject.impl;
 import com.shulie.instrument.simulator.api.resource.SimulatorConfig;
 import com.shulie.instrument.simulator.core.exception.SimulatorException;
 import com.shulie.instrument.simulator.core.inject.ClassInjector;
-import com.shulie.instrument.simulator.message.boot.BootLoader;
-import com.shulie.instrument.simulator.message.boot.BootLoaderFactory;
+import com.shulie.instrument.simulator.jdk.api.boot.BootLoader;
+import com.shulie.instrument.simulator.jdk.impl.boot.BootLoaderFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

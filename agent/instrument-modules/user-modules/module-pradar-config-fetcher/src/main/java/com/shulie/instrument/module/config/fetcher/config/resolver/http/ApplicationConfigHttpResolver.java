@@ -40,7 +40,6 @@ import com.pamirs.pradar.pressurement.base.util.PropertyUtil;
 import com.pamirs.pradar.pressurement.datasource.util.DbUrlUtils;
 import com.shulie.instrument.module.config.fetcher.config.event.FIELDS;
 import com.shulie.instrument.module.config.fetcher.config.impl.ApplicationConfig;
-import com.shulie.instrument.simulator.api.util.StringUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.slf4j.Logger;
@@ -1086,7 +1085,7 @@ public class ApplicationConfigHttpResolver extends AbstractHttpResolver<Applicat
                 /**
                  * 如果是 jndi，则不需要加用户名
                  */
-                if (StringUtil.startsWith(shadowDatabaseConfig.getUrl(), "jndi:")) {
+                if (StringUtils.startsWith(shadowDatabaseConfig.getUrl(), "jndi:")) {
                     String url = StringUtils.substring(shadowDatabaseConfig.getUrl(), 5);
                     shadowDatabaseConfig.setUrl(url);
                     map.put(DbUrlUtils.getKey(shadowDatabaseConfig.getUrl(), null), shadowDatabaseConfig);

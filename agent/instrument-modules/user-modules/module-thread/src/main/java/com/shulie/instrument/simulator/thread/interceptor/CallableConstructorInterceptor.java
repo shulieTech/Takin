@@ -14,7 +14,7 @@
  */
 package com.shulie.instrument.simulator.thread.interceptor;
 
-import com.pamirs.pradar.PradarService;
+import com.pamirs.pradar.Pradar;
 import com.pamirs.pradar.interceptor.AroundInterceptor;
 import com.shulie.instrument.simulator.api.listener.ext.Advice;
 import com.shulie.instrument.simulator.api.resource.DynamicFieldManager;
@@ -32,8 +32,8 @@ public class CallableConstructorInterceptor extends AroundInterceptor {
 
     @Override
     public void doAfter(Advice advice) throws Throwable {
-        if (PradarService.getInvokeContext() != null) {
-            manager.setDynamicField(advice.getTarget(), ThreadConstants.DYNAMIC_FIELD_CONTEXT, PradarService.getInvokeContext());
+        if (Pradar.getInvokeContext() != null) {
+            manager.setDynamicField(advice.getTarget(), ThreadConstants.DYNAMIC_FIELD_CONTEXT, Pradar.getInvokeContextMap());
             manager.setDynamicField(advice.getTarget(), ThreadConstants.DYNAMIC_FIELD_THREAD_ID, Thread.currentThread().getId());
         }
     }

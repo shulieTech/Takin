@@ -16,10 +16,6 @@
             <groupId>com.shulie.instrument.simulator</groupId>
             <artifactId>instrument-simulator-messager-api</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.shulie.instrument.simulator</groupId>
-            <artifactId>instrument-simulator-messager-jdk9</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
@@ -28,6 +24,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.6</version>
                 <executions>
                     <execution>
                         <goals>

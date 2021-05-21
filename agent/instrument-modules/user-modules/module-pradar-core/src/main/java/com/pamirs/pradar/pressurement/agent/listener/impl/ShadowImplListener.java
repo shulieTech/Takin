@@ -14,6 +14,8 @@
  */
 package com.pamirs.pradar.pressurement.agent.listener.impl;
 
+import java.util.Iterator;
+
 import com.pamirs.pradar.ErrorTypeEnum;
 import com.pamirs.pradar.internal.adapter.JobAdapter;
 import com.pamirs.pradar.internal.config.ShadowJob;
@@ -27,8 +29,6 @@ import com.pamirs.pradar.pressurement.agent.shared.service.ErrorReporter;
 import com.pamirs.pradar.pressurement.agent.shared.service.GlobalConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Iterator;
 
 /**
  * @author <a href="tangyuhan@shulie.io">yuhan.tang</a>

@@ -27,11 +27,6 @@ class PatternGroupList {
 
     final List<Group> groups = new ArrayList<Group>();
 
-    /**
-     * 是否是精确匹配
-     */
-    boolean isExactlyMatches;
-
     /*
      * 添加模式匹配组
      */
@@ -69,44 +64,6 @@ class PatternGroupList {
 
         for (final Group group : groups) {
             if (group.matchingWith(stringArray)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * 模式匹配Has
-     *
-     * @param stringArray
-     */
-    boolean patternHas(final String[] stringArray) {
-        if (isExactlyMatches) {
-            if (stringArray == null || stringArray.length == 0) {
-                if (!groups.isEmpty()) {
-                    return false;
-                }
-            } else {
-                if (groups.isEmpty()) {
-                    return false;
-                }
-            }
-            for (final Group group : groups) {
-                if (group.matchingHas(stringArray)) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        // 如果模式匹配组为空，说明不参与本次匹配
-        if (groups.isEmpty()) {
-            return true;
-        }
-
-        for (final Group group : groups) {
-            if (group.matchingHas(stringArray)) {
                 return true;
             }
         }

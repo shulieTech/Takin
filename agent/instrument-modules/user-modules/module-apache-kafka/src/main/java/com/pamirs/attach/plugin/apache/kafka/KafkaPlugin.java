@@ -78,15 +78,41 @@ public class KafkaPlugin extends ModuleLifecycleAdapter implements ExtensionModu
 
                 // Version 2.2.0+ is supported.
                 InstrumentMethod pollMethod = target.getDeclaredMethod("poll", "org.apache.kafka.common.utils.Timer", "boolean");
-                pollMethod.addInterceptor(Listeners.of(ConsumerPollInterceptor.class));
+                pollMethod.addInterceptor(Listeners.of(ConsumerPollInterceptor.class, "kafkaScope", ExecutionPolicy.BOUNDARY, Interceptors.SCOPE_CALLBACK));
+                pollMethod.addInterceptor(Listeners.of(ConsumerTraceInterceptor.class, "kafkaTraceScope", ExecutionPolicy.BOUNDARY, Interceptors.SCOPE_CALLBACK));
 
                 // Version 2.0.0+ is supported.
                 InstrumentMethod pollMethod1 = target.getDeclaredMethod("poll", "long", "boolean");
-                pollMethod1.addInterceptor(Listeners.of(ConsumerPollInterceptor.class));
+                pollMethod1.addInterceptor(Listeners.of(ConsumerPollInterceptor.class, "kafkaScope", ExecutionPolicy.BOUNDARY, Interceptors.SCOPE_CALLBACK));
+                pollMethod1.addInterceptor(Listeners.of(ConsumerTraceInterceptor.class, "kafkaTraceScope", ExecutionPolicy.BOUNDARY, Interceptors.SCOPE_CALLBACK));
+
 
                 // Version 2.0.0-
                 InstrumentMethod pollMethod2 = target.getDeclaredMethod("poll", "long");
-                pollMethod2.addInterceptor(Listeners.of(ConsumerPollInterceptor.class));
+                pollMethod2.addInterceptor(Listeners.of(ConsumerPollInterceptor.class, "kafkaScope", ExecutionPolicy.BOUNDARY, Interceptors.SCOPE_CALLBACK));
+                pollMethod2.addInterceptor(Listeners.of(ConsumerTraceInterceptor.class, "kafkaTraceScope", ExecutionPolicy.BOUNDARY, Interceptors.SCOPE_CALLBACK));
+
+                //以下提交方法必须都要增强
+                target.getDeclaredMethod("commitAsync", "org.apache.kafka.clients.consumer.OffsetCommitCallback")
+                    .addInterceptor(Listeners.of(ConsumerCommitAsyncInterceptor.class, "kafkaScope", ExecutionPolicy.BOUNDARY, Interceptors.SCOPE_CALLBACK));
+
+                target.getDeclaredMethod("commitAsync", "java.util.Map", "org.apache.kafka.clients.consumer.OffsetCommitCallback")
+                    .addInterceptor(Listeners.of(ConsumerCommitAsyncInterceptor.class, "kafkaScope", ExecutionPolicy.BOUNDARY, Interceptors.SCOPE_CALLBACK));
+
+                target.getDeclaredMethod("commitSync", "java.util.Map")
+                    .addInterceptor(Listeners.of(ConsumerCommitSyncInterceptor.class, "kafkaScope", ExecutionPolicy.BOUNDARY, Interceptors.SCOPE_CALLBACK));
+
+                target.getDeclaredMethod("commitSync", "java.time.Duration")
+                    .addInterceptor(Listeners.of(ConsumerCommitSyncInterceptor.class, "kafkaScope", ExecutionPolicy.BOUNDARY, Interceptors.SCOPE_CALLBACK));
+
+                target.getDeclaredMethod("commitSync", "java.util.Map", "java.time.Duration")
+                    .addInterceptor(Listeners.of(ConsumerCommitSyncInterceptor.class, "kafkaScope", ExecutionPolicy.BOUNDARY, Interceptors.SCOPE_CALLBACK));
+
+                target.getDeclaredMethods("close", "position", "assignment", "subscription", "subscribe", "assign",
+                    "unsubscribe", "seek", "seekToBeginning", "seekToEnd", "position", "committed", "metrics", "partitionsFor",
+                    "listTopics", "paused", "pause", "resume", "offsetsForTimes", "beginningOffsets", "endOffsets",
+                    "close", "wakeup").addInterceptor(Listeners.of(ConsumerOtherMethodInterceptor.class, "kafkaScope", ExecutionPolicy.BOUNDARY, Interceptors.SCOPE_CALLBACK));
+
             }
         });
 
@@ -176,6 +202,9 @@ public class KafkaPlugin extends ModuleLifecycleAdapter implements ExtensionModu
                 InstrumentMethod startMethod = target.getDeclaredMethods("invokeListener");
 
                 startMethod.addInterceptor(Listeners.of(KafkaListenerContainerInterceptor.class));
+
+                target.getDeclaredMethods("pollAndInvoke").addInterceptor(Listeners.of(
+                    SpringKafkaPollAndInvokeInterceptor.class));
             }
         });
     }

@@ -32,6 +32,7 @@ import org.apache.rocketmq.common.message.MessageExt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -86,7 +87,17 @@ public class PushConsumeMessageHookImpl implements ConsumeMessageHook, MQTraceCo
                 traceBean.setCorrectionFlag(MessageAccessor.getCorrectionFlag(msg));
                 traceBean.setBodyLength(msg.getBody().length);
                 traceBean.setBornHost(StringUtils.substring(msg.getBornHost().toString(), 1));
-                traceBean.setStoreHost(StringUtils.substring(msg.getStoreHost().toString(), 1));
+                String storeHost = "";
+                String port = "";
+                if (msg.getStoreHost() != null && msg.getStoreHost() instanceof InetSocketAddress) {
+                    InetSocketAddress address = (InetSocketAddress) msg.getStoreHost();
+                    storeHost = address.getAddress() == null ? null : address.getAddress().getHostAddress();
+                    port = String.valueOf(address.getPort());
+                } else {
+                    storeHost = StringUtils.substring(msg.getStoreHost().toString(), 1);
+                }
+                traceBean.setStoreHost(storeHost);
+                traceBean.setPort(port);
                 traceBean.setStoreTime(msg.getStoreTimestamp());
                 traceBean.setBrokerName(context.getMq().getBrokerName());
                 traceBean.setQueueId(msg.getQueueId());

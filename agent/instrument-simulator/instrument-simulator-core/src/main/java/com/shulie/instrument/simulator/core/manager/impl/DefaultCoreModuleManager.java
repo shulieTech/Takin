@@ -15,10 +15,10 @@
 package com.shulie.instrument.simulator.core.manager.impl;
 
 import com.shulie.instrument.simulator.api.*;
+import com.shulie.instrument.simulator.api.guard.SimulatorGuard;
 import com.shulie.instrument.simulator.api.instrument.EnhanceTemplate;
 import com.shulie.instrument.simulator.api.listener.ext.BuildingForListeners;
 import com.shulie.instrument.simulator.api.resource.*;
-import com.shulie.instrument.simulator.compatible.transformer.SimulatorClassFileTransformer;
 import com.shulie.instrument.simulator.core.CoreConfigure;
 import com.shulie.instrument.simulator.core.CoreModule;
 import com.shulie.instrument.simulator.core.classloader.ClassLoaderFactory;
@@ -29,12 +29,8 @@ import com.shulie.instrument.simulator.core.enhance.weaver.EventListenerHandler;
 import com.shulie.instrument.simulator.core.inject.ClassInjector;
 import com.shulie.instrument.simulator.core.inject.impl.ModuleJarClassInjector;
 import com.shulie.instrument.simulator.core.instrument.DefaultEnhanceTemplate;
-import com.shulie.instrument.simulator.core.manager.CoreLoadedClassDataSource;
-import com.shulie.instrument.simulator.core.manager.CoreModuleManager;
-import com.shulie.instrument.simulator.core.manager.ModuleLoaders;
-import com.shulie.instrument.simulator.core.manager.ProviderManager;
+import com.shulie.instrument.simulator.core.manager.*;
 import com.shulie.instrument.simulator.core.util.ModuleSpecUtils;
-import com.shulie.instrument.simulator.api.guard.SimulatorGuard;
 import com.shulie.instrument.simulator.core.util.VersionUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
@@ -916,6 +912,9 @@ public class DefaultCoreModuleManager implements CoreModuleManager {
      * @param action
      */
     private void loadModule(final ModuleSpec moduleSpec, String action) {
+        if (logger.isInfoEnabled()) {
+            logger.info("SIMULATOR: prepare to load module {} ,file={}", moduleSpec.getModuleId(), moduleSpec.getFile().getAbsolutePath());
+        }
         if (!moduleSpec.getFile().exists() || !moduleSpec.getFile().canRead()) {
             moduleSpec.setValid(false);
             logger.warn("SIMULATOR: {} modules[{}]: module-lib can not access, cause by file is not exists or can't read. module-lib={}, exists={}, canRead={}",
@@ -959,6 +958,9 @@ public class DefaultCoreModuleManager implements CoreModuleManager {
              */
             if (GlobalSwitch.isAllSwitchOn(moduleSpec.getDependencies())) {
                 loadModule(moduleSpec);
+                if (logger.isInfoEnabled()) {
+                    logger.info("SIMULATOR: load module {} successful,file={}", moduleSpec.getModuleId(), moduleSpec.getFile().getAbsolutePath());
+                }
             } else {
                 GlobalSwitch.registerMultiSwitchOnCallback(moduleSpec.getDependencies(), new Runnable() {
                     @Override
@@ -968,6 +970,9 @@ public class DefaultCoreModuleManager implements CoreModuleManager {
                          */
                         if (GlobalSwitch.isAllSwitchOn(moduleSpec.getDependencies())) {
                             loadModule(moduleSpec);
+                            if (logger.isInfoEnabled()) {
+                                logger.info("SIMULATOR: load module {} successful,file={}", moduleSpec.getModuleId(), moduleSpec.getFile().getAbsolutePath());
+                            }
                         } else {
                             /**
                              * 否则重新注册开关,因为回调执行一次就会销毁
@@ -981,6 +986,9 @@ public class DefaultCoreModuleManager implements CoreModuleManager {
 
         } else {
             loadModule(moduleSpec);
+            if (logger.isInfoEnabled()) {
+                logger.info("SIMULATOR: load module {} successful,file={}", moduleSpec.getModuleId(), moduleSpec.getFile().getAbsolutePath());
+            }
         }
     }
 

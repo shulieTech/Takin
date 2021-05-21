@@ -93,7 +93,7 @@ public class PushConsumeMessageHookImpl implements ConsumeMessageHook, MQTraceCo
                 String port = "";
                 if (msg.getStoreHost() != null && msg.getStoreHost() instanceof InetSocketAddress) {
                     InetSocketAddress address = (InetSocketAddress) msg.getStoreHost();
-                    storeHost = address.getHostName();
+                    storeHost = address.getAddress() == null ? null : address.getAddress().getHostAddress();
                     port = String.valueOf(address.getPort());
                 } else {
                     storeHost = StringUtils.substring(msg.getStoreHost().toString(), 1);

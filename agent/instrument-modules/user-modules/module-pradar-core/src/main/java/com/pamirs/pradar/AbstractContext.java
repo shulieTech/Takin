@@ -52,6 +52,11 @@ abstract class AbstractContext extends BaseContext {
      */
     Map<String, String> localAttributes = null;
 
+    /**
+     * 是否有错误
+     */
+    volatile boolean hasError;
+
     // service receiver
     AbstractContext(String _traceId, String _traceAppName, String _invokeId) {
         super(_traceId, _traceAppName, _invokeId);
@@ -353,5 +358,13 @@ abstract class AbstractContext extends BaseContext {
                 this.attributes = map;
             }
         }
+    }
+
+    public boolean isHasError() {
+        return hasError;
+    }
+
+    public void setHasError(boolean hasError) {
+        this.hasError = hasError;
     }
 }

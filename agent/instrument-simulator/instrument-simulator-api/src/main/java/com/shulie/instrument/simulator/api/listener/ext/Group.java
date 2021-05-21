@@ -73,52 +73,30 @@ class Group {
         }
     }
 
-    /*
+    /**
      * 匹配模式组中所有匹配模式都在目标中存在匹配通过的元素
      * 要求匹配组中每一个匹配项都在stringArray中存在匹配的字符串
+     * <p>
+     * 如果当前匹配的规则为两个，待匹配为三个，则三个中只要有任意两个匹配即可
+     * 如果当前匹配的规则为两个，待匹配为一个，除非规则相同，否则肯定匹配不上
+     *
+     * @param stringArray 待匹配的数组
+     * @return 匹配成功返回 true,否则返回 false
      */
-    boolean matchingHas(final String[] stringArray) {
-        if (ArrayUtils.isEmpty(patternArray) && ArrayUtils.isEmpty(stringArray)) {
+    boolean matchingWith(final String[] stringArray) {
+        if (ArrayUtils.isEmpty(patternArray)) {
             return true;
         }
 
-        int length = stringArray == null ? 0 : stringArray.length;
-        int length0 = patternArray == null ? 0 : patternArray.length;
-        if (length != length0) {
+        if (ArrayUtils.isEmpty(stringArray)) {
             return false;
         }
 
         for (int i = 0, len = patternArray.length; i < len; i++) {
-            if (!patternMatching(stringArray[i], patternArray[i], patternType)) {
+            if (!anyMatching(stringArray, patternArray[i])) {
                 return false;
             }
         }
-        return true;
-    }
-
-    /*
-     * 匹配模式组中所有匹配模式都在目标中对应数组位置存在匹配通过元素
-     * 要求字符串数组每一个位对应模式匹配组的每一个模式匹配表达式
-     * stringArray[0] matching wildcardArray[0]
-     * stringArray[1] matching wildcardArray[1]
-     * stringArray[2] matching wildcardArray[2]
-     *     ...
-     * stringArray[n] matching wildcardArray[n]
-     */
-    boolean matchingWith(final String[] stringArray) {
-
-        // 长度不一样就不用不配了
-        int length;
-        if ((length = ArrayUtils.getLength(stringArray)) != ArrayUtils.getLength(patternArray)) {
-            return false;
-        }
-        // 长度相同则逐个位置比较，只要有一个位置不符，则判定不通过
-        for (int index = 0; index < length; index++) {
-            if (!patternMatching(stringArray[index], patternArray[index], patternType)) {
-                return false;
-            }
-        }
-        // 所有位置匹配通过，判定匹配成功
         return true;
     }
 

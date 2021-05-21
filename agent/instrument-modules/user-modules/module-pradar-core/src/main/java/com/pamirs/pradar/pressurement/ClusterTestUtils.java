@@ -21,7 +21,6 @@ import com.pamirs.pradar.json.ResultSerializer;
 import com.pamirs.pradar.pressurement.agent.shared.exit.ArbiterHttpExit;
 import com.pamirs.pradar.pressurement.agent.shared.service.ErrorReporter;
 import com.shulie.instrument.simulator.api.ThrowableUtils;
-import com.shulie.instrument.simulator.api.util.StringUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +45,7 @@ public final class ClusterTestUtils {
                 || StringUtils.equalsIgnoreCase(value, Boolean.TRUE.toString())) {
             return true;
         }
-        return StringUtil.endsWith(value, Pradar.PRADAR_CLUSTER_TEST_HTTP_USER_AGENT_SUFFIX);
+        return StringUtils.endsWith(value, Pradar.PRADAR_CLUSTER_TEST_HTTP_USER_AGENT_SUFFIX);
     }
 
     /**

@@ -15,6 +15,7 @@
 package com.shulie.instrument.simulator.agent.instrument;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.instrument.Instrumentation;
@@ -198,7 +199,7 @@ public class InstrumentLauncher {
              * 如果是 jdk9及以上则采用外置进程方式attach 进程
              * 如果是 jdk9以下则使用内部方式attach 进程
              */
-            startInternal(pid, processName, delay, timeUnit);
+            startInternal(pid, processName, delay, timeUnit, inst);
         } catch (Throwable e) {
             System.err.println("SIMULATOR: start Agent failed. \n" + getStackTraceAsString(e));
         }
@@ -208,6 +209,25 @@ public class InstrumentLauncher {
         StringWriter stringWriter = new StringWriter();
         throwable.printStackTrace(new PrintWriter(stringWriter));
         return stringWriter.toString();
+    }
+
+    /**
+     * 获取加载的 tag 文件名称
+     *
+     * @return
+     */
+    private static String getTagFileName() {
+        File file = new File(DEFAULT_AGENT_HOME);
+        File[] files = file.listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File pathname) {
+                return pathname.isFile() && pathname.getName().endsWith(".tag");
+            }
+        });
+        if (files == null || files.length == 0) {
+            return null;
+        }
+        return files[0].getName();
     }
 
     /**
@@ -222,12 +242,12 @@ public class InstrumentLauncher {
      * @throws IllegalAccessException
      * @throws java.lang.reflect.InvocationTargetException
      */
-    private static void startInternal(final long pid, final String processName, Integer delay, TimeUnit unit) throws MalformedURLException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, java.lang.reflect.InvocationTargetException {
+    private static void startInternal(final long pid, final String processName, Integer delay, TimeUnit unit, Instrumentation inst) throws MalformedURLException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, java.lang.reflect.InvocationTargetException {
         File file = new File(DEFAULT_AGENT_HOME + File.separator + "core", "simulator-agent-core.jar");
         AgentClassLoader agentClassLoader = new AgentClassLoader(new URL[]{file.toURI().toURL()});
         Class coreLauncherOfClass = agentClassLoader.loadClass("com.shulie.instrument.simulator.agent.core.CoreLauncher");
-        Constructor constructor = coreLauncherOfClass.getConstructor(String.class, long.class, String.class);
-        Object coreLauncherOfInstance = constructor.newInstance(DEFAULT_AGENT_HOME, pid, processName);
+        Constructor constructor = coreLauncherOfClass.getConstructor(String.class, long.class, String.class, String.class, Instrumentation.class, ClassLoader.class);
+        Object coreLauncherOfInstance = constructor.newInstance(DEFAULT_AGENT_HOME, pid, processName, getTagFileName(), inst, InstrumentLauncher.class.getClassLoader());
 
         if (delay != null) {
             Method setDelayMethod = coreLauncherOfClass.getDeclaredMethod("setDelay", int.class);
