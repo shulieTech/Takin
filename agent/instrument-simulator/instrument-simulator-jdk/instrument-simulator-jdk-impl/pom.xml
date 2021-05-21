@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>instrument-simulator-jdk</artifactId>
+        <groupId>com.shulie.instrument.simulator</groupId>
+        <version>1.0.1</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>instrument-simulator-jdk-impl</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.shulie.instrument.simulator</groupId>
+            <artifactId>instrument-simulator-jdk8</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.shulie.instrument.simulator</groupId>
+            <artifactId>instrument-simulator-jdk9</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.shulie.instrument.simulator</groupId>
+            <artifactId>instrument-simulator-messager</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <jdk.source>1.6</jdk.source>
+                <jdk.target>1.6</jdk.target>
+            </properties>
+        </profile>
+    </profiles>
+</project>
