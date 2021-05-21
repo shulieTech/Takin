@@ -17,7 +17,6 @@ package com.pamirs.pradar;
 
 import com.pamirs.pradar.pressurement.ClusterTestUtils;
 import com.pamirs.pradar.pressurement.agent.shared.service.GlobalConfig;
-import com.shulie.instrument.simulator.api.util.StringUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.slf4j.Logger;
@@ -29,7 +28,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.pamirs.pradar.AppNameUtils.appName;
@@ -49,10 +47,12 @@ public final class InvokeContext extends AbstractContext {
 
     public static final int INVOKE_ID_LENGTH_LIMIT = 64;
 
+    private final static AtomicInteger idx = new AtomicInteger(0);
+
     /**
      * 父调用上下文
      */
-    final InvokeContext parentInvokeContext;
+    InvokeContext parentInvokeContext;
     /**
      * 当前同级调用的索引号，用来分配调用 ID的
      */
@@ -62,6 +62,11 @@ public final class InvokeContext extends AbstractContext {
      * 是否需要线程兜底 commit
      */
     private boolean isThreadCommit;
+
+    /**
+     * 当前上下文的唯一标识
+     */
+    private final long id;
 
     // log control event ctx
     InvokeContext(int logType) {
@@ -84,6 +89,7 @@ public final class InvokeContext extends AbstractContext {
         super(_traceId, _traceAppName, _invokeId);
         parentInvokeContext = _parentInvokeContext;
         childInvokeIdx = _childRpcIdx;
+        id = idx.incrementAndGet();
     }
 //===============
 
@@ -104,6 +110,7 @@ public final class InvokeContext extends AbstractContext {
         super(_traceId, _traceAppName, _invokeId, traceMethod, traceServiceName);
         parentInvokeContext = _parentInvokeContext;
         childInvokeIdx = _childRpcIdx;
+        this.id = idx.incrementAndGet();
     }
 
     /**
@@ -403,11 +410,20 @@ public final class InvokeContext extends AbstractContext {
         context.put(PradarService.PRADAR_UPSTREAM_APPNAME_KEY, upAppName == null ? appName() : upAppName);
         context.put(PradarService.PRADAR_CLUSTER_TEST_KEY, isClusterTest() ? Pradar.PRADAR_CLUSTER_TEST_ON : Pradar.PRADAR_CLUSTER_TEST_OFF);
         context.put(PradarService.PRADAR_DEBUG_KEY, isDebug() ? Pradar.PRADAR_DEBUG_ON : Pradar.PRADAR_DEBUG_OFF);
+        if (serviceName != null) {
+            context.put(PradarService.PRADAR_SERVICE_NAME, serviceName);
+        }
+        if (methodName != null) {
+            context.put(PradarService.PRADAR_METHOD_NAME, methodName);
+        }
+        if (middlewareName != null) {
+            context.put(PradarService.PRADAR_MIDDLEWARE_NAME, middlewareName);
+        }
         return context;
     }
 
     protected String generateNodeId(String traceNode, String serviceName, String methodName, String middlewareName) {
-        if (StringUtil.startsWith(serviceName, "http://") || StringUtil.startsWith(serviceName, "https://")) {
+        if (StringUtils.startsWith(serviceName, "http://") || StringUtils.startsWith(serviceName, "https://")) {
             return md5String((traceNode == null ? "" : traceNode + '-') + getRegularServiceName(defaultBlankIfNull(serviceName), methodName)
                     + '-' + defaultBlankIfNull(methodName) + '-' + defaultBlankIfNull(middlewareName));
         } else {
@@ -417,7 +433,7 @@ public final class InvokeContext extends AbstractContext {
     }
 
     protected String generateNodeId() {
-        if (StringUtil.startsWith(serviceName, "http://") || StringUtil.startsWith(serviceName, "https://")) {
+        if (StringUtils.startsWith(serviceName, "http://") || StringUtils.startsWith(serviceName, "https://")) {
             return md5String((getTraceNode() == null ? "" : getTraceNode() + '-') + getRegularServiceName(defaultBlankIfNull(serviceName), methodName)
                     + '-' + defaultBlankIfNull(methodName) + '-' + defaultBlankIfNull(middlewareName));
         } else if (middlewareName != null && middlewareName.equals("redis")) {
@@ -561,10 +577,10 @@ public final class InvokeContext extends AbstractContext {
          * 去除schema 和域名等
          * 这个地方是为了取出 path
          */
-        if (StringUtil.startsWith(name, "http://")) {
+        if (StringUtils.startsWith(name, "http://")) {
             name = name.substring(8);
             name = name.substring(name.indexOf('/') + 1);
-        } else if (StringUtil.startsWith(name, "https://")) {
+        } else if (StringUtils.startsWith(name, "https://")) {
             name = name.substring(9);
             name = name.substring(name.indexOf('/') + 1);
         }
@@ -598,6 +614,9 @@ public final class InvokeContext extends AbstractContext {
         String startTime = map.get(PradarService.PRADAR_START_TIME_KEY);
         String remoteIp = map.get(PradarService.PRADAR_REMOTE_IP);
         String upAppName = map.get(PradarService.PRADAR_UPSTREAM_APPNAME_KEY);
+        String serviceName = map.get(PradarService.PRADAR_SERVICE_NAME);
+        String methodName = map.get(PradarService.PRADAR_METHOD_NAME);
+        String middlewareName = map.get(PradarService.PRADAR_MIDDLEWARE_NAME);
         boolean isClusterTest = ClusterTestUtils.isClusterTestRequest(map.get(PradarService.PRADAR_CLUSTER_TEST_KEY));
         if (!isClusterTest) {
             isClusterTest = ClusterTestUtils.isClusterTestRequest(map.get(PradarService.PRADAR_HTTP_CLUSTER_TEST_KEY));
@@ -635,6 +654,15 @@ public final class InvokeContext extends AbstractContext {
         ctx.setUpAppName(upAppName);
         ctx.setClusterTest(isClusterTest);
         ctx.setDebug(isDebug);
+        if (StringUtils.isNotBlank(serviceName)) {
+            ctx.setServiceName(serviceName);
+        }
+        if (StringUtils.isNotBlank(methodName)) {
+            ctx.setMethodName(methodName);
+        }
+        if (StringUtils.isNotBlank(middlewareName)) {
+            ctx.setMiddlewareName(middlewareName);
+        }
         return ctx;
     }
 
@@ -649,5 +677,9 @@ public final class InvokeContext extends AbstractContext {
             return null;
         }
         return fromMap(map, null);
+    }
+
+    public long getId() {
+        return id;
     }
 }

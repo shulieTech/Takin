@@ -18,10 +18,8 @@ import com.shulie.instrument.simulator.agent.utils.ModuleUtils;
 
 import java.io.*;
 import java.lang.instrument.Instrumentation;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.net.InetSocketAddress;
-import java.net.URL;
 import java.net.URLDecoder;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -168,33 +166,6 @@ public class AgentLauncher {
             loadModuleSupportOfMethod.invoke(null, Collections.emptyList());
         } catch (Throwable e) {
             LOGGER.error("SIMULATOR: add resource to boot class path err...", e);
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * 加载模块加器器
-     *
-     * @param instrumentation
-     * @param parentClassLoader
-     * @return
-     */
-    private static Object loadModuleBootLoader(Instrumentation instrumentation, ClassLoader parentClassLoader) {
-        if (!ModuleUtils.isModuleSupported()) {
-            return null;
-        }
-        LOGGER.info("SIMULATOR: java9 module detected...");
-        LOGGER.info("SIMULATOR: ModuleBootLoader start...");
-        try {
-            Class moduleBootLoaderOfClass = parentClassLoader.loadClass("com.shulie.instrument.simulator.agent.module.ModuleBootLoader");
-            Constructor constructor = moduleBootLoaderOfClass.getConstructor(Instrumentation.class);
-            Object moduleBootLoader = constructor.newInstance(instrumentation);
-
-            Method loadModuleSupportOfMethod = moduleBootLoaderOfClass.getDeclaredMethod("loadModuleSupport");
-            loadModuleSupportOfMethod.invoke(moduleBootLoader);
-            return moduleBootLoader;
-        } catch (Throwable e) {
-            LOGGER.error("SIMULATOR: java9 module load ModuleBootLoader err...", e);
             throw new RuntimeException(e);
         }
     }
@@ -399,16 +370,9 @@ public class AgentLauncher {
             );
 
             /**
-             * 如果支持模块
+             * 如果jdk9以下版本
              */
-            if (ModuleUtils.isModuleSupported()) {
-                Object moduleBootLoader = loadModuleBootLoader(inst, AgentLauncher.class.getClassLoader());
-                if (moduleBootLoader != null) {
-                    Method defineAgentModuleOfMethod = moduleBootLoader.getClass().getDeclaredMethod("defineAgentModule", ClassLoader.class, URL[].class);
-                    LOGGER.info("SIMULATOR: defineAgentModule...");
-                    defineAgentModuleOfMethod.invoke(moduleBootLoader, simulatorClassLoader, new URL[]{new File(getSimulatorCoreJarPath(home)).toURI().toURL()});
-                }
-            } else {
+            if (!ModuleUtils.isModuleSupported()) {
                 /**
                  * 将 bootstrap 资源添加到 bootstrap classpath 下面
                  * 因为有一些实现加载 bootstrap 下的类时使用 getResource 方式加载

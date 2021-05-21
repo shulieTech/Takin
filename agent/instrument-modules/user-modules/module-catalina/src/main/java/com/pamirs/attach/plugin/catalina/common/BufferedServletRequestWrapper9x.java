@@ -706,7 +706,7 @@ public class BufferedServletRequestWrapper9x extends Request implements IBuffere
         if (characterEncoding == null) {
             characterEncoding = "ISO8859-1";
         }
-        return new BufferedReader(new InputStreamReader(getInputStream(), characterEncoding));
+        return new BufferedReaderWrapper(new InputStreamReader(getInputStream(), characterEncoding));
     }
 
     @Override

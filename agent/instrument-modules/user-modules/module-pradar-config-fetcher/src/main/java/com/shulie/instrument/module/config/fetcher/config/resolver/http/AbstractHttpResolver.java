@@ -52,6 +52,12 @@ public abstract class AbstractHttpResolver<T extends AbstractConfig<T>> implemen
             public Thread newThread(Runnable r) {
                 Thread t = new Thread(r, "Pradar-Fetch-Config-Service");
                 t.setDaemon(true);
+                t.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+                    @Override
+                    public void uncaughtException(Thread t, Throwable e) {
+                        LOGGER.error("Thread {} caught a unknow exception with UncaughtExceptionHandler", t.getName(), e);
+                    }
+                });
                 return t;
             }
         });

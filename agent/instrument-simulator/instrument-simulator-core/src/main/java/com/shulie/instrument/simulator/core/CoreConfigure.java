@@ -86,6 +86,9 @@ public class CoreConfigure {
 
     private static final String KEY_UNSAFE_ENABLE = "unsafe.enable";
 
+    /**
+     * 模块禁用配置
+     */
     private static final String KEY_DISABLED_MODULES = "simulator.modules.disabled";
 
     private static final String KEY_LICENSE_CODE = "license.code";

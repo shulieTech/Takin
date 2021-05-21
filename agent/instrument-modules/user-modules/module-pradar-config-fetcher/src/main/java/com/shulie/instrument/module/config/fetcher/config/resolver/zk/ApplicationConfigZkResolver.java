@@ -33,7 +33,6 @@ import com.shulie.instrument.module.register.zk.ZkNodeCache;
 import com.shulie.instrument.module.register.zk.ZkPathChildrenCache;
 import com.shulie.instrument.simulator.api.executors.ExecutorServiceFactory;
 import com.shulie.instrument.simulator.api.util.CollectionUtils;
-import com.shulie.instrument.simulator.api.util.StringUtil;
 import io.shulie.tro.web.config.entity.AllowList;
 import io.shulie.tro.web.config.entity.ShadowDB;
 import io.shulie.tro.web.config.entity.ShadowJob;
@@ -496,7 +495,7 @@ public class ApplicationConfigZkResolver extends AbstractZkResolver<ApplicationC
             /**
              * 如果是 jndi，则不需要加用户名
              */
-            if (StringUtil.startsWith(shadowDatabaseConfig.getUrl(), "jndi:")) {
+            if (StringUtils.startsWith(shadowDatabaseConfig.getUrl(), "jndi:")) {
                 String url = StringUtils.substring(shadowDatabaseConfig.getUrl(), 5);
                 shadowDatabaseConfig.setUrl(url);
                 shadowDatabaseConfigMap.put(DbUrlUtils.getKey(shadowDatabaseConfig.getUrl(), null), shadowDatabaseConfig);
@@ -595,7 +594,7 @@ public class ApplicationConfigZkResolver extends AbstractZkResolver<ApplicationC
                             /**
                              * 如果是 jndi，则不需要加用户名
                              */
-                            if (StringUtil.startsWith(shadowDatabaseConfig.getUrl(), "jndi:")) {
+                            if (StringUtils.startsWith(shadowDatabaseConfig.getUrl(), "jndi:")) {
                                 String url = StringUtils.substring(shadowDatabaseConfig.getUrl(), 5);
                                 shadowDatabaseConfig.setUrl(url);
                                 shadowDatabaseConfigMap.put(DbUrlUtils.getKey(shadowDatabaseConfig.getUrl(), null), shadowDatabaseConfig);

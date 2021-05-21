@@ -33,6 +33,15 @@ import static com.pamirs.pradar.interceptor.TraceInterceptorAdaptor.BEFORE_TRACE
 
 /**
  * 实例方法埋点的环绕拦截器抽象实现,可实现追踪埋点与压测增强的混合逻辑
+ * 适用于方法开始进行 trace 追踪，方法结果进行 trace 提交的场景
+ * <p>
+ * 例如:
+ * 需要追踪的方法为 void test(String value) {
+ * System.out.println("xxxxx");
+ * }
+ * <p>
+ * 需要追踪 test 方法的执行耗时、入参、出参等,其他场景并不适用
+ *
  * <pre>
  *     实现的这些方法不支持重载,否则会抛出异常RuntimeException
  * </pre>
@@ -178,8 +187,8 @@ abstract class TraceInterceptor extends BaseInterceptor {
     }
 
     @Override
-    public final void doBefore(Advice advice) throws Throwable {
-        if (!simulatorConfig.getBooleanProperty("plugin." + getPluginName() + ".enabled", true)) {
+    public void doBefore(Advice advice) throws Throwable {
+        if (!simulatorConfig.getBooleanProperty("plugin." + getPluginName() + ".trace.enabled", true)) {
             return;
         }
         ClusterTestUtils.validateClusterTest();
@@ -187,13 +196,13 @@ abstract class TraceInterceptor extends BaseInterceptor {
         try {
             beforeFirst(advice);
         } catch (PradarException e) {
-            LOGGER.error("beforeFirst exec err:{}", this.getClass().getName(), e);
+            LOGGER.error("TraceInterceptor beforeFirst exec err:{}", this.getClass().getName(), e);
             throwable = e;
         } catch (PressureMeasureError e) {
-            LOGGER.error("beforeFirst exec err:{}", this.getClass().getName(), e);
+            LOGGER.error("TraceInterceptor beforeFirst exec err:{}", this.getClass().getName(), e);
             throwable = e;
         } catch (Throwable t) {
-            LOGGER.error("beforeFirst exec err:{}", this.getClass().getName(), t);
+            LOGGER.error("TraceInterceptor beforeFirst exec err:{}", this.getClass().getName(), t);
             throwable = t;
         }
         try {
@@ -203,12 +212,12 @@ abstract class TraceInterceptor extends BaseInterceptor {
                 startServerInvoke(advice);
             }
         } catch (PradarException e) {
-            LOGGER.error("before exec err:{}", this.getClass().getName(), e);
+            LOGGER.error("TraceInterceptor before exec err:{}", this.getClass().getName(), e);
             if (Pradar.isClusterTest()) {
                 throw e;
             }
         } catch (Throwable e) {
-            LOGGER.error("before exec err:{}", this.getClass().getName(), e);
+            LOGGER.error("TraceInterceptor before exec err:{}", this.getClass().getName(), e);
             if (Pradar.isClusterTest()) {
                 throw new PradarException(e);
             }
@@ -216,17 +225,24 @@ abstract class TraceInterceptor extends BaseInterceptor {
             try {
                 beforeLast(advice);
             } catch (PradarException e) {
-                LOGGER.error("beforeLast exec err:{}", this.getClass().getName(), e);
+                LOGGER.error("TraceInterceptor beforeLast exec err:{}", this.getClass().getName(), e);
                 throwable = e;
             } catch (PressureMeasureError e) {
-                LOGGER.error("beforeLast exec err:{}", this.getClass().getName(), e);
+                LOGGER.error("TraceInterceptor beforeLast exec err:{}", this.getClass().getName(), e);
                 throwable = e;
             } catch (Throwable t) {
-                LOGGER.error("beforeLast exec err:{}", this.getClass().getName(), t);
+                LOGGER.error("TraceInterceptor beforeLast exec err:{}", this.getClass().getName(), t);
                 throwable = t;
             }
         }
         if (throwable != null && Pradar.isClusterTest()) {
+            /**
+             * 如果这个地方日志记录成功，但是因为 agent 内部需要抛出异常，则需要将记录的日志弹出，忽略此次调用
+             */
+            if (advice.hasMark(BEFORE_TRACE_SUCCESS)) {
+                advice.unMark(BEFORE_TRACE_SUCCESS);
+                Pradar.popInvokeContext();
+            }
             throw throwable;
         }
 
@@ -348,6 +364,8 @@ abstract class TraceInterceptor extends BaseInterceptor {
             }
             SpanRecord record = afterTrace(advice);
             if (record == null) {
+                //如果上下文开始了，但是这里没有，则需要强制结束
+                Pradar.endClientInvoke(ResultCode.INVOKE_RESULT_SUCCESS, getPluginType());
                 return;
             }
             if (record.getResponseSize() != 0) {
@@ -394,13 +412,20 @@ abstract class TraceInterceptor extends BaseInterceptor {
      * @throws Throwable
      */
     private void endServerInvoke(Advice advice) throws Throwable {
+        if (!advice.hasMark(BEFORE_TRACE_SUCCESS)) {
+            LOGGER.debug("{} before trace not finished.", getClass().getName());
+            return;
+        }
+        boolean isTrace = isTrace0(advice);
         try {
-            if (!advice.hasMark(BEFORE_TRACE_SUCCESS)) {
-                LOGGER.debug("{} before trace not finished.", getClass().getName());
-                return;
-            }
             SpanRecord record = afterTrace(advice);
             if (record == null) {
+                //如果上下文开始了，但是这里没有，则需要强制结束
+                if (isTrace) {
+                    Pradar.endTrace(ResultCode.INVOKE_RESULT_UNKNOWN, getPluginType());
+                } else {
+                    Pradar.endServerInvoke(ResultCode.INVOKE_RESULT_UNKNOWN, getPluginType());
+                }
                 return;
             }
             if (record.getResponseSize() != 0) {
@@ -427,13 +452,13 @@ abstract class TraceInterceptor extends BaseInterceptor {
                 Pradar.callBack(record.getCallbackMsg());
             }
 
-            if (isTrace0(advice)) {
+            if (isTrace) {
                 Pradar.endTrace(record.getResultCode(), getPluginType());
             } else {
                 Pradar.endServerInvoke(record.getResultCode(), getPluginType());
             }
         } catch (Throwable e) {
-            if (isTrace0(advice)) {
+            if (isTrace) {
                 Pradar.endTrace(ResultCode.INVOKE_RESULT_UNKNOWN, getPluginType());
             } else {
                 Pradar.endServerInvoke(ResultCode.INVOKE_RESULT_UNKNOWN, getPluginType());
@@ -445,8 +470,8 @@ abstract class TraceInterceptor extends BaseInterceptor {
     }
 
     @Override
-    public final void doAfter(Advice advice) throws Throwable {
-        if (!simulatorConfig.getBooleanProperty("plugin." + getPluginName() + ".enabled", true)) {
+    public void doAfter(Advice advice) throws Throwable {
+        if (!simulatorConfig.getBooleanProperty("plugin." + getPluginName() + ".trace.enabled", true)) {
             return;
         }
         ClusterTestUtils.validateClusterTest();
@@ -454,13 +479,13 @@ abstract class TraceInterceptor extends BaseInterceptor {
         try {
             afterFirst(advice);
         } catch (PradarException e) {
-            LOGGER.error("afterFirst exec err:{}", this.getClass().getName(), e);
+            LOGGER.error("TraceInterceptor afterFirst exec err:{}", this.getClass().getName(), e);
             throwable = e;
         } catch (PressureMeasureError e) {
-            LOGGER.error("afterFirst exec err:{}", this.getClass().getName(), e);
+            LOGGER.error("TraceInterceptor afterFirst exec err:{}", this.getClass().getName(), e);
             throwable = e;
         } catch (Throwable t) {
-            LOGGER.error("afterFirst exec err:{}", this.getClass().getName(), t);
+            LOGGER.error("TraceInterceptor afterFirst exec err:{}", this.getClass().getName(), t);
             throwable = t;
         }
         try {
@@ -470,12 +495,12 @@ abstract class TraceInterceptor extends BaseInterceptor {
                 endServerInvoke(advice);
             }
         } catch (PradarException e) {
-            LOGGER.error("after exec err:{}", this.getClass().getName(), e);
+            LOGGER.error("TraceInterceptor after exec err:{}", this.getClass().getName(), e);
             if (Pradar.isClusterTest()) {
                 throw e;
             }
         } catch (Throwable e) {
-            LOGGER.error("after exec err:{}", this.getClass().getName(), e);
+            LOGGER.error("TraceInterceptor after exec err:{}", this.getClass().getName(), e);
             if (Pradar.isClusterTest()) {
                 throw new PradarException(e);
             }
@@ -483,13 +508,13 @@ abstract class TraceInterceptor extends BaseInterceptor {
             try {
                 afterLast(advice);
             } catch (PradarException e) {
-                LOGGER.error("afterLast exec err:{}", this.getClass().getName(), e);
+                LOGGER.error("TraceInterceptor afterLast exec err:{}", this.getClass().getName(), e);
                 throwable = e;
             } catch (PressureMeasureError e) {
-                LOGGER.error("afterLast exec err:{}", this.getClass().getName(), e);
+                LOGGER.error("TraceInterceptor afterLast exec err:{}", this.getClass().getName(), e);
                 throwable = e;
             } catch (Throwable t) {
-                LOGGER.error("afterLast exec err:{}", this.getClass().getName(), t);
+                LOGGER.error("TraceInterceptor afterLast exec err:{}", this.getClass().getName(), t);
                 throwable = t;
             }
         }
@@ -500,20 +525,20 @@ abstract class TraceInterceptor extends BaseInterceptor {
 
     @Override
     public final void doException(Advice advice) throws Throwable {
-        if (!simulatorConfig.getBooleanProperty("plugin." + getPluginName() + ".enabled", true)) {
+        if (!simulatorConfig.getBooleanProperty("plugin." + getPluginName() + ".trace.enabled", true)) {
             return;
         }
         Throwable throwable = null;
         try {
             exceptionFirst(advice);
         } catch (PradarException e) {
-            LOGGER.error("exceptionFirst exec err:{}", this.getClass().getName(), e);
+            LOGGER.error("TraceInterceptor exceptionFirst exec err:{}", this.getClass().getName(), e);
             throwable = e;
         } catch (PressureMeasureError e) {
-            LOGGER.error("exceptionFirst exec err:{}", this.getClass().getName(), e);
+            LOGGER.error("TraceInterceptor exceptionFirst exec err:{}", this.getClass().getName(), e);
             throwable = e;
         } catch (Throwable t) {
-            LOGGER.error("exceptionFirst exec err:{}", this.getClass().getName(), t);
+            LOGGER.error("TraceInterceptor exceptionFirst exec err:{}", this.getClass().getName(), t);
             throwable = t;
         }
         try {
@@ -523,12 +548,12 @@ abstract class TraceInterceptor extends BaseInterceptor {
                 endServerInvokeException(advice);
             }
         } catch (PradarException e) {
-            LOGGER.error("exception exec err:{}", this.getClass().getName(), e);
+            LOGGER.error("TraceInterceptor exception exec err:{}", this.getClass().getName(), e);
             if (Pradar.isClusterTest()) {
                 throw e;
             }
         } catch (Throwable e) {
-            LOGGER.error("exception exec err:{}", this.getClass().getName(), e);
+            LOGGER.error("TraceInterceptor exception exec err:{}", this.getClass().getName(), e);
             if (Pradar.isClusterTest()) {
                 throw new PradarException(e);
             }
@@ -536,13 +561,13 @@ abstract class TraceInterceptor extends BaseInterceptor {
             try {
                 exceptionLast(advice);
             } catch (PradarException e) {
-                LOGGER.error("exceptionLast exec err:{}", this.getClass().getName(), e);
+                LOGGER.error("TraceInterceptor exceptionLast exec err:{}", this.getClass().getName(), e);
                 throwable = e;
             } catch (PressureMeasureError e) {
-                LOGGER.error("exceptionLast exec err:{}", this.getClass().getName(), e);
+                LOGGER.error("TraceInterceptor exceptionLast exec err:{}", this.getClass().getName(), e);
                 throwable = e;
             } catch (Throwable t) {
-                LOGGER.error("exceptionLast exec err:{}", this.getClass().getName(), t);
+                LOGGER.error("TraceInterceptor exceptionLast exec err:{}", this.getClass().getName(), t);
                 throwable = t;
             }
         }
@@ -565,6 +590,7 @@ abstract class TraceInterceptor extends BaseInterceptor {
             }
             SpanRecord record = exceptionTrace(advice);
             if (record == null) {
+                Pradar.endClientInvoke(ResultCode.INVOKE_RESULT_SUCCESS, getPluginType());
                 return;
             }
             Object response = record.getResponse();
@@ -577,7 +603,10 @@ abstract class TraceInterceptor extends BaseInterceptor {
             if (StringUtils.isNotBlank(record.getRemoteIp())) {
                 Pradar.remoteIp(record.getRemoteIp());
             }
-            Pradar.remotePort(record.getPort());
+
+            if (StringUtils.isNotBlank(record.getPort())) {
+                Pradar.remotePort(record.getPort());
+            }
 
             if (record.getMiddlewareName() != null) {
                 Pradar.middlewareName(record.getMiddlewareName());
@@ -595,13 +624,19 @@ abstract class TraceInterceptor extends BaseInterceptor {
     }
 
     private final void endServerInvokeException(Advice advice) throws Throwable {
+        if (!advice.hasMark(BEFORE_TRACE_SUCCESS)) {
+            LOGGER.debug("{} before trace not finished.", getClass().getName());
+            return;
+        }
+        boolean isTrace = isTrace0(advice);
         try {
-            if (!advice.hasMark(BEFORE_TRACE_SUCCESS)) {
-                LOGGER.debug("{} before trace not finished.", getClass().getName());
-                return;
-            }
             SpanRecord record = exceptionTrace(advice);
             if (record == null) {
+                if (isTrace) {
+                    Pradar.endTrace(ResultCode.INVOKE_RESULT_SUCCESS, getPluginType());
+                } else {
+                    Pradar.endServerInvoke(ResultCode.INVOKE_RESULT_SUCCESS, getPluginType());
+                }
                 return;
             }
             Object response = record.getResponse();
@@ -615,7 +650,10 @@ abstract class TraceInterceptor extends BaseInterceptor {
             if (StringUtils.isNotBlank(record.getRemoteIp())) {
                 Pradar.remoteIp(record.getRemoteIp());
             }
-            Pradar.remotePort(record.getPort());
+
+            if (StringUtils.isNotBlank(record.getPort())) {
+                Pradar.remotePort(record.getPort());
+            }
 
             if (record.getMiddlewareName() != null) {
                 Pradar.middlewareName(record.getMiddlewareName());
@@ -623,9 +661,17 @@ abstract class TraceInterceptor extends BaseInterceptor {
             if (record.getCallbackMsg() != null) {
                 Pradar.callBack(record.getCallbackMsg());
             }
-            Pradar.endServerInvoke(record.getResultCode(), getPluginType());
+            if (isTrace) {
+                Pradar.endTrace(record.getResultCode(), getPluginType());
+            } else {
+                Pradar.endServerInvoke(record.getResultCode(), getPluginType());
+            }
         } catch (Throwable e) {
-            Pradar.endServerInvoke(ResultCode.INVOKE_RESULT_UNKNOWN, getPluginType());
+            if (isTrace) {
+                Pradar.endTrace(ResultCode.INVOKE_RESULT_UNKNOWN, getPluginType());
+            } else {
+                Pradar.endServerInvoke(ResultCode.INVOKE_RESULT_UNKNOWN, getPluginType());
+            }
             throw e;
         } finally {
             advice.unMark(BEFORE_TRACE_SUCCESS);

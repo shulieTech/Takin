@@ -96,6 +96,21 @@ public final class PradarService {
      */
     static public final String PRADAR_DEBUG_KEY = PRADAR_HEADER_PREFIX + "p-pradar-debug";
 
+    /**
+     * 服务名称,只用于内部传输，不进行远程传输
+     */
+    static public final String PRADAR_SERVICE_NAME = "p-pradar-service";
+
+    /**
+     * 方法名称,只用于内部传输，不进行远程传输
+     */
+    static public final String PRADAR_METHOD_NAME = "p-pradar-method";
+
+    /**
+     * 中间件名称，只用于内部传输，不进行远程传输
+     */
+    static public final String PRADAR_MIDDLEWARE_NAME = "p-pradar-middleware";
+
 
     /**
      * 上下文 调试ID 标

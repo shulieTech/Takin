@@ -39,6 +39,7 @@ public class ThreadPlugin extends ModuleLifecycleAdapter implements ExtensionMod
         this.enhanceTemplate.enhanceWithInterface(this, "java.lang.Runnable", new EnhanceCallback() {
             @Override
             public void doEnhance(InstrumentClass target) {
+                target.isIncludeBootstrap(false);
                 InstrumentMethod constructors = target.getConstructors();
                 constructors.addInterceptor(Listeners.of(RunnableConstructorInterceptor.class));
 
@@ -50,6 +51,7 @@ public class ThreadPlugin extends ModuleLifecycleAdapter implements ExtensionMod
         this.enhanceTemplate.enhanceWithInterface(this, "java.util.concurrent.Callable", new EnhanceCallback() {
             @Override
             public void doEnhance(InstrumentClass target) {
+                target.isIncludeBootstrap(false);
                 InstrumentMethod constructors = target.getConstructors();
                 constructors.addInterceptor(Listeners.of(CallableConstructorInterceptor.class));
 

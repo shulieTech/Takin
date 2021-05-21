@@ -44,7 +44,13 @@ public class PtQuartzJobBean extends QuartzJobBean {
         }
     }
 
-//    public void setBusJob(Job job) {
-//        this.busJob = job;
-//    }
+
+    public Job getBusJob() {
+        return busJob;
+    }
+
+
+    public void setBusJob(Job busJob) {
+        this.busJob = busJob;
+    }
 }

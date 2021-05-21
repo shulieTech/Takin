@@ -17,12 +17,12 @@ package com.shulie.instrument.simulator.core;
 import com.shulie.instrument.simulator.api.*;
 import com.shulie.instrument.simulator.api.instrument.EnhanceTemplate;
 import com.shulie.instrument.simulator.api.resource.*;
-import com.shulie.instrument.simulator.compatible.transformer.SimulatorClassFileTransformer;
 import com.shulie.instrument.simulator.core.classloader.ClassLoaderFactory;
 import com.shulie.instrument.simulator.core.classloader.ClassLoaderService;
 import com.shulie.instrument.simulator.core.inject.ClassInjector;
 import com.shulie.instrument.simulator.core.manager.CoreLoadedClassDataSource;
 import com.shulie.instrument.simulator.core.manager.CoreModuleManager;
+import com.shulie.instrument.simulator.core.manager.SimulatorClassFileTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

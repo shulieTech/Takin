@@ -14,12 +14,8 @@
  */
 package com.pamirs.attach.plugin.undertow.interceptor;
 
-import com.pamirs.attach.plugin.common.web.BufferedServletRequestWrapper;
 import com.pamirs.attach.plugin.common.web.RequestTracer;
-import com.pamirs.attach.plugin.common.web.ServletRequestTracer;
-import com.pamirs.attach.plugin.common.web.servlet.ServletApiHelper;
-import com.pamirs.attach.plugin.common.web.servlet.impl.Servlet3ApiHelper;
-import com.pamirs.attach.plugin.undertow.common.Servlet2ApiHelperImpl;
+import com.pamirs.attach.plugin.undertow.common.UndertowRequestTracer;
 import com.pamirs.pradar.Pradar;
 import com.pamirs.pradar.interceptor.AroundInterceptor;
 import com.pamirs.pradar.interceptor.TraceInterceptorAdaptor;
@@ -31,15 +27,10 @@ import com.shulie.instrument.simulator.api.listener.ext.Advice;
 import com.shulie.instrument.simulator.api.listener.ext.BuildingForListeners;
 import com.shulie.instrument.simulator.api.resource.LoadedClassDataSource;
 import io.undertow.server.HttpServerExchange;
-import io.undertow.servlet.handlers.ServletRequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -54,51 +45,21 @@ public class ConnectorsExecuteRootHandlerInterceptor extends AroundInterceptor i
     @Resource
     private LoadedClassDataSource loadedClassDataSource;
 
-    private final ServletApiHelper servletApiHelper;
-    private final RequestTracer<HttpServletRequest, HttpServletResponse> requestTracer;
+    private final RequestTracer<HttpServerExchange, HttpServerExchange> requestTracer;
 
     public ConnectorsExecuteRootHandlerInterceptor() {
-        this.servletApiHelper = newServletApi();
-        this.requestTracer = new ServletRequestTracer();
-    }
-
-    private ServletApiHelper newServletApi() {
-        try {
-            ServletRequest.class.getMethod("isAsyncStarted");
-        } catch (NoSuchMethodException e) {
-            return new Servlet2ApiHelperImpl();
-        }
-        return new Servlet3ApiHelper();
+        this.requestTracer = new UndertowRequestTracer();
     }
 
     @Override
     public void doBefore(Advice advice) throws Throwable {
         HttpServerExchange exchange = (HttpServerExchange) advice.getParameterArray()[1];
-        final ServletRequestContext servletRequestContext = exchange.getAttachment(ServletRequestContext.ATTACHMENT_KEY);
-        if (servletRequestContext == null) {
-            logger.warn("Invalid target object, The io.undertow.server.HttpServerExchange doesn't have attachment ServletRequestContext. target={}", exchange);
-            return;
-        }
-        final ServletRequest servletRequest = servletRequestContext.getServletRequest();
-        final ServletResponse servletResponse = servletRequestContext.getServletResponse();
-        if (!(servletRequest instanceof HttpServletRequest)) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Invalid target object, The javax.servlet.http.HttpServletRequest interface is not implemented. target={}", servletRequest);
-            }
+        if (exchange == null) {
+            logger.warn("Invalid target object, The io.undertow.server.HttpServerExchange is null. target={}", exchange);
             return;
         }
 
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
-        if (servletApiHelper.isAsyncDispatcherBefore(request)) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Skip async servlet request event. isAsyncStarted={}, dispatcherType={}", request.isAsyncStarted(), request.getDispatcherType());
-            }
-            return;
-        }
-
-        servletRequestContext.setServletRequest(new BufferedServletRequestWrapper(request));
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
-        requestTracer.startTrace(request,response, Pradar.WEB_SERVER_NAME);
+        requestTracer.startTrace(exchange, exchange, Pradar.WEB_SERVER_NAME);
         advice.mark(TraceInterceptorAdaptor.BEFORE_TRACE_SUCCESS);
     }
 
@@ -109,37 +70,11 @@ public class ConnectorsExecuteRootHandlerInterceptor extends AroundInterceptor i
                 return;
             }
             HttpServerExchange exchange = (HttpServerExchange) advice.getParameterArray()[1];
-            final ServletRequestContext servletRequestContext = exchange.getAttachment(ServletRequestContext.ATTACHMENT_KEY);
-            if (servletRequestContext == null) {
-                logger.warn("Invalid target object, The io.undertow.server.HttpServerExchange doesn't have attachment ServletRequestContext. target={}", exchange);
+            if (exchange == null) {
+                logger.warn("Invalid target object, The io.undertow.server.HttpServerExchange is null. target={}", exchange);
                 return;
             }
-            final ServletRequest servletRequest = servletRequestContext.getServletRequest();
-            final ServletResponse servletResponse = servletRequestContext.getServletResponse();
-            if (!(servletRequest instanceof HttpServletRequest)) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Invalid target object, The javax.servlet.http.HttpServletRequest interface is not implemented. target={}", servletRequest);
-                }
-                return;
-            }
-
-            if (!(servletResponse instanceof HttpServletResponse)) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Invalid target object, The javax.servlet.http.HttpServletResponse interface is not implemented. target={}", servletResponse);
-                }
-                return;
-            }
-
-            HttpServletRequest request = (HttpServletRequest) servletRequest;
-            HttpServletResponse response = (HttpServletResponse) servletResponse;
-
-            if (servletApiHelper.isAsyncDispatcherAfter(request)) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Skip async servlet request event. isAsyncStarted={}, dispatcherType={}", request.isAsyncStarted(), request.getDispatcherType());
-                }
-                return;
-            }
-            requestTracer.endTrace(request, response, null, String.valueOf(servletApiHelper.getStatus(response)));
+            requestTracer.endTrace(exchange, exchange, null);
         } finally {
             advice.unMark(TraceInterceptorAdaptor.BEFORE_TRACE_SUCCESS);
             Pradar.clearInvokeContext();
@@ -152,41 +87,12 @@ public class ConnectorsExecuteRootHandlerInterceptor extends AroundInterceptor i
             if (!advice.hasMark(TraceInterceptorAdaptor.BEFORE_TRACE_SUCCESS)) {
                 return;
             }
-            if (!advice.hasMark(TraceInterceptorAdaptor.BEFORE_TRACE_SUCCESS)) {
-                return;
-            }
             HttpServerExchange exchange = (HttpServerExchange) advice.getParameterArray()[1];
-            final ServletRequestContext servletRequestContext = exchange.getAttachment(ServletRequestContext.ATTACHMENT_KEY);
-            if (servletRequestContext == null) {
-                logger.warn("Invalid target object, The io.undertow.server.HttpServerExchange doesn't have attachment ServletRequestContext. target={}", exchange);
+            if (exchange == null) {
+                logger.warn("Invalid target object, The io.undertow.server.HttpServerExchange is null. target={}", exchange);
                 return;
             }
-            final ServletRequest servletRequest = servletRequestContext.getServletRequest();
-            final ServletResponse servletResponse = servletRequestContext.getServletResponse();
-            if (!(servletRequest instanceof HttpServletRequest)) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Invalid target object, The javax.servlet.http.HttpServletRequest interface is not implemented. target={}", servletRequest);
-                }
-                return;
-            }
-
-            if (!(servletResponse instanceof HttpServletResponse)) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Invalid target object, The javax.servlet.http.HttpServletResponse interface is not implemented. target={}", servletResponse);
-                }
-                return;
-            }
-
-            HttpServletRequest request = (HttpServletRequest) servletRequest;
-            HttpServletResponse response = (HttpServletResponse) servletResponse;
-
-            if (servletApiHelper.isAsyncDispatcherAfter(request)) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Skip async servlet request event. isAsyncStarted={}, dispatcherType={}", request.isAsyncStarted(), request.getDispatcherType());
-                }
-                return;
-            }
-            requestTracer.endTrace(request, response, advice.getThrowable(), servletApiHelper.getStatus(response) == 200 ? "500" : String.valueOf(servletApiHelper.getStatus(response)));
+            requestTracer.endTrace(exchange, exchange, advice.getThrowable());
         } finally {
             advice.unMark(TraceInterceptorAdaptor.BEFORE_TRACE_SUCCESS);
             Pradar.clearInvokeContext();

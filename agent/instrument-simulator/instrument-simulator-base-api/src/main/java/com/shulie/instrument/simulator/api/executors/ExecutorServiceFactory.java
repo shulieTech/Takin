@@ -14,6 +14,9 @@
  */
 package com.shulie.instrument.simulator.api.executors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.*;
@@ -25,6 +28,7 @@ import java.util.concurrent.*;
  * @since 2021/1/9 3:20 下午
  */
 public class ExecutorServiceFactory {
+    private final static Logger LOGGER = LoggerFactory.getLogger(ExecutorServiceFactory.class);
     /**
      * 全局的定时执行线程池
      */
@@ -255,6 +259,12 @@ public class ExecutorServiceFactory {
             public Thread newThread(Runnable runnable) {
                 Thread t = new Thread(runnable, "Simulator-Pool-Schedule-Executor-Service");
                 t.setDaemon(true);
+                t.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+                    @Override
+                    public void uncaughtException(Thread t, Throwable e) {
+                        LOGGER.error("Thread {} caught a unknow exception with UncaughtExceptionHandler", t.getName(), e);
+                    }
+                });
                 return t;
             }
         });
@@ -276,6 +286,12 @@ public class ExecutorServiceFactory {
             public Thread newThread(Runnable runnable) {
                 Thread t = new Thread(runnable, "Simulator-Pool-Executor-Service");
                 t.setDaemon(true);
+                t.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+                    @Override
+                    public void uncaughtException(Thread t, Throwable e) {
+                        LOGGER.error("Thread {} caught a unknow exception with UncaughtExceptionHandler", t.getName(), e);
+                    }
+                });
                 return t;
             }
         });

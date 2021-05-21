@@ -14,34 +14,78 @@
  */
 package com.pamirs.attach.plugin.apache.kafka.interceptor;
 
+import java.time.Duration;
+import java.util.Iterator;
+
+import com.pamirs.attach.plugin.apache.kafka.origin.ConsumerHolder;
+import com.pamirs.attach.plugin.apache.kafka.origin.ConsumerProxy;
+import com.pamirs.attach.plugin.apache.kafka.origin.ConsumerMetaData;
+import com.pamirs.pradar.CutOffResult;
 import com.pamirs.pradar.Pradar;
 import com.pamirs.pradar.PradarService;
 import com.pamirs.pradar.PradarSwitcher;
 import com.pamirs.pradar.common.BytesUtils;
 import com.pamirs.pradar.exception.PradarException;
 import com.pamirs.pradar.exception.PressureMeasureError;
-import com.pamirs.pradar.interceptor.AroundInterceptor;
+import com.pamirs.pradar.interceptor.CutoffInterceptorAdaptor;
 import com.pamirs.pradar.pressurement.ClusterTestUtils;
 import com.shulie.instrument.simulator.api.listener.ext.Advice;
+import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.header.Header;
 import org.apache.kafka.common.header.Headers;
+import org.apache.kafka.common.utils.Timer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Iterator;
 
 /**
  * @Author <a href="tangyuhan@shulie.io">yuhan.tang</a>
  * @package: com.pamirs.attach.plugin.apache.kafka.interceptor
  * @Date 2019-08-05 19:32
  */
-public class ConsumerPollInterceptor extends AroundInterceptor {
+@SuppressWarnings("rawtypes")
+public class ConsumerPollInterceptor extends CutoffInterceptorAdaptor {
     private final static Logger LOGGER = LoggerFactory.getLogger(ConsumerPollInterceptor.class.getName());
 
     @Override
-    public void doBefore(Advice advice) {
+    public CutOffResult cutoff0(Advice advice) throws Throwable {
+        if (!PradarSwitcher.isClusterTestEnabled()) {
+            return CutOffResult.passed();
+        }
+        if (ConsumerHolder.isWorkWithOtherFramework((Consumer<?, ?>)advice.getTarget())) {
+            doWithSpringIntercept(advice);
+            return CutOffResult.passed();
+        } else {
+            return doOriginIntercept(advice);
+        }
+    }
+
+    private CutOffResult doOriginIntercept(Advice advice) {
+        KafkaConsumer consumer = (KafkaConsumer)advice.getTarget();
+        ConsumerMetaData consumerMetaData = ConsumerHolder.getConsumerMetaData(consumer);
+        if (consumerMetaData == null) {
+            return CutOffResult.passed();
+        }
+        if (consumerMetaData.isHasShadow()) {
+            Object[] args = advice.getParameterArray();
+            ConsumerProxy consumerProxy = ConsumerHolder.getProxyOrCreate(consumer);
+            long timeout = 100L;
+            if (args[0] instanceof Long) {
+                timeout = (long)args[0];
+            } else if (args[0] instanceof Duration) {
+                timeout = ((Duration)args[0]).toMillis();
+            } else if (args[0] instanceof Timer) {
+                timeout = ((Timer)args[0]).remainingMs();
+            }
+            return CutOffResult.cutoff(consumerProxy.poll(timeout));
+        } else {
+            return CutOffResult.passed();
+        }
+    }
+
+    public void doWithSpringIntercept(Advice advice) {
         try {
             if (!PradarSwitcher.isClusterTestEnabled()) {
                 return;
@@ -49,7 +93,7 @@ public class ConsumerPollInterceptor extends AroundInterceptor {
             if (advice.getReturnObj() == null) {
                 return;
             }
-            ConsumerRecords consumerRecords = (ConsumerRecords) advice.getReturnObj();
+            ConsumerRecords consumerRecords = (ConsumerRecords)advice.getReturnObj();
             if (consumerRecords.count() <= 0) {
                 return;
             }
@@ -58,7 +102,7 @@ public class ConsumerPollInterceptor extends AroundInterceptor {
             if (!(next instanceof ConsumerRecord)) {
                 return;
             }
-            ConsumerRecord record = (ConsumerRecord) next;
+            ConsumerRecord record = (ConsumerRecord)next;
             String topic = record.topic();
             Pradar.setClusterTest(false);
             boolean isClusterTest = Pradar.isClusterTestPrefix(topic);
@@ -66,7 +110,8 @@ public class ConsumerPollInterceptor extends AroundInterceptor {
                 Headers headers = record.headers();
                 Header header = headers.lastHeader(PradarService.PRADAR_CLUSTER_TEST_KEY);
                 if (header != null) {
-                    isClusterTest = isClusterTest || ClusterTestUtils.isClusterTestRequest(BytesUtils.toString(header.value()));
+                    isClusterTest = isClusterTest || ClusterTestUtils.isClusterTestRequest(
+                        BytesUtils.toString(header.value()));
                 }
             }
             if (isClusterTest) {
@@ -89,4 +134,5 @@ public class ConsumerPollInterceptor extends AroundInterceptor {
             }
         }
     }
+
 }

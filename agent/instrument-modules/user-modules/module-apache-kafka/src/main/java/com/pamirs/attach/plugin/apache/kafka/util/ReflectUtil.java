@@ -19,6 +19,9 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.shulie.instrument.simulator.api.reflect.Reflect;
+import com.shulie.instrument.simulator.api.reflect.ReflectException;
+
 /**
  * @Author <a href="tangyuhan@shulie.io">yuhan.tang</a>
  * @package: com.pamirs.attach.plugin.apache.kafka.util
@@ -65,5 +68,13 @@ public class ReflectUtil {
             METHODMAP.put(key, method);
         }
         return method;
+    }
+
+    public static <T> T reflectSlience(Object obj, String name) {
+        try {
+            return Reflect.on(obj).get(name);
+        } catch (ReflectException ignore) {
+            return null;
+        }
     }
 }

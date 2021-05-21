@@ -210,8 +210,8 @@ public class HttpClientv4MethodInterceptor extends TraceInterceptorAdaptor {
         return new ContextTransfer() {
             @Override
             public void transfer(String key, String value) {
-                if(request.getHeaders(HeaderMark.DONT_MODIFY_HEADER) == null ||
-                    request.getHeaders(HeaderMark.DONT_MODIFY_HEADER).length == 0){
+                if (request.getHeaders(HeaderMark.DONT_MODIFY_HEADER) == null ||
+                        request.getHeaders(HeaderMark.DONT_MODIFY_HEADER).length == 0) {
                     request.setHeader(key, value);
                 }
             }
@@ -250,8 +250,6 @@ public class HttpClientv4MethodInterceptor extends TraceInterceptorAdaptor {
             }
         }
         record.setRemoteIp(httpHost.getHostName());
-        //OSS 使用httpclient的时候会验证crc，提前读取request的stream流导致crc验证无法通过，先注释
-//        record.setRequest(getParameters(request));
         return record;
 
     }
@@ -260,17 +258,22 @@ public class HttpClientv4MethodInterceptor extends TraceInterceptorAdaptor {
     public SpanRecord afterTrace(Advice advice) {
         Object[] args = advice.getParameterArray();
         HttpRequest request = (HttpRequest) args[1];
-        HttpResponse response = (HttpResponse) advice.getReturnObj();
         SpanRecord record = new SpanRecord();
+        if (advice.getReturnObj() instanceof HttpResponse) {
+            HttpResponse response = (HttpResponse) advice.getReturnObj();
+            try {
+                record.setResponseSize(response == null ? 0 : response.getEntity().getContentLength());
+            } catch (Throwable e) {
+                record.setResponseSize(0);
+            }
+            int code = response.getStatusLine().getStatusCode();
+            record.setResultCode(code + "");
+        }
 
         try {
-            record.setResponseSize(response == null ? 0 : response.getEntity().getContentLength());
+            record.setRequest(getParameters(request));
         } catch (Throwable e) {
-            record.setResponseSize(0);
         }
-        record.setRequest(request.getParams());
-        int code = response.getStatusLine().getStatusCode();
-        record.setResultCode(code + "");
         return record;
 
     }
@@ -282,7 +285,10 @@ public class HttpClientv4MethodInterceptor extends TraceInterceptorAdaptor {
         HttpRequest request = (HttpRequest) args[1];
         SpanRecord record = new SpanRecord();
         record.setResultCode(ResultCode.INVOKE_RESULT_FAILED);
-        record.setRequest(request.getParams());
+        try {
+            record.setRequest(getParameters(request));
+        } catch (Throwable e) {
+        }
         record.setResponse(advice.getThrowable());
         return record;
     }

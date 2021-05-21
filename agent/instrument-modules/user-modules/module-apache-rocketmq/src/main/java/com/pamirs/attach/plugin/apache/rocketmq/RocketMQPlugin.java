@@ -100,29 +100,33 @@ public class RocketMQPlugin extends ModuleLifecycleAdapter implements ExtensionM
                     }
                 });
 
-        this.enhanceTemplate.enhance(this, "org.apache.rocketmq.client.producer.DefaultMQProducer", new EnhanceCallback() {
+        this.enhanceTemplate.enhance(this, "org.apache.rocketmq.client.impl.producer.DefaultMQProducerImpl", new EnhanceCallback() {
             @Override
             public void doEnhance(InstrumentClass target) {
-                final InstrumentMethod startMethod = target.getDeclaredMethod("start");
-                startMethod
-                        .addInterceptor(Listeners.of(MQProducerInterceptor.class));
+//                final InstrumentMethod startMethod = target.getDeclaredMethod("start");
+//                startMethod
+//                        .addInterceptor(Listeners.of(MQProducerInterceptor.class));
 
                 //压测代码
-                InstrumentMethod method = target.getDeclaredMethods("send*");
+                InstrumentMethod method = target.getDeclaredMethods("sendDefaultImpl");
                 method.addInterceptor(Listeners.of(MQProducerSendInterceptor.class));
+
+                InstrumentMethod sendMessageInTransactionMethod = target.getDeclaredMethods("sendMessageInTransaction");
+                sendMessageInTransactionMethod.addInterceptor(Listeners.of(MQProducerSendInterceptor.class));
+
                 //压测代码 end
             }
         });
 
-        this.enhanceTemplate.enhance(this, "org.apache.rocketmq.client.producer.TransactionMQProducer", new EnhanceCallback() {
-            @Override
-            public void doEnhance(InstrumentClass target) {
-                //压测代码
-                InstrumentMethod method = target.getDeclaredMethods("send*");
-                method.addInterceptor(Listeners.of(MQProducerSendInterceptor.class));
-                //压测代码 end
-            }
-        });
+//        this.enhanceTemplate.enhance(this, "org.apache.rocketmq.client.producer.TransactionMQProducer", new EnhanceCallback() {
+//            @Override
+//            public void doEnhance(InstrumentClass target) {
+//                //压测代码
+//                InstrumentMethod method = target.getDeclaredMethods("send*");
+//                method.addInterceptor(Listeners.of(MQProducerSendInterceptor.class));
+//                //压测代码 end
+//            }
+//        });
 
 
         this.enhanceTemplate.enhance(this, "org.apache.rocketmq.client.impl.producer.DefaultMQProducerImpl", new EnhanceCallback() {

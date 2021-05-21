@@ -31,15 +31,6 @@ import java.lang.reflect.Method;
  */
 public class JedisInterceptor extends TraceInterceptorAdaptor {
 
-    private Method getDBMethod;
-
-    public JedisInterceptor() {
-        try {
-            getDBMethod = Client.class.getMethod("getDB");
-        } catch (Throwable e) {
-        }
-    }
-
     @Override
     public String getPluginName() {
         return RedisConstants.PLUGIN_NAME;
@@ -48,15 +39,6 @@ public class JedisInterceptor extends TraceInterceptorAdaptor {
     @Override
     public int getPluginType() {
         return RedisConstants.PLUGIN_TYPE;
-    }
-
-    @Override
-    public void beforeLast(Advice advice) {
-        String methodName = advice.getBehavior().getName();
-        Object target = advice.getTarget();
-        BinaryJedis binaryJedis = (BinaryJedis) target;
-        Client client = binaryJedis.getClient();
-        String endPoint = RedisUtils.remoteIpStr(client.getHost(), client.getPort());
     }
 
     private Object[] toArgs(Object[] args) {
@@ -77,27 +59,6 @@ public class JedisInterceptor extends TraceInterceptorAdaptor {
         return ret;
     }
 
-    /**
-     * 解决版本不兼容问题
-     *
-     * @param client
-     * @return
-     */
-    private Object getDB(Client client) {
-        Object db = null;
-        try {
-            db = client.getDB();
-        } catch (Throwable e) {
-            if (getDBMethod != null) {
-                try {
-                    db = getDBMethod.invoke(client);
-                } catch (Throwable t) {
-                }
-            }
-        }
-        return db;
-    }
-
     @Override
     public SpanRecord beforeTrace(Advice advice) {
         Object[] args = advice.getParameterArray();
@@ -107,8 +68,7 @@ public class JedisInterceptor extends TraceInterceptorAdaptor {
         Client client = binaryJedis.getClient();
         String methodNameExt = RedisUtils.getMethodNameExt(args);
         SpanRecord record = new SpanRecord();
-        Object db = getDB(client);
-        record.setService(db + ":" + methodName);
+        record.setService(methodName);
         record.setMethod(methodNameExt);
         record.setRequestSize(0);
         record.setRemoteIp(client.getHost());

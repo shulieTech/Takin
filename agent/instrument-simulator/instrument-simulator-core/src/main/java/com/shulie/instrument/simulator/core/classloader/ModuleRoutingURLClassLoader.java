@@ -317,22 +317,17 @@ public abstract class ModuleRoutingURLClassLoader extends RoutingURLClassLoader 
             clazz = resolveExportClass(name);
         }
 
-        // 5. findLoadedClass
-        if (clazz == null) {
-            clazz = findLoadedClass(name);
-        }
-
-        // 6. module classpath class
+        // 5. module classpath class
         if (clazz == null) {
             clazz = resolveLocalClass(name);
         }
 
-        // 7. load class from business classloader
+        // 6. load class from business classloader
         if (clazz == null) {
             clazz = resolveBusinessClassLoader(name);
         }
 
-        // 8. load class from super
+        // 7. load class from super
         if (clazz == null) {
             clazz = resolveSystemClass(name, resolve);
         }

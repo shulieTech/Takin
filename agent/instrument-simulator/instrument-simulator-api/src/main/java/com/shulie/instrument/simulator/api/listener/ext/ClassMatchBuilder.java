@@ -75,9 +75,7 @@ class ClassMatchBuilder implements IClassMatchBuilder {
 
     @Override
     public IClassMatchBuilder isIncludeBootstrap(boolean isIncludeBootstrap) {
-        if (isIncludeBootstrap) {
-            includeBootstrap();
-        }
+        this.isIncludeBootstrap = false;
         return this;
     }
 
@@ -129,9 +127,7 @@ class ClassMatchBuilder implements IClassMatchBuilder {
 
     @Override
     public IClassMatchBuilder isIncludeSubClasses(boolean isIncludeSubClasses) {
-        if (isIncludeSubClasses) {
-            includeSubClasses();
-        }
+        this.isIncludeSubClasses = isIncludeSubClasses;
         return this;
     }
 
@@ -317,12 +313,12 @@ class ClassMatchBuilder implements IClassMatchBuilder {
                 }
 
                 if (getHasInterfaceTypes().isNotEmpty()) {
-                    if (!getHasInterfaceTypes().patternHas(classDescriptor.getInterfaceTypeJavaClassNameArray())) {
+                    if (!getHasInterfaceTypes().patternWith(classDescriptor.getInterfaceTypeJavaClassNameArray())) {
                         return false;
                     }
                 }
                 if (getHasAnnotationTypes().isNotEmpty()) {
-                    if (!getHasAnnotationTypes().patternHas(classDescriptor.getAnnotationTypeJavaClassNameArray())) {
+                    if (!getHasAnnotationTypes().patternWith(classDescriptor.getAnnotationTypeJavaClassNameArray())) {
                         return false;
                     }
                 }
@@ -362,12 +358,12 @@ class ClassMatchBuilder implements IClassMatchBuilder {
                     return false;
                 }
                 if (bfBehavior.getHasExceptionTypes().isNotEmpty()) {
-                    if (!bfBehavior.getHasExceptionTypes().patternHas(methodDescriptor.getThrowsTypeJavaClassNameArray())) {
+                    if (!bfBehavior.getHasExceptionTypes().patternWith(methodDescriptor.getThrowsTypeJavaClassNameArray())) {
                         return false;
                     }
                 }
                 if (bfBehavior.getHasAnnotationTypes().isNotEmpty()) {
-                    if (!bfBehavior.getHasAnnotationTypes().patternHas(methodDescriptor.getAnnotationTypeJavaClassNameArray())) {
+                    if (!bfBehavior.getHasAnnotationTypes().patternWith(methodDescriptor.getAnnotationTypeJavaClassNameArray())) {
                         return false;
                     }
                 }

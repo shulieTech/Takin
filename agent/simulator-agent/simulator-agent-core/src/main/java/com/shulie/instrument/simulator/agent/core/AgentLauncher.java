@@ -15,6 +15,7 @@
 package com.shulie.instrument.simulator.agent.core;
 
 import com.alibaba.fastjson.JSON;
+import com.shulie.instrument.simulator.agent.core.classloader.FrameworkClassLoader;
 import com.shulie.instrument.simulator.agent.core.register.AgentStatus;
 import com.shulie.instrument.simulator.agent.core.response.Response;
 import com.shulie.instrument.simulator.agent.core.util.HttpUtils;
@@ -28,6 +29,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.lang.instrument.Instrumentation;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -39,6 +45,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class AgentLauncher {
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final static int START_MODE_ATTACH = 1;
+    private final static int START_MODE_PREMAIN = 2;
 
     /**
      * 目标应用进程的描述,可以是 pid 也可以是进程名称的模糊匹配
@@ -60,8 +68,16 @@ public class AgentLauncher {
      */
     private AtomicBoolean isRunning = new AtomicBoolean(false);
 
-    public AgentLauncher(final AgentConfig agentConfig) {
+    private Instrumentation instrumentation;
+    private ClassLoader parent;
+    private boolean usePremain;
+
+    private int startMode = START_MODE_ATTACH;
+
+    public AgentLauncher(final AgentConfig agentConfig, final Instrumentation instrumentation, final ClassLoader parent) {
         this.agentConfig = agentConfig;
+        this.instrumentation = instrumentation;
+        this.parent = parent;
         if (this.agentConfig.getAttachId() != -1) {
             this.descriptor = String.valueOf(this.agentConfig.getAttachId());
         } else if (this.agentConfig.getAttachName() != null) {
@@ -72,6 +88,7 @@ public class AgentLauncher {
                 this.descriptor = System.getProperty("attach.name");
             }
         }
+        this.usePremain = Boolean.valueOf(System.getProperty("simulator.use.premain"));
     }
 
     /**
@@ -105,32 +122,47 @@ public class AgentLauncher {
         if (logger.isDebugEnabled()) {
             logger.debug("AGENT: prepare to attach agent: descriptor={}, agentJarPath={}, config={}", descriptor, agentJarPath, config);
         }
-        VirtualMachineDescriptor virtualMachineDescriptor = null;
-        String targetJvmPid = descriptor;
-
-        if (isDigits(descriptor)) {
-            for (VirtualMachineDescriptor vmDescriptor : VirtualMachine.list()) {
-                if (vmDescriptor.id().equals(descriptor)) {
-                    virtualMachineDescriptor = vmDescriptor;
-                    break;
-                }
-            }
+        if (usePremain) {
+            startWithPremain(agentJarPath, config);
+            startMode = START_MODE_PREMAIN;
+            logger.info("AGENT: simulator with premain mode start successful.");
+            return;
         }
 
-        if (virtualMachineDescriptor == null) {
-            for (VirtualMachineDescriptor vmDescriptor : VirtualMachine.list()) {
-                if (vmDescriptor.displayName().contains(descriptor)) {
-                    virtualMachineDescriptor = vmDescriptor;
-                    break;
+        try {
+            VirtualMachineDescriptor virtualMachineDescriptor = null;
+            String targetJvmPid = descriptor;
+
+            if (isDigits(descriptor)) {
+                for (VirtualMachineDescriptor vmDescriptor : VirtualMachine.list()) {
+                    if (vmDescriptor.id().equals(descriptor)) {
+                        virtualMachineDescriptor = vmDescriptor;
+                        break;
+                    }
                 }
             }
-        }
 
-        if (virtualMachineDescriptor != null) {
-            // 加载agent
-            attachAgent(virtualMachineDescriptor, targetJvmPid, agentJarPath, config);
-        } else {
-            logger.warn("AGENT: can't found attach target: {}", descriptor);
+            if (virtualMachineDescriptor == null) {
+                for (VirtualMachineDescriptor vmDescriptor : VirtualMachine.list()) {
+                    if (vmDescriptor.displayName().contains(descriptor)) {
+                        virtualMachineDescriptor = vmDescriptor;
+                        break;
+                    }
+                }
+            }
+
+            if (virtualMachineDescriptor != null) {
+                // 加载agent
+                attachAgent(virtualMachineDescriptor, targetJvmPid, agentJarPath, config);
+            } else {
+                logger.warn("AGENT: can't found attach target: {}", descriptor);
+            }
+            startMode = START_MODE_ATTACH;
+            logger.info("AGENT: simulator with attach mode start successful.");
+        } catch (UnsatisfiedLinkError e) {
+            startWithPremain(agentJarPath, config);
+            startMode = START_MODE_PREMAIN;
+            logger.info("AGENT: simulator with premain mode start successful.");
         }
     }
 
@@ -440,6 +472,25 @@ public class AgentLauncher {
             }
         }
 
+    }
+
+    /**
+     * 使用 premain 方式启动
+     *
+     * @param agentJarPath
+     * @param config
+     * @throws MalformedURLException
+     * @throws ClassNotFoundException
+     * @throws NoSuchMethodException
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     */
+    private void startWithPremain(String agentJarPath, String config) throws MalformedURLException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        FrameworkClassLoader classLoader = new FrameworkClassLoader(new URL[]{new File(agentJarPath).toURI().toURL()}, parent);
+        Class classOfAgentLauncher = classLoader.loadClass("com.shulie.instrument.simulator.agent.AgentLauncher");
+        Method premainMethod = classOfAgentLauncher.getDeclaredMethod("premain", String.class, Instrumentation.class);
+        premainMethod.setAccessible(true);
+        premainMethod.invoke(null, config, instrumentation);
     }
 
 }

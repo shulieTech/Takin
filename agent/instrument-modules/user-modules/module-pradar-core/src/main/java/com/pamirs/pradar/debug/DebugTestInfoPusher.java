@@ -63,6 +63,12 @@ public class DebugTestInfoPusher implements Runnable {
         public Thread newThread(Runnable r) {
             Thread t = new Thread(r, "Debug-Info-Push-Service");
             t.setDaemon(true);
+            t.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+                @Override
+                public void uncaughtException(Thread t, Throwable e) {
+                    logger.error("Thread {} caught a unknow exception with UncaughtExceptionHandler", t.getName(), e);
+                }
+            });
             return t;
         }
     });

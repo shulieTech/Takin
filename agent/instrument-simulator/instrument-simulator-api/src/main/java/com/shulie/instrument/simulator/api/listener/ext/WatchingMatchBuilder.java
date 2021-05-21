@@ -130,12 +130,12 @@ class WatchingMatchBuilder implements IWatchingMatchBuilder {
                 }
 
                 if (bfClass.getHasInterfaceTypes().isNotEmpty()) {
-                    if (!bfClass.getHasInterfaceTypes().patternHas(classDescriptor.getInterfaceTypeJavaClassNameArray())) {
+                    if (!bfClass.getHasInterfaceTypes().patternWith(classDescriptor.getInterfaceTypeJavaClassNameArray())) {
                         return false;
                     }
                 }
                 if (bfClass.getHasAnnotationTypes().isNotEmpty()) {
-                    if (!bfClass.getHasAnnotationTypes().patternHas(classDescriptor.getAnnotationTypeJavaClassNameArray())) {
+                    if (!bfClass.getHasAnnotationTypes().patternWith(classDescriptor.getAnnotationTypeJavaClassNameArray())) {
                         return false;
                     }
                 }
@@ -173,12 +173,12 @@ class WatchingMatchBuilder implements IWatchingMatchBuilder {
                     return true;
                 }
                 if (bfBehavior.getHasExceptionTypes().isNotEmpty()) {
-                    if (!bfBehavior.getHasExceptionTypes().patternHas(methodDescriptor.getThrowsTypeJavaClassNameArray())) {
+                    if (!bfBehavior.getHasExceptionTypes().patternWith(methodDescriptor.getThrowsTypeJavaClassNameArray())) {
                         return true;
                     }
                 }
                 if (bfBehavior.getHasAnnotationTypes().isNotEmpty()) {
-                    if (!bfBehavior.getHasAnnotationTypes().patternHas(methodDescriptor.getAnnotationTypeJavaClassNameArray())) {
+                    if (!bfBehavior.getHasAnnotationTypes().patternWith(methodDescriptor.getAnnotationTypeJavaClassNameArray())) {
                         return true;
                     }
                 }

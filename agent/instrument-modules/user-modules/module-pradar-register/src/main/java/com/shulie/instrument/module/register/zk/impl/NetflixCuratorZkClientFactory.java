@@ -69,6 +69,12 @@ public class NetflixCuratorZkClientFactory {
                         public Thread newThread(Runnable r) {
                             Thread t = new Thread(r, spec.getThreadName());
                             t.setDaemon(true);
+                            t.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+                                @Override
+                                public void uncaughtException(Thread t, Throwable e) {
+                                    logger.error("Thread {} caught a unknow exception with UncaughtExceptionHandler", t.getName(), e);
+                                }
+                            });
                             return t;
                         }
                     })

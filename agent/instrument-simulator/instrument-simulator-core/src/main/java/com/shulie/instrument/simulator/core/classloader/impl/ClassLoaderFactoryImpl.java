@@ -62,19 +62,6 @@ public class ClassLoaderFactoryImpl implements ClassLoaderFactory {
         this.classLoaderCache = new ConcurrentHashMap<Integer, ModuleClassLoader>();
         this.checksumCRC32 = FileUtils.checksumCRC32(moduleJarFile);
         this.defaultClassLoader = new ModuleClassLoader(classLoaderService, moduleJarFile, moduleId);
-        prepareModule(this.defaultClassLoader, this.config.getInstrumentation());
-    }
-
-    private void prepareModule(ClassLoader classLoader, Instrumentation inst) {
-        JvmVersion jvmVersion = JvmUtils.getVersion();
-        if (!jvmVersion.onOrAfter(JvmVersion.JAVA_9)) {
-            return;
-        }
-        try {
-            Reflect.on("com.shulie.instrument.simulator.compatible.jdk9.module.ModuleSupport").call("prepareModule", classLoader, inst);
-        } catch (ReflectException e) {
-            logger.error("SIMULATOR: jdk9 or later ModuleSupport init error! ", e);
-        }
     }
 
     @Override
@@ -102,8 +89,6 @@ public class ClassLoaderFactoryImpl implements ClassLoaderFactory {
             if (oldModuleClassLoader != null) {
                 moduleClassLoader.closeIfPossible();
                 moduleClassLoader = oldModuleClassLoader;
-            } else {
-                prepareModule(moduleClassLoader, config.getInstrumentation());
             }
             return moduleClassLoader;
         } catch (IOException e) {

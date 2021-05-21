@@ -15,7 +15,6 @@
 package com.pamirs.pradar.pressurement.datasource.util;
 
 import com.pamirs.pradar.PradarCoreUtils;
-import com.shulie.instrument.simulator.api.util.StringUtil;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -381,7 +380,7 @@ public enum DbType {
 
     public boolean isThis(String url) {
         for (String prefix : prefixs) {
-            if (StringUtil.startsWith(url, prefix)) {
+            if (StringUtils.startsWith(url, prefix)) {
                 return true;
             }
         }
@@ -402,7 +401,7 @@ public enum DbType {
 
     public String getSimpleURL(String url) {
         for (String prefix : prefixs) {
-            if (StringUtil.startsWith(url, prefix)) {
+            if (StringUtils.startsWith(url, prefix)) {
                 url = url.substring(prefix.length());
             }
         }

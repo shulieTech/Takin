@@ -22,7 +22,6 @@ import com.shulie.instrument.simulator.api.listener.ext.WatchCallback;
 import com.shulie.instrument.simulator.api.resource.DumpResult;
 import com.shulie.instrument.simulator.api.resource.ModuleEventWatcher;
 import com.shulie.instrument.simulator.api.util.Sequencer;
-import com.shulie.instrument.simulator.compatible.transformer.SimulatorClassFileTransformer;
 import com.shulie.instrument.simulator.core.CoreModule;
 import com.shulie.instrument.simulator.core.enhance.weaver.EventListenerHandler;
 import com.shulie.instrument.simulator.core.manager.CoreLoadedClassDataSource;
@@ -30,6 +29,11 @@ import com.shulie.instrument.simulator.core.util.matcher.ExtFilterMatcher;
 import com.shulie.instrument.simulator.core.util.matcher.GroupMatcher;
 import com.shulie.instrument.simulator.core.util.matcher.Matcher;
 import org.apache.commons.collections.CollectionUtils;
+
+import com.shulie.instrument.simulator.core.manager.AffectStatistic;
+import com.shulie.instrument.simulator.core.manager.BytecodeDumpService;
+import com.shulie.instrument.simulator.core.manager.SimulatorClassFileTransformer;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

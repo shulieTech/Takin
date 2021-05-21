@@ -95,6 +95,11 @@ public class SpanRecord implements Serializable {
      */
     private boolean clusterTest;
 
+    /**
+     * 上下文注入器
+     */
+    private ContextInject contextInject;
+
     public boolean isClusterTest() {
         return clusterTest;
     }
@@ -219,5 +224,13 @@ public class SpanRecord implements Serializable {
     @Deprecated
     public void setResult(Object result) {
         this.result = result;
+    }
+
+    public ContextInject getContextInject() {
+        return contextInject;
+    }
+
+    public void setContextInject(ContextInject contextInject) {
+        this.contextInject = contextInject;
     }
 }

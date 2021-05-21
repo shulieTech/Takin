@@ -9,7 +9,7 @@
         <version>1.0.1</version>
     </parent>
     <artifactId>instrument-simulator-core</artifactId>
-    <name>instrument-simulator-core ${simulator.version}</name>
+    <name>instrument-simulator-core ${simulator.major.version}.${simulator.minor.version}</name>
 
     <profiles>
         <profile>
@@ -51,6 +51,7 @@
             </build>
             <properties>
                 <jdk.version>1.9</jdk.version>
+                <!--suppress UnresolvedMavenProperty -->
                 <jdk.home>${env.JAVA_9_HOME}</jdk.home>
             </properties>
         </profile>
@@ -149,7 +150,7 @@
         </dependency>
         <dependency>
             <groupId>com.shulie.instrument.simulator</groupId>
-            <artifactId>instrument-simulator-jdk9-module</artifactId>
+            <artifactId>instrument-simulator-jdk-impl</artifactId>
         </dependency>
 
         <dependency>
