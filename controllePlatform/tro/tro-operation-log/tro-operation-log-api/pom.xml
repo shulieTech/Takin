@@ -5,10 +5,10 @@
     <parent>
         <artifactId>tro-operation-log</artifactId>
         <groupId>io.shulie.tro</groupId>
-        <version>1.4.15</version>
+        <version>1.15.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <version>1.4.15</version>
+    <version>1.15.0</version>
     <artifactId>tro-operation-log-api</artifactId>
 
     <dependencies>
