@@ -263,16 +263,6 @@
 
         </dependencies>
     </dependencyManagement>
-    <distributionManagement>
-        <repository>
-            <id>releases</id>
-            <url>http://114.55.142.190:8081/content/repositories/releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <url>http://114.55.142.190:8081/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
     <build>
         <plugins>
             <!-- 设置编译版本为1.8 -->
