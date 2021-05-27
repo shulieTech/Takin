@@ -19,7 +19,7 @@
     <parent>
         <groupId>io.shulie.tro</groupId>
         <artifactId>tro-cloud</artifactId>
-        <version>release-opensource-1.0.0-SNAPSHOT</version>
+        <version>release-opensource-1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>tro-cloud-app</artifactId>
