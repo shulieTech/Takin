@@ -100,4 +100,72 @@ micro.type: localThread
 ## 压测包工作jvm
 pressure.engine.memSetting: -Xmx512m -Xms512m -Xss256K -XX:MaxMetaspaceSize=256m
 ```
+### nginx配置 
+- 安装nginx  [nginx安装部署-1.19.0](nginx-1.19.0.tar.gz)
 
+- nginx配置  nginx.conf
+```
+user root;
+worker_processes auto;
+error_log /var/log/nginx/error.log;
+pid /run/nginx.pid;
+
+include /usr/share/nginx/modules/*.conf;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    access_log  /var/log/nginx/access.log;
+    proxy_read_timeout 240s;
+    sendfile            on;
+    tcp_nopush          on;
+    tcp_nodelay         on;
+    keepalive_timeout   65;
+    types_hash_max_size 2048;
+ 
+    include             /usr/local/nginx/conf/mime.types;
+    default_type        application/octet-stream;
+
+    gzip on;
+    gzip_comp_level 3;
+    gzip_buffers 320 320k;
+    gzip_min_length 40960;
+    gzip_types text/plain text/style application/javascript application/x-javascript text/javascript text/css application/json;
+
+    server {
+        listen       80;
+        server_name  localhost;
+
+        client_max_body_size 200M;
+
+        #前端访问配置
+        location / {
+            root   /data/apps/dist;
+            index  index.html index.htm;
+        }
+
+        #web后端
+        location /tro-web {
+            proxy_pass http://127.0.0.1:10008/tro-web;
+        }
+
+        #cloud后端
+        location /tro-cloud {
+            proxy_pass http://127.0.0.1:10010/tro-cloud;
+        }
+
+        ##白名单
+        location /tro-web/api/confcenter/wbmnt/query{
+            add_header Cache-Control no-store;
+            root /opt/tro/conf;
+        }
+
+        error_page 500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+    }
+}
+```
