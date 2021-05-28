@@ -62,6 +62,7 @@
         <swagger.ui.version>1.9.6</swagger.ui.version>
         <swagger.version>1.5.22</swagger.version>
         <command.channel>1.1.2</command.channel>
+        <hutool.version>5.5.9</hutool.version>
     </properties>
 
     <modules>
@@ -75,7 +76,6 @@
 
     <dependencyManagement>
         <dependencies>
-
             <dependency>
                 <groupId>io.shulie.tro</groupId>
                 <artifactId>tro-command-channel</artifactId>
@@ -97,18 +97,51 @@
             </dependency>
             <dependency>
                 <groupId>io.shulie.tro</groupId>
-                <artifactId>tro-cloud-bom</artifactId>
-                <version>${tro.cloud.version}</version>
-                <scope>import</scope>
-                <type>pom</type>
+                <artifactId>tro-beans</artifactId>
+                <version>${tro.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-exception-starter</artifactId>
+                <version>${tro.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.shulie.tro</groupId>
-                <artifactId>tro-bom</artifactId>
+                <artifactId>tro-utils</artifactId>
                 <version>${tro.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-constants</artifactId>
+                <version>${tro.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-operation-log-api</artifactId>
+                <version>${tro.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-definition</artifactId>
+                <version>${tro.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-cloud-open-api</artifactId>
+                <version>${tro.cloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-cloud-open-client-starter</artifactId>
+                <version>${tro.cloud.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
