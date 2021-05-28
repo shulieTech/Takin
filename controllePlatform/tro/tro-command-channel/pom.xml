@@ -5,11 +5,11 @@
     <parent>
         <artifactId>tro</artifactId>
         <groupId>io.shulie.tro</groupId>
-        <version>1.15.0</version>
+        <version>1.15.1</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <version>1.15.0</version>
+    <version>1.15.1</version>
     <artifactId>tro-command-channel</artifactId>
     <packaging>jar</packaging>
     <properties>
