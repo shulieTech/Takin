@@ -81,5 +81,8 @@ QR code（群二维码）：<br/>
 WeChat Official Account（微信公众号）：<br/>
 <img src="https://raw.githubusercontent.com/shulieTech/Images/main/shulie.png" width="30%" height="30%">
 
+## Ask Questions in Official Forum
+[Official Forum](https://news.shulie.io/?page_id=2477)
+
 # License
 DaYuX is under the Apache 2.0 license. See the [LICENSE](https://github.com/shulieTech/DaYuX/blob/main/LICENSE?_blank) file for details.
