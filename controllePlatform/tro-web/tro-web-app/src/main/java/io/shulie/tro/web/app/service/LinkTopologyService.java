@@ -22,7 +22,6 @@ import com.alibaba.fastjson.JSON;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.pamirs.pradar.MiddlewareType;
 import com.pamirs.tro.common.util.MD5Util;
 import io.shulie.amdb.common.dto.link.topology.LinkEdgeDTO;
 import io.shulie.amdb.common.dto.link.topology.LinkNodeDTO;
@@ -748,56 +747,56 @@ public class LinkTopologyService extends CommonService {
     }
 
     private String convertEdgeInfo(LinkEdgeDTO edge, Map<String, LinkNodeDTO> nodeMap) {
-        //if (EdgeTypeGroupEnum.HTTP.name().equals(edge.getEagleTypeGroup())) {
-        if ((MiddlewareType.TYPE_WEB_SERVER + "").equals(edge.getRpcType())) {
-            return "请求方式：" + edge.getMethod() + "，请求路径：" + edge.getService();
-        }
-        //if (EdgeTypeGroupEnum.DUBBO.name().equals(edge.getEagleTypeGroup())) {
-        if ((MiddlewareType.TYPE_RPC + "").equals(edge.getRpcType())) {
-            return "类：" + edge.getService() + "，方法(参数）：" + edge.getMethod();
-        }
-        //if (EdgeTypeGroupEnum.DB.name().equals(edge.getEagleTypeGroup())) {
-        if ((MiddlewareType.TYPE_DB + "").equals(edge.getRpcType())) {
-            return "数据库：" + edge.getService() + ", 表名: " + edge.getMethod();
-        }
-        //if (EdgeTypeGroupEnum.MQ.name().equals(edge.getEagleTypeGroup())) {
-        if ((MiddlewareType.TYPE_MQ + "").equals(edge.getRpcType())) {
-            // 消费者
-            if (nodeMap.get(edge.getSourceId()).getNodeTypeGroup().equals(NodeTypeGroupEnum.MQ.getType())) {
-                return "Topic：" + edge.getService() + "，Group：" + edge.getMethod();
-            } else {
-                return "Topic：" + edge.getService();
-            }
-        }
-        //if (EdgeTypeGroupEnum.OSS.name().equals(edge.getEagleTypeGroup())) {
-        if ((MiddlewareType.TYPE_FS + "").equals(edge.getRpcType())) {
-            return "URL：" + edge.getService();
-        }
-        //if (EdgeTypeGroupEnum.CACHE.name().equals(edge.getEagleTypeGroup())) {
-        if ((MiddlewareType.TYPE_CACHE + "").equals(edge.getRpcType())) {
-            String db;
-            String op;
-            if (edge.getService().contains(":")) {
-                String[] split = edge.getService().split(":");
-                db = split[0];
-                op = split[1];
-            } else {
-                db = edge.getService();
-                op = edge.getMethod();
-            }
-            List<String> msg = new ArrayList<>();
-            if (StringUtils.isNotBlank(db)) {
-                msg.add("DB：" + db);
-            }
-            if (StringUtils.isNotBlank(op)) {
-                msg.add("操作方式：" + op);
-            }
-            return StringUtils.join(msg, "，");
-        }
-        //if (EdgeTypeGroupEnum.JOB.name().equals(edge.getEagleTypeGroup())) {
-        if ((MiddlewareType.TYPE_JOB + "").equals(edge.getRpcType())) {
-            return "类：" + edge.getService() + "，方法：" + edge.getMethod();
-        }
+        ////if (EdgeTypeGroupEnum.HTTP.name().equals(edge.getEagleTypeGroup())) {
+        //if ((MiddlewareType.TYPE_WEB_SERVER + "").equals(edge.getRpcType())) {
+        //    return "请求方式：" + edge.getMethod() + "，请求路径：" + edge.getService();
+        //}
+        ////if (EdgeTypeGroupEnum.DUBBO.name().equals(edge.getEagleTypeGroup())) {
+        //if ((MiddlewareType.TYPE_RPC + "").equals(edge.getRpcType())) {
+        //    return "类：" + edge.getService() + "，方法(参数）：" + edge.getMethod();
+        //}
+        ////if (EdgeTypeGroupEnum.DB.name().equals(edge.getEagleTypeGroup())) {
+        //if ((MiddlewareType.TYPE_DB + "").equals(edge.getRpcType())) {
+        //    return "数据库：" + edge.getService() + ", 表名: " + edge.getMethod();
+        //}
+        ////if (EdgeTypeGroupEnum.MQ.name().equals(edge.getEagleTypeGroup())) {
+        //if ((MiddlewareType.TYPE_MQ + "").equals(edge.getRpcType())) {
+        //    // 消费者
+        //    if (nodeMap.get(edge.getSourceId()).getNodeTypeGroup().equals(NodeTypeGroupEnum.MQ.getType())) {
+        //        return "Topic：" + edge.getService() + "，Group：" + edge.getMethod();
+        //    } else {
+        //        return "Topic：" + edge.getService();
+        //    }
+        //}
+        ////if (EdgeTypeGroupEnum.OSS.name().equals(edge.getEagleTypeGroup())) {
+        //if ((MiddlewareType.TYPE_FS + "").equals(edge.getRpcType())) {
+        //    return "URL：" + edge.getService();
+        //}
+        ////if (EdgeTypeGroupEnum.CACHE.name().equals(edge.getEagleTypeGroup())) {
+        //if ((MiddlewareType.TYPE_CACHE + "").equals(edge.getRpcType())) {
+        //    String db;
+        //    String op;
+        //    if (edge.getService().contains(":")) {
+        //        String[] split = edge.getService().split(":");
+        //        db = split[0];
+        //        op = split[1];
+        //    } else {
+        //        db = edge.getService();
+        //        op = edge.getMethod();
+        //    }
+        //    List<String> msg = new ArrayList<>();
+        //    if (StringUtils.isNotBlank(db)) {
+        //        msg.add("DB：" + db);
+        //    }
+        //    if (StringUtils.isNotBlank(op)) {
+        //        msg.add("操作方式：" + op);
+        //    }
+        //    return StringUtils.join(msg, "，");
+        //}
+        ////if (EdgeTypeGroupEnum.JOB.name().equals(edge.getEagleTypeGroup())) {
+        //if ((MiddlewareType.TYPE_JOB + "").equals(edge.getRpcType())) {
+        //    return "类：" + edge.getService() + "，方法：" + edge.getMethod();
+        //}
         return "";
     }
 

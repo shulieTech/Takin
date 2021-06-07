@@ -32,7 +32,6 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.pamirs.pradar.ResultCode;
 import com.pamirs.pradar.log.parser.trace.RpcEntry;
 import com.pamirs.pradar.log.parser.trace.RpcStack;
 import com.pamirs.tro.entity.dao.linkmanage.TBusinessLinkManageTableMapper;
@@ -194,7 +193,7 @@ public class ReportRealTimeServiceImpl implements ReportRealTimeService {
                 reportTraceDetailDTO.setOffsetStartTime(startTime + offset);
             }
             reportTraceDetailDTO.setParams(buildParams(rpcEntry));
-            reportTraceDetailDTO.setSucceeded(ResultCode.isOk(rpcEntry.getResultCode()));
+           //reportTraceDetailDTO.setSucceeded(ResultCode.isOk(rpcEntry.getResultCode()));
             reportTraceDetailDTO.setRpcId(rpcEntry.getRpcId());
             reportTraceDetailDTO.setAgentId(rpcEntry.getClientAgentId());
             reportTraceDetailDTO.setEntryHostIp(rpcEntry.getClientIp());
@@ -291,7 +290,7 @@ public class ReportRealTimeServiceImpl implements ReportRealTimeService {
             ReportTraceDTO traceDTO = new ReportTraceDTO();
             traceDTO.setInterfaceName(traceInfo.getEntry());
             traceDTO.setApplicationName(buildAppName(traceInfo));
-            traceDTO.setSucceeded(ResultCode.isOk(traceInfo.getStatus()));
+            //traceDTO.setSucceeded(ResultCode.isOk(traceInfo.getStatus()));
             traceDTO.setTotalRt(traceInfo.getProcessTime());
             traceDTO.setStartTime(new Date(traceInfo.getStartTime()));
             traceDTO.setTraceId(traceInfo.getTraceId());

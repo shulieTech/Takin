@@ -273,11 +273,11 @@
                 <artifactId>log-protocol</artifactId>
                 <version>${pardar.log.protocol.version}</version>
             </dependency>
-            <dependency>
-                <groupId>io.shulie.pradar</groupId>
-                <artifactId>pradar-core</artifactId>
-                <version>${pradar.core.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>io.shulie.pradar</groupId>-->
+<!--                <artifactId>pradar-core</artifactId>-->
+<!--                <version>${pradar.core.version}</version>-->
+<!--            </dependency>-->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-spring-boot-starter</artifactId>

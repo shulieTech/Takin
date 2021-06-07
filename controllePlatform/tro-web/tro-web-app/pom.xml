@@ -171,10 +171,10 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>io.shulie.pradar</groupId>
-            <artifactId>pradar-core</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>io.shulie.pradar</groupId>-->
+<!--            <artifactId>pradar-core</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
