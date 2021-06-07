@@ -35,7 +35,7 @@
         <tro.web.version>release-opensource-1.0.0-SNAPSHOT</tro.web.version>
         <tro.cloud.version>release-opensource-1.0.0</tro.cloud.version>
         <tro.version>1.4.15</tro.version>
-        <pardar.log.protocol.version>1.0.6</pardar.log.protocol.version>
+        <pardar.log.protocol.version>2.0.0</pardar.log.protocol.version>
         <pradar.core.version>1.0.2-SNAPSHOT</pradar.core.version>
         <!-- 3rd libs version -->
         <springfox.version>2.8.0</springfox.version>
@@ -269,12 +269,12 @@
             </dependency>
             <!-- pardar相关的 -->
             <dependency>
-                <groupId>com.pamirs.pradar</groupId>
+                <groupId>io.shulie.pradar</groupId>
                 <artifactId>log-protocol</artifactId>
                 <version>${pardar.log.protocol.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.pamirs.pradar</groupId>
+                <groupId>io.shulie.pradar</groupId>
                 <artifactId>pradar-core</artifactId>
                 <version>${pradar.core.version}</version>
             </dependency>

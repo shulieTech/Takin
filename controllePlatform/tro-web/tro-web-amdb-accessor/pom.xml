@@ -68,7 +68,7 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.pamirs.pradar</groupId>
+            <groupId>io.shulie.pradar</groupId>
             <artifactId>log-protocol</artifactId>
         </dependency>
         <dependency>
