@@ -22,8 +22,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.Sets;
-import com.pamirs.pradar.ext.commons.lang3.RandomStringUtils;
-import com.pamirs.pradar.ext.commons.lang3.StringUtils;
 import com.pamirs.tro.entity.domain.entity.auth.Dept;
 import com.pamirs.tro.entity.domain.entity.auth.TreeConvertUtil;
 import io.shulie.tro.web.app.exception.ExceptionCode;
@@ -45,6 +43,8 @@ import io.shulie.tro.web.data.result.user.DeptQueryResult;
 import io.shulie.tro.web.data.result.user.UserDeptConditionResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

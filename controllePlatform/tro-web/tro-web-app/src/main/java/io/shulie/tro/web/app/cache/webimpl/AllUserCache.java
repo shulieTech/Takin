@@ -24,12 +24,12 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 
 import com.google.common.collect.Lists;
-import com.pamirs.pradar.ext.commons.lang3.StringUtils;
 import io.shulie.tro.web.data.dao.user.TroUserDAO;
 import io.shulie.tro.web.data.result.user.UserCacheResult;
 import io.shulie.tro.web.data.result.user.UserDetailResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;

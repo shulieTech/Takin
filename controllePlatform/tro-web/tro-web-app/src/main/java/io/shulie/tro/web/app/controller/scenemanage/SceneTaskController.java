@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 import com.alibaba.fastjson.JSON;
 
-import com.pamirs.pradar.ext.common.collect.Lists;
+import com.google.common.collect.Lists;
 import com.pamirs.tro.common.constant.Constants;
 import com.pamirs.tro.common.constant.VerifyTypeEnum;
 import com.pamirs.tro.common.exception.ApiException;

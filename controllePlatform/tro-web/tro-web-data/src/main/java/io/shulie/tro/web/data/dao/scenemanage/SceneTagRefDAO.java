@@ -17,7 +17,6 @@ package io.shulie.tro.web.data.dao.scenemanage;
 
 import java.util.List;
 
-import com.sun.jna.platform.win32.WinDef.LONG;
 import io.shulie.tro.web.data.param.sceneManage.SceneTagRefInsertParam;
 import io.shulie.tro.web.data.param.sceneManage.SceneTagRefQueryParam;
 import io.shulie.tro.web.data.result.scenemanage.SceneTagRefResult;
