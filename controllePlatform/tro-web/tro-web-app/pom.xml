@@ -162,7 +162,7 @@
 
         <!-- agent 依赖 -->
         <dependency>
-            <groupId>com.pamirs.pradar</groupId>
+            <groupId>io.shulie.pradar</groupId>
             <artifactId>log-protocol</artifactId>
             <exclusions>
                 <exclusion>
@@ -172,7 +172,7 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.pamirs.pradar</groupId>
+            <groupId>io.shulie.pradar</groupId>
             <artifactId>pradar-core</artifactId>
         </dependency>
         <dependency>
