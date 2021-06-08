@@ -52,6 +52,7 @@ import io.shulie.tro.web.common.constant.RemoteConstant;
 import io.shulie.tro.web.common.domain.PradarWebRequest;
 import io.shulie.tro.web.common.domain.WebResponse;
 import io.shulie.tro.web.common.http.HttpWebClient;
+import io.shulie.tro.web.common.util.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -193,7 +194,7 @@ public class ReportRealTimeServiceImpl implements ReportRealTimeService {
                 reportTraceDetailDTO.setOffsetStartTime(startTime + offset);
             }
             reportTraceDetailDTO.setParams(buildParams(rpcEntry));
-           //reportTraceDetailDTO.setSucceeded(ResultCode.isOk(rpcEntry.getResultCode()));
+            reportTraceDetailDTO.setSucceeded(ResultCode.isOk(rpcEntry.getResultCode()));
             reportTraceDetailDTO.setRpcId(rpcEntry.getRpcId());
             reportTraceDetailDTO.setAgentId(rpcEntry.getClientAgentId());
             reportTraceDetailDTO.setEntryHostIp(rpcEntry.getClientIp());
