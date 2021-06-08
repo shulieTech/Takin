@@ -4,17 +4,17 @@ troweb.path: ~/data/apps/tro-web
 resource:
   ## mysql
   mysql:
-    host: 192.168.1.221
-    port: 3306
+    host: 192.168.1.174
+    port: 30582
     username: root
     password: shulie@2020
-## redis配置
+  ## redis配置
   ## redis
   redis:
-    host: 192.168.1.221
-    port: 6379
+    host: 192.168.1.174
+    port: 30119
     password: pamirs@2020
-## influxdb配置
+  ## influxdb配置
   ## influxdb
   influxdb:
     url: http://192.168.1.207:32709

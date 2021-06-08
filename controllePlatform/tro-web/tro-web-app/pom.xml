@@ -171,10 +171,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>io.shulie.pradar</groupId>-->
-<!--            <artifactId>pradar-core</artifactId>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
@@ -225,78 +221,22 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.shulie.tro</groupId>
+            <artifactId>tro-web-diff-cloud</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.shulie.tro</groupId>
+            <artifactId>tro-web-auth-default</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.shulie.tro</groupId>
+            <artifactId>tro-web-config-sync-zk-impl</artifactId>
+        </dependency>
     </dependencies>
 
-    <profiles>
-        <!-- 通用的私有化部署 -->
-        <profile>
-            <id>standard-private</id>
-            <properties>
-                <profile.active>standard-private</profile.active>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>io.shulie.tro</groupId>
-                    <artifactId>tro-web-diff-privatize</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>io.shulie.tro</groupId>
-                    <artifactId>tro-web-auth-default</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>io.shulie.tro</groupId>
-                    <artifactId>tro-web-config-sync-zk-impl</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
-        <!-- 通用的公有化部署 -->
-        <profile>
-            <id>standard-public</id>
-            <properties>
-                <profile.active>standard-public</profile.active>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>io.shulie.tro</groupId>
-                    <artifactId>tro-web-diff-cloud</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>io.shulie.tro</groupId>
-                    <artifactId>tro-web-auth-default</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>io.shulie.tro</groupId>
-                    <artifactId>tro-web-config-sync-zk-impl</artifactId>
-                </dependency>
-            </dependencies>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-        </profile>
-        <!-- 韵达私有化部署 -->
-        <profile>
-            <id>yunda-private</id>
-            <properties>
-                <profile.active>yunda-private</profile.active>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>io.shulie.tro</groupId>
-                    <artifactId>tro-web-diff-cloud</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>io.shulie.tro</groupId>
-                    <artifactId>tro-web-auth-yunda</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>io.shulie.tro</groupId>
-                    <artifactId>tro-web-config-sync-zk-impl</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
     <build>
-        <finalName>tro-web_${profile.active}_${project.version}</finalName>
+<!--        <finalName>tro-web_${profile.active}_${project.version}</finalName>-->
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
