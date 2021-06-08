@@ -18,6 +18,8 @@ import React from 'react';
 import DetailTabs from 'src/common/detail-tabs';
 import BasicInfo from './BasicInfo';
 import BlackList from './BlackList';
+import DbAndTable from './DbAndTable';
+import ExitJob from './ExitJob';
 import NodeManageList from './NodeManageList';
 import WhiteList from './WhiteList';
 
@@ -36,7 +38,28 @@ const AppDetailTabs: React.FC<Props> = props => {
       title: '基础信息',
       tabNode: <BasicInfo detailData={detailData} />
     },
-
+    {
+      title: '影子库/表',
+      tabNode: (
+        <DbAndTable
+          id={id}
+          detailData={detailData}
+          detailState={detailState}
+          action={action}
+        />
+      )
+    },
+    {
+      title: '出口挡板',
+      tabNode: (
+        <ExitJob
+          id={id}
+          detailData={detailData}
+          detailState={detailState}
+          action={action}
+        />
+      )
+    },
     {
       title: '白名单',
       tabNode: (
