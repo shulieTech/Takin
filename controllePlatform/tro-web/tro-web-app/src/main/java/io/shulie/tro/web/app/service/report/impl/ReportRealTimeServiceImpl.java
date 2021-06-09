@@ -291,7 +291,7 @@ public class ReportRealTimeServiceImpl implements ReportRealTimeService {
             ReportTraceDTO traceDTO = new ReportTraceDTO();
             traceDTO.setInterfaceName(traceInfo.getEntry());
             traceDTO.setApplicationName(buildAppName(traceInfo));
-            //traceDTO.setSucceeded(ResultCode.isOk(traceInfo.getStatus()));
+            traceDTO.setSucceeded(ResultCode.isOk(traceInfo.getStatus()));
             traceDTO.setTotalRt(traceInfo.getProcessTime());
             traceDTO.setStartTime(new Date(traceInfo.getStartTime()));
             traceDTO.setTraceId(traceInfo.getTraceId());
