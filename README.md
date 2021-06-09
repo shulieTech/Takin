@@ -57,7 +57,7 @@ see [Quick Start](https://github.com/shulieTech/DaYuX/blob/main/controllePlatfor
 
 # Instruction（使用说明）
 #### DaYuX Architecture（大鱼叉系统架构）
-<img src="https://raw.githubusercontent.com/shulieTech/Images/main/DaYuX_Architecture.png" width="70%" height="70%"><br/>
+<img src="https://raw.githubusercontent.com/shulieTech/Images/main/DaYuX_Architecture2.png" width="70%" height="70%"><br/>
 DaYuX consists of Agent, Controlle Platform and Surge Data. 
 
 ## Agent
