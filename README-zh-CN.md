@@ -30,11 +30,11 @@ see [Quick Start](https://github.com/shulieTech/ArchGuadian/blob/main/controlleP
 # 使用说明
 #### 架构守护者结构
 <img src="https://raw.githubusercontent.com/shulieTech/Images/main/DaYuX_Architecture2.png" width="70%" height="70%"><br/>
-架构守护者 由 代理、 控制平台 与 脉冲数据构成. 
+架构守护者由代理、控制平台与脉冲数据构成。
 
 - [使用说明]()
 
-## 代理
+## 探针
 详见 [Agent](https://github.com/shulieTech/AgentX)
 
 ## 脉冲数据
