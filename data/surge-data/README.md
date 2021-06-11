@@ -1,6 +1,6 @@
 # data
 
-DaYuX的实时数据处理
+ArchGuadian的实时数据处理和存储模块
 
 使用guice管理依赖注入，主要为实时接收agent推送的数据
 ## 模块说明
