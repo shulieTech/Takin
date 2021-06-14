@@ -2,6 +2,8 @@
 [![LICENSE](https://img.shields.io/github/license/pingcap/tidb.svg)](https://github.com/pingcap/tidb/blob/master/LICENSE)
 [![Language](https://img.shields.io/badge/Language-Java-blue.svg)](https://www.java.com/)
 
+English / [中文](README_CN.md)
+
 ## What is ArchGuadian?
 ArchGuadian is an Java-based, open-source system designed to measure online environmental performance test for full-links, Especially for microservices. Through ArchGuadian, middlewares and applications can identify real online traffic and test traffic, ensure that they enter the right databases.
 
