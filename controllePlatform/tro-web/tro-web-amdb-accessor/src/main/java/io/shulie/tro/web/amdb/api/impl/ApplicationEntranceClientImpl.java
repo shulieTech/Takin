@@ -78,7 +78,7 @@ public class ApplicationEntranceClientImpl implements ApplicationEntranceClient 
                 break;
         }
         entranceQueryParam.setAppName(applicationName);
-        entranceQueryParam.setFieldNames("appName,serviceName,methodName,middlewareName,rpcType");
+        //entranceQueryParam.setFieldNames("appName,serviceName,methodName,middlewareName,rpcType");
         try {
             String responseEntity = HttpClientUtil.sendGet(url, entranceQueryParam);
             if (StringUtils.isBlank(responseEntity)) {
@@ -191,7 +191,7 @@ public class ApplicationEntranceClientImpl implements ApplicationEntranceClient 
         ServiceQueryParam entranceQueryParam = new ServiceQueryParam();
         entranceQueryParam.setRpcType(RpcType.TYPE_MQ + "");
         entranceQueryParam.setAppName(applicationName);
-        entranceQueryParam.setFieldNames("appName,serviceName,methodName,middlewareName,rpcType");
+        //entranceQueryParam.setFieldNames("appName,serviceName,methodName,middlewareName,rpcType");
         try {
             String responseEntity = HttpClientUtil.sendGet(url, entranceQueryParam);
             if (StringUtils.isBlank(responseEntity)) {
