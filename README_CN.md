@@ -32,7 +32,7 @@ see [Quick Start](https://github.com/shulieTech/ArchGuadian/blob/main/controlleP
 <img src="https://raw.githubusercontent.com/shulieTech/Images/main/DaYuX_Architecture2.png" width="70%" height="70%"><br/>
 架构守护者由代理、控制平台与脉冲数据构成。
 
-- [使用说明]()
+- [使用说明](https://news.shulie.io/?p=2987)
 
 ## 探针
 详见 [Agent](https://github.com/shulieTech/AgentX)
