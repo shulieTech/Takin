@@ -33,7 +33,7 @@
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <!-- biz version -->
         <tro.web.version>release-opensource-1.0.0-SNAPSHOT</tro.web.version>
-        <tro.cloud.version>release-opensource-1.0.0</tro.cloud.version>
+        <tro.cloud.version>release-opensource-1.0.0-SNAPSHOT</tro.cloud.version>
         <tro.version>1.4.15</tro.version>
         <pardar.log.protocol.version>2.0.0</pardar.log.protocol.version>
         <pradar.core.version>1.0.2-SNAPSHOT</pradar.core.version>
