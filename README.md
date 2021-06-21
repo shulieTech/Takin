@@ -35,7 +35,8 @@ In a microservices architecture system with a lot of business services, the call
 The Initiation of docker need about 10 mins because it need install necessary components. -d can ignore installment information of components in background. If you dont't want to open your server's port, you can use --net=host and make sure it and host server are in the same network。
 
 after installation：
-see [Quick Start](https://github.com/shulieTech/ArchGuadian/blob/main/controllePlatform/doc/QuickStart.md)
+- see [Quick Start](https://github.com/shulieTech/ArchGuadian/blob/main/controllePlatform/doc/QuickStart.md)
+- [Instruction 使用说明](https://news.shulie.io/?p=2987)
 
 # Instruction
 #### ArchGuadian Architecture
