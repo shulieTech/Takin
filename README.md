@@ -49,10 +49,10 @@ Takin consists of Agent, Controlle Platform and Surge Data.
 see [Agent](https://github.com/shulieTech/LinkAgent)
 
 ## Surge Data
-see [Surge Data](https://github.com/shulieTech/Takin/blob/main/data/surge-data/README.md?_blank)
+see [Surge Data](data/surge-data/README.md?_blank)
 
 ## Control Platform
-see [Controlle Platform](https://github.com/shulieTech/Takin/blob/main/controllePlatform/doc/QuickStart.md)
+see [Controlle Platform](controllePlatform/doc/QuickStart.md)
 
 # Community
 Mailing List: Mail to shulie@shulie.io<br/>
@@ -70,4 +70,4 @@ WeChat Official Account：<br/>
 [Official Forum](https://news.shulie.io/?page_id=2477)
 
 # License
-Takin is under the Apache 2.0 license. See the [LICENSE](https://github.com/shulieTech/Takin/blob/main/LICENSE) file for details.
+Takin is under the Apache 2.0 license. See the [LICENSE](LICENSE) file for details.
