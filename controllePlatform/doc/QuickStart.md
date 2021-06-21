@@ -2,9 +2,9 @@
 
 ## 一、安装包
 
-下载 `tro-web` 安装包：[download](http://xxxxx)
+下载 `tro-web` 安装包：[download](https://shulie-main-pass.oss-cn-hangzhou.aliyuncs.com/open-source/tro-web.zip)
 
-下载 `tro-cloud` 安装包：[download](http://xxxxx)
+下载 `tro-cloud` 安装包：[download](https://shulie-main-pass.oss-cn-hangzhou.aliyuncs.com/open-source/tro-cloud.zip)
 
 下载 `引擎包` 引擎包：[download](https://shulie-main-pass.oss-cn-hangzhou.aliyuncs.com/open-source/pressure-engine.tar.gz)
 
