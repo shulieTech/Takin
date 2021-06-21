@@ -1,11 +1,11 @@
-# ArchGuadian
+# Takin
 [![LICENSE](https://img.shields.io/github/license/pingcap/tidb.svg)](https://github.com/pingcap/tidb/blob/master/LICENSE)
 [![Language](https://img.shields.io/badge/Language-Java-blue.svg)](https://www.java.com/)
 
 English / [中文](README_CN.md)
 
-## What is ArchGuadian?
-ArchGuadian is an Java-based, open-source system designed to measure online environmental performance test for full-links, Especially for microservices. Through ArchGuadian, middlewares and applications can identify real online traffic and test traffic, ensure that they enter the right databases.
+## What is Takin?
+Takin is an Java-based, open-source system designed to measure online environmental performance test for full-links, Especially for microservices. Through ArchGuadian, middlewares and applications can identify real online traffic and test traffic, ensure that they enter the right databases.
 
 # Why should we do online environmental performance test
 Microservices Architecture is used commonly nowadays and it always make system complex to understand for humans. Moreover, businesses are also very complex in huge system. Business complexity and system complexity make it difficult to :
@@ -35,24 +35,24 @@ In a microservices architecture system with a lot of business services, the call
 The Initiation of docker need about 10 mins because it need install necessary components. -d can ignore installment information of components in background. If you dont't want to open your server's port, you can use --net=host and make sure it and host server are in the same network。
 
 after installation：
-- see [Quick Start](https://github.com/shulieTech/ArchGuadian/blob/main/controllePlatform/doc/QuickStart.md)
+- see [Quick Start](https://github.com/shulieTech/Takin/blob/main/controllePlatform/doc/QuickStart.md)
 - [Instruction 使用说明](https://news.shulie.io/?p=2987)
 
 # Instruction
-#### ArchGuadian Architecture
+#### Takin Architecture
 <img src="https://raw.githubusercontent.com/shulieTech/Images/main/DaYuX_Architecture2.png" width="70%" height="70%"><br/>
-ArchGuadian consists of Agent, Controlle Platform and Surge Data. 
+Takin consists of Agent, Controlle Platform and Surge Data. 
 
 - [Instruction]()
 
 ## Agent
-see [Agent](https://github.com/shulieTech/AgentX)
+see [Agent](https://github.com/shulieTech/LinkAgent)
 
 ## Surge Data
-see [Surge Data](https://github.com/shulieTech/ArchGuadian/blob/main/data/surge-data/README.md?_blank)
+see [Surge Data](https://github.com/shulieTech/Takin/blob/main/data/surge-data/README.md?_blank)
 
 ## Control Platform
-see [Controlle Platform](https://github.com/shulieTech/ArchGuadian/blob/main/controllePlatform/doc/QuickStart.md)
+see [Controlle Platform](https://github.com/shulieTech/Takin/blob/main/controllePlatform/doc/QuickStart.md)
 
 # Community
 Mailing List: Mail to shulie@shulie.io<br/>
@@ -70,4 +70,4 @@ WeChat Official Account：<br/>
 [Official Forum](https://news.shulie.io/?page_id=2477)
 
 # License
-ArchGuadian is under the Apache 2.0 license. See the [LICENSE](https://github.com/shulieTech/ArchGuadian/blob/main/LICENSE) file for details.
+Takin is under the Apache 2.0 license. See the [LICENSE](https://github.com/shulieTech/Takin/blob/main/LICENSE) file for details.
