@@ -27,11 +27,11 @@ In a microservices architecture system with a lot of business services, the call
 <img src="https://raw.githubusercontent.com/shulieTech/Images/main/3.png" width="50%" height="50%">
 
 # Quick Start Instruction
-If docker configure doesn't set AliYun docker source :
+If docker configuration doesn't set AliYun docker source :
 ```
 vim /etc/docker/daemon.json
 ```
-Add follow configure：
+Add following configuration：
 ```
 {
   "registry-mirrors": ["https://q2gr04ke.mirror.aliyuncs.com"]
