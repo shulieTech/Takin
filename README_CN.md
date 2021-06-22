@@ -20,6 +20,14 @@
 # Quick Start Instruction（快速入门说明）
 
 镜像安装：
+docker没有设置阿里云镜像源则：
+vim /etc/docker/daemon.json
+新增如下配置：
+'''
+{
+  "registry-mirrors": ["https://q2gr04ke.mirror.aliyuncs.com"]
+}
+'''
 - 获取容器镜像：docker pull registry.cn-hangzhou.aliyuncs.com/forcecop/forcecop:v1.0.0
 - 运行容器镜像：docker run -d -p 80:80 -p 2181:2181 -p 3306:3306 -p 6379:6379 -p 8086:8086 -p 9000:9000 -p 10032:10032 -p 6628:6628 -p 8000:8000 -p 6627:6627 -p 8888:8888 -p 29900-29999:29900-29999 imgaeID或者name:tag
 - 参数解释：-d是后台启动，-p是需要开放的端口，容器运行初始化的时候需要安装一些必要的组件需要十分钟样子，-d可以忽略后台组件的安装信息，如果想要查看安装信息可以去除-d参数，如果不使用-p的方式开放端口，也可以使用--net=host的方式与宿主机共用一套网络。
