@@ -53,8 +53,6 @@ after installation：
 <img src="https://raw.githubusercontent.com/shulieTech/Images/main/DaYuX_Architecture2.png" width="70%" height="70%"><br/>
 Takin consists of Agent, Controlle Platform and Surge Data. 
 
-- [Instruction]()
-
 ## Agent
 see [Agent](https://github.com/shulieTech/LinkAgent)
 
