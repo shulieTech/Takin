@@ -50,7 +50,7 @@ see [Quick Start](https://github.com/shulieTech/Takin/blob/main/controllePlatfor
 <br/>
 QQ群: **118098566**<br/>
 群二维码：<br/>
-<img src="https://raw.githubusercontent.com/shulieTech/Images/main/qq_group2.png" width="30%" height="30%">
+<img src="https://raw.githubusercontent.com/shulieTech/Images/main/qq_group_2.jpg" width="30%" height="30%">
 <br/>
 微信公众号：<br/>
 <img src="https://raw.githubusercontent.com/shulieTech/Images/main/shulie.png" width="30%" height="30%">
