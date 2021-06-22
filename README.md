@@ -61,7 +61,7 @@ Wechat group<br/>
 <br/>
 QQ group: **118098566**<br/>
 QR code：<br/>
-<img src="https://raw.githubusercontent.com/shulieTech/Images/main/qq_group2.png" width="30%" height="30%">
+<img src="https://raw.githubusercontent.com/shulieTech/Images/main/qq_group_2.png" width="30%" height="30%">
 <br/>
 WeChat Official Account：<br/>
 <img src="https://raw.githubusercontent.com/shulieTech/Images/main/shulie.png" width="30%" height="30%">
