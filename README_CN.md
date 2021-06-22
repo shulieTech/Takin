@@ -40,7 +40,7 @@ see [Quick Start](https://github.com/shulieTech/Takin/blob/main/controllePlatfor
 # 使用说明
 #### 羚牛结构
 <img src="https://raw.githubusercontent.com/shulieTech/Images/main/DaYuX_Architecture2.png" width="70%" height="70%"><br/>
-羚牛由代理、控制平台与脉冲数据构成。
+羚牛由agent、控制平台与大数据构成。
 - [快速上手](https://github.com/shulieTech/Takin/blob/main/controllePlatform/doc/QuickStart.md)
 - [使用说明](https://news.shulie.io/?p=2987)
 
