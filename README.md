@@ -37,6 +37,10 @@ Add following configuration：
   "registry-mirrors": ["https://q2gr04ke.mirror.aliyuncs.com"]
 }
 ```
+restart service
+```
+systemctl daemon-reload
+```
 **docker:**<br/>
 - Docker mirror size ： 1.8 G
 - Pull docker：docker pull registry.cn-hangzhou.aliyuncs.com/forcecop/forcecop:v1.0.0
