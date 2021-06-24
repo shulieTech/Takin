@@ -26,9 +26,9 @@
         </developer>
     </developers>
     <scm>
-        <url>scm:git:git@github.com:shulieTech/DaYuX.git</url>
-        <connection>scm:git:git@github.com:shulieTech/DaYuX.git</connection>
-        <developerConnection>git@github.com:shulieTech/DaYuX.git</developerConnection>
+        <url>scm:git:git@github.com:shulieTech/Takin.git</url>
+        <connection>scm:git:git@github.com:shulieTech/Takin.git</connection>
+        <developerConnection>git@github.com:shulieTech/Takin.git</developerConnection>
     </scm>
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
