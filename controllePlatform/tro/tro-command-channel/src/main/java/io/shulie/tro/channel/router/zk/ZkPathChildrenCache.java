@@ -4,9 +4,7 @@ import java.util.List;
 
 /**
  * 监视 ZooKeeper 节点的子节点的增加、删除更新，并把内容缓存在内存中。
- * 创建方式：{@link ZkClient#createPathChildrenCache(String)}
- *
- * @author pamirs
+ * @author: HengYu
  */
 public interface ZkPathChildrenCache extends Lifecycle {
 

@@ -1,8 +1,8 @@
 package io.shulie.tro.channel.router.zk;
 
 /**
- * @Description ZooKeeper 配置对象
- * @Author guohz
+ * @Description ZooKeeper 配置参数对象
+ * @author: HengYu
  * @mail guohaozhu@shulie.io
  * @Date 2020/12/29 20:11
  */

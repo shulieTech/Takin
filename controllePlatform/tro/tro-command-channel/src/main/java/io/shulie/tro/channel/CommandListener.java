@@ -3,7 +3,7 @@ package io.shulie.tro.channel;
 import io.shulie.tro.channel.bean.CommandPacket;
 
 /**
- * @author: Hengyu
+ * @author: HengYu
  * @className: CommandListener
  * @date: 2020/12/29 10:52 下午
  * @description: 命令处理工具类

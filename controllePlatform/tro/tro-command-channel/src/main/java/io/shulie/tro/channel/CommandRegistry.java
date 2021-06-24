@@ -4,7 +4,7 @@ import io.shulie.tro.channel.handler.CommandHandler;
 import io.shulie.tro.channel.type.Command;
 
 /**
- * @author: Hengyu
+ * @author: HengYu
  * @className: CommandRegistry
  * @date: 2020/12/29 10:52 下午
  * @description: 命令注册中心

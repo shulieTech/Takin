@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author: Hengyu
+ * @author: HengYu
  * @className: CommandHandler
  * @date: 2020/12/29 11:29 下午
  * @description: 定义命令处理

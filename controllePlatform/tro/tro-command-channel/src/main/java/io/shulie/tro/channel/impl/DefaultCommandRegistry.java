@@ -6,7 +6,7 @@ import io.shulie.tro.channel.type.Command;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @author: Hengyu
+ * @author: HengYu
  * @className: DefaultCommandRegistry
  * @date: 2020/12/29 11:42 下午
  * @description:

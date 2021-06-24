@@ -4,7 +4,7 @@ package io.shulie.tro.channel.bean;
 import io.shulie.tro.channel.utils.ThrowableUtils;
 
 /**
- * @author: Hengyu
+ * @author: HengYu
  * @className: CommandPacket
  * @date: 2020/12/29 10:20 下午
  * @description: 命令传输对象包
