@@ -43,18 +43,24 @@ systemctl daemon-reload
 ```
 **docker:**<br/>
 - Docker mirror size ： 1.8 G
-- Pull docker：docker pull registry.cn-hangzhou.aliyuncs.com/forcecop/forcecop:v1.0.0
-- Run docker：docker run -d -p 80:80 -p 2181:2181 -p 3306:3306 -p 6379:6379 -p 8086:8086 -p 9000:9000 -p 10032:10032 -p 6628:6628 -p 8000:8000 -p 6627:6627 -p 8888:8888 -p 29900-29999:29900-29999 imgaeID or name:tag
+- Pull docker：
+  ```
+  docker pull registry.cn-hangzhou.aliyuncs.com/forcecop/forcecop:v1.0.0
+  ```
+- Run docker：
+  ```
+  docker run -d -p 80:80 -p 2181:2181 -p 3306:3306 -p 6379:6379 -p 8086:8086 -p 9000:9000 -p 10032:10032 -p 6628:6628 -p 8000:8000 -p 6627:6627 -p 8888:8888 -p 29900-29999:29900-29999 imgaeID or name:tag
+  ```
 - Parameter：-d start in background，-p port. <br/>
 The Initiation of docker need about 10 mins because it need install necessary components. -d can ignore installment information of components in background. If you dont't want to open your server's port, you can use --net=host and make sure it and host server are in the same network。
 - Modify the IP address of the index.html file to the server's local IP address.
-```
-Enter Docker
-vi /data/apps/dist/tro/index.html
-Modify serverUrl to the server's local IP address
-Restart Nginx：
-nginx -s reload
-```
+    ```
+    # Enter Docker
+    vi /data/apps/dist/tro/index.html
+    # Modify serverUrl to the server's local IP address
+    # Restart Nginx：
+    nginx -s reload
+    ```
 
 after installation：
 - see [Quick Start](controllePlatform/doc/QuickStart.md)
