@@ -12,7 +12,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 /**
- * @Author 莫问
+ * @author: HengYu
  * @Date 2020-05-12
  */
 @Component
@@ -23,13 +23,12 @@ public class K8sClient {
     private Resource resource;
 
     /**
-     * K8S客户端
+     * k8s client
      */
     private KubernetesClient client;
 
     /**
-     * 初始化客户端
-     *
+     * init k8s client
      * @return
      */
     private KubernetesClient initClient() {
@@ -44,8 +43,7 @@ public class K8sClient {
     }
 
     /**
-     * 获取K8s客户端
-     *
+     * get k8s client instance
      * @return
      */
     public KubernetesClient getKubernetesClient() {

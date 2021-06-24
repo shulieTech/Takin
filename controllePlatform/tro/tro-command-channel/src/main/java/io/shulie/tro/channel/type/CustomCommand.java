@@ -1,7 +1,7 @@
 package io.shulie.tro.channel.type;
 
 /**
- * @author: Hengyu
+ * @author: HengYu
  * @className: CustomCommand
  * @date: 2020/12/29 10:20 下午
  * @description: 自定发送命令

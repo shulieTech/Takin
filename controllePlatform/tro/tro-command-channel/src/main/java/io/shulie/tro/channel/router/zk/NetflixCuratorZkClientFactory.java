@@ -13,8 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @Description CuratorZkClient 实例工厂
- * @Author guohz
+ * @Description CuratorZkClientFactory
+ * @author: HengYu
  * @mail guohaozhu@shulie.io
  * @Date 2020/12/29 20:11
  */

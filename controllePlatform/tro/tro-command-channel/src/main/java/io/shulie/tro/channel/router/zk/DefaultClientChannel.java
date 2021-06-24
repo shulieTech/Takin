@@ -28,7 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author: Hengyu
+ * @author: HengYu
  * @className: ZkServerChannel
  * @date: 2020/12/30 7:50 上午
  * @description: zk server

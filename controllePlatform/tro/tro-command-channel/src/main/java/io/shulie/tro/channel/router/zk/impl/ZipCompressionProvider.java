@@ -13,7 +13,7 @@ import java.util.zip.ZipOutputStream;
 
 /**
  * 封装了 Netflix Curator 的实现
- * @author pamirs
+ * @author: HengYu
  */
 public class ZipCompressionProvider {
 

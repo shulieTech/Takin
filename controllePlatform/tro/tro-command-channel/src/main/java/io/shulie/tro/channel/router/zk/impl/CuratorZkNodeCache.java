@@ -24,7 +24,7 @@ import static com.google.common.base.Preconditions.checkState;
  * 在 Apache Curator 的 NodeCache 基础上修改的实现，做了一定精简。
  * 做这个实现的主要原因是 Netflix Curator 并没有提供这个实现。
  *
- * @author pamirs
+ * @author: HengYu
  */
 public class CuratorZkNodeCache implements ZkNodeCache {
 

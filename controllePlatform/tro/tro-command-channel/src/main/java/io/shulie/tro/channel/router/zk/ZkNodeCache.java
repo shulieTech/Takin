@@ -5,7 +5,7 @@ import java.util.concurrent.Executor;
 /**
  * 监视 ZooKeeper 节点的更新，并把内容缓存在内存中。
  * 创建方式：{@link ZkClient#createZkNodeCache(String, boolean)}
- * @author pamirs
+ * @author: HengYu
  */
 public interface ZkNodeCache extends Lifecycle {
 

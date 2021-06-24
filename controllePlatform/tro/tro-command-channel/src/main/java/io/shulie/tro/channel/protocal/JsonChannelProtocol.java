@@ -5,7 +5,7 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import io.shulie.tro.channel.bean.CommandPacket;
 
 /**
- * @author: Hengyu
+ * @author: HengYu
  * @className: JSONChannelProtocol
  * @date: 2020/12/30 9:17 上午
  * @description:
