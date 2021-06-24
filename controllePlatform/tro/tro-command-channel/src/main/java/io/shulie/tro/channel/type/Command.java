@@ -5,7 +5,7 @@ import io.shulie.tro.channel.bean.CommandStatus;
 import java.util.Map;
 
 /**
- * @author: Hengyu
+ * @author: HengYu
  * @className: Command
  * @date: 2020/12/29 10:20 下午
  * @description: 命令对象

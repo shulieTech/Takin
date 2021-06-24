@@ -3,7 +3,7 @@ package io.shulie.tro.channel.bean;
 import java.util.Map;
 
 /**
- * @author: Hengyu
+ * @author: HengYu
  * @className: CommandCommon
  * @date: 2020/12/30 7:59 上午
  * @description:

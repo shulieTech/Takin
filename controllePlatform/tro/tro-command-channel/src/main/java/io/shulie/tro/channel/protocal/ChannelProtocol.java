@@ -3,8 +3,8 @@ package io.shulie.tro.channel.protocal;
 import io.shulie.tro.channel.bean.CommandPacket;
 
 /**
- * @author: Hengyu
- * @className: ChannelProtocal
+ * @author: HengYu
+ * @className: ChannelProtocol
  * @date: 2020/12/30 9:14 上午
  * @description:
  */

@@ -4,7 +4,7 @@ import io.shulie.tro.channel.bean.CommandPacket;
 import io.shulie.tro.channel.bean.CommandResponse;
 
 /**
- * @author: Hengyu
+ * @author: HengYu
  * @className: CommandHandler
  * @date: 2020/12/29 11:29 下午
  * @description: 定义命令处理

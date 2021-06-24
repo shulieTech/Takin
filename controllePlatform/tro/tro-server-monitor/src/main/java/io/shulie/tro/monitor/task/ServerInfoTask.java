@@ -17,6 +17,7 @@ public class ServerInfoTask {
 
     @Value("${send.time}")
     private Long sendTime;
+
     @Autowired
     private SystemInfoSendService systemInfoSendService;
 

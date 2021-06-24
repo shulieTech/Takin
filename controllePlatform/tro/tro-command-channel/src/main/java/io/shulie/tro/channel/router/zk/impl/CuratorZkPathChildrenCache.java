@@ -22,7 +22,7 @@ import static com.google.common.base.Preconditions.checkState;
 /**
  * 在 Apache Curator 的 PathChildrenCache 基础上修改的实现，做了精简，
  *
- * @author pamirs
+ * @author: HengYu
  */
 public class CuratorZkPathChildrenCache implements ZkPathChildrenCache {
 

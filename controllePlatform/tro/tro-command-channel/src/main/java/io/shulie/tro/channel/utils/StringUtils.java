@@ -1,7 +1,7 @@
 package io.shulie.tro.channel.utils;
 
 /**
- * @author: Hengyu
+ * @author: HengYu
  * @className: StringUtils
  * @date: 2021/1/7 4:42 下午
  * @description:
