@@ -9,7 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.concurrent.*;
 
 /**
- * @author: Hengyu
+ * @author: HengYu
  * @className: ZkClientHeartbeat
  * @date: 2020/12/29 10:52 下午
  * @description: clint heartbeats

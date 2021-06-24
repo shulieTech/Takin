@@ -4,7 +4,7 @@ package io.shulie.tro.channel.router.zk;
 /**
  * 通过 zk 维持心跳的节点，如果成功在 zk 上注册节点，则表示存活，否则不存活。
  *
- * @author pamirs
+ * @author: HengYu
  */
 public interface ZkHeartbeatNode extends Lifecycle {
 

@@ -67,7 +67,7 @@ import io.shulie.tro.channel.bean.CommandPacket;
 import io.shulie.tro.channel.protocal.ChannelProtocol;
 
 /**
- * @author: Hengyu
+ * @author: HengYu
  * @className: JSONChannelProtocol
  * @date: 2020/12/30 9:17 上午
  * @description:
@@ -103,7 +103,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author: Hengyu
+ * @author: HengYu
  * @className: CommandHandler
  * @date: 2020/12/29 11:29 下午
  * @description: 定义命令处理

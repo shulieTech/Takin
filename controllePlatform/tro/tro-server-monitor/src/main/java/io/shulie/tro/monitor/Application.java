@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
- * @author shulie
+ * @author: HengYu
  * @package: com.pamirs
  * @Date 2019-07-23 18:30
  */

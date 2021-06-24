@@ -1,7 +1,7 @@
 package io.shulie.tro.monitor.service;
 
 /**
- * @author shulie
+ * @author: HengYu
  */
 public interface SystemInfoSendService {
 

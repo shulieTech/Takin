@@ -1,7 +1,7 @@
 package io.shulie.tro.channel.bean;
 
 /**
- * @author: Hengyu
+ * @author: HengYu
  * @className: Constants
  * @date: 2020/12/29 10:20 下午
  * @description:

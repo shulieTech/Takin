@@ -4,7 +4,7 @@ import io.shulie.tro.channel.bean.CommandPacket;
 import io.shulie.tro.channel.protocal.ChannelProtocol;
 
 /**
- * @author: Hengyu
+ * @author: HengYu
  * @className: ServerChannelClient
  * @date: 2020/12/29 10:52 下午
  * @description: 服务端命令发送工具类
