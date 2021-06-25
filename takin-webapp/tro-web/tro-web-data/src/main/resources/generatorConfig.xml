@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!-- 数据库驱动:选择你的本地硬盘上面的数据库驱动包-->
+    <classPathEntry
+            location="/Users/fanxx/.m2/repository/mysql/mysql-connector-java/5.1.41/mysql-connector-java-5.1.41.jar"/>
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <!--数据库链接URL，用户名、密码 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/trodb-remote?tinyInt1isBit=false" userId="canal"
+                        password="canal">
+        </jdbcConnection>
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- 生成模型的包名和位置-->
+        <javaModelGenerator targetPackage="com.pamirs.tro.entity.domain.entity.auth" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- 生成映射文件的包名和位置-->
+        <sqlMapGenerator targetPackage="com.pamirs.tro.entity.mapper.auth" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!-- 生成DAO的包名和位置-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.pamirs.tro.entity.dao.auth"
+                             targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名-->
+        <!--        <table tableName="t_scene_manage" schema="trodb" domainObjectName="SceneManage" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="true" enableSelectByExample="false" selectByExampleQueryId="false"/>-->
+        <!--        <table tableName="t_scene_business_activity_ref" schema="trodb" domainObjectName="SceneBusinessActivityRef" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="true" enableSelectByExample="false" selectByExampleQueryId="false"/>-->
+        <!--        <table tableName="t_scene_script_ref" schema="trodb" domainObjectName="SceneScriptRef" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="true" enableSelectByExample="false" selectByExampleQueryId="false"/>-->
+        <!--        <table tableName="t_scene_sla_ref" schema="trodb" domainObjectName="SceneSlaRef" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="true" enableSelectByExample="false" selectByExampleQueryId="false"/>-->
+        <!--        <table tableName="t_warn_detail" schema="trodb" domainObjectName="WarnDetail" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="true" enableSelectByExample="false" selectByExampleQueryId="false"/>-->
+        <!--        <table tableName="t_cloud_platform" schema="trodb" domainObjectName="CloudPlatform" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="true" enableSelectByExample="false" selectByExampleQueryId="false"/>-->
+        <!--        <table tableName="t_cloud_account" schema="trodb" domainObjectName="CloudAccount" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="true" enableSelectByExample="false" selectByExampleQueryId="false"/>-->
+
+        <table tableName="t_tro_resource" domainObjectName="Resource" enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false">
+            <columnOverride column="type" javaType="java.lang.Integer"/>
+            <columnOverride column="is_deleted" javaType="java.lang.Integer"/>
+        </table>
+
+        <!--<table tableName="t_tro_dept" domainObjectName="Dept" enableCountByExample="false"-->
+        <!--enableUpdateByExample="false"-->
+        <!--enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false">-->
+        <!--<columnOverride column="is_deleted" javaType="java.lang.Integer"/>-->
+        <!--</table>-->
+
+        <!--<table tableName="t_tro_user_dept_relation" domainObjectName="UserDeptRelation" enableCountByExample="false"-->
+        <!--enableUpdateByExample="false"-->
+        <!--enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false">-->
+        <!--<columnOverride column="is_deleted" javaType="java.lang.Integer"/>-->
+        <!--</table>-->
+
+        <!--<table tableName="t_tro_role" domainObjectName="Role" enableCountByExample="false"-->
+        <!--enableUpdateByExample="false"-->
+        <!--enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false">-->
+        <!--<columnOverride column="status" javaType="java.lang.Integer"/>-->
+        <!--<columnOverride column="is_deleted" javaType="java.lang.Integer"/>-->
+        <!--</table>-->
+
+        <!--<table tableName="t_tro_authority" domainObjectName="Authority" enableCountByExample="false"-->
+        <!--enableUpdateByExample="false"-->
+        <!--enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false">-->
+        <!--<columnOverride column="object_type" javaType="java.lang.Integer"/>-->
+        <!--<columnOverride column="is_deleted" javaType="java.lang.Integer"/>-->
+        <!--</table>-->
+
+        <!--<table tableName="t_tro_base_role" domainObjectName="BaseRole" enableCountByExample="false"-->
+        <!--enableUpdateByExample="false"-->
+        <!--enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false">-->
+        <!--</table>-->
+
+        <!--<table tableName="t_tro_role_user_relation" domainObjectName="RoleUserRelation" enableCountByExample="false"-->
+        <!--enableUpdateByExample="false"-->
+        <!--enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false">-->
+        <!--<columnOverride column="is_deleted" javaType="java.lang.Integer"/>-->
+        <!--</table>-->
+
+        <!--<table tableName="t_machine_task " domainObjectName="MachineTask" enableCountByExample="false"-->
+        <!--enableUpdateByExample="true"-->
+        <!--enableDeleteByExample="false" enableSelectByExample="true" selectByExampleQueryId="false"/>-->
+
+
+    </context>
+</generatorConfiguration>

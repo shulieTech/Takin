@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.cloud.data.mapper.mysql.PessureTestTaskProcessConfigMapper">
+  <resultMap id="BaseResultMap" type="io.shulie.tro.cloud.data.model.mysql.PessureTestTaskProcessConfigEntity">
+    <!--@mbg.generated-->
+    <!--@Table t_pessure_test_task_process_config-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="BOOLEAN" property="type" />
+    <result column="engine_id" jdbcType="BIGINT" property="engineId" />
+    <result column="engine_name" jdbcType="VARCHAR" property="engineName" />
+    <result column="process_id" jdbcType="BIGINT" property="processId" />
+    <result column="process_name" jdbcType="VARCHAR" property="processName" />
+    <result column="scenario_id" jdbcType="VARCHAR" property="scenarioId" />
+    <result column="status" jdbcType="BOOLEAN" property="status" />
+    <result column="pessure_time" jdbcType="TIMESTAMP" property="pessureTime" />
+    <result column="is_deleted" jdbcType="BOOLEAN" property="isDeleted" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `name`, `type`, engine_id, engine_name, process_id, process_name, scenario_id, 
+    `status`, pessure_time, is_deleted, create_time, update_time
+  </sql>
+</mapper>

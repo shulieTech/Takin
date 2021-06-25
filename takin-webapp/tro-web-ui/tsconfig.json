@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "es6",
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "src/*": ["./src/*"]
+    },
+    "sourceMap": true,
+    "removeComments": true,
+    "listEmittedFiles": true,
+    "jsx": "react",
+    "locale": "zh_cn",
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true
+  }
+}

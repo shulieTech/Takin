@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.cloud.data.mapper.mysql.ReportBusinessActivityDetailMapper">
+  <resultMap id="BaseResultMap" type="io.shulie.tro.cloud.data.model.mysql.ReportBusinessActivityDetailEntity">
+    <!--@mbg.generated-->
+    <!--@Table t_report_business_activity_detail-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="report_id" jdbcType="BIGINT" property="reportId" />
+    <result column="scene_id" jdbcType="BIGINT" property="sceneId" />
+    <result column="business_activity_id" jdbcType="BIGINT" property="businessActivityId" />
+    <result column="business_activity_name" jdbcType="VARCHAR" property="businessActivityName" />
+    <result column="application_ids" jdbcType="VARCHAR" property="applicationIds" />
+    <result column="bind_ref" jdbcType="VARCHAR" property="bindRef" />
+    <result column="request" jdbcType="BIGINT" property="request" />
+    <result column="sa" jdbcType="DECIMAL" property="sa" />
+    <result column="target_sa" jdbcType="DECIMAL" property="targetSa" />
+    <result column="tps" jdbcType="DECIMAL" property="tps" />
+    <result column="target_tps" jdbcType="DECIMAL" property="targetTps" />
+    <result column="rt" jdbcType="DECIMAL" property="rt" />
+    <result column="target_rt" jdbcType="DECIMAL" property="targetRt" />
+    <result column="rt_distribute" jdbcType="VARCHAR" property="rtDistribute" />
+    <result column="success_rate" jdbcType="DECIMAL" property="successRate" />
+    <result column="target_success_rate" jdbcType="DECIMAL" property="targetSuccessRate" />
+    <result column="max_tps" jdbcType="DECIMAL" property="maxTps" />
+    <result column="max_rt" jdbcType="DECIMAL" property="maxRt" />
+    <result column="min_rt" jdbcType="DECIMAL" property="minRt" />
+    <result column="pass_flag" jdbcType="TINYINT" property="passFlag" />
+    <result column="features" jdbcType="LONGVARCHAR" property="features" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_update" jdbcType="TIMESTAMP" property="gmtUpdate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, report_id, scene_id, business_activity_id, business_activity_name, application_ids, 
+    bind_ref, request, sa, target_sa, tps, target_tps, rt, target_rt, rt_distribute, 
+    success_rate, target_success_rate, max_tps, max_rt, min_rt, pass_flag, features, 
+    is_deleted, gmt_create, gmt_update
+  </sql>
+</mapper>

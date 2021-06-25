@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pamirs.tro.entity.dao.linkmanage.TSceneMapper">
+    <resultMap id="BaseResultMap" type="com.pamirs.tro.entity.domain.entity.linkmanage.Scene">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="SCENE_NAME" jdbcType="VARCHAR" property="sceneName"/>
+        <result column="BUSINESS_LINK" jdbcType="VARCHAR" property="businessLink"/>
+        <result column="SCENE_LEVEL" jdbcType="VARCHAR" property="sceneLevel"/>
+        <result column="IS_CORE" jdbcType="TINYINT" property="isCore"/>
+        <result column="IS_CHANGED" jdbcType="TINYINT" property="isChanged"/>
+        <result column="IS_DELETED" jdbcType="TINYINT" property="isDeleted"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="CUSTOMER_ID" jdbcType="BIGINT" property="customerId"/>
+        <result column="USER_ID" jdbcType="BIGINT" property="userId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        ID, SCENE_NAME, BUSINESS_LINK, SCENE_LEVEL, IS_CORE, IS_CHANGED, IS_DELETED, CREATE_TIME,UPDATE_TIME,CUSTOMER_ID,USER_ID
+    </sql>
+
+    <resultMap id="BusinessFlowIdAndNameDtoMap"
+               type="com.pamirs.tro.entity.domain.dto.linkmanage.BusinessFlowIdAndNameDto">
+        <result column="ID" property="id"/>
+        <result column="SCENE_NAME" property="businessFlowName"/>
+    </resultMap>
+
+    <resultMap id="SceneResultDtoMap" type="com.pamirs.tro.entity.domain.dto.linkmanage.SceneDto">
+        <result column="SCENE_ID" property="id"/>
+        <result column="SCENE_NAME" jdbcType="VARCHAR" property="sceneName"/>
+        <result column="USER_ID" jdbcType="BIGINT" property="managerId"/>
+        <result column="SCENE_IS_CHANGED" jdbcType="TINYINT" property="ischange"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <!-- <result column="BUSINESSLINKCOUNT" property="businessLinkCount"/>
+         <result column="TECHLINKCOUNT" property="techLinkCount"/>-->
+    </resultMap>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_scene
+        where ID = #{id,jdbcType=BIGINT} and IS_DELETED = 0
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from t_scene
+        where ID = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.pamirs.tro.entity.domain.entity.linkmanage.Scene"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into t_scene (ID, SCENE_NAME, BUSINESS_LINK,
+                             SCENE_LEVEL, IS_CORE, IS_CHANGED,
+                             IS_DELETED, CREATE_TIME, UPDATE_TIME)
+        values (#{id,jdbcType=BIGINT}, #{sceneName,jdbcType=VARCHAR}, #{businessLink,jdbcType=VARCHAR},
+                #{sceneLevel,jdbcType=VARCHAR}, #{isCore,jdbcType=TINYINT}, #{isChanged,jdbcType=TINYINT},
+                #{isDeleted,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.pamirs.tro.entity.domain.entity.linkmanage.Scene">
+        insert into t_scene
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="sceneName != null">
+                SCENE_NAME,
+            </if>
+            <if test="businessLink != null">
+                BUSINESS_LINK,
+            </if>
+            <if test="sceneLevel != null">
+                SCENE_LEVEL,
+            </if>
+            <if test="isCore != null">
+                IS_CORE,
+            </if>
+            <if test="isChanged != null">
+                IS_CHANGED,
+            </if>
+            <if test="isDeleted != null">
+                IS_DELETED,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="sceneName != null">
+                #{sceneName,jdbcType=VARCHAR},
+            </if>
+            <if test="businessLink != null">
+                #{businessLink,jdbcType=VARCHAR},
+            </if>
+            <if test="sceneLevel != null">
+                #{sceneLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="isCore != null">
+                #{isCore,jdbcType=TINYINT},
+            </if>
+            <if test="isChanged != null">
+                #{isChanged,jdbcType=TINYINT},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.pamirs.tro.entity.domain.entity.linkmanage.Scene">
+        update t_scene
+        <set>
+            <if test="sceneName != null">
+                SCENE_NAME = #{sceneName,jdbcType=VARCHAR},
+            </if>
+            <if test="businessLink != null">
+                BUSINESS_LINK = #{businessLink,jdbcType=VARCHAR},
+            </if>
+            <if test="sceneLevel != null">
+                SCENE_LEVEL = #{sceneLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="isCore != null">
+                IS_CORE = #{isCore,jdbcType=TINYINT},
+            </if>
+            <if test="isChanged != null">
+                IS_CHANGED = #{isChanged,jdbcType=TINYINT},
+            </if>
+            <if test="isDeleted != null">
+                IS_DELETED = #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.pamirs.tro.entity.domain.entity.linkmanage.Scene">
+        update t_scene
+        set SCENE_NAME    = #{sceneName,jdbcType=VARCHAR},
+            BUSINESS_LINK = #{businessLink,jdbcType=VARCHAR},
+            SCENE_LEVEL   = #{sceneLevel,jdbcType=VARCHAR},
+            IS_CORE       = #{isCore,jdbcType=TINYINT},
+            IS_CHANGED    = #{isChanged,jdbcType=TINYINT},
+            IS_DELETED    = #{isDeleted,jdbcType=TINYINT},
+            CREATE_TIME   = #{createTime,jdbcType=TIMESTAMP},
+            UPDATE_TIME   = #{updateTime,jdbcType=TIMESTAMP}
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="getSceneLevel" resultType="java.lang.String">
+        select distinct(SCENE_LEVEL)
+        from t_scene
+        where IS_DELETED = 0
+    </select>
+
+    <update id="updateBySceneIdList">
+        update t_scene set IS_CHANGED = #{ischange,jdbcType=TINYINT}
+        where ID in
+        <foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+
+    <select id="selectByRelatedQuery" parameterType="com.pamirs.tro.entity.domain.vo.linkmanage.queryparam.SceneQueryVo"
+            resultMap="SceneResultDtoMap">
+
+        select scene.ID as SCENE_ID,
+        scene.SCENE_NAME,
+        scene.CREATE_TIME,
+        scene.USER_ID,
+        scene.IS_CHANGED as SCENE_IS_CHANGED
+        from t_scene scene
+        left join t_scene_link_relate scene_relate
+        on scene_relate.SCENE_ID = scene.ID
+        left join t_middleware_link_relate middleware_relate
+        on middleware_relate.TECH_LINK_ID = scene_relate.TECH_LINK_ID
+        left join t_middleware_info middleware on middleware.ID = middleware_relate.MIDDLEWARE_ID
+        left join t_business_link_manage_table business_manage on business_manage.LINK_ID=scene_relate.BUSINESS_LINK_ID
+        left join t_link_manage_table tech_manage on scene_relate.TECH_LINK_ID=tech_manage.LINK_ID
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="sceneName != null">
+                and scene.SCENE_NAME = #{sceneName}
+            </if>
+            <if test="entrace !=null">
+                and tech_manage.ENTRACE = #{entrace,jdbcType=VARCHAR}
+            </if>
+            <if test="ischanged !=null">
+                and scene.IS_CHANGED = #{ischanged,jdbcType=TINYINT}
+            </if>
+            <if test="businessName !=null">
+                and business_manage.LINK_NAME = #{businessName}
+            </if>
+            <if test="middleWareType !=null">
+                and middleware.MIDDLEWARE_TYPE = #{middleWareType}
+            </if>
+            <if test="middleWareName !=null">
+                and middleware.MIDDLEWARE_NAME = #{middleWareName}
+            </if>
+            <if test="middleWareVersion !=null">
+                and middleware.MIDDLEWARE_VERSION = #{middleWareVersion}
+            </if>
+            <if test="sceneId != null">
+                and scene.ID = #{sceneId}
+            </if>
+            and scene.IS_DELETED = 0
+        </trim>
+        group by scene.ID
+        order by scene.ID desc
+    </select>
+    <!--统计接入的业务数量-->
+    <select id="count" resultType="java.lang.Long">select count(1)
+                                                   from t_scene
+                                                   where IS_DELETED = 0</select>
+
+    <select id="countByTime" resultType="java.lang.Long">
+        select count(1)
+        from t_scene
+        where #{date} >= CREATE_TIME
+    </select>
+
+    <update id="updateIsChangeByTechId" parameterType="java.lang.Long">
+        update t_scene
+        set IS_CHANGED=1
+        where ID
+                  in
+              (select SCENE_ID from t_scene_link_relate where TECH_LINK_ID = #{techLinkId})
+    </update>
+
+    <!--
+        <select id="selectSceneDetail" parameterType="com.pamirs.tro.entity.domain.vo.linkmanage.queryparam.SceneQueryVo"
+                resultMap="SceneResultDtoMap">
+
+            select scene.ID as SCENE_ID,
+            scene.SCENE_NAME,
+            scene.CREATE_TIME,
+            count(scene_relate.BUSINESS_LINK_ID) as BUSINESSLINKCOUNT,
+            count(scene_relate.TECH_LINK_ID) as TECHLINKCOUNT
+             business_manage.LINK_ID as BUSINESS_ID,
+            business_manage.LINK_NAME as BUSINESS_LINK_NAME,
+            business_manage.ENTRACE as BUSINESS_ENTRACE,
+            business_manage.IS_CHANGE as BUSINESS_IS_CHANGE,
+            tech_manage.LINK_ID as TECH_LINK_ID,
+            tech_manage.LINK_NAME as TECH_LINK_NAME,
+            tech_manage.CHANGE_REMARK as TECH_CHANGE_REMARK,
+            tech_manage.CHANGE_AFTER as TECH_CHANGE_AFTER,
+            tech_manage.CHANGE_BEFORE as TECH_CHANGE_BEFORE,
+            middleware.MIDDLEWARE_TYPE,
+            middleware.MIDDLEWARE_NAME,
+            middleware.MIDDLEWARE_VERSION,
+            middleware.ID as MIDDLEWARE_ID
+
+
+
+            from t_scene scene
+            left join t_scene_link_relate scene_relate
+            on scene_relate.SCENE_ID = scene.ID
+            left join t_middleware_link_relate middleware_relate
+            on middleware_relate.TECH_LINK_ID = scene_relate.TECH_LINK_ID
+            left join t_middleware_info middleware on middleware.ID = middleware_relate.MIDDLEWARE_ID
+            left join t_business_link_manage_table business_manage on business_manage.LINK_ID=scene_relate.BUSINESS_LINK_ID
+            left join t_link_manage_table tech_manage on scene_relate.TECH_LINK_ID=tech_manage.LINK_ID
+            <trim prefix="where" prefixOverrides="and | or">
+                <if test="sceneName != null">
+                    and scene.SCENE_NAME = #{sceneName}
+                </if>
+                <if test="entrace !=null">
+                    and tech_manage.ENTRACE = #{entrace,jdbcType=VARCHAR}
+                </if>
+                <if test="ischanged !=null">
+                    and scene.IS_CHANGED = #{ischanged,jdbcType=TINYINT},
+                </if>
+                <if test="middleWareType !=null">
+                    and middleware.MIDDLEWARE_TYPE = #{middleWareType}
+                </if>
+                <if test="middleWareName !=null">
+                    and middleware.MIDDLEWARE_NAME = #{middleWareName}
+                </if>
+                <if test="middleWareVersion !=null">
+                    and middleware.MIDDLEWARE_VERSION = #{middleWareVersion}
+                </if>
+                <if test="sceneId != null">
+                    and scene.ID = #{sceneId}
+                </if>
+                and scene.IS_DELETED = 0
+            </trim>
+            group by scene.ID desc
+        </select>-->
+
+    <select id="valiteSceneName" resultType="java.lang.Integer">
+        select count(1)
+        from t_scene
+        where SCENE_NAME = #{sceneName}
+          and IS_DELETED = 0
+    </select>
+
+    <select id="businessFlowIdFuzzSearch" resultMap="BusinessFlowIdAndNameDtoMap">
+        select ID,SCENE_NAME from t_scene
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="businessFlowName != null">
+                SCENE_NAME like concat(concat('%',#{businessFlowName}),'%')
+            </if>
+            and IS_DELETED = 0
+        </trim>
+    </select>
+
+    <select id="selectBusinessFlowNameByIds" resultMap="BaseResultMap">
+        SELECT ID,SCENE_NAME FROM t_scene
+        WHERE ID in
+        <foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and IS_DELETED = 0
+    </select>
+</mapper>

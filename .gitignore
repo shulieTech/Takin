@@ -1,0 +1,50 @@
+.cache
+scalastyle-output.xml
+.classpath
+.idea
+.metadata
+.settings
+.project
+.version.properties
+filter.properties
+logs.zip
+target
+tmp
+*.class
+*.iml
+*.swp
+*.jar
+*.zip
+*.log
+*.pyc
+.DS_Store
+build-target
+out/
+*.ipr
+*.iws
+*.html
+### Eclipse ###
+.externalToolBuilders
+.project
+.classpath
+.settings
+
+### IntelliJ IDEA ###
+.idea
+*.iml
+
+### Jrebel File ###
+*rebel.xml.bak
+*rebel.xml
+
+### Common ###
+target
+logs
+*.html
+*.jar
+### Project ###
+hadoop
+
+.DS_Store
+
+local*.sh

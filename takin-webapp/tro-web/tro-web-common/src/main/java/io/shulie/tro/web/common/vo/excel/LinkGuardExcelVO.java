@@ -1,0 +1,47 @@
+/*
+ * Copyright 2021 Shulie Technology, Co.Ltd
+ * Email: shulie@shulie.io
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package io.shulie.tro.web.common.vo.excel;
+
+import java.io.Serializable;
+
+import com.alibaba.excel.annotation.ExcelProperty;
+
+import lombok.Data;
+
+/**
+ * @Author: mubai
+ * @Date: 2021-02-24 17:47
+ * @Description:
+ */
+@Data
+public class LinkGuardExcelVO implements Serializable {
+    private static final long serialVersionUID = -3835886136855903115L;
+
+    @ExcelProperty(value ="methodInfo",index = 0)
+    private String methodInfo;
+
+    @ExcelProperty(value ="groovy",index = 1)
+    private String groovy;
+
+    @ExcelProperty(value ="isEnable",index = 2)
+    private Boolean isEnable;
+
+    @ExcelProperty(value ="remark",index = 3)
+    private String remark;
+
+
+
+}

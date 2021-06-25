@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pamirs.tro.entity.dao.report.TReportBottleneckInterfaceMapper">
+    <resultMap id="BaseResultMap" type="com.pamirs.tro.entity.domain.entity.report.ReportBottleneckInterface">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="report_id" property="reportId" jdbcType="BIGINT"/>
+        <result column="application_name" property="applicationName" jdbcType="VARCHAR"/>
+        <result column="sort_no" property="sortNo" jdbcType="INTEGER"/>
+        <result column="interface_type" property="interfaceType" jdbcType="VARCHAR"/>
+        <result column="interface_name" property="interfaceName" jdbcType="VARCHAR"/>
+        <result column="tps" property="tps" jdbcType="DECIMAL"/>
+        <result column="rt" property="rt" jdbcType="DECIMAL"/>
+        <result column="error_reqs" property="errorReqs" jdbcType="INTEGER"/>
+        <result column="node_count" property="nodeCount" jdbcType="INTEGER"/>
+        <result column="bottleneck_weight" property="bottleneckWeight" jdbcType="DECIMAL"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, report_id, application_name, sort_no, interface_type, interface_name, tps, rt
+    </sql>
+    <select id="selectByExample" resultMap="BaseResultMap"
+            parameterType="com.pamirs.tro.entity.domain.vo.report.ReportLocalQueryParam">
+        select
+        <include refid="Base_Column_List"/>
+        from t_report_bottleneck_interface
+        where report_id = #{reportId,jdbcType=BIGINT}
+        order by sort_no
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_report_bottleneck_interface
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectCountByReportId" resultType="java.lang.Long">
+        select count(id) as `count`
+        from t_report_bottleneck_interface
+        where report_id = #{reportId,jdbcType=BIGINT}
+    </select>
+    <insert id="insertBatch">
+        insert into t_report_bottleneck_interface (report_id, application_name,
+        sort_no, interface_type, interface_name, tps, rt, error_reqs, node_count, bottleneck_weight)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.reportId,jdbcType=BIGINT}, #{item.applicationName,jdbcType=VARCHAR},
+            #{item.sortNo,jdbcType=INTEGER}, #{item.interfaceType,jdbcType=VARCHAR},
+            #{item.interfaceName,jdbcType=VARCHAR}, #{item.tps,jdbcType=DECIMAL},
+            #{item.rt,jdbcType=DECIMAL}, #{item.errorReqs,jdbcType=INTEGER}, #{item.nodeCount,jdbcType=INTEGER},
+            #{item.bottleneckWeight,jdbcType=DECIMAL})
+        </foreach>
+    </insert>
+
+    <delete id="deleteByReportId">
+        delete
+        from t_report_bottleneck_interface
+        where report_id = #{reportId,jdbcType=BIGINT}
+    </delete>
+</mapper>

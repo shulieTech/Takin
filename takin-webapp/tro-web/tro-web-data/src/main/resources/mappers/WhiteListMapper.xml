@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.web.data.mapper.mysql.WhiteListMapper">
+    <resultMap id="BaseResultMap" type="io.shulie.tro.web.data.model.mysql.WhiteListEntity">
+        <!--@mbg.generated-->
+        <!--@Table t_white_list-->
+        <id column="WLIST_ID" jdbcType="BIGINT" property="wlistId"/>
+        <result column="INTERFACE_NAME" jdbcType="VARCHAR" property="interfaceName"/>
+        <result column="TYPE" jdbcType="VARCHAR" property="type"/>
+        <result column="DICT_TYPE" jdbcType="VARCHAR" property="dictType"/>
+        <result column="APPLICATION_ID" jdbcType="BIGINT" property="applicationId"/>
+        <result column="PRINCIPAL_NO" jdbcType="VARCHAR" property="principalNo"/>
+        <result column="USE_YN" jdbcType="INTEGER" property="useYn"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="QUEUE_NAME" jdbcType="VARCHAR" property="queueName"/>
+        <result column="MQ_TYPE" jdbcType="CHAR" property="mqType"/>
+        <result column="IP_PORT" jdbcType="VARCHAR" property="ipPort"/>
+        <result column="HTTP_TYPE" jdbcType="INTEGER" property="httpType"/>
+        <result column="PAGE_LEVEL" jdbcType="INTEGER" property="pageLevel"/>
+        <result column="INTERFACE_LEVEL" jdbcType="INTEGER" property="interfaceLevel"/>
+        <result column="JOB_INTERVAL" jdbcType="INTEGER" property="jobInterval"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        WLIST_ID, INTERFACE_NAME, `TYPE`, DICT_TYPE, APPLICATION_ID, PRINCIPAL_NO, USE_YN,
+        CREATE_TIME, UPDATE_TIME, QUEUE_NAME, MQ_TYPE, IP_PORT, HTTP_TYPE, PAGE_LEVEL, INTERFACE_LEVEL,
+        JOB_INTERVAL
+    </sql>
+</mapper>

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pamirs.tro.entity.dao.pressureready.TDataBuildDao">
+
+    <!-- 新增应用时把应用数据插入数据构建表 -->
+    <insert id="insertDataBuild" parameterType="Map">
+        insert into
+        t_data_build(
+        DATA_BUILD_ID,
+        APPLICATION_ID,
+        <if test="cacheBuildStatus!=null and cacheBuildStatus!=''">
+            CACHE_BUILD_STATUS,
+            CACHE_LAST_SUCCESS_TIME,
+        </if>
+        CREATE_TIME,
+        UPDATE_TIME
+        )values(
+        #{dataBuildId},
+        #{applicationId},
+        <if test="cacheBuildStatus!=null and cacheBuildStatus!=''">
+            #{cacheBuildStatus},
+            now(),
+        </if>
+        now(),
+        now()
+        )
+    </insert>
+
+    <!-- 查询构建信息列表 -->
+    <select id="queryBuildinfo" parameterType="Map"
+            resultType="com.pamirs.tro.entity.domain.vo.TDataBuild">
+        SELECT
+        tslm.LINK_NAME SECOND_LINK_NAME,
+        tslm.LINK_ID SECOND_LINK_ID,
+        tlm.LINK_ID,
+        tlm.LINK_NAME,
+        tlm.PRINCIPAL_NO,
+        tdb.APPLICATION_ID,
+        tam.APPLICATION_NAME,
+        tdb.DATA_BUILD_ID,
+        tdb.DDL_BUILD_STATUS,
+        tdb.DDL_LAST_SUCCESS_TIME,
+        tdb.CACHE_BUILD_STATUS,
+        tdb.CACHE_LAST_SUCCESS_TIME,
+        tdb.READY_BUILD_STATUS,
+        tdb.READY_LAST_SUCCESS_TIME,
+        tdb.BASIC_BUILD_STATUS,
+        tdb.BASIC_LAST_SUCCESS_TIME,
+        tdb.CLEAN_BUILD_STATUS,
+        tdb.CLEAN_LAST_SUCCESS_TIME,
+        tdb.CREATE_TIME,
+        tdb.UPDATE_TIME
+        FROM
+        t_data_build tdb,
+        t_link_mnt tlm,
+        t_white_list twl,
+        t_application_mnt
+        tam,
+        t_link_service_mnt tlsm,
+        t_second_link_mnt tslm
+        where
+        tam.APPLICATION_ID=twl.APPLICATION_ID
+        and tlm.LINK_ID = tlsm.LINK_ID
+        AND twl.INTERFACE_NAME =tlsm.INTERFACE_NAME
+        and tam.APPLICATION_ID=tdb.APPLICATION_ID
+        and tslm.BASE_LINKS like concat('%',tlm.LINK_ID,'%')
+        <if test="secondLinkName!=null and secondLinkName!=''">
+            and tslm.LINK_NAME like concat('%',#{secondLinkName},'%')
+        </if>
+        <if test="linkName!=null and linkName!=''">
+            and tlm.LINK_NAME like concat('%',#{linkName},'%')
+        </if>
+        <if test="applicationName!=null and applicationName!=''">
+            and tam.APPLICATION_NAME like
+            concat('%',#{applicationName},'%')
+        </if>
+        <if test="principalNo!=null and principalNo!=''">
+            and tlm.PRINCIPAL_NO=#{principalNo}
+        </if>
+        GROUP BY tslm.LINK_ID,tlm.LINK_ID,tdb.APPLICATION_ID
+        order by tslm.LINK_NAME desc
+    </select>
+
+    <!-- 更新脚本构建状态 -->
+    <update id="updateScriptExcuteStatus" parameterType="Map">
+        update
+        t_data_build
+        set
+        <if test="scriptType!=null and scriptType=='1'.toString()">
+            DDL_BUILD_STATUS=#{resultStatus},
+        </if>
+        <if
+                test="scriptType!=null and scriptType=='1'.toString() and resultStatus!=null and resultStatus=='2'.toString()">
+            DDL_LAST_SUCCESS_TIME=now(),
+        </if>
+        <if test="scriptType!=null and scriptType=='2'.toString()">
+            CACHE_BUILD_STATUS=#{resultStatus},
+        </if>
+        <if
+                test="scriptType!=null and scriptType=='2'.toString() and resultStatus!=null and resultStatus=='2'.toString()">
+            CACHE_LAST_SUCCESS_TIME=now(),
+        </if>
+        <if test="scriptType!=null and scriptType=='3'.toString()">
+            READY_BUILD_STATUS=#{resultStatus},
+        </if>
+        <if
+                test="scriptType!=null and scriptType=='3'.toString() and resultStatus!=null and resultStatus=='2'.toString()">
+            READY_LAST_SUCCESS_TIME=now(),
+        </if>
+        <if test="scriptType!=null and scriptType=='4'.toString()">
+            BASIC_BUILD_STATUS=#{resultStatus},
+        </if>
+        <if
+                test="scriptType!=null and scriptType=='4'.toString() and resultStatus!=null and resultStatus=='2'.toString()">
+            BASIC_LAST_SUCCESS_TIME=now(),
+        </if>
+        <if test="scriptType!=null and scriptType=='5'.toString()">
+            CLEAN_BUILD_STATUS=#{resultStatus},
+        </if>
+        <if
+                test="scriptType!=null and scriptType=='5'.toString() and resultStatus!=null and resultStatus=='2'.toString()">
+            CLEAN_LAST_SUCCESS_TIME=now(),
+        </if>
+        UPDATE_TIME=now()
+        where APPLICATION_ID=#{applicationId}
+    </update>
+
+    <!--数据构建调试开关-->
+    <update id="debugSwitchUpdate" parameterType="Map">
+        update
+        t_data_build
+        set
+        DDL_BUILD_STATUS=#{status},
+        DDL_LAST_SUCCESS_TIME=NOW(),
+        CACHE_BUILD_STATUS=#{status},
+        CACHE_LAST_SUCCESS_TIME=NOW(),
+        READY_BUILD_STATUS=#{status},
+        READY_LAST_SUCCESS_TIME=NOW(),
+        BASIC_BUILD_STATUS=#{status},
+        BASIC_LAST_SUCCESS_TIME=NOW(),
+        CLEAN_BUILD_STATUS=#{status},
+        CLEAN_LAST_SUCCESS_TIME=NOW(),
+        UPDATE_TIME=NOW()
+        where APPLICATION_ID in
+        <foreach collection="applicationIdLists" separator=","
+                 item="applicationId" open="(" close=")">
+            #{applicationId}
+        </foreach>
+    </update>
+
+    <!-- 根据脚本类型和应用Id查询脚本构建状态 -->
+    <select id="queryScriptExcuteStatus" parameterType="String"
+            resultType="Map">
+        select
+        <if test="scriptType!=null and scriptType=='1'.toString()">
+            DDL_BUILD_STATUS,
+            DDL_LAST_SUCCESS_TIME
+        </if>
+        <if test="scriptType!=null and scriptType=='2'.toString()">
+            CACHE_BUILD_STATUS,
+            CACHE_LAST_SUCCESS_TIME
+        </if>
+        <if test="scriptType!=null and scriptType=='3'.toString()">
+            READY_BUILD_STATUS,
+            READY_LAST_SUCCESS_TIME
+        </if>
+        <if test="scriptType!=null and scriptType=='4'.toString()">
+            BASIC_BUILD_STATUS,
+            BASIC_LAST_SUCCESS_TIME
+        </if>
+        <if test="scriptType!=null and scriptType=='5'.toString()">
+            CLEAN_BUILD_STATUS,
+            CLEAN_LAST_SUCCESS_TIME
+        </if>
+        from
+        t_data_build
+        where APPLICATION_ID=#{applicationId}
+    </select>
+
+    <!-- 查询缓存预热上次执行成功时间和执行状态 -->
+    <select id="queryCacheStatus" parameterType="String" resultType="Map">
+        select tam.APPLICATION_ID          applicationId,
+               tam.APPLICATION_NAME        applicationName,
+               tbd.CACHE_BUILD_STATUS      cacheBuildStatus,
+               tbd.CACHE_LAST_SUCCESS_TIME cacheLastSuccessTime
+        from t_data_build tbd,
+             t_application_mnt tam
+        where tam.APPLICATION_ID = tbd.APPLICATION_ID
+          and tbd.APPLICATION_ID
+            = #{applicationId}
+    </select>
+
+    <!-- 查询影子库整体同步检测结果 -->
+    <select id="queryCheckShadowlib" parameterType="String"
+            resultType="Map">
+        SELECT tdb.DDL_BUILD_STATUS   ddlBuildStatus,
+               tdb.READY_BUILD_STATUS readyBuildStatus,
+               tdb.BASIC_BUILD_STATUS basicBuildStatus,
+               tam.APPLICATION_ID     applicationId,
+               tam.APPLICATION_NAME   applicationName
+        FROM t_data_build tdb,
+             t_application_mnt tam
+        WHERE tdb.APPLICATION_ID = tam.APPLICATION_ID
+          and tdb.APPLICATION_ID = #{applicationId}
+    </select>
+
+    <!-- 根据应用ID批量删除构建表信息 -->
+    <delete id="deleteApplicationToDataBuild" parameterType="List">
+        delete from t_data_build where APPLICATION_ID in
+        <foreach collection="applicationIdLists" separator=","
+                 item="applicationId" open="(" close=")">
+            #{applicationId}
+        </foreach>
+    </delete>
+
+    <!--根据应用id列表批量查询构建信息-->
+    <select id="queryDataBuildListByIds" parameterType="list" resultType="java.util.Map">
+        SELECT
+        t1.*
+        FROM
+        t_data_build t1
+        WHERE
+        t1.APPLICATION_ID IN
+        <foreach collection="applicationIds" item="applicationId" open="(" close=")" separator=",">
+            #{applicationId}
+        </foreach>
+        ORDER BY t1.APPLICATION_ID
+    </select>
+
+</mapper>

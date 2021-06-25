@@ -1,0 +1,193 @@
+/*
+ * Copyright 2021 Shulie Technology, Co.Ltd
+ * Email: shulie@shulie.io
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+.tooltipStyle {
+  width: 320px;
+  position: relative;
+  padding: 16px 16px 32px;
+}
+
+.tableWrap {
+  height: 800px;
+  padding-bottom: 80px;
+  overflow: scroll;
+  :global {
+    .ant-divider-horizontal {
+      margin-top: 8px;
+    }
+  }
+}
+
+.addAction {
+  position: absolute;
+  right: 8px;
+  top: 0px;
+}
+
+.extraWrap {
+  position: absolute;
+  right: 30px;
+  bottom: 10px;
+}
+
+.tagStyle {
+  font-size: 13px;
+  font-weight: 500;
+  color: #656d77;
+}
+
+.tagWrap {
+  :global {
+    .ant-select-selection__rendered {
+      height: 260px;
+    }
+
+    .ant-select-selection__placeholder {
+      top: 7%;
+    }
+
+    .ant-select-dropdown-menu,
+    .ant-select-dropdown-menu-root,
+    .ant-select-dropdown-menu-vertical {
+      height: 0;
+    }
+
+    .ant-empty,
+    .ant-empty-normal,
+    .ant-empty-small {
+      height: 0;
+    }
+  }
+}
+
+.note {
+  width: 320px;
+  padding: 8px;
+
+  .noteTitle {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+
+  .noteContent {
+    font-size: 13px;
+    line-height: 21px;
+    margin-bottom: 24px;
+  }
+
+  .noteNum {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: rgba(61, 61, 61, 1);
+    border-radius: 20px;
+    color: #fff;
+    text-align: center;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: bold;
+    margin-right: 8px;
+  }
+
+  .noteSubTitle {
+    font-size: 13px;
+    font-weight: 600;
+    color: #3d3d3d;
+  }
+
+  .noteSubContent {
+    font-size: 13px;
+    margin-left: 24px;
+    margin-top: 8px;
+    margin-bottom: 32px;
+  }
+}
+
+.leftSelected {
+  width: 194px;
+  border: 1px solid #e9efff;
+  display: inline-block;
+  height: 100%;
+  overflow-y: scroll;
+
+  .item {
+    width: 100%;
+    height: 39px;
+    line-height: 39px;
+    padding-left: 14px;
+    cursor: pointer;
+  }
+
+  .itemActive {
+    width: 100%;
+    height: 39px;
+    line-height: 39px;
+    padding-left: 14px;
+    background-color: rgba(17, 187, 213, 0.1);
+    border-right: 4px solid #11bbd5;
+    cursor: pointer;
+  }
+}
+
+.roleRightWrap {
+  display: inline-block;
+  border: 1px solid #f2f2f2;
+  border-left: none;
+  position: relative;
+  width: 990px;
+
+  .roleTitle {
+    font-size: 20px;
+    font-weight: 600;
+    color: #595959;
+    margin-right: 16px;
+  }
+
+  .roleDes {
+    color: #8c8c8c;
+  }
+}
+
+.roleFooter {
+  width: 100%;
+  background: #ffffff;
+  box-shadow: 0px 2px 20px 0px rgba(92, 80, 133, 0.15),
+    0px -4px 8px 0px rgba(222, 223, 233, 0.3);
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  padding: 8px;
+  z-index: 1000;
+  text-align: left;
+}
+
+.agentIds {
+  max-height: 300px;
+  overflow: scroll;
+  :global {
+    .ant-divider-horizontal {
+      margin: 8px 0;
+    }
+  }
+}
+
+.consumerTable {
+  :global {
+    .ant-table-small {
+      border: none;
+    }
+  }
+}

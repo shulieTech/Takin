@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.web.data.mapper.mysql.FastDebugMachinePerformanceMapper">
+    <resultMap id="BaseResultMap" type="io.shulie.tro.web.data.model.mysql.FastDebugMachinePerformanceEntity">
+        <!--@mbg.generated-->
+        <!--@Table t_fast_debug_machine_performance-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="trace_id" jdbcType="VARCHAR" property="traceId"/>
+        <result column="rpc_id" jdbcType="VARCHAR" property="rpcId"/>
+        <result column="index" jdbcType="VARCHAR" property="index"/>
+        <result column="cpu_usage" jdbcType="DECIMAL" property="cpuUsage"/>
+        <result column="cpu_load" jdbcType="DECIMAL" property="cpuLoad"/>
+        <result column="memory_usage" jdbcType="DECIMAL" property="memoryUsage"/>
+        <result column="memory_total" jdbcType="DECIMAL" property="memoryTotal"/>
+        <result column="io_wait" jdbcType="DECIMAL" property="ioWait"/>
+        <result column="young_gc_count" jdbcType="BIGINT" property="youngGcCount"/>
+        <result column="young_gc_time" jdbcType="BIGINT" property="youngGcTime"/>
+        <result column="old_gc_count" jdbcType="BIGINT" property="oldGcCount"/>
+        <result column="old_gc_time" jdbcType="BIGINT" property="oldGcTime"/>
+        <result column="is_deleted" jdbcType="BOOLEAN" property="isDeleted"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_update" jdbcType="TIMESTAMP" property="gmtUpdate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, trace_id, rpc_id, `index`, cpu_usage, cpu_load, memory_usage, memory_total, io_wait,young_gc_count,young_gc_time,
+        old_gc_count,old_gc_time,is_deleted, gmt_create, gmt_update
+    </sql>
+
+
+</mapper>

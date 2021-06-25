@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Shulie Technology, Co.Ltd
+  ~ Email: shulie@shulie.io
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.shulie.tro.web.data.mapper.mysql.NetworkIsolateConfigMapper">
+    <resultMap id="BaseResultMap" type="io.shulie.tro.web.data.model.mysql.NetworkIsolateConfigEntity">
+        <!--@mbg.generated-->
+        <!--@Table t_network_isolate_config-->
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="APP_NAME" jdbcType="VARCHAR" property="appName"/>
+        <result column="VIP_ADDR" jdbcType="VARCHAR" property="vipAddr"/>
+        <result column="BALANCE_TYPE" jdbcType="VARCHAR" property="balanceType"/>
+        <result column="POOL_NAME" jdbcType="VARCHAR" property="poolName"/>
+        <result column="ISOLATED_STATUS" jdbcType="INTEGER" property="isolatedStatus"/>
+        <result column="ACTIVE" jdbcType="CHAR" property="active"/>
+        <result column="FAILED_DETAIL" jdbcType="LONGVARCHAR" property="failedDetail"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="ISOLATED_IP" jdbcType="VARCHAR" property="isolatedIp"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        ID, APP_NAME, VIP_ADDR, BALANCE_TYPE, POOL_NAME, ISOLATED_STATUS, ACTIVE, FAILED_DETAIL,
+        CREATE_TIME, UPDATE_TIME, ISOLATED_IP
+    </sql>
+</mapper>
