@@ -34,32 +34,32 @@ troweb.path: ~/data/apps/tro-web
 resource:
   ## mysql
   mysql:
-    host: 192.168.1.221
+    host: 127.0.0.1
     port: 3306
     username: root
-    password: shulie@2020
+    password: root
 ## redis配置
   ## redis
   redis:
-    host: 192.168.1.221
+    host: 127.0.0.1
     port: 6379
-    password: pamirs@2020
+    password: root
 ## influxdb配置
   ## influxdb
   influxdb:
-    url: http://192.168.1.207:32709
+    url: http://127.0.0.1:32709
     user: pradar
-    password: pamirs@db2020
+    password: root
     database: base
 
 ## tro-cloud 访问url配置 具体配置看引入
 trocloud.out.url: 127.0.0.1:10010
 ## 大数据配置
 ### AMDB 组件提供的请求地址 ###
-amdb.url.prdar: 192.168.1.102:8080
-amdb.url.amdb: http://192.168.1.109:10032
+amdb.url.prdar: 127.0.0.1:8080
+amdb.url.amdb: http://127.0.0.1:10032
 ## 配置zk地址 用与agent交互
-tro.config.zk.addr: 192.168.1.229:2181,192.168.1.221:2181,192.168.1.215:2181
+tro.config.zk.addr: 127.0.0.1:2181
 ```
 
 ### tro-cloud `application-dev.yml`
@@ -70,17 +70,17 @@ resource:
     host: 127.0.0.1
     port: 3306
     username: root
-    password: shulie@2020
+    password: root
   ## redis
   redis:
     host: 127.0.0.1
     port: 6379
-    password: pamirs@2020
+    password: root
   ## influxdb
   influxdb:
-    url: http://127.0.0.1:32709
+    url: http://127.0.0.1:8086
     user: pradar
-    password: pamirs@db2020
+    password: root
     database: jmeter
 ## 引擎包位置  引擎包可在github下载
 pressure.engine.install.dir: /Users/shulie/engine/pressure-engine.tar.gz

@@ -21,7 +21,7 @@ import static org.hamcrest.CoreMatchers.is;
 
 public class SingleChannelHttpPushTest {
 
-    public static final String ZK_SERVERS = "192.168.1.101:2181,192.168.1.102:2181,192.168.1.103:2181";
+    public static final String ZK_SERVERS = "127.0.0.1:2181";
     public static final String AGENT_ID = "192.168.100.110-76117";
 
     public void test() {

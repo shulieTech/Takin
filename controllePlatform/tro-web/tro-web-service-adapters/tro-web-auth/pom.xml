@@ -30,7 +30,6 @@
     <modules>
         <module>tro-web-auth-api</module>
         <module>tro-web-auth-default</module>
-        <module>tro-web-auth-yunda</module>
     </modules>
 
 </project>

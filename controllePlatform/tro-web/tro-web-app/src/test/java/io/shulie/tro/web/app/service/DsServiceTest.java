@@ -46,8 +46,8 @@ public class DsServiceTest {
         request.setApplicationId(6780372349628715008L);
         request.setDbType(0);
         request.setDsType(0);
-        request.setUrl("jdbc:mysql://114.55.42.181:3306/test_liuchuan_new");
-        request.setShadowDbUrl("jdbc:mysql://114.55.42.181:3306/pt_test_liuchuan_new");
+        request.setUrl("jdbc:mysql://127.0.0.1:3306/test_liuchuan_new");
+        request.setShadowDbUrl("jdbc:mysql://127.0.0.1:3306/pt_test_liuchuan_new");
         request.setShadowDbMaxActive("100");
         request.setShadowDbMinIdle("10");
         request.setShadowDbUserName("liuchuan");
@@ -73,12 +73,12 @@ public class DsServiceTest {
                 "              <!--数据源集合-->\n" +
                 "              <datasources>\n" +
                 "                  <datasource id=\"dataSourceBusiness\"><!--业务数据源--> <!--业务数据源只需要URL及用户名即可进行唯一性确认等验证-->\n" +
-                "                      <property name=\"url\" value=\"jdbc:mysql://114.55.42.181:3306/test_liuchuan\"/><!--数据库连接URL-->\n" +
+                "                      <property name=\"url\" value=\"jdbc:mysql://127.0.0.1:3306/test_liuchuan\"/><!--数据库连接URL-->\n" +
                 "                      <property name=\"username\" value=\"admin2017\"/><!--数据库连接用户名-->\n" +
                 "                  </datasource>\n" +
                 "                  <datasource id=\"dataSourcePerformanceTest\"><!--压测数据源-->\n" +
                 "                      <property name=\"driverClassName\" value=\"com.mysql.cj.jdbc.Driver\"/><!--数据库驱动-->\n" +
-                "                      <property name=\"url\" value=\"jdbc:mysql://114.55.42.181:3306/pt_test_liuchuan\"/><!--数据库连接URL-->\n" +
+                "                      <property name=\"url\" value=\"jdbc:mysql://127.0.0.1:3306/pt_test_liuchuan\"/><!--数据库连接URL-->\n" +
                 "                      <property name=\"username\" value=\"admin2017\"/><!--数据库连接用户名-->\n" +
                 "                      <property name=\"password\" value=\"admin2017\"/><!--数据库连接密码-->\n" +
                 "                      <property name=\"initialSize\" value=\"5\"/>\n" +

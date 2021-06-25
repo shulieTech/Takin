@@ -4,7 +4,7 @@
  Source Server         : 自动化部署web-dev
  Source Server Type    : MySQL
  Source Server Version : 50730
- Source Host           : 192.168.1.207:30311
+ Source Host           : 127.0.0.1:30311
  Source Schema         : trodb_cloud_base
 
  Target Server Type    : MySQL

@@ -93,6 +93,6 @@ public class JdbcConnection {
     }
 
     public static void main(String[] args) {
-        System.out.println(fetchCurrentTime("jdbc:mysql://114.55.42.181:3306/taco_app", "canal1", "canal", DataSourceVerifyTypeEnum.MYSQL));
+        System.out.println(fetchCurrentTime("jdbc:mysql://127.0.0.1:3306/taco_app", "canal1", "canal", DataSourceVerifyTypeEnum.MYSQL));
     }
 }

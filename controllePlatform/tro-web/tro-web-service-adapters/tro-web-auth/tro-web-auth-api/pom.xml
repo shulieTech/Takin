@@ -24,13 +24,14 @@
     <artifactId>tro-web-auth-api</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>io.shulie.tro</groupId>
-            <artifactId>tro-web-data</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>io.shulie.tro</groupId>
             <artifactId>tro-beans</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.shulie.tro</groupId>
+            <artifactId>tro-web-data</artifactId>
         </dependency>
     </dependencies>
 

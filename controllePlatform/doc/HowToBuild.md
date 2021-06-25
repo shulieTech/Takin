@@ -105,7 +105,7 @@
    	influxdb:
       url: http://127.0.0.1:32709
       user: pradar
-      password: pamirs@db2020
+      password: root
       database: jmeter
   ```
 
@@ -123,4 +123,4 @@
 
 ## redis配置
 
-- 设置密码 pamirs@2020
+- 设置密码 root

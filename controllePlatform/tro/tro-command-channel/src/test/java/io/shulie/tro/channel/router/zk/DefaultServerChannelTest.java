@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DefaultServerChannelTest {
-    public static final String ZK_SERVERS = "192.168.1.101:2181,192.168.1.102:2181,192.168.1.103:2181";
+    public static final String ZK_SERVERS = "127.0.0.1:2181";
     public static final String AGENT_ID = "192.168.100.109-76117";
     @Test
     public void getCurrentCommand() throws Exception {

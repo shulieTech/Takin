@@ -35,10 +35,10 @@ public class AopsServiceImpl implements AopsService {
 
     private static final String ZERO = "0";
     @Value("${tro.html.url}")
-    protected String trohtml = "http://10.230.44.5:8080/tro/index.html";
-    //http://10.230.20.181/dc_console/api/v1/collector/list/host";
+    protected String trohtml = "http://127.0.0.1:8080/tro/index.html";
+    //http://127.0.0.1/dc_console/api/v1/collector/list/host";
     @Value("${aops.url}")
-    private String url = "http://192.168.128.71/dc_console/api/v1/collector/list/host";
+    private String url = "http://127.0.0.1/dc_console/api/v1/collector/list/host";
     //"164e76df4f36aea7c4ab74f810c862ad2224b9c740cc7155b3956d6e241ef566" ;
     @Value("${aops.secretkey}")
     private String secretkey = "e203de14927ef0393106f0e81936f3e64d4f3b625587dc5b7a3b8015aa0d14f6";

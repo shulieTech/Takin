@@ -6,7 +6,7 @@
 
         # zk 配置参数对象
         ZkClientConfig config = new ZkClientConfig();
-        config.setZkServers("192.168.1.101:2181,192.168.1.102:2181,192.168.1.103:2181");
+        config.setZkServers("192.168.1.101:2181,127.0.0.1:2181,192.168.1.103:2181");
 
         # ServerChannel实例化配置
         ServerChannel channel = new DefaultServerChannel()
@@ -43,7 +43,7 @@
 
         # zk配置命令参数
         ZkClientConfig config = new ZkClientConfig();
-        config.setZkServers("192.168.1.101:2181,192.168.1.102:2181,192.168.1.103:2181");
+        config.setZkServers("192.168.1.101:2181,127.0.0.1:2181,192.168.1.103:2181");
 
 
         # 实例化客户端通道

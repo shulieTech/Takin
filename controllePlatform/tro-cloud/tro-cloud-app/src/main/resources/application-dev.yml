@@ -4,17 +4,17 @@ resource:
     host: 127.0.0.1
     port: 3306
     username: root
-    password: shulie@2020
+    password: root
   ## redis
   redis:
     host: 127.0.0.1
     port: 6379
-    password: pamirs@2020
+    password: root
   ## influxdb
   influxdb:
     url: http://127.0.0.1:32709
     user: pradar
-    password: pamirs@db2020
+    password: root
     database: jmeter
 ## 引擎包位置  引擎包可在github下载
 pressure.engine.install.dir: /Users/shulie/engine/pressure-engine.tar.gz
@@ -89,7 +89,7 @@ spring:
     database: ${resource.influxdb.database}
 
 ## 共享目录服务器 目前不支持文件切割 不支持k8s机器部署 预留
-nfs.server: 192.168.1.110
+nfs.server: 127.0.0.1
 ## 共享目录 目前不支持文件切割 不支持k8s机器部署 预留
 nfs.file.dir: /share
 
