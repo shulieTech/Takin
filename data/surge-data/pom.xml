@@ -31,19 +31,6 @@
         <module>surge-deploy</module>
     </modules>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <url>http://114.55.142.190:8081/content/repositories/snapshots/</url>
-            <uniqueVersion>false</uniqueVersion>
-        </snapshotRepository>
-        <repository>
-            <id>releases</id>
-            <url>http://114.55.142.190:8081/content/repositories/releases/</url>
-            <uniqueVersion>false</uniqueVersion>
-        </repository>
-    </distributionManagement>
-
     <build>
         <plugins>
             <plugin>

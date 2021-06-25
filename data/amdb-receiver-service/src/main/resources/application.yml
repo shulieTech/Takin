@@ -18,7 +18,7 @@ spring:
     driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://pradar.host.mysql.amdb:3306/amdb?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8
     username: root
-    password: shulie@2020
+    password: root
     initialSize: 1
     minIdle: 3
     maxActive: 20
@@ -47,8 +47,8 @@ pagehelper:
 
 influx:
   openurl: http://pradar.host.influxdb:8086
-  username: pradar
-  password: pradar
+  username: root
+  password: root
   database: pradar
 
 zookeeper:
