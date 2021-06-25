@@ -1,7 +1,7 @@
 package io.shulie.tro.channel.exception;
 
 /**
- * @author: Hengyu
+ * @author: HengYu
  * @className: ChannelException
  * @date: 2020/12/29 10:17 下午
  * @description:

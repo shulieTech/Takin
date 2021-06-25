@@ -20,8 +20,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 /**
  * zk 心跳节点的实现
- *
- * @author pamirs
+ * @author: HengYu
  */
 public class CuratorZkHeartbeatNode implements ZkHeartbeatNode {
 

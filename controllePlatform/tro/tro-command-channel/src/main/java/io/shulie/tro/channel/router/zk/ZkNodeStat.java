@@ -3,7 +3,7 @@ package io.shulie.tro.channel.router.zk;
 /**
  * Zk node status
  * 创建方式：{@link ZkClient#createZkNodeCache(String, boolean)}
- * @author pamirs
+ * @author: HengYu
  */
 public class ZkNodeStat {
 
