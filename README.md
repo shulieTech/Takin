@@ -9,7 +9,7 @@ Takin is an Java-based, open-source system designed to measure online environmen
 
 # Why should we do online environmental performance test
 Microservices Architecture is used commonly nowadays and it always make system complex to understand for humans. Moreover, businesses are also very complex in huge system. Business complexity and system complexity make it difficult to :
-- Keep entire system highly available 
+- Keep entire system highly available
 - Maintain Research & Development efficiency.
 
 In order to keep system high available, we usually make performance test on test environment or online single-service. However, test environment is very different from online environment, single-service can't stand for the whole service-links. They can't guarantee system performance.
@@ -27,30 +27,14 @@ In a microservices architecture system with a lot of business services, the call
 <img src="https://raw.githubusercontent.com/shulieTech/Images/main/3.png" width="50%" height="50%">
 
 # Quick Start Instruction
-If docker configuration doesn't set AliYun docker source :
-```
-vim /etc/docker/daemon.json
-```
-Add following configuration：
-```
-{
-  "registry-mirrors": ["https://q2gr04ke.mirror.aliyuncs.com"]
-}
-```
-restart service
-```
-systemctl daemon-reload
-```
+
 **docker:**<br/>
 - Docker mirror size ： 1.8 G
-- Pull docker：
-  ```
-  docker pull registry.cn-hangzhou.aliyuncs.com/forcecop/forcecop:v1.0.0
-  ```
-- Run docker：
-  ```
-  docker run -d -p 80:80 -p 2181:2181 -p 3306:3306 -p 6379:6379 -p 8086:8086 -p 9000:9000 -p 10032:10032 -p 6628:6628 -p 8000:8000 -p 6627:6627 -p 8888:8888 -p 29900-29999:29900-29999 imgaeID or name:tag
-  ```
+
+```shell
+docker run -d -p 80:80 -p 2181:2181 -p 3306:3306 -p 6379:6379 -p 8086:8086 -p 9000:9000 -p 10032:10032 -p 6628:6628 -p 8000:8000 -p 6627:6627 -p 8888:8888 -p 29900-29999:29900-29999 registry.cn-hangzhou.aliyuncs.com/forcecop/forcecop:v1.0.0
+```
+
 - Parameter：-d start in background，-p port. <br/>
 The Initiation of docker need about 10 mins because it need install necessary components. -d can ignore installment information of components in background. If you dont't want to open your server's port, you can use --net=host and make sure it and host server are in the same network。
 - Modify the IP address of the index.html file to the server's local IP address.
@@ -69,7 +53,7 @@ after installation：
 # Instruction
 #### Takin Architecture
 <img src="https://raw.githubusercontent.com/shulieTech/Images/main/DaYuX_Architecture2.png" width="70%" height="70%"><br/>
-Takin consists of Agent, Controlle Platform and Surge Data. 
+Takin consists of Agent, Controlle Platform and Surge Data.
 
 ## Agent
 see [Agent](https://github.com/shulieTech/LinkAgent)
