@@ -101,7 +101,7 @@ micro.type: localThread
 pressure.engine.memSetting: -Xmx512m -Xms512m -Xss256K -XX:MaxMetaspaceSize=256m
 ```
 ### nginx配置 
-- 安装nginx  [nginx安装部署-1.19.0](nginx-1.19.0.tar.gz)
+- 安装nginx  [nginx安装部署-1.20.0](https://install-pkg.oss-cn-hangzhou.aliyuncs.com/alone-pkg/nginx-1.20.1.tar.gz)
 
 - nginx配置  nginx.conf
 ```
