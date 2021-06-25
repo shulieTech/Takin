@@ -21,7 +21,7 @@ import org.apache.zookeeper.data.Stat;
 /**
  * 封装了 Netflix Curator 的实现
  *
- * @author pamirs
+ * @author: HengYu
  */
 public class NetflixCuratorZkClient implements ZkClient {
 

@@ -15,7 +15,6 @@ public final class TroRequestConstant {
 
     /**
      * 压测请求对应的值
-     * 注意：Agent 里面，目前单词拼写错误，为"Perfomance"，此处将错就错的一直下去了
      */
     public static final String CLUSTER_TEST_HEADER_VALUE = "PerfomanceTest";
 
