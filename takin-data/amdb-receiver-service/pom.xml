@@ -193,12 +193,6 @@
             <version>1.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>io.shulie.surge.data</groupId>
-            <artifactId>surge-deploy-pradar</artifactId>
-            <version>1.0</version>
-        </dependency>
-
         <!--adaptor-->
         <dependency>
             <groupId>ru.yandex.clickhouse</groupId>
@@ -265,12 +259,6 @@
             <groupId>io.shulie.pradar</groupId>
             <artifactId>log-protocol</artifactId>
             <version>2.0.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.pamirs.pradar</groupId>
-            <artifactId>log-rule</artifactId>
-            <version>2.0.1</version>
         </dependency>
 
     </dependencies>
