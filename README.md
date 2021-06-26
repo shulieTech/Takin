@@ -60,6 +60,8 @@ The Initiation of docker need about 10 mins because it need install necessary co
     # Modify serverUrl to the server's local IP address
     # Restart Nginx：
     nginx -s reload
+    
+    Open http://127.0.0.1/tro
     ```
 
 after installation：
