@@ -18,9 +18,6 @@ import com.google.common.primitives.Longs;
 import com.pamirs.pradar.log.parser.trace.RpcBased;
 import io.shulie.amdb.common.request.trace.EntryTraceQueryParam;
 import io.shulie.amdb.service.TraceService;
-import io.shulie.pradar.log.rule.RuleFactory;
-import io.shulie.surge.data.deploy.pradar.parser.MiddlewareType;
-import io.shulie.surge.data.deploy.pradar.parser.PradarLogType;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import zipkin2.Endpoint;
 import zipkin2.Span;
 import zipkin2.codec.SpanBytesEncoder;
+import io.shulie.amdb.enums.MiddlewareType;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -41,6 +39,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import io.shulie.amdb.constant.PradarLogType;
 
 import static com.pamirs.pradar.log.parser.utils.CommonUtils.parseIntQuietly;
 
