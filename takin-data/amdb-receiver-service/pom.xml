@@ -195,22 +195,9 @@
 
         <dependency>
             <groupId>io.shulie.surge.data</groupId>
-            <artifactId>surge-deploy-pradar-parser</artifactId>
-            <version>1.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.shulie.surge.data</groupId>
             <artifactId>surge-deploy-pradar</artifactId>
             <version>1.0</version>
         </dependency>
-        <dependency>
-            <groupId>io.shulie.surge.data</groupId>
-            <artifactId>surge-deploy-pradar-link</artifactId>
-            <version>1.0</version>
-        </dependency>
-
-
 
         <!--adaptor-->
         <dependency>
