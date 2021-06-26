@@ -52,7 +52,7 @@ import io.shulie.tro.cloud.biz.cloudserver.MachineTaskLogConvert;
 import io.shulie.tro.cloud.biz.cloudserver.PressureMachineConvert;
 import io.shulie.tro.cloud.biz.service.cloudServer.CloudAccountService;
 import io.shulie.tro.cloud.biz.service.cloudServer.CloudPlatformService;
-import io.shulie.tro.cloud.biz.service.cloudServer.CloudPluginServerService;
+//import io.shulie.tro.cloud.biz.service.cloudServer.CloudPluginServerService;
 import io.shulie.tro.cloud.common.constants.DicKeyConstant;
 import io.shulie.tro.cloud.common.enums.machine.MachineStatusEnum;
 import io.shulie.tro.cloud.common.enums.machine.MachineTaskStatusEnum;
@@ -86,8 +86,8 @@ public class MachineManageServiceImpl implements MachineManageService {
     TPressureMachineMapper TPressureMachineMapper;
     @Autowired
     CloudAccountService cloudAccountService;
-    @Autowired
-    CloudPluginServerService cloudPluginServerService;
+    //@Autowired
+    //CloudPluginServerService cloudPluginServerService;
     @Autowired
     CloudPlatformService cloudPlatformService;
     @Autowired

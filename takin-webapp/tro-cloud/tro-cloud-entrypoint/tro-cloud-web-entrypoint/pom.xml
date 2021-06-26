@@ -142,17 +142,6 @@
             <artifactId>tro-cloud-common</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.shulie.flpt</groupId>
-            <artifactId>cloud-server-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.alibaba</groupId>
-                    <artifactId>fastjson</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
             <groupId>io.shulie.tro</groupId>
             <artifactId>tro-utils</artifactId>
         </dependency>

@@ -61,7 +61,7 @@
         <spring.swagger.version>2.9.2</spring.swagger.version>
         <swagger.ui.version>1.9.6</swagger.ui.version>
         <swagger.version>1.5.22</swagger.version>
-        <command.channel>1.1.2</command.channel>
+        <command.channel>1.0.0-SNAPSHOT</command.channel>
     </properties>
 
     <modules>

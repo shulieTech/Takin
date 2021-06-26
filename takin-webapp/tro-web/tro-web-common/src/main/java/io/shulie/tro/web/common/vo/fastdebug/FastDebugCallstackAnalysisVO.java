@@ -16,7 +16,6 @@
 package io.shulie.tro.web.common.vo.fastdebug;
 
 import io.shulie.tro.web.common.enums.fastdebug.CallStackExceptionEnum;
-import io.swagger.models.auth.In;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
