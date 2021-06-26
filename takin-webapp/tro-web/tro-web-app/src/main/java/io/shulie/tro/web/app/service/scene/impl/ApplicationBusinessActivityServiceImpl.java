@@ -25,9 +25,9 @@ import com.alibaba.fastjson.JSON;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import io.shulie.amdb.common.dto.link.topology.LinkNodeDTO;
-import io.shulie.amdb.common.dto.link.topology.LinkTopologyDTO;
-import io.shulie.amdb.common.enums.NodeTypeEnum;
+//import io.shulie.amdb.common.dto.link.topology.LinkNodeDTO;
+//import io.shulie.amdb.common.dto.link.topology.LinkTopologyDTO;
+//import io.shulie.amdb.common.enums.NodeTypeEnum;
 import io.shulie.tro.web.amdb.api.ApplicationEntranceClient;
 import io.shulie.tro.web.app.service.scene.ApplicationBusinessActivityService;
 import io.shulie.tro.web.common.constant.FeaturesConstants;
@@ -81,19 +81,20 @@ public class ApplicationBusinessActivityServiceImpl implements ApplicationBusine
         String methodName = map.get(FeaturesConstants.METHOD_KEY);
         String rpcType = map.get(FeaturesConstants.RPC_TYPE_KEY);
         String extend = map.get(FeaturesConstants.EXTEND_KEY);
-        LinkTopologyDTO applicationEntrancesTopology = applicationEntranceClient.getApplicationEntrancesTopology(
-            linkManageTableEntity.getApplicationName(),
-            null, serviceName, methodName, rpcType, extend);
-        if (applicationEntrancesTopology == null) {
-            return Lists.newArrayList();
-        }
-        List<LinkNodeDTO> nodes = applicationEntrancesTopology.getNodes();
-        if (CollectionUtils.isEmpty(nodes)) {
-            return Lists.newArrayList();
-        }
-        return nodes.stream()
-            .filter(node -> node.getNodeType().equals(NodeTypeEnum.APP.getType()))
-            .map(LinkNodeDTO::getNodeName)
-            .collect(Collectors.toList());
+        //LinkTopologyDTO applicationEntrancesTopology = applicationEntranceClient.getApplicationEntrancesTopology(
+        //    linkManageTableEntity.getApplicationName(),
+        //    null, serviceName, methodName, rpcType, extend);
+        return Lists.newArrayList();
+        //if (applicationEntrancesTopology == null) {
+        //    return Lists.newArrayList();
+        //}
+        //List<LinkNodeDTO> nodes = applicationEntrancesTopology.getNodes();
+        //if (CollectionUtils.isEmpty(nodes)) {
+        //    return Lists.newArrayList();
+        //}
+        //return nodes.stream()
+        //    .filter(node -> node.getNodeType().equals(NodeTypeEnum.APP.getType()))
+        //    .map(LinkNodeDTO::getNodeName)
+        //    .collect(Collectors.toList());
     }
 }

@@ -18,7 +18,8 @@ package com.pamirs.tro.common.util.parse;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
-import io.shulie.amdb.common.enums.RpcType;
+//import io.shulie.amdb.common.enums.RpcType;
+import com.pamirs.tro.common.enums.amdb.common.enums.RpcType;
 import io.shulie.tro.web.common.util.ActivityUtil;
 import org.apache.commons.lang3.StringUtils;
 

@@ -20,7 +20,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.pamirs.tro.common.util.MD5Util;
-import io.shulie.amdb.common.dto.link.entrance.ServiceInfoDTO;
 import io.shulie.tro.common.beans.page.PagingList;
 import io.shulie.tro.web.amdb.api.ApplicationEntranceClient;
 import io.shulie.tro.web.amdb.enums.MiddlewareTypeGroupEnum;
@@ -236,23 +235,24 @@ public class ShadowConsumerServiceImpl implements ShadowConsumerService {
 
     private List<ShadowMqConsumerEntity> queryAmdbDefaultEntrances(ShadowConsumerQueryRequest request,
         String applicationName) {
-        List<ServiceInfoDTO> mqTopicGroups = applicationEntranceClient.getMqTopicGroups(applicationName);
-        if (CollectionUtils.isEmpty(mqTopicGroups)) {
-            return Lists.newArrayList();
-        }
-        return mqTopicGroups.stream().map(mqTopicGroup -> {
-            ShadowMqConsumerEntity shadowMqConsumerEntity = new ShadowMqConsumerEntity();
-            shadowMqConsumerEntity.setTopicGroup(
-                mqTopicGroup.getServiceName() + "#" + mqTopicGroup.getMethodName());
-            shadowMqConsumerEntity.setType(MiddlewareTypeGroupEnum.getMiddlewareGroupType(mqTopicGroup.getMiddlewareName()).getType());
-            shadowMqConsumerEntity.setApplicationId(request.getApplicationId());
-            shadowMqConsumerEntity.setApplicationName(applicationName);
-            shadowMqConsumerEntity.setStatus(ShadowConsumerConstants.DISABLE);
-            shadowMqConsumerEntity.setCustomerId(RestContext.getUser().getCustomerId());
-            shadowMqConsumerEntity.setUserId(RestContext.getUser().getId());
-            shadowMqConsumerEntity.setDeleted(ShadowConsumerConstants.LIVED);
-            return shadowMqConsumerEntity;
-        }).collect(Collectors.toList());
+        return Lists.newArrayList();
+        //List<ServiceInfoDTO> mqTopicGroups = applicationEntranceClient.getMqTopicGroups(applicationName);
+        //if (CollectionUtils.isEmpty(mqTopicGroups)) {
+        //    return Lists.newArrayList();
+        //}
+        //return mqTopicGroups.stream().map(mqTopicGroup -> {
+        //    ShadowMqConsumerEntity shadowMqConsumerEntity = new ShadowMqConsumerEntity();
+        //    shadowMqConsumerEntity.setTopicGroup(
+        //        mqTopicGroup.getServiceName() + "#" + mqTopicGroup.getMethodName());
+        //    shadowMqConsumerEntity.setType(MiddlewareTypeGroupEnum.getMiddlewareGroupType(mqTopicGroup.getMiddlewareName()).getType());
+        //    shadowMqConsumerEntity.setApplicationId(request.getApplicationId());
+        //    shadowMqConsumerEntity.setApplicationName(applicationName);
+        //    shadowMqConsumerEntity.setStatus(ShadowConsumerConstants.DISABLE);
+        //    shadowMqConsumerEntity.setCustomerId(RestContext.getUser().getCustomerId());
+        //    shadowMqConsumerEntity.setUserId(RestContext.getUser().getId());
+        //    shadowMqConsumerEntity.setDeleted(ShadowConsumerConstants.LIVED);
+        //    return shadowMqConsumerEntity;
+        //}).collect(Collectors.toList());
     }
 
     private PagingList<ShadowConsumerResponse> splitPage(

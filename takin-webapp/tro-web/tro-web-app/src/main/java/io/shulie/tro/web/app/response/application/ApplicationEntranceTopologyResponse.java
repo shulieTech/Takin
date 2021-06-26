@@ -18,7 +18,7 @@ package io.shulie.tro.web.app.response.application;
 import java.util.List;
 import java.util.Set;
 
-import io.shulie.amdb.common.enums.NodeTypeGroupEnum;
+//import io.shulie.amdb.common.enums.NodeTypeGroupEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -66,15 +66,15 @@ public class ApplicationEntranceTopologyResponse {
             return NodeTypeResponseEnum.UNKNOWN;
         }
 
-        public static NodeTypeResponseEnum getTypeByAmdbType(NodeTypeGroupEnum groupEnum) {
-            NodeTypeResponseEnum[] enumConstants = NodeTypeResponseEnum.class.getEnumConstants();
-            for (NodeTypeResponseEnum enumConstant : enumConstants) {
-                if (enumConstant.getType().equalsIgnoreCase(groupEnum.getType())) {
-                    return enumConstant;
-                }
-            }
-            return NodeTypeResponseEnum.UNKNOWN;
-        }
+        //public static NodeTypeResponseEnum getTypeByAmdbType(NodeTypeGroupEnum groupEnum) {
+        //    NodeTypeResponseEnum[] enumConstants = NodeTypeResponseEnum.class.getEnumConstants();
+        //    for (NodeTypeResponseEnum enumConstant : enumConstants) {
+        //        if (enumConstant.getType().equalsIgnoreCase(groupEnum.getType())) {
+        //            return enumConstant;
+        //        }
+        //    }
+        //    return NodeTypeResponseEnum.UNKNOWN;
+        //}
     }
 
     @Data

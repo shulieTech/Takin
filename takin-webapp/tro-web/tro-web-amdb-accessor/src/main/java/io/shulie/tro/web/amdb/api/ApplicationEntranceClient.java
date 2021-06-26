@@ -17,8 +17,8 @@ package io.shulie.tro.web.amdb.api;
 
 import java.util.List;
 
-import io.shulie.amdb.common.dto.link.entrance.ServiceInfoDTO;
-import io.shulie.amdb.common.dto.link.topology.LinkTopologyDTO;
+//import io.shulie.amdb.common.dto.link.entrance.ServiceInfoDTO;
+//import io.shulie.amdb.common.dto.link.topology.LinkTopologyDTO;
 
 /**
  * @author shiyajian
@@ -26,13 +26,13 @@ import io.shulie.amdb.common.dto.link.topology.LinkTopologyDTO;
  */
 public interface ApplicationEntranceClient {
 
-    List<ServiceInfoDTO> getApplicationEntrances(String applicationName, String entranceType);
+    //List<ServiceInfoDTO> getApplicationEntrances(String applicationName, String entranceType);
 
-    LinkTopologyDTO getApplicationEntrancesTopology(String applicationName, String linkId, String serviceName,
-        String method, String rpcType, String extend);
+    //LinkTopologyDTO getApplicationEntrancesTopology(String applicationName, String linkId, String serviceName,
+    //    String method, String rpcType, String extend);
 
-    Boolean updateUnknownNodeToOuter(String applicationName, String linkId, String serviceName, String method,
-        String rpcType, String extend, String nodeId);
+    //Boolean updateUnknownNodeToOuter(String applicationName, String linkId, String serviceName, String method,
+    //    String rpcType, String extend, String nodeId);
 
-    List<ServiceInfoDTO> getMqTopicGroups(String applicationName);
+   // List<ServiceInfoDTO> getMqTopicGroups(String applicationName);
 }

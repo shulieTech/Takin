@@ -27,19 +27,19 @@ import java.util.stream.Stream;
 import com.alibaba.fastjson.JSON;
 
 import com.google.common.collect.Lists;
-import io.shulie.amdb.common.dto.link.entrance.ServiceInfoDTO;
-import io.shulie.amdb.common.dto.link.topology.LinkEdgeDTO;
-import io.shulie.amdb.common.dto.link.topology.LinkNodeDTO;
-import io.shulie.amdb.common.dto.link.topology.LinkTopologyDTO;
-import io.shulie.amdb.common.dto.link.topology.NodeExtendInfoForCacheDTO;
-import io.shulie.amdb.common.dto.link.topology.NodeExtendInfoForDBDTO;
-import io.shulie.amdb.common.dto.link.topology.NodeExtendInfoForMQDTO;
-import io.shulie.amdb.common.dto.link.topology.NodeExtendInfoForOSSDTO;
-import io.shulie.amdb.common.dto.link.topology.NodeExtendInfoForSearchDTO;
-import io.shulie.amdb.common.enums.EdgeTypeEnum;
-import io.shulie.amdb.common.enums.EdgeTypeGroupEnum;
-import io.shulie.amdb.common.enums.NodeTypeEnum;
-import io.shulie.amdb.common.enums.NodeTypeGroupEnum;
+//import io.shulie.amdb.common.dto.link.entrance.ServiceInfoDTO;
+//import io.shulie.amdb.common.dto.link.topology.LinkEdgeDTO;
+//import io.shulie.amdb.common.dto.link.topology.LinkNodeDTO;
+//import io.shulie.amdb.common.dto.link.topology.LinkTopologyDTO;
+//import io.shulie.amdb.common.dto.link.topology.NodeExtendInfoForCacheDTO;
+//import io.shulie.amdb.common.dto.link.topology.NodeExtendInfoForDBDTO;
+//import io.shulie.amdb.common.dto.link.topology.NodeExtendInfoForMQDTO;
+//import io.shulie.amdb.common.dto.link.topology.NodeExtendInfoForOSSDTO;
+//import io.shulie.amdb.common.dto.link.topology.NodeExtendInfoForSearchDTO;
+//import io.shulie.amdb.common.enums.EdgeTypeEnum;
+//import io.shulie.amdb.common.enums.EdgeTypeGroupEnum;
+//import io.shulie.amdb.common.enums.NodeTypeEnum;
+//import io.shulie.amdb.common.enums.NodeTypeGroupEnum;
 import io.shulie.tro.common.beans.page.PagingList;
 import io.shulie.tro.web.amdb.api.ApplicationClient;
 import io.shulie.tro.web.amdb.api.ApplicationEntranceClient;
@@ -113,26 +113,27 @@ public class ApplicationEntranceController {
     @ApiOperation("获得入口服务列表")
     public List<ApplicationEntrancesResponse> getApplicationEntrances(@Validated
         ApplicationEntrancesQueryRequest request) {
-        List<ServiceInfoDTO> applicationEntrances = applicationEntranceClient.getApplicationEntrances(
-            request.getApplicationName(), request.getType().getType());
-        if (CollectionUtils.isEmpty(applicationEntrances)) {
-            return Lists.newArrayList();
-        }
-        return applicationEntrances.stream()
-            .filter(item -> !item.getServiceName().startsWith("PT_"))
-            .map(item -> {
-                ApplicationEntrancesResponse applicationEntrancesResponse = new ApplicationEntrancesResponse();
-                applicationEntrancesResponse.setMethod(item.getMethodName());
-                applicationEntrancesResponse.setRpcType(item.getRpcType());
-                applicationEntrancesResponse.setExtend(item.getExtend());
-                applicationEntrancesResponse.setServiceName(item.getServiceName());
-                applicationEntrancesResponse.setLabel(
-                    ActivityUtil.serviceNameLabel(item.getServiceName(), item.getMethodName()));
-                applicationEntrancesResponse.setValue(
-                    ActivityUtil.createLinkId(item.getServiceName(), item.getMethodName(),
-                        item.getAppName(), item.getRpcType(), item.getExtend()));
-                return applicationEntrancesResponse;
-            }).collect(Collectors.toList());
+        return Lists.newArrayList();
+        //List<ServiceInfoDTO> applicationEntrances = applicationEntranceClient.getApplicationEntrances(
+        //    request.getApplicationName(), request.getType().getType());
+        //if (CollectionUtils.isEmpty(applicationEntrances)) {
+        //    return Lists.newArrayList();
+        //}
+        //return applicationEntrances.stream()
+        //    .filter(item -> !item.getServiceName().startsWith("PT_"))
+        //    .map(item -> {
+        //        ApplicationEntrancesResponse applicationEntrancesResponse = new ApplicationEntrancesResponse();
+        //        applicationEntrancesResponse.setMethod(item.getMethodName());
+        //        applicationEntrancesResponse.setRpcType(item.getRpcType());
+        //        applicationEntrancesResponse.setExtend(item.getExtend());
+        //        applicationEntrancesResponse.setServiceName(item.getServiceName());
+        //        applicationEntrancesResponse.setLabel(
+        //            ActivityUtil.serviceNameLabel(item.getServiceName(), item.getMethodName()));
+        //        applicationEntrancesResponse.setValue(
+        //            ActivityUtil.createLinkId(item.getServiceName(), item.getMethodName(),
+        //                item.getAppName(), item.getRpcType(), item.getExtend()));
+        //        return applicationEntrancesResponse;
+        //    }).collect(Collectors.toList());
     }
     //
     //@ApiOperation("获得入口经过的应用上面的中间件信息")
@@ -145,15 +146,17 @@ public class ApplicationEntranceController {
     @GetMapping("topology")
     public ApplicationEntranceTopologyResponse getApplicationEntrancesTopology(@Validated
         ApplicationEntranceTopologyQueryRequest request) {
-        return linkTopologyService.getApplicationEntrancesTopology(request);
+        return new ApplicationEntranceTopologyResponse();
+        //return linkTopologyService.getApplicationEntrancesTopology(request);
     }
 
     @PostMapping("/updateUnknownNode")
     @ApiOperation("标记未知节点")
     public Boolean updateUnknownNodeToOuter(@Validated @RequestBody ApplicationEntranceTopologyQueryRequest request) {
-        return applicationEntranceClient.updateUnknownNodeToOuter(request.getApplicationName(), request.getLinkId(),
-            request.getServiceName(), request.getMethod(),
-            request.getRpcType(), request.getExtend(), request.getNodeId());
+        return false;
+        //return applicationEntranceClient.updateUnknownNodeToOuter(request.getApplicationName(), request.getLinkId(),
+        //    request.getServiceName(), request.getMethod(),
+        //    request.getRpcType(), request.getExtend(), request.getNodeId());
     }
 
     //@ApiOperation("获得入口服务拓扑图")

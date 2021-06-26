@@ -15,9 +15,7 @@
 
 package io.shulie.tro.web.data.result.activity;
 
-import java.util.Map;
 
-import io.shulie.amdb.common.enums.ServerMiddlewareTypeEnum;
 import io.shulie.tro.web.amdb.bean.common.EntranceTypeEnum;
 import lombok.Data;
 

@@ -151,8 +151,8 @@ public class ActivityServiceImpl implements ActivityService {
         createParam.setServiceName(request.getServiceName());
         createParam.setExtend(request.getExtend());
         activityDAO.createActivity(createParam);
-        notifyClient.startApplicationEntrancesCalculate(request.getApplicationName(), request.getServiceName(),
-            request.getMethod(), request.getRpcType(), request.getExtend());
+        //notifyClient.startApplicationEntrancesCalculate(request.getApplicationName(), request.getServiceName(),
+        //    request.getMethod(), request.getRpcType(), request.getExtend());
     }
 
     @Override
@@ -220,11 +220,11 @@ public class ActivityServiceImpl implements ActivityService {
         updateParam.setExtend(request.getExtend());
         activityDAO.updateActivity(updateParam);
 
-        notifyClient.stopApplicationEntrancesCalculate(oldActivity.getApplicationName(), request.getServiceName(),
-            request.getMethod(),
-            request.getRpcType(), request.getExtend());
-        notifyClient.startApplicationEntrancesCalculate(request.getApplicationName(), request.getServiceName(),
-            request.getMethod(), request.getRpcType(), request.getExtend());
+        //notifyClient.stopApplicationEntrancesCalculate(oldActivity.getApplicationName(), request.getServiceName(),
+        //    request.getMethod(),
+        //    request.getRpcType(), request.getExtend());
+        //notifyClient.startApplicationEntrancesCalculate(request.getApplicationName(), request.getServiceName(),
+        //    request.getMethod(), request.getRpcType(), request.getExtend());
     }
 
     @Override
@@ -242,8 +242,8 @@ public class ActivityServiceImpl implements ActivityService {
         OperationLogContextHolder.addVars(Vars.SERVICE_NAME, oldActivity.getServiceName());
         activityDAO.deleteActivity(activityId);
 
-        notifyClient.stopApplicationEntrancesCalculate(oldActivity.getApplicationName(), oldActivity.getServiceName(),
-            oldActivity.getMethod(), oldActivity.getRpcType(), oldActivity.getExtend());
+        //notifyClient.stopApplicationEntrancesCalculate(oldActivity.getApplicationName(), oldActivity.getServiceName(),
+        //    oldActivity.getMethod(), oldActivity.getRpcType(), oldActivity.getExtend());
     }
 
     @Override
@@ -340,7 +340,7 @@ public class ActivityServiceImpl implements ActivityService {
         request.setExtend(result.getExtend());
         request.setServiceName(result.getServiceName());
         request.setType(result.getType());
-        activityResponse.setTopology(linkTopologyService.getApplicationEntrancesTopology(request));
+        //activityResponse.setTopology(linkTopologyService.getApplicationEntrancesTopology(request));
         activityResponse.setEnableLinkFlowCheck(enableLinkFlowCheck);
         Integer verifyStatus = getVerifyStatus(id).getVerifyStatus();
         activityResponse.setVerifyStatus(verifyStatus);
