@@ -24,7 +24,7 @@
     <artifactId>tro-cloud-bom</artifactId>
 
     <properties>
-        <tro.cloud.version>release-opensource-1.0.0</tro.cloud.version>
+        <tro.cloud.version>1.0.0-SNAPSHOT</tro.cloud.version>
     </properties>
 
     <dependencyManagement>
