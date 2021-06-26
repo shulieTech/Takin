@@ -42,6 +42,7 @@ docker run -d -p 80:80 -p 2181:2181 -p 3306:3306 -p 6379:6379 -p 8086:8086 -p 90
     # 修改serverUrl的IP为服务本机IP
     # 重启Nginx服务：
     nginx -s reload
+    打开页面 http://127.0.0.1/tro
     ```
 
 安装完成后：
