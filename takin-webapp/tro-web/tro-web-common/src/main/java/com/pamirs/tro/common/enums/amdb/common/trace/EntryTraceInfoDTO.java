@@ -13,21 +13,19 @@
  * limitations under the License.
  */
 
-package io.shulie.tro.web.app.service.linkTopology;
+package com.pamirs.tro.common.enums.amdb.common.trace;
 
-//import io.shulie.amdb.common.enums.EdgeTypeEnum;
-import org.junit.Assert;
-import org.junit.Test;
+import lombok.Data;
 
-/**
- * @author 无涯
- * @Package io.shulie.tro.web.app.service.linkTopology
- * @date 2021/3/23 4:59 下午
- */
-public class LinkTopologyServiceTest {
-    @Test
-    public void EdgeTypeEnumTest() {
-        //System.out.println(EdgeTypeEnum.getEdgeTypeEnum("weblogic") != EdgeTypeEnum.UNKNOWN);
-        //Assert.assertEquals(EdgeTypeEnum.getEdgeTypeEnum("weblogic") != EdgeTypeEnum.UNKNOWN,true);
-    }
+@Data
+public class EntryTraceInfoDTO {
+    String serviceName;
+    String methodName;
+    String appName;
+    String remoteIp;
+    String port;
+    String resultCode;
+    long cost;
+    long startTime;
+    String traceId;
 }

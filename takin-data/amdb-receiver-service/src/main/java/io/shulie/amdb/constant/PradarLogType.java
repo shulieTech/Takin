@@ -13,25 +13,17 @@
  * limitations under the License.
  */
 
-package io.shulie.tro.web.amdb.api;
+package io.shulie.amdb.constant;
 
 /**
- * @author shiyajian
- * create: 2020-12-29
+ * 日志类型
+ * @author vincent
  */
-public interface NotifyClient {
-
-    ///**
-    // * 通知AMDB开始计算入口
-    // * @return
-    // */
-    //boolean startApplicationEntrancesCalculate(String applicationName, String serviceName,String method,
-    //    String type,String extend);
-    //
-    ///**
-    // * 通知AMDB结束计算入口
-    // * @return
-    // */
-    //boolean stopApplicationEntrancesCalculate(String applicationName, String serviceName,String method,
-    //    String type,String extend);
+public final class PradarLogType {
+    static final public int LOG_TYPE_BIZ = 0;
+    static final public int LOG_TYPE_TRACE = 1;
+    static final public int LOG_TYPE_RPC_CLIENT = 2;
+    static final public int LOG_TYPE_RPC_SERVER = 3;
+    static final public int LOG_TYPE_RPC_LOG = 4;
+    static final public int LOG_TYPE_FLOW_ENGINE = 5;
 }

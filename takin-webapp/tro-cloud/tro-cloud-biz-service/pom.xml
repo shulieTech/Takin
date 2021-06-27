@@ -42,10 +42,10 @@
             <groupId>io.shulie.tro</groupId>
             <artifactId>tro-cloud-eventcenter</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.shulie.flpt</groupId>
-            <artifactId>cloud-server-core</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>io.shulie.flpt</groupId>-->
+<!--            <artifactId>cloud-server-core</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>io.shulie.tro</groupId>
             <artifactId>tro-cloud-k8s</artifactId>

@@ -17,7 +17,7 @@ package io.shulie.tro.web.app.response.application;
 
 import java.util.List;
 
-import io.shulie.amdb.common.enums.NodeTypeEnum;
+//import io.shulie.amdb.common.enums.NodeTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -49,8 +49,8 @@ public class ApplicationEntranceTopologyResponse1 {
         @ApiModelProperty("是否根节点")
         private Boolean root;
 
-        @ApiModelProperty("节点类型")
-        private NodeTypeEnum type;
+        //@ApiModelProperty("节点类型")
+        //private NodeTypeEnum type;
 
         @ApiModelProperty("拓展信息")
         private String title;

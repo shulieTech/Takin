@@ -26,7 +26,7 @@ import com.google.common.collect.Lists;
 import com.pamirs.pradar.log.parser.ProtocolParserFactory;
 import com.pamirs.pradar.log.parser.trace.RpcBased;
 import com.pamirs.pradar.log.parser.trace.RpcStack;
-import io.shulie.amdb.common.request.trace.EntryTraceQueryParam;
+import com.pamirs.tro.common.enums.amdb.common.request.trace.EntryTraceQueryParam;
 import io.shulie.tro.common.beans.page.PagingList;
 import io.shulie.tro.web.amdb.api.TraceClient;
 import io.shulie.tro.web.amdb.bean.common.AmdbResult;
@@ -81,9 +81,9 @@ public class TraceClientImpl implements TraceClient {
                 log.error("前往pardar查询应用的接口信息报错,请求地址：{}，响应信息：{}", url, responseEntity);
                 return PagingList.empty();
             } else {
-                AmdbResult<List<io.shulie.amdb.common.dto.trace.EntryTraceInfoDTO>> amdbResponse = JSON.parseObject(
+                AmdbResult<List<com.pamirs.tro.common.enums.amdb.common.trace.EntryTraceInfoDTO>> amdbResponse = JSON.parseObject(
                     responseEntity,
-                    new TypeReference<AmdbResult<List<io.shulie.amdb.common.dto.trace.EntryTraceInfoDTO>>>() {
+                    new TypeReference<AmdbResult<List<com.pamirs.tro.common.enums.amdb.common.trace.EntryTraceInfoDTO>>>() {
                     });
                 if (CollectionUtils.isNotEmpty(amdbResponse.getData())) {
                     List<EntryTraceInfoDTO> result = amdbResponse.getData().stream().map(entry -> {

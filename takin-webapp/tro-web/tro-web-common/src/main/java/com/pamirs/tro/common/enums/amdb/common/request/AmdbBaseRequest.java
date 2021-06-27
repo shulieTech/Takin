@@ -13,21 +13,24 @@
  * limitations under the License.
  */
 
-package io.shulie.tro.web.app.service.linkTopology;
+package com.pamirs.tro.common.enums.amdb.common.request;
 
-//import io.shulie.amdb.common.enums.EdgeTypeEnum;
-import org.junit.Assert;
-import org.junit.Test;
+import lombok.Data;
 
-/**
- * @author 无涯
- * @Package io.shulie.tro.web.app.service.linkTopology
- * @date 2021/3/23 4:59 下午
- */
-public class LinkTopologyServiceTest {
-    @Test
-    public void EdgeTypeEnumTest() {
-        //System.out.println(EdgeTypeEnum.getEdgeTypeEnum("weblogic") != EdgeTypeEnum.UNKNOWN);
-        //Assert.assertEquals(EdgeTypeEnum.getEdgeTypeEnum("weblogic") != EdgeTypeEnum.UNKNOWN,true);
-    }
+@Data
+public abstract class AmdbBaseRequest {
+    /**
+     * 租户标识
+     */
+    String tenant = "DEFAULT";
+
+    /**
+     * 用户ID
+     */
+    String userId = "SYSTEM";
+
+    /**
+     * 用户名称
+     */
+    String userName = "SYSTEM";
 }

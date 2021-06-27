@@ -17,15 +17,14 @@ package io.shulie.tro.web.amdb.api.impl;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 
 import com.google.common.collect.Lists;
-import io.shulie.amdb.common.dto.link.entrance.ServiceInfoDTO;
-import io.shulie.amdb.common.enums.EdgeTypeGroupEnum;
-import io.shulie.amdb.common.enums.RpcType;
+//import io.shulie.amdb.common.dto.link.entrance.ServiceInfoDTO;
+//import io.shulie.amdb.common.enums.EdgeTypeGroupEnum;
+//import io.shulie.amdb.common.enums.RpcType;
 import io.shulie.tro.common.beans.page.PagingList;
 import io.shulie.tro.web.amdb.api.ApplicationClient;
 import io.shulie.tro.web.amdb.bean.common.AmdbResponse;
@@ -69,56 +68,57 @@ public class ApplicationClientImpl implements ApplicationClient {
         return pageInterfaces(query).getList();
     }
 
-    private List<ApplicationInterfaceDTO> getApplicationInterfaceDTOS(AmdbResult<List<ServiceInfoDTO>> amdbResponse) {
-        return amdbResponse.getData().stream().map(serviceInfoDTO -> {
-            ApplicationInterfaceDTO interfaceDTO = new ApplicationInterfaceDTO();
-            interfaceDTO.setId("0");
-            String interfaceName;
-            switch (Integer.parseInt(serviceInfoDTO.getRpcType())) {
-                case RpcType.TYPE_WEB_SERVER:
-                    interfaceName = serviceInfoDTO.getServiceName();
-                    break;
-                case RpcType.TYPE_RPC:
-                    // 去掉参数列表  setUser(com.example.clientdemo.userModel)   setUser~(com.example.clientdemo
-                    // .userModel)
-                    interfaceName = serviceInfoDTO.getServiceName().split(":")[0] + "#" + serviceInfoDTO.getMethodName()
-                        .split("~")[0].split("\\(")[0];
-                    break;
-                default:
-                    interfaceName = serviceInfoDTO.getServiceName() + "#" + serviceInfoDTO.getMethodName();
-            }
-            interfaceDTO.setInterfaceName(interfaceName);
-            EdgeTypeGroupEnum edgeTypeGroupEnum = EdgeTypeGroupEnum.getEdgeTypeEnum(
-                serviceInfoDTO.getMiddlewareName());
-            interfaceDTO.setInterfaceType(edgeTypeGroupEnum.getType());
-            // 应用名
-            interfaceDTO.setAppName(serviceInfoDTO.getAppName());
-            return interfaceDTO;
-        }).distinct().collect(Collectors.toList());
-    }
+    //private List<ApplicationInterfaceDTO> getApplicationInterfaceDTOS(AmdbResult<List<ServiceInfoDTO>> amdbResponse) {
+    //    return amdbResponse.getData().stream().map(serviceInfoDTO -> {
+    //        ApplicationInterfaceDTO interfaceDTO = new ApplicationInterfaceDTO();
+    //        interfaceDTO.setId("0");
+    //        String interfaceName;
+    //        switch (Integer.parseInt(serviceInfoDTO.getRpcType())) {
+    //            case RpcType.TYPE_WEB_SERVER:
+    //                interfaceName = serviceInfoDTO.getServiceName();
+    //                break;
+    //            case RpcType.TYPE_RPC:
+    //                // 去掉参数列表  setUser(com.example.clientdemo.userModel)   setUser~(com.example.clientdemo
+    //                // .userModel)
+    //                interfaceName = serviceInfoDTO.getServiceName().split(":")[0] + "#" + serviceInfoDTO.getMethodName()
+    //                    .split("~")[0].split("\\(")[0];
+    //                break;
+    //            default:
+    //                interfaceName = serviceInfoDTO.getServiceName() + "#" + serviceInfoDTO.getMethodName();
+    //        }
+    //        interfaceDTO.setInterfaceName(interfaceName);
+    //        EdgeTypeGroupEnum edgeTypeGroupEnum = EdgeTypeGroupEnum.getEdgeTypeEnum(
+    //            serviceInfoDTO.getMiddlewareName());
+    //        interfaceDTO.setInterfaceType(edgeTypeGroupEnum.getType());
+    //        // 应用名
+    //        interfaceDTO.setAppName(serviceInfoDTO.getAppName());
+    //        return interfaceDTO;
+    //    }).distinct().collect(Collectors.toList());
+    //}
 
     @Override
     public PagingList<ApplicationInterfaceDTO> pageInterfaces(ApplicationInterfaceQueryDTO query) {
-        String url = properties.getUrl().getAmdb() + INTERFACE_PATH;
-        query.setFieldNames("appName,middlewareName,serviceName,methodName,rpcType");
-        query.setRpcType(StringUtils.join(Lists.newArrayList(String.valueOf(RpcType.TYPE_WEB_SERVER), String.valueOf(RpcType.TYPE_RPC)), ","));
-        try {
-            String responseEntity = HttpClientUtil.sendPost(url,query);
-            if (StringUtils.isBlank(responseEntity)) {
-                log.error("前往pardar查询应用的接口信息报错,请求地址：{}，响应信息：{}", url, responseEntity);
-                return PagingList.empty();
-            } else {
-                AmdbResult<List<ServiceInfoDTO>> amdbResponse = JSON.parseObject(responseEntity,
-                    new TypeReference<AmdbResult<List<ServiceInfoDTO>>>() {
-                    });
-                //List<ServiceInfoDTO> serviceInfoDTOList = JSON.parseArray(responseEntity, ServiceInfoDTO.class);
-                List<ApplicationInterfaceDTO> dtos =  getApplicationInterfaceDTOS(amdbResponse);
-                return PagingList.of(dtos,amdbResponse.getTotal());
-            }
-        } catch (Exception e) {
-            log.error("前往pardar查询应用的接口信息报错,请求地址：{}，异常信息：{}", url, e.getMessage());
-            return PagingList.empty();
-        }
+        return PagingList.empty();
+        //String url = properties.getUrl().getAmdb() + INTERFACE_PATH;
+        //query.setFieldNames("appName,middlewareName,serviceName,methodName,rpcType");
+        //query.setRpcType(StringUtils.join(Lists.newArrayList(String.valueOf(RpcType.TYPE_WEB_SERVER), String.valueOf(RpcType.TYPE_RPC)), ","));
+        //try {
+        //    String responseEntity = HttpClientUtil.sendPost(url,query);
+        //    if (StringUtils.isBlank(responseEntity)) {
+        //        log.error("前往pardar查询应用的接口信息报错,请求地址：{}，响应信息：{}", url, responseEntity);
+        //        return PagingList.empty();
+        //    } else {
+        //        AmdbResult<List<ServiceInfoDTO>> amdbResponse = JSON.parseObject(responseEntity,
+        //            new TypeReference<AmdbResult<List<ServiceInfoDTO>>>() {
+        //            });
+        //        //List<ServiceInfoDTO> serviceInfoDTOList = JSON.parseArray(responseEntity, ServiceInfoDTO.class);
+        //        List<ApplicationInterfaceDTO> dtos =  getApplicationInterfaceDTOS(amdbResponse);
+        //        return PagingList.of(dtos,amdbResponse.getTotal());
+        //    }
+        //} catch (Exception e) {
+        //    log.error("前往pardar查询应用的接口信息报错,请求地址：{}，异常信息：{}", url, e.getMessage());
+        //    return PagingList.empty();
+        //}
     }
 
     @Override

@@ -18,7 +18,7 @@ package io.shulie.tro.web.amdb.api.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 
-import io.shulie.amdb.common.request.link.CalculateParam;
+//import io.shulie.amdb.common.request.link.CalculateParam;
 import io.shulie.tro.web.amdb.api.NotifyClient;
 import io.shulie.tro.web.amdb.bean.common.AmdbResult;
 import io.shulie.tro.web.amdb.util.HttpClientUtil;
@@ -43,63 +43,63 @@ public class NotifyClientImpl implements NotifyClient {
     @Autowired
     private AmdbClientProperties properties;
 
-    @Override
-    public boolean startApplicationEntrancesCalculate(String applicationName, String serviceName,
-        String method, String type,String extend) {
-        String url = properties.getUrl().getAmdb() + NOTIFY_START_CALCULATE_PATH;
-        CalculateParam calculateParam = new CalculateParam();
-        calculateParam.setAppName(applicationName);
-        calculateParam.setRpcType(type);
-        calculateParam.setServiceName(serviceName);
-        calculateParam.setMethod(method);
-        calculateParam.setExtend(extend);
-        try {
-            String responseEntity = HttpClientUtil.sendPost(url, calculateParam);
-            if (StringUtils.isBlank(responseEntity)) {
-                log.error("前往amdb开始链路计算返回异常,请求地址：{}，请求参数：{}", url, JSON.toJSONString(calculateParam));
-                return false;
-            }
-            AmdbResult<String> amdbResponse = JSON.parseObject(responseEntity,
-                new TypeReference<AmdbResult<String>>() {
-                });
-            if (amdbResponse == null || !amdbResponse.getSuccess()) {
-                log.error("前往amdb开始链路计算返回异常,请求地址：{}，请求参数：{}", url, JSON.toJSONString(calculateParam));
-                return false;
-            }
-            return true;
-        } catch (Exception e) {
-            log.error("前往amdb开始链路计算返回异常,请求地址：{}，请求参数：{}", url, JSON.toJSONString(calculateParam), e);
-            return false;
-        }
-    }
-
-    @Override
-    public boolean stopApplicationEntrancesCalculate(String applicationName, String serviceName, String method,
-        String rpcType,String extend) {
-        String url = properties.getUrl().getAmdb() + NOTIFY_STOP_CALCULATE_PATH;
-        CalculateParam calculateParam = new CalculateParam();
-        calculateParam.setAppName(applicationName);
-        calculateParam.setRpcType(rpcType);
-        calculateParam.setServiceName(serviceName);
-        calculateParam.setMethod(method);
-        calculateParam.setExtend(extend);
-        try {
-            String responseEntity = HttpClientUtil.sendPost(url, calculateParam);
-            if (StringUtils.isBlank(responseEntity)) {
-                log.error("前往amdb结束链路计算返回异常,请求地址：{}，请求参数：{}", url, JSON.toJSONString(calculateParam));
-                return false;
-            }
-            AmdbResult<String> amdbResponse = JSON.parseObject(responseEntity,
-                new TypeReference<AmdbResult<String>>() {
-                });
-            if (amdbResponse == null || !amdbResponse.getSuccess()) {
-                log.error("前往amdb结束链路计算返回异常,请求地址：{}，请求参数：{}", url, JSON.toJSONString(calculateParam));
-                return false;
-            }
-            return true;
-        } catch (Exception e) {
-            log.error("前往amdb结束链路计算返回异常,请求地址：{}，请求参数：{}", url, JSON.toJSONString(calculateParam), e);
-            return false;
-        }
-    }
+    //@Override
+    //public boolean startApplicationEntrancesCalculate(String applicationName, String serviceName,
+    //    String method, String type,String extend) {
+    //    String url = properties.getUrl().getAmdb() + NOTIFY_START_CALCULATE_PATH;
+    //    CalculateParam calculateParam = new CalculateParam();
+    //    calculateParam.setAppName(applicationName);
+    //    calculateParam.setRpcType(type);
+    //    calculateParam.setServiceName(serviceName);
+    //    calculateParam.setMethod(method);
+    //    calculateParam.setExtend(extend);
+    //    try {
+    //        String responseEntity = HttpClientUtil.sendPost(url, calculateParam);
+    //        if (StringUtils.isBlank(responseEntity)) {
+    //            log.error("前往amdb开始链路计算返回异常,请求地址：{}，请求参数：{}", url, JSON.toJSONString(calculateParam));
+    //            return false;
+    //        }
+    //        AmdbResult<String> amdbResponse = JSON.parseObject(responseEntity,
+    //            new TypeReference<AmdbResult<String>>() {
+    //            });
+    //        if (amdbResponse == null || !amdbResponse.getSuccess()) {
+    //            log.error("前往amdb开始链路计算返回异常,请求地址：{}，请求参数：{}", url, JSON.toJSONString(calculateParam));
+    //            return false;
+    //        }
+    //        return true;
+    //    } catch (Exception e) {
+    //        log.error("前往amdb开始链路计算返回异常,请求地址：{}，请求参数：{}", url, JSON.toJSONString(calculateParam), e);
+    //        return false;
+    //    }
+    //}
+    //
+    //@Override
+    //public boolean stopApplicationEntrancesCalculate(String applicationName, String serviceName, String method,
+    //    String rpcType,String extend) {
+    //    String url = properties.getUrl().getAmdb() + NOTIFY_STOP_CALCULATE_PATH;
+    //    CalculateParam calculateParam = new CalculateParam();
+    //    calculateParam.setAppName(applicationName);
+    //    calculateParam.setRpcType(rpcType);
+    //    calculateParam.setServiceName(serviceName);
+    //    calculateParam.setMethod(method);
+    //    calculateParam.setExtend(extend);
+    //    try {
+    //        String responseEntity = HttpClientUtil.sendPost(url, calculateParam);
+    //        if (StringUtils.isBlank(responseEntity)) {
+    //            log.error("前往amdb结束链路计算返回异常,请求地址：{}，请求参数：{}", url, JSON.toJSONString(calculateParam));
+    //            return false;
+    //        }
+    //        AmdbResult<String> amdbResponse = JSON.parseObject(responseEntity,
+    //            new TypeReference<AmdbResult<String>>() {
+    //            });
+    //        if (amdbResponse == null || !amdbResponse.getSuccess()) {
+    //            log.error("前往amdb结束链路计算返回异常,请求地址：{}，请求参数：{}", url, JSON.toJSONString(calculateParam));
+    //            return false;
+    //        }
+    //        return true;
+    //    } catch (Exception e) {
+    //        log.error("前往amdb结束链路计算返回异常,请求地址：{}，请求参数：{}", url, JSON.toJSONString(calculateParam), e);
+    //        return false;
+    //    }
+    //}
 }
