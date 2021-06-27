@@ -62,6 +62,10 @@ The Initiation of docker need about 10 mins because it need install necessary co
     nginx -s reload
     
     Open http://127.0.0.1/tro
+    
+    Default account and password：
+    account:admin  
+    password:pamirs@2020
     ```
 
 after installation：
