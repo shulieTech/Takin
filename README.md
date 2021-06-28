@@ -61,11 +61,10 @@ The Initiation of docker need about 10 mins because it need install necessary co
     # Restart Nginx：
     nginx -s reload
     
-    kill掉sugre-deploy应用
-    到/data/install.sh里面复制启动sugre-deploy的脚本
+    Kill surge-deploy application
     nohup java -jar surge-deploy-1.0-jar-with-dependencies.jar '{"172.17.0.2":"192.168.1.138"}' > surge.out  2>&1 &
-    将脚本后面的value，也就是对应的宿主机ip，改成自己的，再执行
-    
+    Modify the Ip to your own IP, and restart.
+
     Open http://127.0.0.1/tro
     
     Default account and password：
