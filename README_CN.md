@@ -42,6 +42,12 @@ docker run -d -p 80:80 -p 2181:2181 -p 3306:3306 -p 6379:6379 -p 8086:8086 -p 90
     # 修改serverUrl的IP为服务本机IP
     # 重启Nginx服务：
     nginx -s reload
+    
+    kill掉sugre-deploy应用
+    到/data/install.sh里面复制启动sugre-deploy的脚本
+    nohup java -jar surge-deploy-1.0-jar-with-dependencies.jar '{"172.17.0.2":"192.168.1.138"}' > surge.out  2>&1 &
+    将脚本后面的value，也就是对应的宿主机ip，改成自己的，再执行
+    
     打开页面 http://127.0.0.1/tro
     
     默认账号密码：
