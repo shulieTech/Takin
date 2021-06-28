@@ -29,6 +29,7 @@ In a microservices architecture system with a lot of business services, the call
 # Quick Start Instruction
 
 **docker:**<br/>
+- VM memory requirement ： more than 4G
 - Docker mirror size ： 1.8 G
 
 If docker configuration doesn't set AliYun docker source :
