@@ -45,7 +45,7 @@ docker run -d -p 80:80 -p 2181:2181 -p 3306:3306 -p 6379:6379 -p 8086:8086 -p 90
     
     kill掉sugre-deploy应用
     到/data/install.sh里面复制启动sugre-deploy的脚本
-    nohup java -jar surge-deploy-1.0-jar-with-dependencies.jar '{"172.17.0.2":"192.168.1.138"}' > surge.out  2>&1 &
+    nohup java -jar surge-deploy-1.0-jar-with-dependencies.jar '{"172.17.0.2":"你的机器IP"}' > surge.out  2>&1 &
     将脚本后面的value，也就是对应的宿主机ip，改成自己的，再执行
     
     首次注册需要1-2分钟
