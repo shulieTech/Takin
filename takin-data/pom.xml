@@ -48,6 +48,7 @@
 
     <modules>
         <module>surge-data</module>
+        <module>amdb-common</module>
         <module>amdb-receiver-service</module>
     </modules>
 
