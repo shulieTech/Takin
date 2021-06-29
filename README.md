@@ -63,17 +63,20 @@ The Initiation of docker need about 10 mins because it need install necessary co
     # Modify serverUrl to the server's local IP address
     # Restart Nginx：
     nginx -s reload
-    
+    ```
+- Modify sugre-deploy configuration：
+    ```
     Kill surge-deploy application
     nohup java -jar surge-deploy-1.0-jar-with-dependencies.jar '{"172.17.0.2":"Your own IP"}' > surge.out  2>&1 &
     Modify the Ip to your own IP, and restart.
-
-    Open http://127.0.0.1/tro
-    
+    ```
+- Open http://127.0.0.1/tro
+    ```
     Default account and password：
     account:admin  
     password:pamirs@2020
     ```
+- PS：If Nginx shows 502, the problem mostly is caused when the docker container has just been started, you only need to configure it correctly, and then wait a little (1-2 min) while to refresh and try again.
 
 after installation：
 - see [Quick Start](takin-webapp/doc/QuickStart.md)
