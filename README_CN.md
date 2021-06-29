@@ -54,6 +54,8 @@ systemctl daemon-reload
     ```
 - 访问页面：http://安装docker的宿主机IP/tro  默认账号密码：账号:admin  密码:pamirs@2020
 
+- 特别说明：如出现nginx502的问题多半出现在刚启动玩docker容器，此时只需要配置正确，再等待一小会刷新重试即可。
+
 安装完成后：
 see [Quick Start](takin-webapp/doc/QuickStart.md)
 
