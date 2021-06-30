@@ -57,8 +57,8 @@ systemctl daemon-reload
 - 特别说明：如出现nginx502的问题多半出现在刚启动完docker容器，此时只需要配置正确，再等待一小会刷新重试即可。
 
 安装完成后：
-see [Quick Start](takin-webapp/doc/QuickStart.md)
-see [系统各个服务的启动命令](Service-CN.md)
+- see [Quick Start](takin-webapp/doc/QuickStart.md)
+- see [系统各个服务的启动命令](Service-CN.md)
 
 # 使用说明
 #### Takin结构
