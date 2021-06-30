@@ -58,7 +58,7 @@ systemctl daemon-reload
 
 安装完成后：
 - see [Quick Start](takin-webapp/doc/QuickStart.md)
-- see [系统各个服务的启动命令](Service-CN.md)
+- see [系统各个服务的启动命令](docs/Service-CN.md)
 
 # 使用说明
 #### Takin结构
