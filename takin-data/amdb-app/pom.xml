@@ -1,59 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  ~ Copyright 2021 Shulie Technology, Co.Ltd
-  ~ Email: shulie@shulie.io
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~      http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.shulie.tro</groupId>
+        <artifactId>takin-data</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
 
     <groupId>io.shulie.amdb</groupId>
     <artifactId>amdb-app</artifactId>
     <version>1.0.4.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <properties>
-        <spring.boot.version>2.1.5.RELEASE</spring.boot.version>
-        <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
-    </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring.boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <dependencies>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>${spring.boot.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <!--添加Springmvc依赖-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>${spring.boot.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>jboss-logging</artifactId>
@@ -69,30 +41,25 @@
         <dependency>
             <groupId>io.zipkin.zipkin2</groupId>
             <artifactId>zipkin</artifactId>
-            <version>2.11.12</version>
         </dependency>
 
         <!--mysql的依赖-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.46</version>
         </dependency>
 
         <dependency>
             <groupId>tk.mybatis</groupId>
             <artifactId>mapper-spring-boot-starter</artifactId>
-            <version>2.1.5</version>
         </dependency>
         <dependency>
             <groupId>org.influxdb</groupId>
             <artifactId>influxdb-java</artifactId>
-            <version>2.15</version>
         </dependency>
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>1.1.1</version>
             <exclusions>
                 <exclusion>
                     <artifactId>mybatis</artifactId>
@@ -108,45 +75,38 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
-            <version>1.1.16</version>
         </dependency>
 
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.70</version>
         </dependency>
 
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>16.0</version>
         </dependency>
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
-            <version>3.2.2</version>
         </dependency>
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <version>1.9.3</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.7</version>
         </dependency>
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
-            <version>1.2.13</version>
             <exclusions>
                 <exclusion>
                     <artifactId>mybatis-spring-boot-starter</artifactId>
@@ -158,20 +118,17 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.30</version>
         </dependency>
 
         <!-- logback 依赖 -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.3</version>
         </dependency>
         <!-- ZK -->
         <dependency>
             <groupId>com.github.sgroschupf</groupId>
             <artifactId>zkclient</artifactId>
-            <version>0.1</version>
             <exclusions>
                 <exclusion>
                     <artifactId>log4j</artifactId>
@@ -189,36 +146,29 @@
         </dependency>
 
 
-
+        <!-- taking模块依赖 -->
         <dependency>
             <groupId>io.shulie.surge.data</groupId>
             <artifactId>common</artifactId>
-            <version>1.0</version>
         </dependency>
-
 
         <dependency>
             <groupId>io.shulie.surge.data</groupId>
             <artifactId>runtime</artifactId>
-            <version>1.0</version>
         </dependency>
 
         <!--adaptor-->
         <dependency>
             <groupId>ru.yandex.clickhouse</groupId>
             <artifactId>clickhouse-jdbc</artifactId>
-            <version>0.2.4</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.6</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.5.0</version>
             <exclusions>
                 <exclusion>
                     <artifactId>springfox-spring-web</artifactId>
@@ -229,7 +179,6 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>2.8.0</version>
             <exclusions>
                 <exclusion>
                     <artifactId>guava</artifactId>
@@ -241,13 +190,11 @@
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>swagger-bootstrap-ui</artifactId>
-            <version>1.9.6</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.zookeeper</groupId>
             <artifactId>zookeeper</artifactId>
-            <version>3.4.9</version>
             <exclusions>
                 <exclusion>
                     <artifactId>slf4j-log4j12</artifactId>
@@ -258,17 +205,18 @@
         <dependency>
             <groupId>com.netflix.curator</groupId>
             <artifactId>curator-framework</artifactId>
-            <version>1.3.3</version>
         </dependency>
         <dependency>
             <groupId>com.netflix.curator</groupId>
             <artifactId>curator-recipes</artifactId>
-            <version>1.3.3</version>
         </dependency>
         <dependency>
             <groupId>io.shulie.pradar</groupId>
             <artifactId>log-protocol</artifactId>
-            <version>2.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
         </dependency>
 
     </dependencies>

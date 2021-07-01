@@ -1,31 +1,14 @@
-<!--
-  ~ Copyright 2021 Shulie Technology, Co.Ltd
-  ~ Email: shulie@shulie.io
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~      http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
-
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>io.shulie.tro</groupId>
     <artifactId>takin-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+
     <name>takin-parent</name>
-
-    <properties>
-        <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
-    </properties>
-
 
     <url>https://github.com/shulieTech/Takin</url>
     <developers>
@@ -48,26 +31,598 @@
         <developerConnection>git@github.com:shulieTech/Takin.git</developerConnection>
     </scm>
 
-
     <modules>
         <module>takin-data</module>
         <module>takin-webapp</module>
     </modules>
 
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <java.version>1.8</java.version>
 
-    <build>
-        <plugins>
-            <!-- 设置编译版本为1.8 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+        <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+        <spring.boot.version>2.1.5.RELEASE</spring.boot.version>
+
+        <swagger.version>1.5.22</swagger.version>
+        <lombok.version>1.18.6</lombok.version>
+
+        <!-- build properties -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
+        <!-- biz version -->
+        <tro.cloud.version>1.0.0-SNAPSHOT</tro.cloud.version>
+        <tro.web.version>1.0.0-SNAPSHOT</tro.web.version>
+        <tro.version>1.0.0-SNAPSHOT</tro.version>
+        <pardar.log.protocol.version>2.0.0</pardar.log.protocol.version>
+        <pradar.core.version>1.0.2-SNAPSHOT</pradar.core.version>
+
+        <!-- 3rd libs version -->
+        <springfox.version>2.8.0</springfox.version>
+        <commons-lang3.version>3.5</commons-lang3.version>
+        <mysql-jdbc.version>8.0.19</mysql-jdbc.version>
+        <druid.version>1.1.21</druid.version>
+        <common-pools2.version>2.3</common-pools2.version>
+        <quartz.version>2.3.0</quartz.version>
+        <curator-version>4.3.0</curator-version>
+        <mybatis-spring-boot-starter.version>1.3.2</mybatis-spring-boot-starter.version>
+        <com.github.pagehelper.version>1.3.0</com.github.pagehelper.version>
+        <ibmmqc.version>1.0.0</ibmmqc.version>
+        <ibmmq.version>1.0</ibmmq.version>
+        <spring.version>5.0.7.RELEASE</spring.version>
+        <mapstruct.version>1.3.1.Final</mapstruct.version>
+        <influxdb.version>2.15</influxdb.version>
+        <jedis.version>3.1.0</jedis.version>
+        <mybatis.plus.version>3.4.0</mybatis.plus.version>
+        <freemarker.version>2.3.30</freemarker.version>
+        <mybatis.version>3.5.7</mybatis.version>
+        <swagger.version>1.5.22</swagger.version>
+        <hutool.version>5.5.9</hutool.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.zipkin.zipkin2</groupId>
+                <artifactId>zipkin</artifactId>
+                <version>2.11.12</version>
+            </dependency>
+
+            <!--mysql的依赖-->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>5.1.46</version>
+            </dependency>
+
+            <dependency>
+                <groupId>tk.mybatis</groupId>
+                <artifactId>mapper-spring-boot-starter</artifactId>
+                <version>2.1.5</version>
+            </dependency>
+            <dependency>
+                <groupId>org.influxdb</groupId>
+                <artifactId>influxdb-java</artifactId>
+                <version>2.15</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>1.1.1</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>mybatis</artifactId>
+                        <groupId>org.mybatis</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>mybatis-spring</artifactId>
+                        <groupId>org.mybatis</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>1.1.16</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.70</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>16.0</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>3.2.2</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>1.9.3</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.7</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>1.2.13</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>mybatis-spring-boot-starter</artifactId>
+                        <groupId>org.mybatis.spring.boot</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.30</version>
+            </dependency>
+
+            <!-- logback 依赖 -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.2.3</version>
+            </dependency>
+            <!-- ZK -->
+            <dependency>
+                <groupId>com.github.sgroschupf</groupId>
+                <artifactId>zkclient</artifactId>
+                <version>0.1</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>log4j</artifactId>
+                        <groupId>log4j</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>zookeeper</artifactId>
+                        <groupId>org.apache.zookeeper</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- takin模块依赖start -->
+            <dependency>
+                <groupId>io.shulie.surge.data</groupId>
+                <artifactId>common</artifactId>
+                <version>1.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.shulie.surge.data</groupId>
+                <artifactId>runtime</artifactId>
+                <version>1.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-beans</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-exception-starter</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-constants</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-utils</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-cloud-common</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-cloud-open-api</artifactId>
+                <version>${tro.cloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-cloud-eventcenter</artifactId>
+                <version>${tro.cloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-cloud-k8s</artifactId>
+                <version>${tro.cloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-cloud-data</artifactId>
+                <version>${tro.cloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-cloud-biz-service</artifactId>
+                <version>${tro.cloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-cloud-open-entrypoint</artifactId>
+                <version>${tro.cloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-cloud-web-entrypoint</artifactId>
+                <version>${tro.cloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-cloud-open-client-starter</artifactId>
+                <version>${tro.cloud.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-web-common</artifactId>
+                <version>${tro.web.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-web-amdb-accessor</artifactId>
+                <version>${tro.web.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-web-data</artifactId>
+                <version>${tro.web.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-web-auth-api</artifactId>
+                <version>${tro.web.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-web-diff-api</artifactId>
+                <version>${tro.web.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-command-channel</artifactId>
+                <version>${tro.web.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-web-diff-cloud</artifactId>
+                <version>${tro.web.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-web-auth-default</artifactId>
+                <version>${tro.web.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-web-config-sync-zk-impl</artifactId>
+                <version>${tro.web.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-web-config-common</artifactId>
+                <version>${tro.web.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-web-config-sync-http-common</artifactId>
+                <version>${tro.web.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-web-config-sync-zk-common</artifactId>
+                <version>${tro.web.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-web-config-sync-api</artifactId>
+                <version>${tro.web.version}</version>
+            </dependency>
+            <!-- takin模块依赖end -->
+
+            <!--adaptor-->
+            <dependency>
+                <groupId>ru.yandex.clickhouse</groupId>
+                <artifactId>clickhouse-jdbc</artifactId>
+                <version>0.2.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>2.5.0</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>springfox-spring-web</artifactId>
+                        <groupId>io.springfox</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>2.8.0</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>guava</artifactId>
+                        <groupId>com.google.guava</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>swagger-bootstrap-ui</artifactId>
+                <version>1.9.6</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>3.4.9</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>slf4j-log4j12</artifactId>
+                        <groupId>org.slf4j</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.netflix.curator</groupId>
+                <artifactId>curator-framework</artifactId>
+                <version>1.3.3</version>
+            </dependency>
+            <dependency>
+                <groupId>com.netflix.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>1.3.3</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shulie.pradar</groupId>
+                <artifactId>log-protocol</artifactId>
+                <version>2.0.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>1.3.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-jdbc</artifactId>
+                <version>5.2.9.RELEASE</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.inject</groupId>
+                <artifactId>guice</artifactId>
+                <version>3.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.stephenc.high-scale-lib</groupId>
+                <artifactId>high-scale-lib</artifactId>
+                <version>1.1.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>2.6</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.6</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>easyexcel</artifactId>
+                <version>2.1.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-configuration</groupId>
+                <artifactId>commons-configuration</artifactId>
+                <version>1.10</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>2.11.2</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>2.11.2</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.11.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>3.12.11</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>5.5.9</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-text</artifactId>
+                <version>1.8</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.oshi</groupId>
+                <artifactId>oshi-core</artifactId>
+                <version>3.9.1</version>
+            </dependency>
+            <dependency>
+                <groupId>io.fabric8</groupId>
+                <artifactId>kubernetes-client</artifactId>
+                <version>4.10.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.pulsar</groupId>
+                <artifactId>pulsar-client</artifactId>
+                <version>2.4.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.netflix.curator</groupId>
+                <artifactId>curator-client</artifactId>
+                <version>1.3.3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-jdk8</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-operation-log-api</artifactId>
+                <version>${tro.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.shulie.tro</groupId>
+                <artifactId>tro-definition</artifactId>
+                <version>${tro.version}</version>
+            </dependency>
+
+            <!-- zk客户端框架 -->
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-client</artifactId>
+                <version>${curator-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>${curator-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-framework</artifactId>
+                <version>${curator-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis.plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-core</artifactId>
+                <version>${mybatis.plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-extension</artifactId>
+                <version>${mybatis.plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-annotation</artifactId>
+                <version>${mybatis.plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>2.0.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>1.2.6</version>
+            </dependency>
+        </dependencies>
+
+    </dependencyManagement>
+
 </project>

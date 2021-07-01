@@ -10,30 +10,7 @@
     <artifactId>tro-definition</artifactId>
     <name>tro-definition</name>
     <description>tro 包含工具类、agent交互通道、异常处理模块等</description>
-    <url>https://github.com/shulieTech/Takin</url>
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-        </license>
-    </licenses>
-    <developers>
-        <developer>
-            <name>shulie</name>
-            <email>shulie@shulie.io</email>
-            <organization>数列科技</organization>
-            <organizationUrl>https://news.shulie.io/</organizationUrl>
-        </developer>
-    </developers>
-    <scm>
-        <url>scm:git:git@github.com:shulieTech/Takin.git</url>
-        <connection>scm:git:git@github.com:shulieTech/Takin.git</connection>
-        <developerConnection>git@github.com:shulieTech/Takin.git</developerConnection>
-    </scm>
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
+    
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
