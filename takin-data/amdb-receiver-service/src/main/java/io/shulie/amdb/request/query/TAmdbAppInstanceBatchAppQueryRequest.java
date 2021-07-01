@@ -54,7 +54,7 @@ public class TAmdbAppInstanceBatchAppQueryRequest extends PagingRequest {
     private List<String> fields;
 
     public List<String> getFields() {
-        if(fields==null){
+        if (fields == null) {
             fields = new ArrayList<>();
         }
         return fields;

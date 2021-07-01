@@ -17,9 +17,12 @@ package io.shulie.amdb.service.impl;
 
 import com.pamirs.pradar.log.parser.trace.RpcBased;
 import io.shulie.amdb.common.Response;
+import io.shulie.amdb.common.dto.trace.EntryTraceInfoDTO;
 import io.shulie.amdb.common.enums.RpcType;
 import io.shulie.amdb.common.request.trace.EntryTraceQueryParam;
-import io.shulie.amdb.common.trace.EntryTraceInfoDTO;
+import io.shulie.amdb.constant.PradarLogType;
+import io.shulie.amdb.entity.TTrackClickhouseModel;
+import io.shulie.amdb.enums.MiddlewareType;
 import io.shulie.amdb.service.ClickhouseService;
 import io.shulie.amdb.service.TraceService;
 import org.apache.commons.collections.CollectionUtils;
@@ -29,9 +32,6 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import io.shulie.amdb.entity.TTrackClickhouseModel;
-import io.shulie.amdb.constant.PradarLogType;
-import io.shulie.amdb.enums.MiddlewareType;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -211,7 +211,7 @@ public class TraceServiceImpl implements TraceService {
 
 
     @Override
-    public Response<Map<String,List<RpcBased>>> getTraceInfo(EntryTraceQueryParam param) {
+    public Response<Map<String, List<RpcBased>>> getTraceInfo(EntryTraceQueryParam param) {
 
         // 拼装过滤条件
         List<String> andFilterList = new ArrayList<>();
@@ -269,9 +269,7 @@ public class TraceServiceImpl implements TraceService {
                 currentPage = 1;
             }
             limit = "limit " + ((currentPage - 1) * pageSize) + "," + pageSize;
-        }
-        else
-        {
+        } else {
             limit = "limit 10";
         }
         String sql = "select traceId from t_trace_all where " + StringUtils.join(

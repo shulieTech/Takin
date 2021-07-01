@@ -17,8 +17,8 @@ package io.shulie.amdb.controller;
 
 import com.pamirs.pradar.log.parser.trace.RpcBased;
 import io.shulie.amdb.common.Response;
+import io.shulie.amdb.common.dto.trace.EntryTraceInfoDTO;
 import io.shulie.amdb.common.request.trace.EntryTraceQueryParam;
-import io.shulie.amdb.common.trace.EntryTraceInfoDTO;
 import io.shulie.amdb.dto.LogResultDTO;
 import io.shulie.amdb.request.query.LogResultRequest;
 import io.shulie.amdb.service.TraceService;
