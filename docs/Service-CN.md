@@ -4,7 +4,6 @@
 - InfluxDB
 - Zookeeper
 - ClickHouse
-- Strom
 - AMDB
 - surege-deploy
 - tro-web
