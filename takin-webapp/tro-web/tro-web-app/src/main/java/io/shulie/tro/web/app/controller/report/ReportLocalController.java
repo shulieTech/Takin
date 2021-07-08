@@ -25,6 +25,7 @@ import com.alibaba.fastjson.JSON;
 
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.pamirs.tro.entity.domain.dto.report.ApplicationDTO;
 import com.pamirs.tro.entity.domain.dto.report.BottleneckInterfaceDTO;
 import com.pamirs.tro.entity.domain.dto.report.MachineDetailDTO;
@@ -46,7 +47,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.mockito.internal.util.collections.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -179,7 +179,7 @@ public class ReportLocalController {
         queryParam.setReportId(reportId);
         queryParam.setCurrentPage(0);
         queryParam.setPageSize(200);
-        Set<String> bottleneckSet = Sets.newSet();
+        Set<String> bottleneckSet = Sets.newHashSet();
         PageInfo<BottleneckInterfaceDTO> pageInfo = reportLocalService.listBottleneckInterface(queryParam);
         if (pageInfo != null && CollectionUtils.isNotEmpty(pageInfo.getList())) {
             bottleneckSet.addAll(

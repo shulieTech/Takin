@@ -42,6 +42,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.github.pagehelper.util.StringUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.pamirs.tro.common.constant.AppConfigSheetEnum;
 import com.pamirs.tro.common.constant.AppSwitchEnum;
 import com.pamirs.tro.common.exception.TROModuleException;
@@ -135,7 +136,6 @@ import io.shulie.tro.web.data.result.whitelist.WhitelistEffectiveAppResult;
 import io.shulie.tro.web.data.result.whitelist.WhitelistResult;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.DocumentException;
-import org.mockito.internal.util.collections.Sets;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -603,8 +603,8 @@ public class ApplicationServiceImpl implements ApplicationService, WhiteListCons
                     Collectors.toList());
             List<ApplicationResult> applicationResultList = applicationDAO.getApplicationByName(appNames);
             if (!CollectionUtils.isEmpty(applicationResultList)) {
-                Set<Long> errorApplicationIdSet = Sets.newSet();
-                Set<Long> normalApplicationIdSet = Sets.newSet();
+                Set<Long> errorApplicationIdSet = Sets.newHashSet();
+                Set<Long> normalApplicationIdSet = Sets.newHashSet();
                 applicationMntList.forEach(applicationMnt -> {
                     String appName = applicationMnt.getApplicationName();
                     Optional<ApplicationResult> optional =
