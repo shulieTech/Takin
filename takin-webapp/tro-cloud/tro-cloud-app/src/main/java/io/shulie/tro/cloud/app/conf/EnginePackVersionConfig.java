@@ -43,12 +43,12 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class EnginePackVersionConfig {
 
-    @Value("${engine.pack.version.path:/data/apps/tro-cloud/engine_pack_version.json}")
+    @Value("${pressure.engine.pack.version.path}")
     private String enginePackVersionConfigJson;
     /**
      * 压测引擎包路径
      */
-    @Value("${pressure.engine.install.dir:/Users/hezhongqi/shulie/engine/pressure-engine.tar.gz}")
+    @Value("${pressure.engine.install.dir}")
     private String installDir;
 
     @Autowired
