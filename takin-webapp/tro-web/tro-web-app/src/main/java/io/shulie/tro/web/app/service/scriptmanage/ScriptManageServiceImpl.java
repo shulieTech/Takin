@@ -15,6 +15,7 @@
 
 package io.shulie.tro.web.app.service.scriptmanage;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -236,7 +237,7 @@ public class ScriptManageServiceImpl implements ScriptManageService {
         }
         ScriptCheckDTO scriptCheckDTO = checkAndUpdateScript(scriptManageDeployCreateRequest.getRefType(),
             scriptManageDeployCreateRequest.getRefValue(),
-            tmpFilePath + scriptFile.get(0).getUploadId() + "/" + scriptFile.get(0).getFileName());
+            tmpFilePath + File.separatorChar+ scriptFile.get(0).getUploadId() + "/" + scriptFile.get(0).getFileName());
         if (scriptCheckDTO != null && !StringUtil.isBlank(scriptCheckDTO.getErrmsg())) {
             throw new TroWebException(ExceptionCode.SCRIPT_MANAGE_CREATE_VALID_ERROR, scriptCheckDTO.getErrmsg());
         }

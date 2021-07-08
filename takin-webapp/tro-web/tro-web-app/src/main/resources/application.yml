@@ -36,8 +36,8 @@ spring.config.whiteListPath: /opt/tro/conf/tro-web/api/confcenter/wbmnt/query/
 file:
   upload:
     url: http://${trocloud.out.url}/tro-cloud
-    tmp.path: /data/apps/tro-cloud/script/temp/
-    script.path: /data/apps/tro-cloud/script
+    tmp.path: ${script.temp.path}
+    script.path: ${script.path}
 ### tro-cloud configs ##
 fast.debug.upload.log.path: ~/data/fastdebug/log
 fast.debug.call.stack.path: ~/data/fastdebug/callstack

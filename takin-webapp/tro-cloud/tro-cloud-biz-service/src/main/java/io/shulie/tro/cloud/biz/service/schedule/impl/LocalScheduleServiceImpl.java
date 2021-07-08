@@ -114,7 +114,7 @@ public class LocalScheduleServiceImpl implements ScheduleService {
     /**
      * 调度任务路径
      */
-    @Value("${pressure.engine.task.dir:/Users/hezhongqi/shulie/engine}")
+    @Value("${pressure.engine.task.dir}")
     private String taskDir;
 
     /**

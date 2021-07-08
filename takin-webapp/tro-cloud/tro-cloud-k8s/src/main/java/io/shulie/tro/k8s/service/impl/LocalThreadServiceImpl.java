@@ -67,7 +67,7 @@ public class LocalThreadServiceImpl implements MicroDeployService {
     /**
      * 调度任务路径
      */
-    @Value("${pressure.engine.task.dir:/Users/hezhongqi/shulie/engine}")
+    @Value("${pressure.engine.task.dir}")
     private String taskDir;
 
 
