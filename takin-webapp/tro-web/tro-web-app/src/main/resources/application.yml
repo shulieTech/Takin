@@ -7,19 +7,19 @@ resource:
     host: 127.0.0.1
     port: 3306
     username: root
-    password: root
+    password: shulie@2020
   ## redis配置
   ## redis
   redis:
     host: 127.0.0.1
     port: 6379
-    password: root
+    password: shulie@2020
   ## influxdb配置
   ## influxdb
   influxdb:
     url: http://127.0.0.1:8086
     user: root
-    password: root
+    password: shulie@2020
     database: base
 
 ## tro-cloud 访问url配置 具体配置看引入

@@ -16,7 +16,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://pradar.host.mysql.amdb:3306/amdb?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8
+    url: jdbc:mysql://127.0.0.1:3306/amdb?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8
     username: root
     password: root
     initialSize: 1
@@ -46,19 +46,19 @@ pagehelper:
   params: count=countSql
 
 influx:
-  openurl: http://pradar.host.influxdb:8086
+  openurl: http://127.0.0.1:8086
   username: root
   password: root
   database: pradar
 
 zookeeper:
-  server: pradar.host.zk01:2181,pradar.host.zk02:2181,pradar.host.zk03:2181
+  server: 127.0.0.1:2181
 
 config:
   clickhouse:
-    url: jdbc:clickhouse://pradar.host.clickhouse01:8123,pradar.host.clickhouse02:8123/default
+    url: jdbc:clickhouse://127.0.0.1:8123/default
     userName: default
-    password: rU4zGjA/
+    password: shulie@2020
     enableRound: true
   adaptor:
     instance:

@@ -74,6 +74,10 @@ public class APIUrls {
     public static final String API_TRO_CONFCENTER_EXCEL_DOWNLOAD_URI = API_TRO_CONFCENTER_URI + "wbmnt/download/wlist";
     // API.01.02.002 查询白名单列表
     public static final String API_TRO_CONFCENTER_QUERY_WLIST_URI = API_TRO_CONFCENTER_URI + "wbmnt/query/wlist";
+
+    public static final String API_TRO_CONFCENTER_WHITELIST_FILE_URI = API_TRO_CONFCENTER_URI + "wbmnt/query/{userAppKey}";
+
+
     public static final String API_TRO_CONFCENTER_QUERY_WLIST_4AGENT_URI = API_TRO_CONFCENTER_URI
         + "wbmnt/query/wlist/agent";
     // API.01.02.003 根据id查询白名单详情接口
