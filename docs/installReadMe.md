@@ -158,8 +158,8 @@ https://github.com/shulieTech/LinkAgent/blob/main/doc/QuickStartInEnglish.md
 
 ## 安装JDK8 配置环境变量
 
-## 获取开源Agent 到/data 目录 没有责mkdir data
-Wget https://shulie-main-pass.oss-cn-hangzhou.aliyuncs.com/open-source/simulator-agent.tar
+## 获取开源Agent 到/data 目录 没有则mkdir data
+wget https://shulie-main-pass.oss-cn-hangzhou.aliyuncs.com/open-source/simulator-agent.tar
 
 ## 解压tar包
  tar --no-same-owner -xvf simulator-agent.tar
