@@ -59,11 +59,11 @@ public class LinkBottleneckTask implements ApplicationListener<ContextRefreshedE
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         try {
-            if (flag) {
+           /* if (flag) {
                 ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
                 service.scheduleAtFixedRate(() -> linkBottleneckService.handleLinkBottleneck(),
                     initialDelay, initialDelay, TimeUnit.SECONDS);
-            }
+            }*/
         } catch (Exception e) {
             logger.error(ExceptionUtils.getStackTrace(e));
             throw new RuntimeException(e);
