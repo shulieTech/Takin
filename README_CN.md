@@ -20,7 +20,7 @@ Takin是一款基于Java的开源系统，可嵌入到各个服务节点，实�
 # Quick Start Instruction（快速入门说明）
 
 ## 详细安装部署
-- 快速上手文档 ：https://docs.shulie.io/docs/opensource/opensource-1d2ckv049184j
+- 快速上手文档 ：https://docs.shulie.io/docs/opensource/opensource-1d40ib39m90bu
 ## 简易上手文档：
 - 建议虚拟机内存 ： 4G以上
 - 镜像大小 1.8G
