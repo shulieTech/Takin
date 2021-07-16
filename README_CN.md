@@ -20,7 +20,8 @@ Takin是一款基于Java的开源系统，可嵌入到各个服务节点，实�
 # Quick Start Instruction（快速入门说明）
 
 ## 详细安装部署
-- 快速上手文档 ：https://docs.shulie.io/docs/opensource/opensource-1d40ib39m90bu
+-![image](https://user-images.githubusercontent.com/86357315/125920811-6be44d23-b6da-4c2e-b3fb-6913f4574bea.png)
+ 快速上手文档 ：https://docs.shulie.io/docs/opensource/opensource-1d40ib39m90bu
 ## 简易上手文档：
 - 建议虚拟机内存 ： 4G以上
 - 镜像大小 1.8G
@@ -83,7 +84,7 @@ Takin由agent、控制平台与大数据构成。
 # 社区
 邮件地址: Mail to shulie@shulie.io<br/>
 微信群<br/>
-<img src="https://raw.githubusercontent.com/shulieTech/Images/main/wx_5.png" width="30%" height="30%">
+<img src="https://user-images.githubusercontent.com/86357315/125921273-92c9d3a7-7b79-449c-aa25-6db9105dc767.png" width="30%" height="30%">
 <br/>
 QQ群: **118098566**<br/>
 群二维码：<br/>
