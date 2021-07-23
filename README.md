@@ -99,7 +99,7 @@ see [takin-webapp](takin-webapp/doc/QuickStart.md)
 # Community
 Mailing List: Mail to shulie@shulie.io<br/>
 Wechat group<br/>
-<img src="https://raw.githubusercontent.com/shulieTech/Images/main/wx_5.png" width="30%" height="30%">
+<img src="https://user-images.githubusercontent.com/86357315/126733720-1aa04ec5-04fd-42f7-aaa9-96f82f2cd055.png" width="30%" height="30%">
 <br/>
 QQ group: **118098566**<br/>
 QR code：<br/>
@@ -114,6 +114,9 @@ WeChat Official Account: <br/>
 
 ## Ask Questions in Official Forum
 [Official Forum](https://news.shulie.io/?page_id=2477)
+## Who use Takin
+![image](https://user-images.githubusercontent.com/86357315/126733639-d770b087-9f58-4b4f-b4c5-a98517bf3776.png)
+
 
 # License
 Takin is under the Apache 2.0 license. See the [LICENSE](LICENSE) file for details.
