@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
+import com.google.common.collect.Maps;
 import io.shulie.tro.cloud.common.bean.engine.EngineVersionConfigBean;
 import io.shulie.tro.cloud.common.constants.EnginePackVersionConstants;
 import io.shulie.tro.cloud.common.redis.RedisClientUtils;
@@ -53,25 +54,30 @@ public class EnginePackVersionConfig {
 
     @Autowired
     private RedisClientUtils redisClientUtils;
+
     @PostConstruct
     public void init() {
         // 存到redis
         try {
-            List<EngineVersionConfigBean> beans = JsonHelper.json2List(FileUtils.readTextFileContent(new File(enginePackVersionConfigJson)),EngineVersionConfigBean.class);
+            //List<EngineVersionConfigBean> beans = JsonHelper.json2List(FileUtils.readTextFileContent(new File(enginePackVersionConfigJson)),EngineVersionConfigBean.class);
 
-            Map<String,Object> configMap = beans.stream().collect(Collectors.toMap(EngineVersionConfigBean::getMd5,EngineVersionConfigBean::getVersion));
-            redisClientUtils.hmset(EnginePackVersionConstants.ENGINE_PACK_VERSION_REDIS_KEY,configMap);
+            //Map<String,Object> configMap = beans.stream().collect(Collectors.toMap(EngineVersionConfigBean::getMd5,EngineVersionConfigBean::getVersion));
             // 引擎包校验 校验位置：启动项目校验 + 启动压测校验
-            if(!new File(installDir).exists()) {
+            if (!new File(installDir).exists()) {
                 log.error("未找到引擎包");
                 return;
             }
-            String md5 = DigestUtils.md5Hex(new FileInputStream(installDir));
+            Map<String, Object> map = Maps.newHashMap();
+            map.put("md5", "5bc2c6e747c6ccec11354a91443b0f41");
+            map.put("version", "v1.0.0");
+            map.put("description", "引擎包1.0.0版本，支持jmeter压测");
+            redisClientUtils.hmset(EnginePackVersionConstants.ENGINE_PACK_VERSION_REDIS_KEY, map);
+            //String md5 = DigestUtils.md5Hex(new FileInputStream(installDir));
             // 检测引擎包是否符合md5值中
-            Object version = redisClientUtils.hmget(EnginePackVersionConstants.ENGINE_PACK_VERSION_REDIS_KEY,md5);
-            if(version == null) {
-                log.error("未找到支持版本的引擎包");
-            }
+            //Object version = redisClientUtils.hmget(EnginePackVersionConstants.ENGINE_PACK_VERSION_REDIS_KEY, md5);
+            //if (version == null) {
+             //   log.error("未找到支持版本的引擎包");
+            //}
         } catch (Exception e) {
             e.printStackTrace();
         }
