@@ -51,7 +51,6 @@
         <module>tro-operation-log</module>
         <module>tro-bom</module>
         <module>tro-sdk</module>
-        <module>tro-server-monitor</module>
         <module>tro-command-channel</module>
     </modules>
 
