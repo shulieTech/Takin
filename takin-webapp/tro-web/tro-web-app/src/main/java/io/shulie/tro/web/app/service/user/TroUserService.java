@@ -96,7 +96,7 @@ public class TroUserService {
             // 登录次数记录
             saveLoginRecord(userLoginParam,request);
             // 验证验证码
-            checkCode(request,userLoginParam.getCode());
+            //checkCode(request,userLoginParam.getCode());
             User user = troAuthService.login(request, userLoginParam);
             UserDeptQueryParam userDeptQueryParam = new UserDeptQueryParam();
             userDeptQueryParam.setUserIdList(Arrays.asList(String.valueOf(user.getId())));

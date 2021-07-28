@@ -86,15 +86,13 @@ spring:
         min-idle: 10
         max-active: 100
         max-wait: -1
+  resources:
+    static-locations: file:${user.dir}/dist
   influxdb:
     url: ${resource.influxdb.url}
     user: ${resource.influxdb.user}
     password: ${resource.influxdb.password}
     database: ${resource.influxdb.database}
-
-
-#图库配置
-configFile: config/remote.properties
 
 remote:
   #云端控制台
@@ -118,3 +116,4 @@ tro.cloud.url: http://${trocloud.out.url}/tro-cloud
 remote.client.download.uri: /api/bigfile/download
 logging.level.io.shulie.tro.web.data.dao: DEBUG
 link.flow.check.enable: true
+

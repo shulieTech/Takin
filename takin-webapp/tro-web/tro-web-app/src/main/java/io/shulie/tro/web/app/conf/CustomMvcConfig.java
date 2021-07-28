@@ -71,6 +71,7 @@ public class CustomMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor).addPathPatterns("/**")
             .excludePathPatterns("/login/**")
+            .excludePathPatterns("/tro/**")
             .excludePathPatterns("/api/verification/code")
             .excludePathPatterns("/**/api/loginmanage/login")
             .excludePathPatterns("/**/api/user/login")

@@ -64,7 +64,7 @@ public class EnginePackVersionConfig {
             //Map<String,Object> configMap = beans.stream().collect(Collectors.toMap(EngineVersionConfigBean::getMd5,EngineVersionConfigBean::getVersion));
             // 引擎包校验 校验位置：启动项目校验 + 启动压测校验
             if (!new File(installDir).exists()) {
-                log.error("未找到引擎包");
+                log.error("未找到引擎包,path:{}",installDir);
                 return;
             }
             Map<String, Object> map = Maps.newHashMap();
