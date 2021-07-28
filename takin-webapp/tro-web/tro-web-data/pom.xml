@@ -72,6 +72,12 @@
             <artifactId>tro-web-amdb-accessor</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.shulie.tesla</groupId>
+            <artifactId>tesla-sequence</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>

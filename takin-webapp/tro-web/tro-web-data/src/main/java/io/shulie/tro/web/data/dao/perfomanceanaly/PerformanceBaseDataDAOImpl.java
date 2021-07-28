@@ -12,7 +12,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package io.shulie.tro.web.data.dao.perfomanceanaly;
 
 import java.math.BigDecimal;
@@ -29,6 +28,7 @@ import javax.annotation.Resource;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.pamirs.tro.common.util.DateUtils;
+import com.shulie.tesla.sequence.impl.DefaultSequence;
 import io.shulie.tro.utils.json.JsonHelper;
 import io.shulie.tro.web.common.vo.perfomanceanaly.PerformanceThreadDataVO;
 import io.shulie.tro.web.data.common.InfluxDBWriter;
@@ -42,6 +42,7 @@ import io.shulie.tro.web.data.result.perfomanceanaly.PerformanceBaseDataResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -64,9 +65,19 @@ public class PerformanceBaseDataDAOImpl implements PerformanceBaseDataDAO {
     @Resource
     private PerformanceThreadStackDataMapper performanceThreadStackDataMapper;
 
+    @Autowired
+    private DefaultSequence baseOrderLineSequence;
+
+    @Autowired
+    private DefaultSequence threadOrderLineSequence;
+
     @Override
     public void insert(PerformanceBaseDataParam param) {
-
+        long baseId = baseOrderLineSequence.nextValue();
+        // 插入base数据
+        influxWriterBase(param, baseId);
+        // 插入thread数据
+        influxWriterThread(param, baseId);
     }
 
     private void influxWriterThread(PerformanceBaseDataParam param, Long baseId) {
@@ -77,8 +88,7 @@ public class PerformanceBaseDataDAOImpl implements PerformanceBaseDataDAO {
             if (StringUtils.isBlank(data.getThreadStatus())) {
                 data.setThreadStatus(DEFAULT_THREAD_STATUS);
             }
-            long threadId = 0L;
-                //threadOrderLineSequence.nextValue();
+            long threadId = threadOrderLineSequence.nextValue();
             // 记录关联关系
             PerformanceThreadStackDataEntity entity = new PerformanceThreadStackDataEntity();
             entity.setThreadStackLink(threadId);
@@ -105,7 +115,7 @@ public class PerformanceBaseDataDAOImpl implements PerformanceBaseDataDAO {
         long mid = System.currentTimeMillis();
         // threadStack 存入mysql thread_stack_link
         performanceThreadStackDataMapper.insertBatchSomeColumn(stackDataEntities);
-        log.info("influxDBWriter运行时间：{},insertBatchSomeColumn运行时间:{},数据量:{}", mid - start,
+        log.debug("influxDBWriter运行时间：{},insertBatchSomeColumn运行时间:{},数据量:{}", mid - start,
             System.currentTimeMillis() - mid, stackDataEntities.size());
     }
 
@@ -239,3 +249,4 @@ public class PerformanceBaseDataDAOImpl implements PerformanceBaseDataDAO {
         influxDBWriter.query(influxDBSQL.toString(), PerformanceBaseDataResult.class);
     }
 }
+

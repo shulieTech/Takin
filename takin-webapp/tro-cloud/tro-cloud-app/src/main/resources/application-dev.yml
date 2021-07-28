@@ -16,6 +16,14 @@ resource:
     user: root
     password: shulie@2020
     database: jmeter
+## 引擎包位置  引擎包可在github下载
+pressure.engine.install.dir: /Users/shulie/engine/pressure-engine.tar.gz
+## 引擎包工作目录 记录引擎包工作的配置文件 记录引擎包生成的日志（jtl,log）
+pressure.engine.task.dir: /Users/shulie/engine
+## 脚本管理 临时文件目录
+script.temp.path: /data/apps/tro-cloud/script/temp
+## 脚本管理 脚本文件目录
+script.path: /data/apps/tro-cloud/script/
 
 ## 配置cloud地址 即当前系统部署的url
 console.url: http://127.0.0.1:10010/tro-cloud
