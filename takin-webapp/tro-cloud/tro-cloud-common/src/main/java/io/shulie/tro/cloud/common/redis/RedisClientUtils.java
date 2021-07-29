@@ -31,6 +31,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.types.Expiration;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -208,7 +210,10 @@ public class RedisClientUtils {
      */
     public boolean hmset(String key, Map<String, Object> map) {
         try {
-            stringRedisTemplate.opsForHash().putAll(key, map);
+            //不影响其他的使用，用一个临时的template
+            StringRedisTemplate redisTemplate = stringRedisTemplate;
+            redisTemplate.setHashValueSerializer(RedisSerializer.json());
+            redisTemplate.opsForHash().putAll(key, map);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
