@@ -91,6 +91,11 @@ import io.shulie.tro.web.common.http.HttpWebClient;
 import io.shulie.tro.web.common.util.ActivityUtil;
 import io.shulie.tro.web.common.util.ActivityUtil.EntranceJoinEntity;
 import io.shulie.tro.web.common.util.JsonUtil;
+import io.shulie.tro.web.data.dao.application.ApplicationDAO;
+import io.shulie.tro.web.data.mapper.mysql.ApplicationApiManageMapper;
+import io.shulie.tro.web.data.mapper.mysql.BusinessLinkManageTableMapper;
+import io.shulie.tro.web.data.model.mysql.BusinessLinkManageTableEntity;
+import io.shulie.tro.web.data.result.application.ApplicationDetailResult;
 import io.shulie.tro.web.diff.api.scenemanage.SceneManageApi;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -129,6 +134,9 @@ public class SceneManageServiceImpl implements SceneManageService {
     @Resource
     private TApplicationMntDao tApplicationMntDao;
 
+    @Resource
+    private ApplicationDAO applicationDAO;
+
     @Autowired
     private ApplicationBusinessActivityService applicationBusinessActivityService;
 
@@ -146,6 +154,12 @@ public class SceneManageServiceImpl implements SceneManageService {
 
     @Autowired
     private SceneTagService sceneTagService;
+
+    @Resource
+    private BusinessLinkManageTableMapper businessLinkManageTableMapper;
+
+    @Resource
+    private ApplicationApiManageMapper applicationApiManageMapper;
 
     @Override
     public ResponseResult<List<SceneManageWrapperResp>> getByIds(SceneManageQueryByIdsReq req) {
@@ -602,12 +616,35 @@ public class SceneManageServiceImpl implements SceneManageService {
             SceneBusinessActivityRef ref = new SceneBusinessActivityRef();
             ref.setBusinessActivityId(data.getBusinessActivityId());
             ref.setBusinessActivityName(data.getBusinessActivityName());
-            List<String> ids = getAppIdsByNameAndUser(getAppsbyId(data.getBusinessActivityId()), null);
-            ref.setApplicationIds(convertListToString(ids));
+            //List<String> ids = getAppIdsByNameAndUser(getAppsbyId(data.getBusinessActivityId()), null);
+            //ref.setApplicationIds(convertListToString(ids));
+            //直接查询应用id赋值
+            ref.setApplicationIds(getApplicationId(data.getBusinessActivityId()));
             ref.setGoalValue(buildGoalValue(data));
             businessActivityList.add(ref);
         });
         return businessActivityList;
+    }
+
+    /**
+     * 获取应用活动id
+     * @param businessActivityId 业务活动id
+     * @return 应用活动id
+     */
+    private String getApplicationId(Long businessActivityId){
+        //根据业务活动id获取业务活动数据
+        BusinessLinkManageTableEntity businessLinkManageTableEntity = businessLinkManageTableMapper.selectById(businessActivityId);
+        if (businessLinkManageTableEntity == null) {
+            return null;
+        }
+        EntranceJoinEntity entranceJoinEntity = ActivityUtil.covertEntrance(businessLinkManageTableEntity.getEntrace());
+        List<String> appNames =  Lists.newArrayList();
+        appNames.add(entranceJoinEntity.getApplicationName());
+        //通过业务活动名称获取应用信息
+        List<ApplicationDetailResult> applicationList = applicationDAO.getApplicationList(appNames);
+        List<String> applicationIds =  Lists.newArrayList();
+        applicationList.stream().forEach(c->applicationIds.add(String.valueOf(c.getApplicationId())));
+        return convertListToString(applicationIds);
     }
 
     private String buildGoalValue(SceneBusinessActivityRefVO vo) {
