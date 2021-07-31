@@ -84,7 +84,7 @@ Takin由agent、控制平台与大数据构成。
 # 社区
 邮件地址: Mail to shulie@shulie.io<br/>
 微信群<br/>
-<img src="https://user-images.githubusercontent.com/86357315/126733720-1aa04ec5-04fd-42f7-aaa9-96f82f2cd055.png" width="30%" height="30%">
+<img src="https://github.com/shulieTech/Images/blob/main/wx_5.png" width="30%" height="30%">
 <br/>
 QQ群: **118098566**<br/>
 群二维码：<br/>
