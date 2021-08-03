@@ -50,7 +50,7 @@ vim /etc/docker/daemon.json
 systemctl daemon-reload
 
 ### 拉docker镜像
-docker run -p 80:80 -p 2181:2181 -p 3306:3306 -p 6379:6379 -p 8086:8086 -p 9000:9000 -p 10032:10032 -p 6628:6628 -p 8000:8000 -p 6627:6627 -p 8888:8888 -p 29900-29999:29900-29999 registry.cn-hangzhou.aliyuncs.com/forcecop/forcecop:v1.0.0
+docker run -p 80:80 -p 2181:2181 -p 3306:3306 -p 6379:6379 -p 8086:8086 -p 9000:9000 -p 10032:10032 -p 6628:6628 -p 8000:8000 -p 6627:6627 -p 8888:8888 -p 29900-29999:29900-29999 registry.cn-hangzhou.aliyuncs.com/shulie-takin/takin:v1.0.0
 （这个过程执行完以后 请务必等待10分钟）
 ### 查看docker进程
  docker ps –a
