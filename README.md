@@ -99,7 +99,9 @@ see [takin-webapp](takin-webapp/doc/QuickStart.md)
 # Community
 Mailing List: Mail to shulie@shulie.io<br/>
 Wechat group<br/>
-<img src="https://github.com/shulieTech/Images/blob/main/wx_5.png" width="30%" height="30%">
+
+
+<img src="https://user-images.githubusercontent.com/86357315/128668906-afc506d8-79c9-4608-943e-6400f03a64c4.png" width="30%" height="30%">
 <br/>
 QQ group: **118098566**<br/>
 QR code：<br/>
