@@ -195,7 +195,7 @@ public class SceneTaskEventServie {
             result.setMsg(param.getMsg());
 
             boolean isNotify = true;
-            if (param.getStatus().equals("started")) {
+            if ("started".equals(param.getStatus())) {
                 // pod 启动成功
                 result.setStatus(TaskStatusEnum.STARTED);
                 event.setEventName("started");
@@ -217,7 +217,7 @@ public class SceneTaskEventServie {
                     param.getCustomerId());
                 index = stringRedisTemplate.opsForList().leftPop(key);
 
-            } else if (param.getStatus().equals("failed")) {
+            } else if ("failed".equals(param.getStatus())) {
                 result.setStatus(TaskStatusEnum.FAILED);
                 event.setEventName("failed");
             } else {

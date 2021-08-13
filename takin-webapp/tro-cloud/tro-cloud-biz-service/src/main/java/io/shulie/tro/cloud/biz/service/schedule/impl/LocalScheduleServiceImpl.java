@@ -30,6 +30,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.pamirs.tro.entity.dao.schedule.TScheduleRecordMapper;
 import com.pamirs.tro.entity.domain.entity.schedule.ScheduleRecord;
 import com.pamirs.tro.entity.domain.vo.report.SceneTaskNotifyParam;
 import com.pamirs.tro.entity.domain.vo.scenemanage.SceneManageStartRecordVO;
@@ -218,7 +219,6 @@ public class LocalScheduleServiceImpl implements ScheduleService {
         SceneTaskNotifyParam notify = new SceneTaskNotifyParam();
         notify.setSceneId(request.getRequest().getSceneId());
         notify.setTaskId(request.getRequest().getTaskId());
-        notify.setCustomerId(request.getRequest().getCustomerId());
         notify.setCustomerId(request.getRequest().getCustomerId());
         notify.setStatus("started");
         sceneTaskService.taskResultNotify(notify);

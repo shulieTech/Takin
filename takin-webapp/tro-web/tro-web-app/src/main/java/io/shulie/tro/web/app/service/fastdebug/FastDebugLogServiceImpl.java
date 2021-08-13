@@ -85,7 +85,7 @@ public class FastDebugLogServiceImpl implements FastDebugLogService {
         Long customerId = RestContext.getUser().getCustomerId();
         String isExist = redisClientUtils.getString(
             pathFactory.appLogIsExistKey(customerId, logRequest.getAgentId(), logRequest.getFilePath()));
-        if (StringUtils.isNotBlank(isExist) && isExist.equals("false")) {
+        if (StringUtils.isNotBlank(isExist) && "false".equals(isExist)) {
             throw new RuntimeException("日志路径不存在，请重新填写路径");
         }
 

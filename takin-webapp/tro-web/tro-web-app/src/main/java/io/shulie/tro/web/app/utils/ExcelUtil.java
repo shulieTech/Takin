@@ -342,7 +342,7 @@ public class ExcelUtil<T> {
                         }
                         values.add(originValue);
                         continue;
-                    } else if (((Class)tagValue).getName().equals("java.util.List")) {
+                    } else if ("java.util.List".equals(((Class)tagValue).getName())) {
                         List tagValueList = (List)field.get(t);
                         JSONArray jsonArray = new JSONArray();
                         for (int i = 0; i < tagValueList.size(); i++) {

@@ -325,7 +325,7 @@ public class FileUtils {
      */
     public static void deleteFileByCreateTime(String filePath, Long deleteTime) throws IOException {
 
-        if (StringUtils.isBlank(filePath) || deleteTime == null || filePath.equals("/") || filePath.equals("/root")) {
+        if (StringUtils.isBlank(filePath) || deleteTime == null || "/".equals(filePath) || "/root".equals(filePath)) {
             return;
         }
         File root = new File(filePath);

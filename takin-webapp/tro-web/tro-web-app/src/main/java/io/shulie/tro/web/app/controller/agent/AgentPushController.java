@@ -231,7 +231,6 @@ public class AgentPushController {
     public ResponseEntity<Object> queryBWMetricList(@RequestParam(name = "appName", required = false) String appName) {
         try {
             return ResponseEntity.ok(null);
-            //return ResponseOk.create(confCenterService.queryBWMetricList(appName));
         } catch (Exception e) {
             log.error("AgentController.queryBWMetricList  查询Metric黑白名单列表异常{}", e);
             return ResponseError.create(TROErrorEnum.CONFCENTER_QUERY_BWLIST_EXCEPTION.getErrorCode(),

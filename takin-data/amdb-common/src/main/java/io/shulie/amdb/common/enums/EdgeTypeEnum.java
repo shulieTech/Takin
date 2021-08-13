@@ -117,7 +117,7 @@ public enum EdgeTypeEnum {
             return EdgeTypeEnum.UNKNOWN;
         }
         if (middlewareName.toLowerCase().contains("http")
-                || middlewareName.equalsIgnoreCase("jetty")) {
+                || "jetty".equalsIgnoreCase(middlewareName)) {
             middlewareName = "http";
         }
         switch (middlewareName.toLowerCase()) {

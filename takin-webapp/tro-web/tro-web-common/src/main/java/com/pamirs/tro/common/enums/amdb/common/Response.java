@@ -51,7 +51,7 @@ public class Response<T> implements Serializable {
         this.data = data;
         this.success = success;
         if (data != null) {
-            this.total = 1l;
+            this.total = 1L;
         }
     }
 
