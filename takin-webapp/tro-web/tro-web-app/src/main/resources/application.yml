@@ -61,19 +61,21 @@ spring:
     url: jdbc:mysql://${resource.mysql.host}:${resource.mysql.port}/trodb?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true
     username: ${resource.mysql.username}
     password: ${resource.mysql.password}
-    initialSize: 1
-    minIdle: 3
-    maxActive: 20
-    maxWait: 60000
-    timeBetweenEvictionRunsMillis: 60000
-    minEvictableIdleTimeMillis: 30000
-    validationQuery: select 'x'
-    testWhileIdle: true
-    testOnBorrow: false
-    poolPreparedStatements: true
-    maxPoolPreparedStatementPerConnectionSize: 20
-    filters: stat,wall,slf4j
-    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    druid:
+      initial-size: 3
+      min-idle: 3
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 30000
+      validation-query: select 'x'
+      filters: stat,wall,slf4j
+      test-while-idle: true
+      test-on-borrow: false
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      test-on-return: false
   #redis配置
   redis:
     host: ${resource.redis.host}
