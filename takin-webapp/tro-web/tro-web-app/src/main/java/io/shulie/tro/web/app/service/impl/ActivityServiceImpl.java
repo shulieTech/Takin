@@ -340,7 +340,6 @@ public class ActivityServiceImpl implements ActivityService {
         request.setExtend(result.getExtend());
         request.setServiceName(result.getServiceName());
         request.setType(result.getType());
-        //activityResponse.setTopology(linkTopologyService.getApplicationEntrancesTopology(request));
         activityResponse.setEnableLinkFlowCheck(enableLinkFlowCheck);
         Integer verifyStatus = getVerifyStatus(id).getVerifyStatus();
         activityResponse.setVerifyStatus(verifyStatus);

@@ -1032,7 +1032,7 @@ public class LinkManageServiceImpl implements LinkManageService {
         List<Long> candeletedList = businessLinkIds.stream()
             .map(single -> {
                 long count = TSceneLinkRelateMapper.countByBusinessLinkId(single);
-                if (!(count > 0)) {
+                if (count < 0) {
                     return single;
                 }
                 return 0L;
@@ -1194,7 +1194,7 @@ public class LinkManageServiceImpl implements LinkManageService {
         long applicationTotalCountNum = TLinkManageTableMapper.countTotal();
         String applicationTotalCount = String.valueOf(applicationTotalCountNum);
         String applicationPressureCount = "0";
-        String applicationPressureRate = (applicationTotalCountNum == 0L || applicationPressureCount.equals("0")) ?
+        String applicationPressureRate = (applicationTotalCountNum == 0L || "0".equals(applicationPressureCount)) ?
             "0" : String.valueOf(applicationTotalCountNum / Long.parseLong(applicationPressureCount));
         dto.setApplicationTotalCount(applicationTotalCount);
         dto.setApplicationPressureCount(applicationPressureCount);

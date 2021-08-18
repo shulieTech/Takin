@@ -1737,7 +1737,7 @@ public class ConfCenterService extends CommonService {
                 vo.setJobInterval(jobInterval);
                 String mqType = isEmPty(excelVo.get(5)) ? null : String.valueOf(excelVo.get(5));
                 vo.setMqType(mqType);
-                String useYn = String.valueOf(excelVo.get(6)).equalsIgnoreCase("可用") ? "1" : "0";
+                String useYn = "可用".equalsIgnoreCase(String.valueOf(excelVo.get(6))) ? "1" : "0";
                 vo.setUseYn(useYn);
                 String interfaceName = isEmPty(excelVo.get(7)) ? null : String.valueOf(excelVo.get(7));
                 if (StringUtils.isNotBlank(interfaceName)) {

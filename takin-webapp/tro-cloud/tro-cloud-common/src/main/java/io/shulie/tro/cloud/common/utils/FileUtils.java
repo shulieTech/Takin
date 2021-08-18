@@ -232,7 +232,7 @@ public class FileUtils {
      */
     public static void createDirectory(String outputDir,String subDir) {
         File file = new File(outputDir);
-        if (!(subDir == null || subDir.trim().equals(""))) {//子目录不为空
+        if (!(subDir == null || "".equals(subDir.trim()))) {//子目录不为空
             file = new File(outputDir + "/" + subDir);
         }
         if (!file.exists()) {

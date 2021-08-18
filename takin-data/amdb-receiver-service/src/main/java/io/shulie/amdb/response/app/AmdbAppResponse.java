@@ -50,7 +50,6 @@ public class AmdbAppResponse implements Serializable {
 
     public AmdbAppResponse(List<String> resultFields, AppDO amdbApp) {
         this.setAppId(amdbApp.getId());
-        //this.setAppIsException((amdbApp.getFlag() & 1) == 1);
         this.setAppName(amdbApp.getAppName());
         this.setAppSummary(amdbApp.getRemark());
         this.setAppVersionCode(amdbApp.getProjectVersion());

@@ -99,7 +99,7 @@ public class BigfileUploadFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest)servletRequest;
         HttpServletResponse response = (HttpServletResponse)servletResponse;
         String requestURI = request.getRequestURI();
-        if (requestURI.equals("/tro-web/api/bigfile/upload")) {
+        if ("/tro-web/api/bigfile/upload".equals(requestURI)) {
             ResponseResult result = null;
 
             String license = request.getHeader("license");

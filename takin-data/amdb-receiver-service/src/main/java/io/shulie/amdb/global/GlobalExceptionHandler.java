@@ -16,7 +16,7 @@
 package io.shulie.amdb.global;
 
 import io.shulie.amdb.common.Response;
-import io.shulie.amdb.exception.AmdbExcetion;
+import io.shulie.amdb.exception.AmdbException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,9 +42,9 @@ public class GlobalExceptionHandler {
         return Response.fail(e.getMessage());
     }
 
-    @ExceptionHandler(value = AmdbExcetion.class)
+    @ExceptionHandler(value = AmdbException.class)
     @ResponseBody
-    public Response<String> handlerAmdbExcetion(AmdbExcetion e) {
+    public Response<String> handlerAmdbExcetion(AmdbException e) {
         logger.error("handlerAmdbExcetion" + ExceptionUtils.getStackTrace(e));
         return Response.fail(e.getMessage());
     }
