@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.shulie.tro</groupId>
     <artifactId>tro</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
     <name>tro</name>
     <description>tro 包含工具类、agent交互通道、异常处理模块等</description>
@@ -36,9 +36,9 @@
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ssa</maven.build.timestamp.format>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <!-- biz version-->
-        <tro.web.version>1.0.0-SNAPSHOT</tro.web.version>
-        <tro.cloud.version>1.0.0-SNAPSHOT</tro.cloud.version>
-        <tro.version>1.0.0-SNAPSHOT</tro.version>
+        <tro.web.version>1.0.0</tro.web.version>
+        <tro.cloud.version>1.0.0</tro.cloud.version>
+        <tro.version>1.0.0</tro.version>
         <!-- 3rd libs version -->
         <spring.boot.version>2.1.5.RELEASE</spring.boot.version>
         <curator.version>1.3.3</curator.version>
