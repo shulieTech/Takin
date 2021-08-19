@@ -149,13 +149,6 @@ public class ZookeeperNodeConnector implements Connector {
 
     @Override
     public void start() throws Exception {
-//        for (ZkPathChildrenCache instanceCache : childCache.values()) {
-//            try {
-//                instanceCache.startAndRefresh();
-//            } catch (Exception e) {
-//                logger.error("instance cache start failed");
-//            }
-//        }
 
     }
 

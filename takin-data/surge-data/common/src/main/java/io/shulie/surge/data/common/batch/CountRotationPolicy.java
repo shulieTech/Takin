@@ -42,19 +42,6 @@ public class CountRotationPolicy implements RotationPolicy {
         return this.currentSize.longValue() >= this.maxSize;
     }
 
-    public static void main(String[] args) throws InterruptedException {
-        CountRotationPolicy policy = new CountRotationPolicy(3);
-        while (true) {
-            if (policy.mark(1)) {
-                System.out.println("滚动");
-                policy.reset();
-            } else {
-                System.out.println("累加");
-            }
-            Thread.sleep(2000);
-        }
-    }
-
     @Override
     public void reset() {
         this.currentSize.reset();

@@ -20,5 +20,5 @@ public interface IConsumerService {
      * 启动消费者
      * @throws Exception
      */
-    public void start() throws Exception;
+    void start() throws Exception;
 }

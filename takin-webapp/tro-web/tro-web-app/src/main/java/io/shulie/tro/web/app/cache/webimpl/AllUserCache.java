@@ -33,6 +33,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 /**
  * @author shiyajian
@@ -87,9 +88,8 @@ public class AllUserCache {
     }
 
     public UserCacheResult getCachedUserByKey(String key) {
-        if (key == null) {
-            throw new IllegalArgumentException(" getCachedUserByKey , key must not null ");
-        }
+        Assert.notNull(key,"getCachedUserByKey , key must not null");
+
         List<UserCacheResult> userDetailResults = (List<UserCacheResult>)redisTemplate.opsForValue().get(CACHE_NAME);
         if (userDetailResults == null) {
             setUserCacheFromDB();
@@ -109,9 +109,8 @@ public class AllUserCache {
     }
 
     public UserCacheResult getCachedUserById(Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException(" getCachedUserById , id must not null ");
-        }
+        Assert.notNull(id,"getCachedUserById , id must not null");
+
         List<UserCacheResult> userDetailResults = (List<UserCacheResult>)redisTemplate.opsForValue().get(CACHE_NAME);
         if (userDetailResults == null) {
             setUserCacheFromDB();

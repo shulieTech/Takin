@@ -36,11 +36,4 @@ public class FlagUtil {
         }
         return flag;
     }
-
-    public static void main(String[] args) {
-        System.out.println(setFlag(0,2,true));
-        System.out.println(setFlag(0,2,false));
-        System.out.println(setFlag(3,2,true));
-        System.out.println(setFlag(3,2,false));
-    }
 }
