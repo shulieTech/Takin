@@ -117,11 +117,8 @@ public class ClickhouseServiceImpl implements ClickhouseService, ApplicationRunn
         if (StringUtils.isNotBlank(clickhousePassword)) {
             clickHouseProperties.setPassword(clickhousePassword);
         }
-        DataSource clickHouseDataSource = null;
-        /*if (enableRound) {
-            clickHouseDataSource = new RoundClickhouseDataSource(clickhouseUrl, clickHouseProperties);
-        } else {*/
-            clickHouseDataSource = new BalancedClickhouseDataSource(clickhouseUrl, clickHouseProperties);//.}
+        DataSource clickHouseDataSource;
+        clickHouseDataSource = new BalancedClickhouseDataSource(clickhouseUrl, clickHouseProperties);//.}
         jdbcTemplate = new JdbcTemplate(clickHouseDataSource);
     }
 }

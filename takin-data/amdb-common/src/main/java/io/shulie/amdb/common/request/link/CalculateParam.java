@@ -5,13 +5,13 @@ import lombok.Data;
 
 @Data
 public class CalculateParam {
-    @ApiModelProperty(required = true, allowEmptyValue = false)
+    @ApiModelProperty(required = true)
     String appName;
-    @ApiModelProperty(required = true, allowEmptyValue = false)
+    @ApiModelProperty(required = true)
     String serviceName;
-    @ApiModelProperty(required = true, allowEmptyValue = false)
+    @ApiModelProperty(required = true)
     String method;
-    @ApiModelProperty(required = true, allowEmptyValue = false)
+    @ApiModelProperty(required = true)
     String rpcType;
     String extend;
 }

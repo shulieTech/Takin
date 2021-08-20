@@ -18,6 +18,7 @@ package io.shulie.amdb.controller;
 import io.shulie.amdb.common.ErrorInfo;
 import io.shulie.amdb.common.Response;
 import io.shulie.amdb.entity.AppDO;
+import io.shulie.amdb.enums.ResponseCodeEnum;
 import io.shulie.amdb.request.query.TAmdbAppBatchAppQueryRequest;
 import io.shulie.amdb.response.app.AmdbAppResponse;
 import io.shulie.amdb.service.AppService;
@@ -92,7 +93,7 @@ public class AppController {
     @RequestMapping(value = "/selectByBatchAppParams", method = RequestMethod.GET)
     public Response<List<AmdbAppResponse>> selectByBatchAppParams(TAmdbAppBatchAppQueryRequest param) {
         if (CollectionUtils.isEmpty(param.getAppIds()) && CollectionUtils.isEmpty(param.getAppNames())) {
-            return Response.fail(new ErrorInfo("100", "参数错误"));
+            return Response.fail(new ErrorInfo(ResponseCodeEnum.PARAMETER_ILLEGAL.getCode(), ResponseCodeEnum.PARAMETER_ILLEGAL.getMessage()));
         }
         return Response.success(appService.selectByBatchAppParams(param));
     }

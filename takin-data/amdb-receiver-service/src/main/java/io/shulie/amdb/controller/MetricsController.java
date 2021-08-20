@@ -17,6 +17,7 @@ package io.shulie.amdb.controller;
 
 import io.shulie.amdb.common.ErrorInfo;
 import io.shulie.amdb.common.Response;
+import io.shulie.amdb.enums.ResponseCodeEnum;
 import io.shulie.amdb.request.query.MetricsQueryRequest;
 import io.shulie.amdb.service.MetricsService;
 import io.swagger.annotations.Api;
@@ -48,7 +49,7 @@ public class MetricsController {
         if (StringUtils.isBlank(request.getMeasurementName()) || CollectionUtils.isEmpty(request.getTagMapList())
                 || request.getFieldMap() == null || request.getFieldMap().size() == 0
                 || request.getStartTime() == 0 || request.getEndTime() == 0) {
-            return Response.fail(new ErrorInfo("100", "参数错误"));
+            return Response.fail(new ErrorInfo(ResponseCodeEnum.PARAMETER_ILLEGAL.getCode(), ResponseCodeEnum.PARAMETER_ILLEGAL.getMessage()));
         }
         return Response.success(metricsService.getMetrics(request));
     }

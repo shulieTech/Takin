@@ -45,17 +45,17 @@ public class MetricsServiceImpl implements MetricsService {
                     formatTimestamp(request.getStartTime()) + " and time < " + formatTimestamp(request.getEndTime()) + " "+
                     parseGroupBy(request.getGroups());
             List<QueryResult.Result> queryResult = influxDBManager.query(sql);
-            queryResult.stream().filter((internalResult) -> {
-                return Objects.nonNull(internalResult) && Objects.nonNull(internalResult.getSeries());
-            }).forEach((internalResult) -> {
-                internalResult.getSeries().stream().filter((series) -> {
-                    return series.getName().equals(request.getMeasurementName());
-                }).forEachOrdered((series) -> {
+            queryResult.stream().filter((internalResult) ->
+                    Objects.nonNull(internalResult) && Objects.nonNull(internalResult.getSeries()))
+                    .forEach((internalResult) -> {
+                internalResult.getSeries().stream().filter((series) ->
+                        series.getName().equals(request.getMeasurementName()))
+                        .forEachOrdered((series) -> {
                     LinkedHashMap<String, String> resultTagMap = new LinkedHashMap<>();
                     resultTagMap.putAll(tagMap);
                     List<Map<String, Object>> resultList = new ArrayList<>();
                     if(MapUtils.isNotEmpty(series.getTags())){
-                        String groupFields[] = request.getGroups().split(",");
+                        String[] groupFields = request.getGroups().split(",");
                         for(String groupField:groupFields){
                             resultTagMap.put(groupField,series.getTags().get(groupField));
                         }
@@ -73,7 +73,7 @@ public class MetricsServiceImpl implements MetricsService {
                     MetricsResponse response = new MetricsResponse();
                     response.setTags(resultTagMap);
                     response.setValue(resultList);
-                    response.setTimes(request.getEndTime() - request.getEndTime());
+                    response.setTimes(request.getEndTime() - request.getStartTime());
                     log.debug("指标查询sql:{}", sql);
                     log.debug("查询结果:{}", response);
                     responseList.put(StringUtils.join(resultTagMap.values(), "|"), response);
