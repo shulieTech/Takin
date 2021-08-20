@@ -58,9 +58,7 @@ public class EventCenterTemplate {
         for (ListenerContainer.Listener entry : list) {
             try {
                 entry.getMethod().invoke(entry.getObject(), event);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
+            } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
         }

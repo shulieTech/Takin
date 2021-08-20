@@ -18,13 +18,13 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <groupId>io.shulie.tro</groupId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <artifactId>tro-cloud-bom</artifactId>
 
     <properties>
-        <tro.cloud.version>1.0.0-SNAPSHOT</tro.cloud.version>
+        <tro.cloud.version>1.0.0</tro.cloud.version>
     </properties>
 
     <dependencyManagement>
@@ -74,17 +74,6 @@
                 <artifactId>tro-cloud-common</artifactId>
                 <version>${tro.cloud.version}</version>
             </dependency>
-<!--            <dependency>-->
-<!--                <groupId>io.shulie.flpt</groupId>-->
-<!--                <artifactId>cloud-server-core</artifactId>-->
-<!--                <version>1.0-SNAPSHOT</version>-->
-<!--                <exclusions>-->
-<!--                    <exclusion>-->
-<!--                        <groupId>com.alibaba</groupId>-->
-<!--                        <artifactId>fastjson</artifactId>-->
-<!--                    </exclusion>-->
-<!--                </exclusions>-->
-<!--            </dependency>-->
         </dependencies>
     </dependencyManagement>
     <distributionManagement>

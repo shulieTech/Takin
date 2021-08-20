@@ -20,11 +20,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.shulie.tro</groupId>
     <artifactId>tro-web-bom</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <properties>
-        <tro.web.version>1.0.0-SNAPSHOT</tro.web.version>
+        <tro.web.version>1.0.0</tro.web.version>
     </properties>
 
     <dependencyManagement>

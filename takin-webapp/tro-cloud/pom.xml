@@ -18,7 +18,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.shulie.tro</groupId>
     <artifactId>tro-cloud</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <name>tro-cloud</name>
@@ -51,10 +51,10 @@
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <!-- biz version -->
-        <tro.cloud.version>1.0.0-SNAPSHOT</tro.cloud.version>
-        <tro.version>1.0.0-SNAPSHOT</tro.version>
+        <tro.cloud.version>1.0.0</tro.cloud.version>
+        <tro.version>1.0.0</tro.version>
         <pardar.log.protocol.version>2.0.0</pardar.log.protocol.version>
-        <pradar.core.version>1.0.2-SNAPSHOT</pradar.core.version>
+        <pradar.core.version>1.0.2</pradar.core.version>
 
         <!-- 3rd libs version -->
         <springfox.version>2.8.0</springfox.version>
