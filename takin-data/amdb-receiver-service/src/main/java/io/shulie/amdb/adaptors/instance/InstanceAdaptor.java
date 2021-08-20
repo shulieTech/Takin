@@ -102,7 +102,6 @@ public class InstanceAdaptor extends DefaultAdaptor {
             // 说明节点被删除，执行实例下线
             if (oldInstanceKey != null) {
                 instanceOffline(oldInstanceKey);
-                //instanceIdCache.remove(dataContext.getPath());
             }
         }
         return null;
@@ -213,16 +212,7 @@ public class InstanceAdaptor extends DefaultAdaptor {
         amdbAppInstance.setMd5(instanceModel.getMd5());
         amdbAppInstance.setAgentLanguage(instanceModel.getAgentLanguage());
         Map<String, Object> ext = new HashMap<String, Object>();
-//        if (instanceModel.getErrorCode() != null && instanceModel.getErrorCode().trim().length() > 0) {
-//            Map<String, Map<String, Object>> errorMsgInfos = new HashMap<String, Map<String, Object>>();
-//            Map<String, Object> errorMsgInfo = new HashMap<String, Object>();
-//            errorMsgInfo.put("msg", instanceModel.getErrorMsg());
-//            errorMsgInfo.put("time", new Date());
-//            errorMsgInfos.put(instanceModel.getErrorCode(), errorMsgInfo);
-//            ext.put("errorMsgInfos", errorMsgInfos);
-//        } else {
-//            ext.put("errorMsgInfos", "{}");
-//        }
+
         ext.put("errorMsgInfos", "{}");
         ext.put("gcType", instanceModel.getGcType());
         ext.put("host", instanceModel.getHost());

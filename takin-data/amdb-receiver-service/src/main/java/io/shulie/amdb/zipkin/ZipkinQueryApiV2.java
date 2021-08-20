@@ -56,44 +56,6 @@ public class ZipkinQueryApiV2 {
 
     private static final LogFormatter LOG_FORMATTER = new LogFormatter();
 
-    /*  @Get("/api/v2/dependencies")
-      @Blocking
-      public AggregatedHttpResponse getDependencies(
-        @Param("endTs") long endTs,
-        @Param("lookback") Optional<Long> lookback) throws IOException {
-        Call<List<DependencyLink>> call =
-          storage.spanStore().getDependencies(endTs, lookback.orElse(defaultLookback));
-        return jsonResponse(DependencyLinkBytesEncoder.JSON_V1.encodeList(call.execute()));
-      }
-
-      @RequestMapping("/api/v2/services")
-      @ResponseBody
-      public String getServiceNames(ServiceRequestContext ctx) throws IOException {
-        List<String> serviceNames = storage.serviceAndSpanNames().getServiceNames().execute();
-        serviceCount = serviceNames.size();
-        return maybeCacheNames(serviceCount > 3, serviceNames, ctx.alloc());
-      }
-
-      @Get("/api/v2/spans")
-      @Blocking
-      public AggregatedHttpResponse getSpanNames(
-              @Param("serviceName") String serviceName, ServiceRequestContext ctx)
-        throws IOException {
-        List<String> spanNames = storage.serviceAndSpanNames().getSpanNames(serviceName).execute();
-        return maybeCacheNames(serviceCount > 3, spanNames, ctx.alloc());
-      }
-
-      @Get("/api/v2/remoteServices")
-      @Blocking
-      public AggregatedHttpResponse getRemoteServiceNames(
-        @Param("serviceName") String serviceName, ServiceRequestContext ctx)
-        throws IOException {
-        List<String> remoteServiceNames =
-          storage.serviceAndSpanNames().getRemoteServiceNames(serviceName).execute();
-        return maybeCacheNames(serviceCount > 3, remoteServiceNames, ctx.alloc());
-      }
-
-*/
     @RequestMapping("/api/v2/traces")
     public void getTraces(EntryTraceQueryParam param, HttpServletResponse response)
             throws IOException {

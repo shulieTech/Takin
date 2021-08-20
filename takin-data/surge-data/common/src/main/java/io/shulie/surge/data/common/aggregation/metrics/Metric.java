@@ -78,60 +78,6 @@ public class Metric implements Serializable {
         return new Metric(metricId, prefixes, Long.toString(time, 10), suffixes);
     }
 
-    /* public byte[] getRowkey() {
-         // rowkey = hash + '~' + prefixes + '|' + time + '|' + suffixes
-         char[] buffer = tbuffer.get();
-
-         int offset = 0;
-         offset = appendTo(prefixes, buffer, offset);
-         buffer[offset++] = '|';
-         offset = appendTo(time, buffer, offset);
-
-         int offset2 = offset;
-         buffer[offset++] = '|';
-         offset = appendTo(suffixes, buffer, offset);
-
-         // hash = base64(hashcode(prefixes + '|' + time)) => 8 个字符
-         byte[] hash = Base64.encodeBase64(Bytes.toBytes(hashCodeOf(buffer, 0, offset2)));
-
-         byte[] prefixBytes = new byte[9];
-         prefixBytes[0] = hash[0];
-         prefixBytes[1] = hash[1];
-         prefixBytes[2] = hash[2];
-         prefixBytes[3] = hash[3];
-         prefixBytes[4] = hash[4];
-         prefixBytes[5] = hash[5];
-         prefixBytes[6] = hash[6];
-         prefixBytes[7] = hash[7];
-         prefixBytes[8] = '~';
-
-         byte[] data = Bytes.toBytes(String.valueOf(buffer, 0, offset));
-         byte[] bytes = new byte[prefixBytes.length + data.length];
-         System.arraycopy(prefixBytes, 0, bytes, 0, prefixBytes.length);
-         System.arraycopy(data, 0, bytes, prefixBytes.length, data.length);
-         return bytes;
-     }
-
-     protected final int appendTo(String[] array, char[] buffer, int start) {
-         if (!isNullEmpty(array)) {
-             start = appendTo(array[0], buffer, start);
-             for (int i = 1; i < array.length; ++i) {
-                 buffer[start++] = '|';
-                 start = appendTo(array[i], buffer, start);
-             }
-         }
-         return start;
-     }
-
-     protected final int appendTo(String str, char[] buffer, int start) {
-         if (!isNullEmpty(str)) {
-             int length = str.length();
-             str.getChars(0, length, buffer, start);
-             return start + length;
-         }
-         return start;
-     }
- */
     protected final int hashCodeOf(char[] buffer, int start, int end) {
         int len = end - start;
         int h = 0;

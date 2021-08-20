@@ -28,7 +28,7 @@ import java.util.Set;
  */
 public class AdaptorFactory {
 
-    private Set<Adaptor> adaptors = new HashSet<Adaptor>();
+    private Set<Adaptor> adaptors = new HashSet<>();
 
     private void init() {
         ServiceLoader<Adaptor> adaptorLoader = ServiceLoader.load(Adaptor.class);

@@ -16,10 +16,8 @@
 package io.shulie.amdb.adaptors.base;
 
 
-import com.google.common.collect.Maps;
 import io.shulie.amdb.adaptors.Adaptor;
 import io.shulie.amdb.adaptors.AdaptorTemplate;
-
 import java.util.Map;
 import java.util.Set;
 
@@ -30,7 +28,7 @@ public class AdaptorStarter {
 
     private AdaptorTemplate adaptorTemplate;
     private Set<Adaptor> adaptors;
-    private Map<String, Object> config = Maps.newHashMap();
+    private Map<String, Object> config;
 
     public AdaptorStarter(Map<String, Object> config) throws Exception {
         this.config = config;

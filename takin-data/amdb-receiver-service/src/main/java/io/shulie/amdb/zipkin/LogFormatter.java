@@ -31,36 +31,6 @@ public class LogFormatter {
 
     /**
      *
-     * @param tTrackClickhouseModel
-     * @return
-     */
-//    public String format(TTrackClickhouseModel tTrackClickhouseModel) {
-//        PropertyPlaceholderHelper propertyPlaceholderHelper = new PropertyPlaceholderHelper("${", "}");
-//        BeanMap beanMap = new BeanMap(tTrackClickhouseModel);
-//
-//        String logFormat = LOG_FORMATTER_V15;
-//        switch (tTrackClickhouseModel.getVersion()) {
-//            case "1.5":
-//            case "15":
-//                logFormat = LOG_FORMATTER_V15;
-//        }
-//        return propertyPlaceholderHelper.replacePlaceholders(logFormat, new PropertyPlaceholderHelper.PlaceholderResolver() {
-//            /**
-//             * Resolves the supplied placeholder name into the replacement value.
-//             *
-//             * @param placeholderName the name of the placeholder to resolve.
-//             * @return the replacement value or {@code null} if no replacement is to be made.
-//             */
-//            @Override
-//            public String resolvePlaceholder(String placeholderName) {
-//                return beanMap.get(placeholderName) == null ? "" : String.valueOf(beanMap.get(placeholderName));
-//            }
-//        });
-//    }
-
-
-    /**
-     *
      * @param rpcBased
      * @return
      */
