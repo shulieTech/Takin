@@ -18,6 +18,7 @@ package io.shulie.amdb.controller;
 import io.shulie.amdb.common.ErrorInfo;
 import io.shulie.amdb.common.Response;
 import io.shulie.amdb.entity.TAmdbAppInstanceDO;
+import io.shulie.amdb.enums.ResponseCodeEnum;
 import io.shulie.amdb.request.query.TAmdbAppInstanceBatchAppQueryRequest;
 import io.shulie.amdb.request.query.TAmdbAppInstanceErrorInfoByQueryRequest;
 import io.shulie.amdb.request.query.TAmdbAppInstanceQueryRequest;
@@ -64,7 +65,7 @@ public class AppInstanceController {
     @RequestMapping(value = "/selectByParams", method = RequestMethod.GET)
     public Response selectByParams(TAmdbAppInstanceQueryRequest param) {
         if (param.getAppName() == null) {
-            return Response.fail(new ErrorInfo("100", "参数错误"));
+            return Response.fail(new ErrorInfo(ResponseCodeEnum.PARAMETER_ILLEGAL.getCode(), ResponseCodeEnum.PARAMETER_ILLEGAL.getMessage()));
         }
         return Response.success(appInstanceService.selectByParams(param));
     }
@@ -72,7 +73,7 @@ public class AppInstanceController {
     @RequestMapping(value = "/selectByBatchAppParams", method = RequestMethod.GET)
     public Response selectByBatchAppParams(TAmdbAppInstanceBatchAppQueryRequest param) {
         if (CollectionUtils.isEmpty(param.getAppIds()) && CollectionUtils.isEmpty(param.getAppNames()) && CollectionUtils.isEmpty(param.getAgentIds()) && CollectionUtils.isEmpty(param.getIpAddress())) {
-            return Response.fail(new ErrorInfo("100", "参数错误"));
+            return Response.fail(new ErrorInfo(ResponseCodeEnum.PARAMETER_ILLEGAL.getCode(), ResponseCodeEnum.PARAMETER_ILLEGAL.getMessage()));
         }
         return Response.success(appInstanceService.selectByBatchAppParams(param));
     }
@@ -80,7 +81,7 @@ public class AppInstanceController {
     @RequestMapping(value = "/selectErrorInfoByParams", method = RequestMethod.POST)
     public Response selectErrorInfoByParams(@RequestBody TAmdbAppInstanceErrorInfoByQueryRequest param) {
         if (StringUtils.isBlank(param.getAppId()) && StringUtils.isBlank(param.getAppName())) {
-            return Response.fail(new ErrorInfo("100", "参数错误"));
+            return Response.fail(new ErrorInfo(ResponseCodeEnum.PARAMETER_ILLEGAL.getCode(), ResponseCodeEnum.PARAMETER_ILLEGAL.getMessage()));
         }
         return Response.success(appInstanceService.selectErrorInfoByParams(param));
     }
@@ -94,7 +95,7 @@ public class AppInstanceController {
     @RequestMapping(value ="/deleteByParams", method = RequestMethod.POST)
     public Response deleteByParams(@RequestBody TAmdbAppInstanceQueryRequest param) {
         if(StringUtils.isBlank(param.getAppName())){
-            return Response.fail(new ErrorInfo("100", "参数错误"));
+            return Response.fail(new ErrorInfo(ResponseCodeEnum.PARAMETER_ILLEGAL.getCode(), ResponseCodeEnum.PARAMETER_ILLEGAL.getMessage()));
         }
         appInstanceService.deleteByParams(param);
         return Response.emptySuccess();

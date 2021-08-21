@@ -23,7 +23,7 @@ public class AdaptorConfiguration {
 
     @Bean
     public ClientAdaptorStarter adaptorStarter() throws Exception {
-        Map<String, Object> config = new HashMap<>();
+        Map<String, Object> config = new HashMap<>(2);
         config.put("appService", appService);
         config.put("appInstanceService", appInstanceService);
         System.setProperty("zookeeper.servers", zkPath);

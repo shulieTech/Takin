@@ -26,11 +26,7 @@ public class PagingRequest extends AbstractAmdbBaseRequest {
     }
 
     public Integer getPageSize() {
-        if (Objects.isNull(this.pageSize)) {
-            return Integer.MAX_VALUE;
-        }
-        this.pageSize = Math.min(pageSize, Integer.MAX_VALUE);
-        return pageSize;
+        return pageSize == null ? Integer.MAX_VALUE : pageSize;
     }
 
     public void setPageSize(Integer pageSize) {

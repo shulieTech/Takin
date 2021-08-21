@@ -58,11 +58,6 @@ public class AsyncConfig implements AsyncConfigurer {
 
     @Override
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-        return new AsyncUncaughtExceptionHandler() {
-            @Override
-            public void handleUncaughtException(Throwable ex , Method method , Object... params) {
-                log.error("线程池执行任务发生未知异常.", ex);
-            }
-        };
+        return (ex, method, params) -> log.error("线程池执行任务发生未知异常.", ex);
     }
 }
