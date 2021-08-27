@@ -91,15 +91,21 @@ Takin consists of Agent, Web App and Surge Data.
 see [Agent](https://github.com/shulieTech/LinkAgent)
 
 ## Surge Data
-see [surge-data](takin-data/surge-data/README.md?_blank)
+see [Takin-surge-deploy](https://github.com/shulieTech/Takin-surge-deploy)
+see [Takin-amdb](https://github.com/shulieTech/Takin-amdb)
 
-## Controller Platform
-see [takin-webapp](takin-webapp/doc/QuickStart.md)
+## Takin Web
+see [Takin-common](https://github.com/shulieTech/Takin-common)
+see [Takin-web](https://github.com/shulieTech/Takin-web)
+see [Takin-web-ui](https://github.com/shulieTech/Takin-web-ui)
+
+## Takin Engine
+see [Takin-pressure-engine](https://github.com/shulieTech/Takin-pressure-engine)
+see [Takin-cloud](https://github.com/shulieTech/Takin-cloud)
 
 # Community
 Mailing List: Mail to shulie@shulie.io<br/>
 Wechat group<br/>
-
 
 <img src="https://user-images.githubusercontent.com/86357315/128668906-afc506d8-79c9-4608-943e-6400f03a64c4.png" width="30%" height="30%">
 <br/>
