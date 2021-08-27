@@ -98,10 +98,11 @@ Takin consists of Agent, Web App and Surge Data.
 - see [Takin-common](https://github.com/shulieTech/Takin-common)
 - see [Takin-web](https://github.com/shulieTech/Takin-web)
 - see [Takin-web-ui](https://github.com/shulieTech/Takin-web-ui)
+- see [Takin-cloud](https://github.com/shulieTech/Takin-cloud)
 
 ## Takin Engine
 - see [Takin-pressure-engine](https://github.com/shulieTech/Takin-pressure-engine)
-- see [Takin-cloud](https://github.com/shulieTech/Takin-cloud)
+- see [Takin-jmeter](https://github.com/shulieTech/Takin-jmeter)
 
 # Community
 Mailing List: Mail to shulie@shulie.io<br/>
