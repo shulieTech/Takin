@@ -88,20 +88,20 @@ after installation：
 Takin consists of Agent, Web App and Surge Data.
 
 ## Agent
-see [Agent](https://github.com/shulieTech/LinkAgent)
+- see [Agent](https://github.com/shulieTech/LinkAgent)
 
 ## Surge Data
-see [Takin-surge-deploy](https://github.com/shulieTech/Takin-surge-deploy)
-see [Takin-amdb](https://github.com/shulieTech/Takin-amdb)
+- see [Takin-surge-deploy](https://github.com/shulieTech/Takin-surge-deploy)
+- see [Takin-amdb](https://github.com/shulieTech/Takin-amdb)
 
 ## Takin Web
-see [Takin-common](https://github.com/shulieTech/Takin-common)
-see [Takin-web](https://github.com/shulieTech/Takin-web)
-see [Takin-web-ui](https://github.com/shulieTech/Takin-web-ui)
+- see [Takin-common](https://github.com/shulieTech/Takin-common)
+- see [Takin-web](https://github.com/shulieTech/Takin-web)
+- see [Takin-web-ui](https://github.com/shulieTech/Takin-web-ui)
 
 ## Takin Engine
-see [Takin-pressure-engine](https://github.com/shulieTech/Takin-pressure-engine)
-see [Takin-cloud](https://github.com/shulieTech/Takin-cloud)
+- see [Takin-pressure-engine](https://github.com/shulieTech/Takin-pressure-engine)
+- see [Takin-cloud](https://github.com/shulieTech/Takin-cloud)
 
 # Community
 Mailing List: Mail to shulie@shulie.io<br/>
