@@ -5,7 +5,7 @@
 English / [中文](README_CN.md)
 
 ## What is Takin?
-Takin is an Java-based, open-source system designed to measure online environmental performance test for full-links, Especially for microservices. Through ArchGuadian, middlewares and applications can identify real online traffic and test traffic, ensure that they enter the right databases.
+Takin is an Java-based, open-source system designed to measure online or test environmental performance test for full-links, Especially for microservices. Through ArchGuadian, middlewares and applications can identify real online traffic and test traffic, ensure that they enter the right databases.
 
 # Why should we do online environmental performance test
 Microservices Architecture is used commonly nowadays and it always make system complex to understand for humans. Moreover, businesses are also very complex in huge system. Business complexity and system complexity make it difficult to :
