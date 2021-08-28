@@ -66,8 +66,11 @@ The Initiation of docker need about 10 mins because it need install necessary co
 - PS：If Nginx shows 502, the problem mostly is caused when the docker container has just been started, you only need to configure it correctly, and then wait a little (1-2 min) while to refresh and try again.
 
 after installation：
+<!--
 - see [Quick Start](takin-webapp/doc/QuickStart.md)
-- [Instruction 使用说明](https://news.shulie.io/?p=2987)
+-->
+- Use in Test Environment : [Document](https://news.shulie.io/?p=3369)
+- Use in Online Environment : [Document](https://news.shulie.io/?p=2987)
 
 # Instruction
 #### Takin Architecture
