@@ -19,9 +19,12 @@ Takin是一款基于Java的开源系统，可嵌入到各个服务节点，实�
 
 # Quick Start Instruction（快速入门说明）
 
+<!--
 ## docker镜像安装部署
 -![image](https://user-images.githubusercontent.com/86357315/125920811-6be44d23-b6da-4c2e-b3fb-6913f4574bea.png)
  快速上手文档 ：https://docs.shulie.io/docs/opensource/opensource-1d40ib39m90bu
+-->
+ 
 ## docker镜像快速使用文档：
 - 建议虚拟机内存 ： 3G以上(推荐8G)
 - 镜像大小： 2.1G
