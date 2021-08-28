@@ -41,6 +41,7 @@ systemctl daemon-reload
 - 启动docker镜像：docker run -e APPIP=your ip address -p 80:80 -p 2181:2181 -p 29900-29999:29900-29999 registry.cn-hangzhou.aliyuncs.com/shulie-takin/takin:v1.0.1
 
 - 参数解释：
+
   -e:添加系统参数。APPIP:是运行容器所在的宿主机IP。默认surge-deploy是读取docker网卡的ip进行注册到zookeeper上的，这样会导致agent无法与容器中的surge-deploy进行通信，通过指定APPIP可以将宿   主机的IP注册到zookeeper上，这样agent就可以在容器   外通过宿主机IP与容器内的surge-deploy应用进行通信。如果使用的是本机docker部署，APPIP需要指定为docker网卡中的宿主机的IP。所以只需要把   APPIP的值替换成自己所使用的IP即可。docker网卡宿主机ip类似于：172.xxx.xxx.xxx
   
   -d:后台启动，如果不想查看部署日志可以在-e前面添加-d参数。
