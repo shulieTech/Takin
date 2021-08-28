@@ -30,7 +30,7 @@ In a microservices architecture system with a lot of business services, the call
 
 **docker:**<br/>
 - VM memory requirement ： more than 4G (Suggest 8G)
-- Docker mirror size ： 1.8 G
+- Docker mirror size ： 2.1 G
 
 If docker configuration doesn't set AliYun docker source :
 ```
@@ -50,26 +50,13 @@ systemctl daemon-reload
 Pull docker
 ```shell
 # docker url : registry.cn-hangzhou.aliyuncs.com/shulie-takin/takin:v1.0.0
-docker pull registry.cn-hangzhou.aliyuncs.com/shulie-takin/takin:v1.0.0
-docker run -d -p 80:80 -p 2181:2181 -p 3306:3306 -p 6379:6379 -p 8086:8086 -p 9000:9000 -p 10032:10032 -p 6628:6628 -p 8000:8000 -p 6627:6627 -p 8888:8888 -p 29900-29999:29900-29999 registry.cn-hangzhou.aliyuncs.com/shulie-takin/takin:v1.0.0
+docker pull registry.cn-hangzhou.aliyuncs.com/shulie-takin/takin:v1.0.1
+docker run -e APPIP=your ip address -p 80:80 -p 2181:2181 -p 29900-29999:29900-29999 registry.cn-hangzhou.aliyuncs.com/shulie-takin/takin:v1.0.1
 ```
 
 - Parameter：-d start in background，-p port. <br/>
 The Initiation of docker need about 10 mins because it need install necessary components. -d can ignore installment information of components in background. If you dont't want to open your server's port, you can use --net=host and make sure it and host server are in the same network。
-- Modify the IP address of the index.html file to the server's local IP address.
-    ```
-    # Enter Docker
-    vi /data/apps/dist/tro/index.html
-    # Modify serverUrl to the server's local IP address
-    # Restart Nginx：
-    nginx -s reload
-    ```
-- Modify sugre-deploy configuration：
-    ```
-    Kill surge-deploy application
-    nohup java -jar surge-deploy-1.0-jar-with-dependencies.jar '{"172.17.0.2":"Your own IP"}' > surge.out  2>&1 &
-    Modify the Ip to your own IP, and restart.
-    ```
+
 - Open http://127.0.0.1/tro
     ```
     Default account and password：
