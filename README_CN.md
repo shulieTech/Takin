@@ -23,8 +23,8 @@ Takin是一款基于Java的开源系统，可嵌入到各个服务节点，实�
 -![image](https://user-images.githubusercontent.com/86357315/125920811-6be44d23-b6da-4c2e-b3fb-6913f4574bea.png)
  快速上手文档 ：https://docs.shulie.io/docs/opensource/opensource-1d40ib39m90bu
 ## 简易上手文档：
-- 建议虚拟机内存 ： 4G以上(推荐8G)
-- 镜像大小 1.8G
+- 建议虚拟机内存 ： 3G以上(推荐8G)
+- 镜像大小 2.1G
 > 建议修改 Docker 镜像地址为阿里云，详见 [官方镜像加速 - 阿里云文档](https://help.aliyun.com/document_detail/60750.html)
 ```
 vim /etc/docker/daemon.json
@@ -36,30 +36,22 @@ vim /etc/docker/daemon.json
 systemctl daemon-reload
 ```
 
-- 获取docker镜像：docker pull registry.cn-hangzhou.aliyuncs.com/shulie-takin/takin:v1.0.0
+- 获取docker镜像：docker pull registry.cn-hangzhou.aliyuncs.com/shulie-takin/takin:v1.0.1
 
-- 启动docker镜像：docker run -d -p 80:80 -p 2181:2181 -p 3306:3306 -p 6379:6379 -p 8086:8086 -p 9000:9000 -p 10032:10032 -p 6628:6628 -p 8000:8000 -p 6627:6627 -p 8888:8888 -p 29900-29999:29900-29999 registry.cn-hangzhou.aliyuncs.com/shulie-takin/takin:v1.0.0
+- 启动docker镜像：docker run -e APPIP=your ip address -p 80:80 -p 2181:2181 -p 29900-29999:29900-29999 registry.cn-hangzhou.aliyuncs.com/shulie-takin/takin:v1.0.1
 
-- 参数解释：-d是后台启动，-p是需要开放的端口，容器运行初始化的时候需要安装一些必要的组件需要十分钟样子，-d可以忽略后台组件的安装信息，如果想要查看安装信息可以去除-d参数。
-- 修改index.html文件的IP地址为服务器本机地址。
-    ```
-    # 进入容器，
-    vi /data/apps/dist/tro/index.html
-    # 修改serverUrl的IP为服务本机IP
-    # 重启Nginx服务：
-    nginx -s reload
-    或kill掉nginx应用直接输入nginx启动
-    ```
-- 修改sugre-deploy
-   ```
-    kill掉sugre-deploy应用
-    到/data/install.sh里面复制启动sugre-deploy的脚本
-    nohup java -jar surge-deploy-1.0-jar-with-dependencies.jar '{"172.17.0.2":"你的docker宿主机IP"}' > surge.out  2>&1 &
-    将脚本后面的value，也就是对应的宿主机ip，改成自己的，再执行
-    ```
-- 访问页面：http://安装docker的宿主机IP/tro  默认账号密码：账号:admin  密码:pamirs@2020
+- 参数解释：
+  -e:添加系统参数。
+  -d:后台启动，如果不想查看部署日志可以在-e前面添加-d参数。
+  APPIP:是运行容器所在的宿主机IP。
+  默认surge-deploy是读取docker网卡的ip进行注册到zookeeper上的，这样会导致agent无法与容器中的surge-deploy进行通信，通过指定APPIP可以将宿主机的IP注册到zookeeper上，这样agent就可以在容器   外通过宿主机IP与容器内的surge-deploy应用进行通信。如果使用的是本机docker部署，APPIP需要指定为docker网卡中的宿主机IP.类似于：172.xxx.xxx.xxx 这样形式的IP，所以只需要把APPIP的值替换成自   己所使用的IP即可。
 
-- 特别说明：如出现nginx502的问题多半出现在刚启动完docker容器，此时只需要配置正确，再等待一小会刷新重试即可。
+ -p:需要开放的端口
+  前面的端口表示宿主机需要开放的端口，后面的表示容器中需要开放的端口。例如80:80指就是用宿主机的80端口映射到容器中的80端口。当然，你也可以使用其它的端口来与容器内的80端口进行映射，例如70:80，这   样也是可以的。但是，在访问的时候你就需要把70这个端口加上，例如使用2000:2181 agent在连接zookeeper的时候就需要把端口改成2000。其中80，2181，29900-29999这些端口是必须要开放的。如果你想连接   系统的redis,mysql你还可以开放6379和3306端口。
+  
+- 访问页面：http://AAPIP/web
+
+- 特别说明：如果部署完成访问首页出现：错误代码：502 ，Bad Gateway/错误的网关!这是因为容器内的takin-web还未完全启动完成，只需要在等一下，刷新页面就好了。
 
 安装完成后：
 - see [Quick Start](takin-webapp/doc/QuickStart.md)
