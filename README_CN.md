@@ -57,15 +57,20 @@ systemctl daemon-reload
 - 特别说明：如果部署完成访问首页出现：错误代码：502 ，Bad Gateway/错误的网关!这是因为容器内的takin-web还未完全启动完成，只需要在等一下，刷新页面就好了。
 
 安装完成后：
+<!--
 - see [Quick Start](takin-webapp/doc/QuickStart.md)
+-->
 - see [系统各个服务的启动命令](docs/Service-CN.md)
 
 # 使用说明
 #### Takin结构
 <img src="https://raw.githubusercontent.com/shulieTech/Images/main/DaYuX_Architecture2.png" width="70%" height="70%"><br/>
 Takin由agent、控制平台与大数据构成。
+<!--
 - [快速上手](https://github.com/shulieTech/Takin/blob/main/takin-webapp/doc/QuickStart.md)
-- [使用说明](https://news.shulie.io/?p=2987)
+-->
+- 在测试环境中使用全链路压测 : [文档](https://news.shulie.io/?p=3369)
+- 在生产环境中使用全链路压测 : [文档](https://news.shulie.io/?p=2987)
 
 ## Agent
 - see [Agent](https://github.com/shulieTech/LinkAgent)
