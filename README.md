@@ -29,7 +29,7 @@ In a microservices architecture system with a lot of business services, the call
 # Quick Start Instruction
 
 **docker:**<br/>
-- VM memory requirement ： more than 4G (Suggest 8G)
+- VM memory requirement ： 8G
 - Docker mirror size ： 2.1 G
 
 If docker configuration doesn't set AliYun docker source :
@@ -57,12 +57,8 @@ docker run -e APPIP=your ip address -p 80:80 -p 2181:2181 -p 29900-29999:29900-2
 - Parameter：-d start in background，-p port. <br/>
 The Initiation of docker need about 10 mins because it need install necessary components. -d can ignore installment information of components in background. If you dont't want to open your server's port, you can use --net=host and make sure it and host server are in the same network。
 
-- Open http://127.0.0.1/tro
-    ```
-    Default account and password：
-    account:admin  
-    password:pamirs@2020
-    ```
+- Open http://APPIP/web
+   
 - PS：If Nginx shows 502, the problem mostly is caused when the docker container has just been started, you only need to configure it correctly, and then wait a little (1-2 min) while to refresh and try again.
 
 after installation：
