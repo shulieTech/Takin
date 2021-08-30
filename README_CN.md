@@ -26,7 +26,7 @@ Takin是一款基于Java的开源系统，可嵌入到各个服务节点，实�
 -->
  
 ## docker镜像快速使用文档：
-- 建议虚拟机内存 ： 3G以上(推荐8G)
+- 建议虚拟机内存 ： 8G
 - 镜像大小： 2.1G
 > 建议修改 Docker 镜像地址为阿里云，详见 [官方镜像加速 - 阿里云文档](https://help.aliyun.com/document_detail/60750.html)
 ```
@@ -45,7 +45,7 @@ systemctl daemon-reload
 
 - 参数解释：
 
-  -e:添加系统参数。APPIP:是运行容器所在的宿主机IP。默认surge-deploy是读取docker网卡的ip进行注册到zookeeper上的，这样会导致agent无法与容器中的surge-deploy进行通信，通过指定APPIP可以将宿   主机的IP注册到zookeeper上，这样agent就可以在容器   外通过宿主机IP与容器内的surge-deploy应用进行通信。如果使用的是本机docker部署，APPIP需要指定为docker网卡中的宿主机的IP。所以只需要把   APPIP的值替换成自己所使用的IP即可。docker网卡宿主机ip类似于：172.xxx.xxx.xxx
+  -e:添加系统参数。APPIP:是运行容器所在的宿主机IP。默认surge-deploy是读取docker网卡的ip进行注册到zookeeper上的，这样会导致agent无法与容器中的surge-deploy进行通信，通过指定APPIP可以将宿   主机的IP注册到zookeeper上，这样agent就可以在容器外通过宿主机IP与容器内的surge-deploy应用进行通信。
   
   -d:后台启动，如果不想查看部署日志可以在-e前面添加-d参数。
   
