@@ -67,6 +67,7 @@ after installation：
 -->
 - Use in Test Environment : [Document](https://news.shulie.io/?p=3369)
 - Use in Online Environment : [Document](https://news.shulie.io/?p=2987)
+- Video Instruction: [Video](https://news.shulie.io/?p=3661)
 
 # Instruction
 #### Takin Architecture
