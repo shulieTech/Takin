@@ -71,6 +71,7 @@ Takin由agent、控制平台与大数据构成。
 -->
 - 在测试环境中使用全链路压测 : [文档](https://news.shulie.io/?p=3369)
 - 在生产环境中使用全链路压测 : [文档](https://news.shulie.io/?p=2987)
+- 使用说明视频: [视频](https://news.shulie.io/?p=3661)
 
 ## Agent
 - see [Agent](https://github.com/shulieTech/LinkAgent)
